@@ -34,11 +34,11 @@ const potrace = require('potrace')
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const PUB = path.join(HERE, '..', 'public')
 const DOCS = path.join(HERE, '..', '..', 'docs')
-const ART = path.join(PUB, 'eyestruct-logo.jpg')
+const ART = path.join(PUB, 'brand', 'eyestruct-logo.jpg')
 
-const INK = '#e7eaf1'          // family ink (dark-surface white)
-const ACCENT = '#6d8cff'       // family accent (dark mode)
-const TILE_BG = '#10131a'      // family paper
+const INK = '#ece6df'          // family ink (warm graphite-surface white)
+const ACCENT = '#45cf83'       // family accent (the jade-green iris)
+const TILE_BG = '#14110e'      // family paper
 
 // --- 1. load + classify ----------------------------------------------------
 const WORK = 1024

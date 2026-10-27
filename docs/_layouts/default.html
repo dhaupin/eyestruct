@@ -27,19 +27,21 @@
     <meta name="color-scheme" content="dark light">
     <style>
         :root {
-            --paper: #0d0e13; --surface: #0a0b0f; --raised: #1a1d28;
-            --ink: #e9ebf2; --ink-soft: #97a0b4; --ink-light: #97a0b4; /* tune BOTH toward AA on YOUR footer bg - crashtest ran 3.78:1 and it failed */
-            --accent: #7d8ff0; --moss: #46bb82; --err: #e26d5e;
-            --line: #262b39; --code-bg: #0a0b10;
+            /* jade on graphite: warm surfaces, jade-green iris accent
+               (one token block re-themes this whole site - keep names). */
+            --paper: #121011; --surface: #0d0b0a; --raised: #211b19;
+            --ink: #ece6df; --ink-soft: #a89c92; --ink-light: #a89c92; /* tune BOTH toward AA on YOUR footer bg - crashtest ran 3.78:1 and it failed */
+            --accent: #45cf83; --accent-deep: #2fae68; --moss: #8fbe6f; --err: #e2665b;
+            --line: #2b2521; --code-bg: #0d0b0a;
             --header-height: 54px; --sidebar-width: 240px;
         }
-        /* Light mode: the same identity, ink on pale paper
-           (matches the landing site's html[data-theme="light"] tokens). */
+        /* Light mode: the same identity, ink on warm parchment (matches the
+           landing site's html[data-theme="light"] tokens). */
         html[data-theme="light"] {
-            --paper: #f3f4f8; --surface: #ffffff; --raised: #e7e9f2;
-            --ink: #12141a; --ink-soft: #5a6276; --ink-light: #5a6276;
-            --accent: #4154cb; --moss: #27915e; --err: #b34a3e;
-            --line: #dcdfe9; --code-bg: #e9ebf4;
+            --paper: #f6f1e7; --surface: #ffffff; --raised: #eae2d2;
+            --ink: #1c1712; --ink-soft: #6b6055; --ink-light: #6b6055;
+            --accent: #197a4c; --accent-deep: #115c39; --moss: #567a26; --err: #b04a34;
+            --line: #e0d6c3; --code-bg: #efe8d8;
         }
         * { margin: 0; box-sizing: border-box; }
         html { background: var(--paper); color-scheme: dark; }

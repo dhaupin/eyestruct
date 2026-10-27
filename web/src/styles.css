@@ -1,45 +1,46 @@
-/* eyestruct shell theme - ink-black surfaces + iris periwinkle, dark-first,
-   with a full light theme as the second half of one token set. The two
-   anchors came off the brand sheet: dark surface #111216-ish, pale
-   surface #f2f3f6-ish, accent the iris periwinkle sampled at #6f88ed. Every color rides
-   a semantic token (paper/surface/raised/ink/ink-soft/accent/moss/err/
-   line/code-bg/nav-bg/accent-contrast): re-tune your brand by editing
-   THESE values only - the layout classes never branch on the theme and no
-   class ever hardcodes a hex. The token structure is shared across the
-   struct family (several deployed daus land here); keep the names. */
+/* eyestruct shell theme - the "jade on graphite" pair: warm graphite
+   surfaces in dark, parchment paper in light, with a jade-green iris as
+   the one identity accent across both (distinct from the sage success
+   green and the coral error, which keep their own hues). Every color
+   rides a semantic token (paper/surface/raised/ink/ink-soft/accent/
+   moss/err/line/code-bg/nav-bg/accent-contrast): re-tune your brand by
+   editing THESE values only - the layout classes never branch on the
+   theme and no class ever hardcodes a hex. The token structure is shared
+   across the struct family (several deployed daus land here); keep the
+   names. */
 
 :root {
-  --paper: #0d0e13;       /* brand sheet dark surface, cooled */
-  --surface: #13151c;
-  --raised: #1a1d28;
-  --ink: #e9ebf2;
-  --ink-soft: #97a0b4;
-  --accent: #7d8ff0;      /* iris periwinkle (sampled #6f88ed, lifted) */
-  --accent-deep: #5b6fd8;
-  --moss: #46bb82;        /* success / positive green, cooled to match */
-  --err: #e26d5e;         /* violation / negative red */
-  --line: #262b39;
-  --code-bg: #0a0b10;
-  --nav-bg: rgba(13, 14, 19, 0.88);
-  --accent-contrast: #0d0e13;
+  --paper: #121011;       /* warm graphite ink-black */
+  --surface: #181515;
+  --raised: #211b19;
+  --ink: #ece6df;         /* warm off-white */
+  --ink-soft: #a89c92;    /* warm stone-gray */
+  --accent: #45cf83;      /* jade-green iris */
+  --accent-deep: #2fae68;
+  --moss: #8fbe6f;        /* success, warm sage */
+  --err: #e2665b;         /* violation / negative coral */
+  --line: #2b2521;
+  --code-bg: #0d0b0a;
+  --nav-bg: rgba(18, 16, 17, 0.88);
+  --accent-contrast: #101711;
 }
 
-/* Light theme: the same identity, ink on the brand sheet's pale surface.
-   Tokens only - the whole layout reads them, so one block re-themes the
-   site and no layout class ever branches on the theme. */
+/* Light theme: the same identity, ink on warm parchment - golden hour
+   reversed. Tokens only - the whole layout reads them, so one block
+   re-themes the site and no layout class ever branches on the theme. */
 html[data-theme="light"] {
-  --paper: #f3f4f8;       /* brand sheet light surface */
+  --paper: #f6f1e7;       /* parchment paper */
   --surface: #ffffff;
-  --raised: #e7e9f2;
-  --ink: #12141a;
-  --ink-soft: #5a6276;
-  --accent: #4154cb;      /* iris periwinkle weighted for pale paper (AA) */
-  --accent-deep: #3343a6;
-  --moss: #27915e;
-  --err: #b34a3e;
-  --line: #dcdfe9;
-  --code-bg: #e9ebf4;
-  --nav-bg: rgba(243, 244, 248, 0.88);
+  --raised: #eae2d2;
+  --ink: #1c1712;         /* ink under the lamp */
+  --ink-soft: #6b6055;
+  --accent: #197a4c;      /* jade weighted for pale paper (AA) */
+  --accent-deep: #115c39;
+  --moss: #567a26;
+  --err: #b04a34;
+  --line: #e0d6c3;
+  --code-bg: #efe8d8;
+  --nav-bg: rgba(246, 241, 231, 0.88);
   --accent-contrast: #ffffff;
 }
 
