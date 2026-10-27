@@ -68,6 +68,29 @@
   packs/public footgun from gistory's first wiring is receipt-documented).
   npm run lint:packs routes through the verb now. Both paths receipted:
   green 3/3 packs + loud refusal with the install restored byte-identical.
+- **Docs scaffold pass (2026-10-27).** The docs tree grew from identity
+  pages to the family scaffold: start (install + init + first look-to-gate
+  cycle), cli (full verb surface + exit contract), reasons (complete
+  named-refusal table mirrored from lib/reasons.js), ci (four battery legs
+  + cannon lane + docs lane + when-red triage map), playbooks (six
+  recipes), and the labs/prd-eyes proxy (the nav item that pointed at a
+  nonexistent page now explains why the PRD lives in labs/ under its own
+  voice). Nav rewired on one source (docs/_data/nav.yml). Style gate
+  caught one banned cliche in the draft ("unlock"), fixed. lint:docs 5/5
+  at 10 pages, npm run check green (fa97161, live + CI-verified). The
+  same gap-fill inventory was filed family-wide: poststruct#13 /
+  monoforge#6 (whole tree), crashtest#40 (CI leg), gistory#15
+  (playbooks + CI), freestruct#34 (playbooks), prestruct#61
+  (CI + playbooks).
+- **Docs pass 2 (2026-10-27) - install leads with npm.** start.md opens
+  install with `npm install --save-dev eyestruct` outright (the package
+  page treats npm as the consumer path; the clone stays as the
+  contributing path). The staging hedging was dropped per direction.
+  Reality stamp, held in ink here until the corner lands: the package is
+  not yet published - start.md currently promises npm before npm is
+  true. Flip this row to history when the publish lands. Gates green,
+  pushed, docs CI + battery success, live page serving the new copy
+  (b648eed).
 - **Landing pass (2026-10-26, evening) - the lock was the last drift.**
   The web rebrand rode main, but package-lock.json (58.7KB) never
   survived a text-lane carry: one transcription casualty on main (a
