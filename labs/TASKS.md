@@ -1,5 +1,25 @@
 # eyestruct - rolling work log
 
+- **Issue triage (2026-10-27, late): the hand-off issue closed, the C1
+  carry implemented.** (1) `eyestruct#2` (move-day readiness, the
+  hand-off) closed completed: every step receipted in-tree - own
+  battery minted and 40+ green runs, ratify lane home with
+  EYES_HOME=labs/.eyes, lint:packs in the battery, staging leftovers
+  retired (the brain's vant home + the PRD's standing amend); the one
+  honest rider stays: the first canon dispatch is its own event. (2)
+  `eyestruct#3` (C1 carry from the retired mount: globals in front of
+  the verb) IMPLEMENTED, commit `3925ebc`: pullGlobalPrefix matches
+  exactly the dispatch-owned globals (--ledger/--manifest/--json,
+  separated form), unknown leading tokens refuse UNKNOWN_COMMAND, the
+  consume-then-improvise hole (leading flags with no trailing verb)
+  refuses by name, --help passthrough survives, and the leading window
+  was laid onto the CURRENT dispatch since the carry's raw diff context
+  had gone stale upstream (posArg gone, strict value-flag guards, and
+  version truth in packagejson). The issue's eight probe receipts are
+  now a battery leg: 43 tests / 35 pass / 0 fail, TRIFECTA PASS. (3)
+  `eyestruct#4` (the vendored checksummed browser lane) stays open -
+  a real feature for the offline-capture roadmap, not closable today.
+
 - **Standing amendment (2026-10-27, late) - the repo is standalone.**
   dhaupin's ruling: the gistory staging ecosystem is finished; eyestruct
   is in the wild and follows no repo's lead. Receipted as a dated
