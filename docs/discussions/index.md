@@ -22,15 +22,7 @@ markdown IS the announcement - view source, copy, strip the frontmatter, post.
   if a release gets a retry, fold the delta into the same post instead.
 - **Frontmatter contract.** Same four required fields every docs page gates
   on (`permalink`, `layout`, `title`, `description`) plus `version`. The
-  permalink is `discussions/announcing-vX.Y.Z`.
-- **The file IS the post.** No wrapper prose, no nested copy block: below the
-  frontmatter the file carries the announcement body itself, so the source of
-  the doc is the source of the post. To publish, copy the raw markdown from
-  GitHub (view source on the file) into the discussion announcement,
-  stripping ONLY the frontmatter at the top (routing metadata the docs build
-  needs, not forum content). The posting mechanics live in this index, not
-  in the posts themselves - the post body should stand alone in a forum.
-- **Voice and facts.** The same rules every page here gates on (the
+  permalink is `discussions/announcing-vX.Y.Z`.- **Voice and facts.** The same rules every page here gates on (the
   style/voice checker plus the fiction-signature scanner): no marketing
   language, and every number and claim verified against the shipped artifact
   before it lands. If you cannot run it, do not write it.

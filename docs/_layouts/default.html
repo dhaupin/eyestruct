@@ -188,7 +188,10 @@
 </head>
 <body>
     <header class="header">
-        <a href="{{ '/' }}" class="header-brand">
+        <!-- brand home: the DEPLOYMENT root (/eyestruct/), not the bare domain
+             root - a baseurl'd site at docs.creadev.org/eyestruct must land
+             on its own tree, not the parking page at the domain's '/'. -->
+        <a href="{{ site.baseurl }}/" class="header-brand">
             <img src="{{ site.baseurl }}/icon.svg" alt="" class="brand-logo" aria-hidden="true">
             <span><span class="brand-accent">eye</span>struct</span>
             <span class="docs-tag">docs</span>
