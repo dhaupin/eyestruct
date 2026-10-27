@@ -59,6 +59,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs fix: the light token block now defines `--accent-deep`, so Rouge
   number/scalar tokens stop silently inheriting the dark-theme value on
   white pages.
+- The round-2 trifecta walk became a battery leg: `npm run check:trifecta`
+  opens the `check` chain and refuses (named STALE rows) when README's
+  usage fence departs from the real bin dispatch, a cited workflow lane,
+  npm script, or docs page doesn't exist, AGENTS receipt counts disagree
+  with the tree, or CHANGELOG's Unreleased block cites paths/commits not
+  on disk - while historical release sections stay honest as receipts of
+  their era (the 0.9.0-era verbs page was real then, folded into cli.md
+  later; the leg audits what is claimed true NOW, not honest history).
+  Behavior coverage rides `npm test` (temp-dir fixtures, no network). Docs visual verification also unblocked locally: the sandbox
+  runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12,
+  scratch Bundler path - no repo artifacts), so dark/light docs frames
+  are now captured via the repo's own `look` engine beside the landing
+  site's.
 
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image

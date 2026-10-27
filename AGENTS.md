@@ -20,7 +20,8 @@ Working policies (seed; the brain grows these by working):
   shipped), `horcrux/` (the transfer stones), `packs/public/` (3
   adversarial packs + `packs/eye-ledger.json`; packstruct-linted),
   `web/` + `docs/` (the rig).
-- The battery is `.github/workflows/test.yml` (npm test + check + the
+- The battery is `.github/workflows/test.yml` (npm test + check (opens
+  with the check:trifecta freshness leg) + the
   crashtest leg + the raster:gate icon leg); the docs lane is
   `docs.yml` (Jekyll + freestruct + pagefind -> Pages at
   docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`

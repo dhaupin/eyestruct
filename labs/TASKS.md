@@ -1,5 +1,32 @@
 # eyestruct - rolling work log
 
+- **Freshness pass (2026-10-27, late) - the round-2 trifecta walk became a
+  battery leg, and the docs visual gap closed locally.** (1) The walk is
+  now `npm run check:trifecta`, opening the `check` chain: README's usage
+  fence is matched against the real COMMANDS dispatch and bin `usage()`
+  (no phantom verbs/flags - the round-1 catches), cited workflow lanes,
+  npm scripts and docs pages must exist on disk, AGENTS receipt counts
+  must agree with the tree LIVE (25 reason-codes / 26 pack verdicts /
+  52/52 findings / 3 packs, whitespace-normalized because line wraps are
+  cosmetic), and CHANGELOG's Unreleased block must cite only artifacts on
+  disk and hashes in history. Ruling learned on the leg's own first run:
+  historical release sections stay out of scope - they are receipts of
+  their era (`docs/verbs.md` was real at 0.9.0; folded into `cli.md`
+  later). Behavior coverage in `tests/trifecta.test.js` (temp-dir
+  fixtures; the checker refused my OWN test fixture first - baseFixture
+  forgot CHANGELOG.md and the leg said so by name). (2) The honest round-2
+  gap - docs tokens verified only after push - closed: the sandbox now
+  runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12 from
+  the official ruby/setup-ruby prebuilt toolchain, bundled libs via
+  LD_LIBRARY_PATH, binstubs shimmed through the interpreter because they
+  bake /opt/hostedtoolcache shebangs, Bundler path pointed OUTSIDE the
+  repo so no lockfile/.bundle ever lands in-tree; scratch copy under
+  /tmp so even the build products stay out). jekyll build: 0.416s, green;
+  both halves captured through the repo's own `look` engine at 1280x800
+  with the localStorage launcher trick - graphite + jade dark frame,
+  parchment + deep-jade light frame, element map riding as designed
+  (labels overlaying the ids), all verified first-person.
+
 - **Finishing pass 3 (2026-10-27) - mcp ref, raster leg, wave rows, and BOTH ship receipts, first-person.** (1) `docs/mcp.md`
   landed (18 pages, nav Reference row): the stdio surface described from
   `lib/mcp.js` itself - nine tools, JSON-RPC framing, the core law at the
