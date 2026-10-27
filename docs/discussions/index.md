@@ -46,3 +46,25 @@ markdown IS the announcement - view source, copy, strip the frontmatter, post.
 
 | post | version | live |
 | --- | --- | --- |
+| (none yet) | - | - |
+
+## First-post watchlist: claims already receipted on the dev tree
+
+The index is empty deliberately: nothing is exposed yet (0.9.0 is not
+published), and per the timing rule above a post that names a version not
+on npm would be fiction by promotion. What ships changes that row. Until
+then, the claim inventory below is what the first post will cite - each
+verified against the dev tree today, each to be re-verified against the
+published tarball before the post goes anywhere:
+
+| claim for the first post | receipt on the tree |
+|----------------------------|-----------------------------|
+| The refusal surface is named, not guessed: 25 reason-codes across the 0-1-2 exit contract, no bare stack traces | `lib/reasons.js` (CODES + REASONS), mirrored live at [reason codes](/eyestruct/reasons) |
+| The eye gate attacks itself: 26 adversarial pack cases over the real CLI, judged with the packstruct grammar and a committed packledger | `packs/public/` + `packs/eye-ledger.json`, runner `scripts/run-packs.cjs`, docs at [packs](/eyestruct/packs) |
+| A second adversarial leg rides CI: 14 hostile argv batches + hostile MCP stdio frames + 6 hostile ledger variants, seeded and deterministic | `labs/scenarios/eye-cli-contract.js`, baseline `labs/crashledger.json` + `labs/hardening.md` |
+| Canonical baselines are CI-cut, two-dispatch, never self-certified | `.github/workflows/eyes-ratify.yml` (proposal -> witness dispatch) |
+| The pack lint lane is a discoverable verb, never a download | `eyestruct lint-packs` (`lib/lint-packs.js`, wrapper policy) |
+
+The honesty move when a claim goes stale on release day: fix or drop the
+row, then write the post. Claims do not ride into a published tarball on
+development-tree momentum.

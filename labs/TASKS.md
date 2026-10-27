@@ -82,6 +82,21 @@
   monoforge#6 (whole tree), crashtest#40 (CI leg), gistory#15
   (playbooks + CI), freestruct#34 (playbooks), prestruct#61
   (CI + playbooks).
+- **Docs cruise (2026-10-27) - the scaffold filled out.** three legs from
+  the survey: (1) verbs.md retired into cli.md - the canon/coverage pair
+  (walk = coverage, ratify = canon, pinned-image lane only) and the
+  mask-invariant drift rule now live in the CLI reference; the old page's
+  "look writes labs/.eyes" prose was pre-harness drift, gone with it; (2)
+  playbooks split to one-recipe-per-page (7 pages now, the index a table)
+  with a seventh recipe written straight from run-packs.cjs receipts:
+  red pack campaign triage - NEW / REGRESSION / RETIRED row classes, the
+  --adopt wholesale-rewrite contract, and the ledger diff as the review
+  artifact; (3) the discussions index stays release-post-shaped (one post
+  per release, fiction-by-promotion rule intact) but gains a first-post
+  watchlist: five claims already receipted on the dev tree (reason codes,
+  pack campaign, crashtest leg, two-dispatch canon, the lint-packs
+  wrapper), to be re-verified against the published tarball before the
+  first post exists. lint:docs 5/5 at 16 pages, check green.
 - **Docs pass 2 (2026-10-27) - install leads with npm.** start.md opens
   install with `npm install --save-dev eyestruct` outright (the package
   page treats npm as the consumer path; the clone stays as the

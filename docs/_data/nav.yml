@@ -12,8 +12,6 @@
   items:
     - title: CLI reference
       url: /eyestruct/cli
-    - title: Verbs
-      url: /eyestruct/verbs
     - title: Reason codes
       url: /eyestruct/reasons
     - title: Packs

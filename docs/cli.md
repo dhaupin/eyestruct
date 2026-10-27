@@ -54,6 +54,26 @@ Both overrides accept the separated (`--ledger PATH`) and joined
 No bare stack traces ever leave the CLI. The full code list lives at
 [reason codes](/eyestruct/reasons).
 
+## The canon and coverage pair
+
+`ratify` and `walk` are the two manifest-wide verbs, and they are not
+interchangeable:
+
+- `walk <base-url>` runs every route x viewport x theme in one pass and
+  drops candidates - it is the coverage verb, for extending or auditing
+  the matrix.
+- `ratify <base-url>` re-captures every manifest route **in the pinned
+  environment** and cuts byte-identical slots as append-only ratify rows -
+  it is the canon verb, and it belongs to the pinned-image lane, never to
+  a local browser.
+
+## Mask-invariant drift
+
+The ledger gates look for **mask-invariant drift**: text edges are masked
+so a typo never hides a real visual change, and a policy re-render never
+invents one. A diff verdict is about pixels under the mask, not glyph
+budgets - that is why `diff` compares captures, not string counts.
+
 ## What survived between invocations
 
 - `labs/.eyes/` - the committed canon: manifest, baselines, ledger
