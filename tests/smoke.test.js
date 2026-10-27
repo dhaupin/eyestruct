@@ -282,6 +282,39 @@ test('--help prints usage and exits 0', () => {
   assert.match(r.stdout, /eyestruct v/)
 })
 
+test("C1 carry: leading global flags dispatch the verb (issue #3's probe receipts, as tests)", () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const manifest = path.join(dir, 'labs/.eyes', 'manifest.yml')
+
+  const frontGate = run(['--manifest', manifest, 'gate'], dir)
+  assert.strictEqual(frontGate.code, 0, 'leading --manifest dispatches gate - got: ' + frontGate.stderr)
+  assert.match(frontGate.stdout, /gate:/)
+
+  const jsonFront = run(['--json', 'ledger', 'list'], dir)
+  assert.strictEqual(jsonFront.code, 0, 'leading --json dispatches ledger list - got: ' + jsonFront.stderr)
+
+  const missing = run(['--manifest', '/no/such/c1-probe.yml', 'gate'], dir)
+  assert.strictEqual(missing.code, 2, 'leading flags resolve the manifest by name, same exit class as the postfix shape')
+  assert.match(missing.stderr, /eyestruct\[MISSING_MANIFEST\]/)
+
+  const bogus = run(['--bogus', 'gate'], dir)
+  assert.strictEqual(bogus.code, 1)
+  assert.match(bogus.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
+
+  const noVerb = run(['--manifest', 'gate'], dir)
+  assert.strictEqual(noVerb.code, 1)
+  assert.match(noVerb.stderr, /no verb followed the leading flags/)
+
+  const joinedEmpty = run(['--ledger=', 'gate'], dir)
+  assert.strictEqual(joinedEmpty.code, 1)
+  assert.match(joinedEmpty.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
+
+  const helpAfter = run(['--json', '--help'], dir)
+  assert.strictEqual(helpAfter.code, 0)
+  assert.match(helpAfter.stdout, /eyestruct v/)
+})
+
 // -- Wired engine seam (the pinned browser landed). These use the exec the
 // machine already has cached; if it is absent the tests skip honestly.
 

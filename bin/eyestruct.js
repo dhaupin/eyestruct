@@ -52,9 +52,54 @@ Flags: --ledger PATH --manifest PATH --json
 `
 }
 
+// C1 carry (issue #3, from the retired gistory mount): global flags may
+// ride in FRONT of the verb too (`eyestruct --manifest X gate` dispatches
+// like `eyestruct gate --manifest X`). The leading window matches EXACTLY
+// the flags the dispatch owns - --ledger PATH, --manifest PATH, and the
+// boolean --json, separated form only - anything else leading still
+// refuses UNKNOWN_COMMAND, so a typo can never silently reorder into a
+// verb's positional.
+const GLOBAL_VALUE_FLAGS = ['--ledger', '--manifest']
+const GLOBAL_BOOL_FLAGS = ['--json']
+
+function pullGlobalPrefix(argv) {
+  const flags = []
+  let i = 0
+  while (i < argv.length && argv[i].startsWith('--')) {
+    const t = argv[i]
+    if (GLOBAL_VALUE_FLAGS.includes(t)) {
+      if (i + 1 >= argv.length || argv[i + 1].startsWith('--')) {
+        fail('UNKNOWN_COMMAND', `"${t}" expects a value before the verb`)
+      }
+      flags.push(t, argv[i + 1])
+      i += 2
+      continue
+    }
+    if (GLOBAL_BOOL_FLAGS.includes(t)) {
+      flags.push(t)
+      i += 1
+      continue
+    }
+    break
+  }
+  return { verb: argv[i], flags, after: i + 1 }
+}
+
 async function main() {
   const argv = process.argv.slice(2)
-  const cmd = argv[0]
+  const prefix = argv.length && argv[0].startsWith('--') ? pullGlobalPrefix(argv) : null
+  const cmd = prefix ? prefix.verb : argv[0]
+  // A leading run of unknown leading tokens is hostile input, not a verb:
+  // it refuses by name (the issue #3 receipts - `--bogus gate` and the
+  // joined-empty `--ledger= gate` never reorder into a verb positional).
+  if (prefix && !prefix.flags.length && typeof cmd === 'string' && cmd.startsWith('--') && !(cmd === '--help' || cmd === '-h')) {
+    fail('UNKNOWN_COMMAND', `"${cmd}" is not a leading flag eyestruct knows`)
+  }
+  // A leading run that consumed the whole argv without leaving a verb is
+  // also hostile (`--manifest gate`): never improvise into usage()+exit 0.
+  if (prefix && !cmd) {
+    fail('UNKNOWN_COMMAND', `"${prefix.flags[prefix.flags.length - 1]}" was accepted but no verb followed the leading flags`)
+  }
   // An empty-string verb is hostild input, not "no verb": it gets the
   // named refusal like any other bad verb (the crashtest leg's receipt -
   // "eyestruct \"\"" used to print usage and exit 0, improvising). Bare
@@ -69,7 +114,9 @@ async function main() {
   const impl0 = COMMANDS[cmd]
   if (!impl0) fail('UNKNOWN_COMMAND', `"${cmd}" is not an eyestruct command`)
   const impl = typeof impl0 === 'function' ? impl0 : impl0.run
-  const args = argv.slice(1)
+  // Leading globals re-enter the args stream so every verb sees the same
+  // flags no matter which side of the verb they rode in on.
+  const args = prefix ? [...prefix.flags, ...argv.slice(prefix.after)] : argv.slice(1)
   // A flag that is present but EMPTY (`--ledger=`) is a bad flag value,
   // never a "use the default": the falsy-empty fallback would silently
   // point the verb at the tree home instead of the stated one (the
