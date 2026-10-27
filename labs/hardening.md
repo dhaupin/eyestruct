@@ -14,7 +14,7 @@
 - authz/role-body-spoof-family: route "admin" not declared on this target - authz skipped (declare it for coverage)
 - authz/handler-alias-confusion: route "admin" not declared on this target - authz skipped (declare it for coverage)
 - eye-cli-contract/hostile-argv-contract: 14 hostile argv batches: every nonzero exit carried a named eyestruct[REASON_CODE], zero stack frames
-- eye-cli-contract/mcp-stdio-flood: 6 responses to 8 frames: every stdout line was a JSON object, no stack frames, clean exit on hangup
+- eye-cli-contract/mcp-stdio-flood: 8 responses to 8 frames: every stdout line was a JSON object, no stack frames, clean exit on hangup
 - eye-cli-contract/ledger-hostile-parse: 6 hostile ledger variants: every one refused with a named eyestruct[REASON_CODE], zero stack frames, zero pollution
 - governance/succession-trust-floor: vocabulary knob(s) "grantsRoute", "resolveRoute" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)
 - governance/succession-single-heir: vocabulary knob(s) "grantsRoute", "resolveRoute" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)

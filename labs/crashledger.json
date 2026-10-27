@@ -39,7 +39,7 @@
     {
       "id": "eye-cli-contract/mcp-stdio-flood",
       "verdict": "REFUSED",
-      "detail": "6 responses to 8 frames: every stdout line was a JSON object, no stack frames, clean exit on hangup"
+      "detail": "8 responses to 8 frames: every stdout line was a JSON object, no stack frames, clean exit on hangup"
     },
     {
       "id": "eye-cli-contract/ledger-hostile-parse",
