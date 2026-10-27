@@ -1,16 +1,23 @@
 # freestruct config - consumed by the SEO post-build layer in
-# .github/workflows/docs-deploy.yml (pinned install, dfb30aa498).
-# Discovery: repo-root cwd -> docs/freestruct.config.yml. site.name and
-# site.url are required; everything else has a working default.
-# Placeholders feed docs/_freestruct/inject-brand.html - mirror the identity
-# with docs/_config.yml when you brand the rig (they cover the same values).
+# .github/workflows/docs.yml. Discovery: repo-root cwd -> docs/freestruct.config.yml.
+# site.name and site.url are required; everything else has a working default.
+# Placeholders feed docs/_freestruct/inject-brand.html - mirrors the identity
+# in docs/_config.yml (they cover the same values).
 site:
-  name: flowforge
-  url: https://docs.creadev.org/flowforge
-  description: The shell the struct family ships sites from - landing + docs rig + CI/release plumbing, with brand as data.
+  name: eyestruct Docs
+  url: https://docs.creadev.org/eyestruct
+  description: Eyes for production agents - deterministic look, committed .eyes/ visual memory, CI gates on unexplained drift.
 twitter:
   card: summary_large_image
 # og.image deliberately omitted until the PNG set lands (og-image.png is
 # documented adopter homework in MANIFEST.md) - an og:image pointing at a
 # 404 is worse than none, and the pinned freestruct dropped the tag.
 # Template consumed by the layer: docs/_freestruct/inject-brand.html.
+
+# The output tree is served under /eyestruct (Jekyll baseurl does the prefix;
+# this strips it from the URLs freestruct computes - without it the strict
+# link check resolves /eyestruct/... against the _site tree directly and
+# fails every internal link). Same shape gistory's docs carry for /gistory.
+basePath: /eyestruct
+
+outputDir: _site
