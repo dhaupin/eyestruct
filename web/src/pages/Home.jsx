@@ -10,7 +10,8 @@
  * Every number on this page is a receipt from the dev tree at the time of
  * writing and is re-checked against shipped output before any release post
  * cites it (the discussions-index claim inventory holds the same list):
- * 26 pack cases / 3 packs (packs/eye-ledger.json, scripts/run-packs.cjs),
+ * 30 pack cases / 4 packs (packs/eye-ledger.json, scripts/run-packs.cjs;
+ * eye-bundle covers the vendored checksummed browser lane),
  * the seeded 52/52 crashtest leg (labs/crashledger.json baseline),
  * 28 named reason-codes (lib/reasons.js), the two-dispatch canon lane
  * (.github/workflows/eyes-ratify.yml).
@@ -121,7 +122,7 @@ export default function Home() {
       <div className="section section-split">
         <div className="split-card">
           <h3>The eye polices itself</h3>
-          <p>26 adversarial pack cases over the real CLI, a second leg of 52
+          <p>30 adversarial pack cases over the real CLI, a second leg of 52
           hostile attacks (seeded, deterministic), and a committed verdict
           ledger: a NEW exploited case or any verdict regression fails CI.</p>
           <div className="cta-row">

@@ -1,0 +1,7 @@
+{
+  "name": "eye-bundle",
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "description": "The vendored checksummed browser lane (init --browser-bundle): install and record, idempotent re-seed, checksum-isolated installs, and the named refusals for the hostile archive shapes.",
+  "entry": "index.js"
+}

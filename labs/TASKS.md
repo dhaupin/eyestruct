@@ -1,5 +1,36 @@
 # eyestruct - rolling work log
 
+- **Bundle lane: the docs/web/deploy pass + the fourth pack (2026-10-27,
+  late).** With #4 implemented and closed, the whole claim surface
+  caught up with it. (1) Tar-traversal experiment RECEIPT (not assumed):
+  GNU tar strips leading `../` from member names at pack/extract time
+  (the test archive's members landed INSIDE the target dir; the escape
+  echo the first probe printed was the stripped-name folder, not an
+  escape) - and the sharper class born in the sweep: a chrome
+  SYMLINK inside a supplied tarball. `findChromeExec` now accepts only
+  regular files (a symlink-named chrome can never aim the executor
+  outside the bundle), with a battery leg proving the refusal. (2)
+  `init` became an IDEMPOTENT seed: a bundle-only re-seed on a living
+  manifest preserves the pin + route matrix byte-for-byte outside the
+  bundle row - closing both the latent wholesale-rewrite footgun and
+  the CI seed step's live need. (3) The deploy lane grew the optional
+  ci-mode executor: `eyes-ratify` dispatch input `bundle-tarball`
+  seeds the bundle through the repo's own init and skips the
+  @puppeteer/browsers fetch (empty default keeps the lane minted).
+  (4) The FOURTH pack: `packs/public/eye-bundle` (4 cases - two hostile
+  archive shapes refused by name, install + idempotent re-seed pass,
+  installs checksum-isolated); the packledger re-baselined
+  (--adopt): 30 committed verdicts / 4 packs, 0 exploited; counts
+  re-rippled to every claimant (AGENTS, web Home + Packs + the
+  attack-class table row, docs/packs.md, og-image.mjs, and the card
+  itself REGENERATED with dejavu fonts), the trifecta leg enforcing
+  the agreement. (5) README gains the bundle note + the idempotency
+  ruling; docs/ci.md carries the re-seed semantics; docs/packs.md
+  ships the eye-bundle row; crashtest.config.js verified for the
+  hostile leg (scenarios auto-scanned; bundle attacks filed to the
+  crashtest harness as the next request). Battery: npm test 47 tests
+  / 39 pass / 0 fail, packs 30/30 honest, check green.
+
 - **Browser bundle lane (2026-10-27, late) - eyestruct#4 implemented.**
   The vendored checksummed browser lane, per the issue's own scope (one
   lib module + an init flag + a docs/ci.md row, no new verbs, init

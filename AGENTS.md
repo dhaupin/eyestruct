@@ -16,9 +16,9 @@ Working policies (seed; the brain grows these by working):
   VOICE (em-dash); docs/ is hyphen-voice and must stay clean.
 - Where things live: `labs/` (PRD canonical, TASKS, the eye home at
   `labs/.eyes/` - the CLI default now - and the receipt hall at
-  `labs/.eyes-receipt/`), `horcrux/` (the transfer stones),
-  `packs/public/` (3 adversarial packs + `packs/eye-ledger.json`;
-  packstruct-linted), `web/` + `docs/` (the rig). THE BRAIN:
+  `labs/.eyes-receipt/`), `horcrux/` (the transfer stones),  `packs/public/` (4
+  adversarial packs + `packs/eye-ledger.json`;
+  packstruct-linted; `eye-bundle` covers the vendored browser lane), `web/` + `docs/` (the rig). THE BRAIN:
   `models/private/magpie/` left the tree 2026-10-27 - it lives in the
   vant install (`$HOME/vant/models/private/magpie/`, wholesale
   gitignored there, updated with the shipped receipts); never re-seed
@@ -30,6 +30,8 @@ Working policies (seed; the brain grows these by working):
   docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`
   (manual dispatch, the only baseline cutter). Reference docs live at
   docs/cli and docs/mcp; the reference post in docs/discussions.
-- Receipts to cite: 28 reason-codes (lib/reasons.js), 26 pack verdicts
+- Receipts to cite: 28 reason-codes (lib/reasons.js), 30 pack verdicts
   (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
-  the two ship receipts (labs/TASKS.md 2026-10-27 entry).
+  the bundle lane receipts (lib/bundle.js; offline executor, integrity
+  verified at every resolution), the two ship receipts (labs/TASKS.md
+  2026-10-27 entry).

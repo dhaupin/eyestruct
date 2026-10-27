@@ -22,13 +22,14 @@ the unit CI audits.
 
 ## What ships today
 
-eyestruct ships three packs plus a committed verdict ledger:
+eyestruct ships four packs plus a committed verdict ledger:
 
 | Pack | What it attacks |
 |---|---|
 | `eye-shapes` | The CLI's browserless surface: ledger tampering (corrupt JSON, duplicate ids, control-char payloads), manifest corruption, unexplained and dangling visual memory, unexplained-note enforcement, missing-baseline and capability refusals. Browser-class captures are a documented accepted-risk bound, never a silent skip. |
 | `eye-ci-gate` | The crashledger-semantics gate itself, in disposable fixture repos: unexplained drift fails, dangling canon fails louder, schema integrity is enforced, and an explained tree passes. Any repo implementing the eye gate passes unchanged. |
 | `eye-text-leg` | The poststruct integration. Text is the cheaper diff so it gates first: control characters are refused at the ledger write surface, clean notes round-trip through the CLI's own reader, and the manifest stays strict-family schema. |
+| `eye-bundle` | The vendored checksummed browser lane: a missing tarball and a chrome-less archive are named capability refusals, a happy install records `bundle@<sha16>` in the pin, a bundle-only re-seed is idempotent (the route matrix survives), and installs are checksum-isolated. The decompression-bomb class is a documented accepted-risk bound. |
 
 The verdict ledger is `packs/eye-ledger.json` - one row per recorded scenario,
 pinned to its nonce so an adopted row cannot silently change verdict later.

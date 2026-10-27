@@ -2,6 +2,28 @@
   "schemaVersion": 1,
   "rows": [
     {
+      "pack": "eye-bundle",
+      "id": "bundle-tarball-missing-refused",
+      "verdict": "REFUSED",
+      "reason": "MISSING_INPUT"
+    },
+    {
+      "pack": "eye-bundle",
+      "id": "chrome-less-archive-refused",
+      "verdict": "REFUSED",
+      "reason": "MISSING_PINNED_BROWSER"
+    },
+    {
+      "pack": "eye-bundle",
+      "id": "bundle-installs-then-idempotently-reuses",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-bundle",
+      "id": "bundle-installs-are-checksum-isolated",
+      "verdict": "PASSED"
+    },
+    {
       "pack": "eye-ci-gate",
       "id": "unexplained-drift-fails-the-pass",
       "verdict": "REFUSED",

@@ -28,7 +28,12 @@ npm i -D eyestruct@^0.9.0
 The capture verbs (`look`, `diff`, `walk`, `ratify`) need a pinned chrome
 (`--browser-exec`, `EYESTRUCT_BROWSER`, the manifest pin, or the puppeteer
 cache this machine already fetched); the browserless lanes (`init`,
-`ledger`, `gate`, `adopt`, `raster`) never do.
+`ledger`, `gate`, `adopt`, `raster`) never do. Runners that cannot fetch
+chrome on demand carry it instead: a checksummed tarball rides
+`init --browser-bundle TARBALL` (the executor resolution verifies its
+sha256 receipt at every use) and the captures run offline - the recipe
+lives in [docs/ci.md](docs/ci.md). `init` is idempotent: re-running it
+with only the bundle flag preserves the pin + route matrix.
 
 ## The spine
 

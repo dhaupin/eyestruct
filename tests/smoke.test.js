@@ -412,10 +412,20 @@ test('bundle lane: install records bundle@<sha16>, the engine resolves it before
     assert.ok(exec.includes(path.join(cache, mm[1])), 'the exec resolves inside the checksummed cache dir')
 
     // Idempotent: a second install with the same tarball reuses the cache
-    // dir (receipt says so) and never re-unpacks.
+    // dir (receipt says so) and never re-unpacks - and init preserves the
+    // route matrix it did not seed (the bundle-seed CI step's live need).
+    const beforeManifest = fs.readFileSync(path.join(dir, 'labs/.eyes', 'manifest.yml'), 'utf8')
     const r2 = run(['init', '--browser-bundle', gz], dir)
     assert.strictEqual(r2.code, 0, 'got: ' + r2.stderr)
     assert.match(r2.stdout, /reused bundle\.tgz/)
+    const afterManifest = fs.readFileSync(path.join(dir, 'labs/.eyes', 'manifest.yml'), 'utf8')
+    assert.match(afterManifest, /^pin:\n  browser-image: UNSET-edit-me/m, 'the pin is preserved, not reset to nothing')
+    assert.match(afterManifest, /^routes:/m, 'the route matrix survives a bundle-only re-seed')
+    assert.strictEqual(
+      afterManifest.slice(0, afterManifest.indexOf('browser-bundle:')),
+      beforeManifest.slice(0, beforeManifest.indexOf('browser-bundle:')),
+      'everything before the bundle row is byte-identical through a bundle-only re-init',
+    )
   } finally {
     if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
     else process.env.EYESTRUCT_BUNDLE_CACHE = prev
@@ -443,6 +453,27 @@ test('bundle lane: tampered integrity marker refuses by name; a chrome-less bund
 
     // A malformed pin recording is a manifest truth, never a guessed exec.
     assert.throws(() => engine.findExec({ argv: [], pin: { 'browser-bundle': 'nonsense' } }), (err) => /MANIFEST_CORRUPT/.test(err.message))
+  } finally {
+    if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
+    else process.env.EYESTRUCT_BUNDLE_CACHE = prev
+  }
+})
+
+test('bundle lane: a chrome SYMLINK in the archive is refused - the executor can only be a regular file', () => {
+  const prev = process.env.EYESTRUCT_BUNDLE_CACHE
+  process.env.EYESTRUCT_BUNDLE_CACHE = tmpdir()
+  try {
+    const dir = tmpdir()
+    fs.mkdirSync(path.join(dir, 'chrome-linux64'), { recursive: true })
+    fs.symlinkSync('/bin/true', path.join(dir, 'chrome-linux64', 'chrome'), 'file')
+    fs.writeFileSync(path.join(dir, 'chrome-linux64', 'wrapper.sh'), 'placeholder')
+    const gz = path.join(dir, 'symlink-bundle.tgz')
+    const t = spawnSync('tar', ['-czf', gz, '-C', dir, 'chrome-linux64'], { encoding: 'utf8' })
+    assert.strictEqual(t.status, 0)
+    const r = run(['init', '--browser-bundle', gz], dir)
+    assert.strictEqual(r.code, 2, 'got: ' + r.stderr)
+    assert.match(r.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+    assert.match(r.stderr, /no chrome exec/)
   } finally {
     if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
     else process.env.EYESTRUCT_BUNDLE_CACHE = prev

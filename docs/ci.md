@@ -108,6 +108,10 @@ eyestruct init --browser-image chrome@<pinned-version> --renderer resvg@2.6.2 \
 `init` hashes the tarball (sha256), unpacks it once into
 `~/.cache/eyestruct/bundles/<sha-prefix>/`, marks the install with an
 integrity file, and records `bundle@<sha-prefix>` in the manifest pin.
+The re-seed is idempotent: re-running the same `init --browser-bundle`
+line (or adding the bundle flag to a living manifest) preserves the pin
+and the route matrix byte-for-byte outside the bundle row, and reuses
+the installed cache dir (`reused` in the receipt).
 `look`, `diff`, `walk`, and `ratify` then resolve that exec BEFORE the
 puppeteer cache and the refusal - the capture runs offline inside the
 pin, and init stays browserless either way (one tar call, one hash).

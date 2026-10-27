@@ -14,7 +14,7 @@ export default function Packs() {
     path: '/packs',
     title: 'Packs | eyestruct',
     description:
-      'The adversarial surface: 26 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+      'The adversarial surface: 30 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
   })
   return (
     <>
@@ -42,7 +42,7 @@ export default function Packs() {
         <div className="wrap">
           <h2>The attack surface, live</h2>
           <p className="sub">
-            26 adversarial pack cases over the real CLI, a second leg of 52
+            30 adversarial pack cases over the real CLI, a second leg of 52
             hostile attacks (seeded, deterministic), and a committed verdict
             ledger: a NEW exploited case or any verdict regression fails CI.
           </p>
@@ -78,6 +78,15 @@ export default function Packs() {
                   <td><span className="what">adopt without --note</span>
                   <div className="why">the explanation is captured at write
                   time, not reconstructed after</div></td>
+                  <td><span className="verdict-ok">REFUSED</span></td>
+                </tr>
+                <tr>
+                  <td className="mod">hostile archive bundles</td>
+                  <td><span className="what">missing tarballs, chrome-less
+                  archives, tampered cache markers, checksum forgeries</span>
+                  <div className="why">the vendored browser lane verifies
+                  its receipt (sha256 in the manifest + integrity marker)
+                  before the exec is ever resolved</div></td>
                   <td><span className="verdict-ok">REFUSED</span></td>
                 </tr>
                 <tr>

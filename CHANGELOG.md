@@ -56,6 +56,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Offline captures for CI mode; docs/ci.md carries the produce/consume
   recipe; the issue's contract is a battery leg (fake tarballs in temp
   homes - no network, no real chrome).
+- The bundle lane hardened + armed: `findChromeExec` accepts only
+  REGULAR files, so a chrome symlink in a supplied tarball is refused
+  (it can never aim the executor outside the bundle); `init` is
+  idempotent - a bundle-only re-seed on a living manifest preserves the
+  pin and route matrix byte-for-byte outside the bundle row (the old
+  wholesale rewrite was a route-matrix footgun); the fourth adversarial
+  pack `eye-bundle` rides the campaign (30 committed verdicts, 4 packs):
+  the two hostile archive shapes refuse, the install + idempotent
+  re-seed pass, and installs are checksum-isolated; the ratify lane
+  grows an optional `bundle-tarball` dispatch input that seeds the lane
+  through the repo's own init and skips the pinned fetch (offline CI
+  mode); the claim surfaces re-counted honestly (AGENTS, web Home +
+  Packs, docs/packs.md, og-image card regenerated at 30).
+
+### Changed (2026-10-27)
 
 ### Changed (2026-10-27)
 - The web + docs shell re-skinned off the template periwinkle, through

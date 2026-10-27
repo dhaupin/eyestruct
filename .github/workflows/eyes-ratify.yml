@@ -38,6 +38,17 @@ name: Eyes ratify (CI-cut canon)
 
 on:
   workflow_dispatch:
+    # The optional CI-mode executor: point this at an upload of the
+    # checksummed chrome tarball (the docs/ci.md Bundle recipe) and the
+    # lane seeds it through the repo's own init (idempotent - the route
+    # matrix survives), so the captures resolve a verified exec OFFLINE
+    # without the @puppeteer/browsers fetch. Empty (default) keeps the
+    # pinned-fetch behavior this lane minted.
+    inputs:
+      bundle-tarball:
+        description: 'path in the workspace to a chrome bundle tarball (optional - skips the pinned-fetch provision step)'
+        required: false
+        default: ''
 
 concurrency:
   group: eyes-ratify
@@ -62,6 +73,10 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           npm ci --no-audit --no-fund --prefix web
+
+      - name: Seed the bundle lane (optional - skips the pinned fetch)
+        if: ${{ inputs.bundle-tarball != '' }}
+        run: node bin/eyestruct.js init --browser-bundle "${{ inputs.bundle-tarball }}" --manifest "$EYES_HOME/manifest.yml" --ledger "$EYES_HOME/ledger.json"
 
       # On-demand chromium, the ui:browsers pattern: skipped in install,
       # fetched per machine. Installs the MANIFEST'S PINNED version into
