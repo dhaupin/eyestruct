@@ -36,6 +36,7 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]
   diff <url> [--against PATH]         fresh capture vs committed baseline (candidity: look then adopt)
   adopt <route/view> --note "..."    propose a baseline change (canon is CI-cut)
+  adopt <path...> --wave --note "and" one wave row over N changed slots (one note explains N image changes)
   ledger list [ROUTE] | show ID      read the memory
   gate                               CI job: exit 1 on unexplained labs/.eyes/ drift
   lint-packs [--deep] [--json] [--against <lib>] [dir]  packstruct passthrough over the repo's own install

@@ -19,7 +19,7 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 | `init` | `eyestruct init [--browser-image TAG] [--renderer resvg@V]` | writes `labs/.eyes/manifest.yml` + empty ledger | the pin + route matrix seed |
 | `look` | `eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/` + ledger row | needs the pinned browser; refusals are named |
 | `diff` | `eyestruct diff <url> [--against PATH]` | read-mostly; baseline via manifest routes | `--against` accepts eyes-relative or absolute paths |
-| `adopt` | `eyestruct adopt <route/view> --note "why"` | ledger row (unratified proposal) | `--note` mandatory; pixels move by deliberate git action |
+| `adopt` | `eyestruct adopt <path> [path...] [--wave] --note "why"` | ledger row(s) (unratified proposal) | `--note` mandatory; `--wave` collapses N targets into one wave row (one note explains N image changes in the same commit) |
 | `ledger` | `eyestruct ledger list [ROUTE] \| show ID` | reads `labs/.eyes/ledger.json` | append-only memory; refuses corruption loudly |
 | `gate` | `eyestruct gate` | read-only over `labs/.eyes/` | the CI pass: exit 1 on unexplained drift |
 | `raster` | `eyestruct raster [file...]` | render + byte sanity per artifact | strict SVG/XML parse; never fake-passes |

@@ -1,0 +1,38 @@
+<!doctype html>
+<!--
+  the ship-receipt demo surface - the og-image receipt class, reproduced on
+  demand. A tiny self-contained page (no build, no deps) whose pixels can be
+  broken with a one-line CSS edit while EVERY DOM collector stays green:
+  same nodes, same ids, same geometry - only a color value changes.
+
+  The receipt lives at labs/.eyes-receipt/ with its own eye home
+  (--manifest/--ledger re-point), so the committed labs/.eyes/ canon of the
+  landing site is untouched by the demo.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>receipt demo surface</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #10131a; color: #e7eaf1; font-family: system-ui, sans-serif; }
+    .hero { padding: 56px 40px; border-bottom: 1px solid #2a3140; }
+    .hero h1 { margin: 0 0 8px; font-size: 30px; color: #e9ecf2; /* RECEIPT-EDGE: this is the line the demo break edits */ }
+    .hero p { margin: 0; color: #98a2b3; }
+    .card { margin: 28px 40px; padding: 20px; border: 1px solid #2a3140; border-radius: 10px; }
+    .card h2 { margin: 0 0 8px; font-size: 17px; }
+    .card input { display: block; margin: 14px 0 0; padding: 8px 10px; background: #161b24; color: #e7eaf1; border: 1px solid #2a3140; border-radius: 6px; width: 320px; }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1 id="hero-title">Settings</h1>
+    <p id="hero-sub">The page a fresh session should be able to describe from labs/.eyes/ without opening a browser.</p>
+  </section>
+  <section class="card">
+    <h2 id="card-title">Profile</h2>
+    <input id="field-name" placeholder="name" aria-label="name">
+    <input id="field-email" placeholder="email" aria-label="email">
+  </section>
+</body>
+</html>

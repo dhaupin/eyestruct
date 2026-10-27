@@ -12,6 +12,8 @@
   items:
     - title: CLI reference
       url: /eyestruct/cli
+    - title: MCP reference
+      url: /eyestruct/mcp
     - title: Reason codes
       url: /eyestruct/reasons
     - title: Packs

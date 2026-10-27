@@ -30,7 +30,7 @@
     "packs": "node scripts/run-packs.cjs",
     "lint:packs": "node bin/eyestruct.js lint-packs --deep",
     "conform:packs": "packstruct audit-conformance . --loader \"node scripts/run-packs.cjs {packs}\"",
-    "raster:gate": "node bin/eyestruct.js raster horcrux/*.svg",
+    "raster:gate": "node bin/eyestruct.js raster docs/icon.svg web/public/icon.svg",
     "build:web": "npm run build --prefix web",
     "eyestruct": "node bin/eyestruct.js"
   },

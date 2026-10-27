@@ -1,5 +1,53 @@
 # eyestruct - rolling work log
 
+- **Finishing pass 3 (2026-10-27) - mcp ref, raster leg, wave rows, and BOTH ship receipts, first-person.** (1) `docs/mcp.md`
+  landed (18 pages, nav Reference row): the stdio surface described from
+  `lib/mcp.js` itself - nine tools, JSON-RPC framing, the core law at the
+  tool boundary (pixels only when `include_image`), error mapping, host
+  wiring. (2) MVP-5 rides CI: `raster:gate` re-pointed at the art that
+  ships (`docs/icon.svg` + `web/public/icon.svg` - the old `horcrux/*.svg`
+  glob died in the stone removal) and a `npm run raster:gate` leg in
+  `test.yml`; both icons rasterize 1630B opaque. (3) Churn-wave rows
+  shipped for real: type 'wave' rows carry `artifacts: [...]` (one note
+  explains N image changes), `eyestruct adopt <path...> --wave` writes ONE row
+  over N changed slots, gate explains every referenced artifact and
+  dangles louder on a wave ghost (`row-id (path)` in the refusal),
+  `ledger list` prints wave rows as `a.png + b.png` and routes-filter
+  honors wave members; two new smoke legs + the two legacy ones still
+  green. (4) The two first-person receipts, both SEEN not narrated:
+  - **Receipt A (the founding catch, reproduced).** Live demo surface
+    at `labs/.eyes-receipt/page.html` (ids: hero-title, hero-sub,
+    card-title, field-name, field-email), its own eye home via
+    `--manifest/--ledger` (pin chromium@153.0.8010.0, the lambda
+    chromium build run through `EYESTRUCT_BROWSER` + bundled libs -
+    system apt is locked down here; `~/.cache/puppeteer` chrome fetched
+    but refused at libnspr4, correctly reported as CAPTURE_BLOCKED and
+    removed so the default battery stays browser-skip). Baseline look:
+    21018B, 5 ids mapped + overlay labels - BUFFY LOOKED AT THE PIXELS
+    (title visible, card, inputs). Then the break: ONE CSS line flips
+    `.hero h1` color to the band's own bg; the DOM diff of the edit is
+    EMPTY (same nodes, same ids - every selector still resolves), while
+    `eyestruct diff` returns DIFFERS (baseline 21018B vs fresh 19241B)
+    and exit 1 - NAMED, not silent. The caught pair rides the tree:
+    `labs/.eyes-receipt/receipt-caught.png` (Settings gone, page id-boxes
+    unchanged) and `receipt-region.png` (#hero-title crop: element still
+    queryable, text invisible). Ledger trail: row-0001 baseline adopt +
+    row-0002 the wave (one note over both evidence frames) - the
+    churn-wave row's first real use.
+  - **Receipt B (the memory receipt).** The fresh-session half ran
+    with no browser at all: `ledger list` + `ledger show` answered what
+    the demo surface looks like from the committed memory (dark 1280x800,
+    Settings leading, profile card with name/email inputs, annotated
+    id-boxes) without a single capture or DOM walk - the ledger + the
+    committed current.png were the whole interface.
+  - Both receipts are PROPOSALS (ratified:false) per the law - canon
+    cut happens when CI ratify reproduces them in the pinned image; the
+    demo home is a separate eye home, so the landing's committed
+    labs/.eyes/ canon is untouched.
+(5) `docs/cli.md` adopt row documents `--wave`. Battery: npm test 25/25
+  with the browser exported (8 formerly-skipped look/diff/ratify legs ran
+  and passed), 0 new / 0 regressed / 0 accepted on the crashtest leg, npm
+  run check green, lint:docs 5/5 at 18 pages.
 - **Site passes (2026-10-27, evening).** (1) The mobile table guard landed
   and got filed family-wide (flowforge#13, gistory#16, crashtest#41,
   prestruct#62, packstruct#31, poststruct#14 + monoforge#7, freestruct#35

@@ -128,6 +128,45 @@ test('adopt note content comes through in list', () => {
   assert.match(r.stdout, /font change semantics/)
 })
 
+test('adopt --wave writes ONE wave row over N slots, gate counts each artifact explained', () => {
+  const dir = tmpdir()
+  run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
+  for (const slot of ['home/desktop-1280/dark', 'settings/tablet-1024/light']) {
+    fs.mkdirSync(path.join(dir, 'labs/.eyes', slot), { recursive: true })
+    fs.writeFileSync(path.join(dir, 'labs/.eyes', slot, 'current.png'), 'x')
+  }
+  const r = run(['adopt', 'home/desktop-1280/dark/current.png', 'settings/tablet-1024/light/current.png', '--wave', '--note', 'font bump re-rendered both waves'], dir)
+  assert.strictEqual(r.code, 0, 'wave adopt should pass - got: ' + r.stderr)
+  const rows = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
+  assert.strictEqual(rows.length, 1, 'one wave row, not an N-row echo')
+  assert.strictEqual(rows[0].type, 'wave')
+  assert.strictEqual(rows[0].artifacts.length, 2)
+  const g = run(['gate'], dir)
+  assert.strictEqual(g.code, 0, 'both wave artifacts explained - got: ' + g.stderr)
+  const list = run(['ledger', 'list'], dir)
+  assert.match(list.stdout, /font bump/)
+
+  // The wave chasing rule: a wave row's artifacts must exist on disk.
+  const ghost = structuredClone(rows)
+  ghost[0].artifacts.push('ghost/current.png')
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), JSON.stringify(ghost, null, 2) + '\n')
+  const g2 = run(['gate'], dir)
+  assert.strictEqual(g2.code, 1)
+  assert.match(g2.stderr, /DANGLING_ROW/)
+})
+
+test('a wave row without a useable artifacts array is a corrupt ledger (exit 2)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const ledger = path.join(dir, 'labs/.eyes', 'ledger.json')
+  fs.writeFileSync(ledger, JSON.stringify([{ id: 'row-0001', ts: 1, agent: 't', commit: 'c', type: 'wave', note: 'x' }]) + '\n')
+  const r = run(['gate'], dir)
+  assert.strictEqual(r.code, 2)
+  assert.match(r.stderr, /LEDGER_CORRUPT/)
+  const rJson = run(['gate', '--json'], dir)
+  assert.strictEqual(rJson.code, 2)
+})
+
 test('raster refuses honestly without a renderer (exit 2), never fake-passes', () => {
   const dir = tmpdir()
   const stone = path.join(__dirname, '..', 'horcrux', 'magpie-p_mirror-eyes-2026.svg')

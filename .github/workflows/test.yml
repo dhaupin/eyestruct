@@ -19,6 +19,11 @@ jobs:
       - run: npm ci --no-fund --no-audit
       - run: npm test
       - run: npm run check
+      # The raster gate, dogfooded: every committed renderable the sites
+      # and the eyes home wear (icons) parses strict + rasterizes + clears
+      # the byte-size floor. MVP-5 receipt; MISSING_RENDER refuses honestly
+      # if the optional renderer ever stops installing.
+      - run: npm run raster:gate
       # The crashtest leg, alongside the pack campaign: hostile argv, MCP
       # stdio frames, and ledger parse attacks against the real CLI (in-
       # process adjacency, zero network). Gate: exit 1 on a NEW EXPLOITED

@@ -1,0 +1,25 @@
+[
+  {
+    "type": "adopt",
+    "agent": "local-agent",
+    "commit": "uncommitted",
+    "artifact": "home/desktop-1280/current.png",
+    "note": "receipt: baseline of the pixels-break demo surface (dark 1280x800, 5 ids mapped, fonts landed)",
+    "ratified": false,
+    "id": "row-0001",
+    "ts": 1793099528549
+  },
+  {
+    "type": "wave",
+    "agent": "local-agent",
+    "commit": "uncommitted",
+    "artifacts": [
+      "receipt-caught.png",
+      "receipt-region.png"
+    ],
+    "note": "one note explains both evidence frames from the pixels-break demo: the DIFFERS full frame and the region crop (DOM stayed green, pixels broke)",
+    "ratified": false,
+    "id": "row-0002",
+    "ts": 1793099622440
+  }
+]
