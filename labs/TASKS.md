@@ -312,12 +312,19 @@
   conflict caught by the rig style gate: the PRD (em-dash voice) stays at
   labs/, docs carries hyphen-voice identity pages. 13/13 smoke tests pass;
   lint:docs 5/5 gates pass.
-- **Next slices.** 1) Pinned browser image + engine.capture wiring (look,
-  diff, walk light up). 2) eye-shapes self pack + crashtest harness plan.
-  3) packstruct lint:packs wiring. 4) MCP stdio surface over the same
-  call functions. 5) The two first-person ship receipts (pixels-broken/
-  DOM-clean edit gets caught; fresh session answers a visual question
-  from .eyes/ with no browser).
+- **Next slices - CLOSED (2026-10-27 triage), all five shipped.**
+  1) engine.capture wired and lit: look/diff/walk run real captures in
+  the pinned browser (finishing pass 3 Receipt A, first-person), and
+  the bundle lane added the offline executor ahead of the pin. 2)
+  eye-shapes self-pack + crashtest harness: shipped in the harness pass
+  (pack 0.2.0 self-leg, crashtest@^1.1.0 leg riding test.yml, 52/52
+  REFUSED). 3) packstruct lint:packs wiring: shipped as the
+  lint-packs verb (lint-lane pass). 4) MCP stdio surface: shipped
+  (docs/mcp.md describes it from lib/mcp.js; hardening passes closed
+  the transport crash class). 5) The two first-person ship receipts:
+  shipped as Receipts A + B in finishing pass 3. Nothing re-opens
+  from this block; the live roadmap is the issue board (#5) and the
+  docket rows below.
 - **Completion sprint (2026-10-26, pre-move).** 1) Web landing rebranded
   the flowforge placeholder: 12 fields (ssr identity block, Home copy + CTAs,
   nav brand/links/badge, footer, manifest, theme key both ends, package
