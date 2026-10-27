@@ -251,7 +251,22 @@ test('raster refuses honestly without a renderer (exit 2), never fake-passes', (
   }
 })
 
-test('raster catches invalid XML with a named code (the unrenderable-stone receipt)', () => {
+// The RASTER_BAD_XML receipt needs sight: the invalid-XML verdict is
+// detected by the render attempt itself, so a renderer-less machine can
+// only refuse MISSING_RENDER - asserting exit 1 there would be a guessed
+// verdict, exactly what the battery refuses to do. Honest skip, same
+// doctrine as the browser-class skips.
+function rendererAvailable() {
+  try {
+    require.resolve('@resvg/resvg-js')
+    return true
+  } catch {
+    return false
+  }
+}
+const maybeRenderer = rendererAvailable() ? test : test.skip
+
+maybeRenderer('raster catches invalid XML with a named code (the unrenderable-stone receipt)', () => {
   const dir = tmpdir()
   const bad = path.join(dir, 'bad.svg')
   fs.writeFileSync(bad, '<svg note="<in-attr>"></svg>not-xml')

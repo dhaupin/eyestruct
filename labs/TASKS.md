@@ -607,3 +607,24 @@
   machine with the devDeps installable (Linux/mac x64+arm64
   prebuilds), or after npm test reports only the honest
   browser-class skips here.
+
+- **Second publish attempt (2026-10-27, night) - the last renderer-bound
+  verdict made honest.** The Termux rerun proved the order fix (all three
+  MISSING_INPUT legs + the bundle lane green on a renderer-less machine)
+  and exposed the final machine-dependence: RASTER_BAD_XML is detected by
+  the render attempt itself, so without a renderer an invalid-XML input
+  can only refuse MISSING_RENDER - asserting exit 1 there would be a
+  guessed verdict. The invalid-XML leg now rides the honest-skip doctrine
+  beside the browser-class skips (maybeRenderer; the guard is the same
+  require.resolve probe raster uses) - a renderer-less battery reports it
+  SKIP by name instead of failing; a renderer-present battery keeps
+  running it (this tree: 50 tests / 42 pass / 8 honest skips / 0 fail,
+  TRIFECTA: PASS). No pack case leans on the raster verdicts (grep
+  receipts: zero raster/RASTER hits under packs/public), so the campaign
+  is renderer-independent by construction. Why the siblings never hit
+  this: eyestruct's publish gate is the FULL battery by the npm-publish
+  ruling (prepublishOnly = npm test && npm run check); its battery carries
+  capture/raster legs the sibling repos' batteries do not, so a
+  capability-limited publish machine trips here first - the gate is doing
+  the guarding, and each trip so far has ended in a real
+  machine-dependence bug found.
