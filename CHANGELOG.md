@@ -73,6 +73,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   are now captured via the repo's own `look` engine beside the landing
   site's.
 
+### Hardened (2026-10-27, the adversarial walk)
+- The first repo-wide adversarial sweep landed its fixes: the MCP stdio
+  transport no longer dies on a `null` frame (-32600 by name, server keeps
+  answering) or a `tools/call` without a params object (-32602); `lib/adopt.js`
+  lost the duplicated, divergent shadow helpers that hoisted over its real
+  argument parser; the capture engine keeps chrome's own sandbox for non-root
+  agents (root keeps `--no-sandbox`, with one named retry for containers
+  without namespaces - `engine.launchAttempts` is the testable policy); and
+  ledger artifact paths are eyes-relative by contract - a new reason-code
+  `UNSAFE_PATH` (now 26 codes) refuses absolute or `..`-escaping targets at
+  the adopt/wave write surface AND every ledger/gate read surface, so a
+  hand-edited row cannot aim gate or diff outside the eyes home; the ledger
+  temp-file write is created under `wx` with an unguessable suffix, closing
+  the preplaced-symlink redirect edge. Receipts: the sweep in
+  `labs/crashledger.json` stays 52/52 REFUSED (0 new, 0 regressed), pack
+  campaign 26/26, and 5 new behavior legs in `tests/smoke.test.js`
+  (temp dirs, no network).
+
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image
   (dispatch `eyes-ratify`); the proposals ride `ratified:false` until then.

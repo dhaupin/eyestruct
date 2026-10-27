@@ -155,6 +155,45 @@ test('adopt --wave writes ONE wave row over N slots, gate counts each artifact e
   assert.match(g2.stderr, /DANGLING_ROW/)
 })
 
+test('UNSAFE_PATH: a ledger row that escapes the eyes home is refused on read (exit 1, named)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const ledger = path.join(dir, 'labs/.eyes', 'ledger.json')
+  fs.writeFileSync(
+    ledger,
+    JSON.stringify([{ id: 'row-0001', ts: 1, agent: 't', commit: 'c', artifact: '../outside/steal.png', type: 'look', note: 'x' }]) + '\n',
+  )
+  const r = run(['gate'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /eyestruct\[UNSAFE_PATH\]/)
+  assert.match(r.stderr, /outside\/steal\.png/)
+})
+
+test('UNSAFE_PATH: adopt refuses an escaping adopt target on write (exit 1, named)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  for (const bad of ['../outside.png', '/etc/passwd']) {
+    const r = run(['adopt', bad, '--note', 'escape attempt'], dir)
+    assert.strictEqual(r.code, 1, `escaping artifact ${bad} must be refused`)
+    assert.match(r.stderr, /eyestruct\[UNSAFE_PATH\]/)
+    const rows = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
+    assert.strictEqual(rows.length, 0, 'the refusal must not leave a row behind')
+  }
+})
+
+test('UNSAFE_PATH: a wave row carrying an escaping artifact rides the same guard', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const ledger = path.join(dir, 'labs/.eyes', 'ledger.json')
+  fs.writeFileSync(
+    ledger,
+    JSON.stringify([{ id: 'row-0001', ts: 1, agent: 't', commit: 'c', type: 'wave', note: 'x', artifacts: ['ok/current.png', '..//escape'] }]) + '\n',
+  )
+  const r = run(['gate'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /UNSAFE_PATH/)
+})
+
 test('a wave row without a useable artifacts array is a corrupt ledger (exit 2)', () => {
   const dir = tmpdir()
   run(['init'], dir)
@@ -258,6 +297,39 @@ test('engine refuses honestly when the exec resolution finds nothing', () => {
 test('engine rejects a malformed viewport with a named code', () => {
   assert.throws(() => engine.parseViewport('wide'), /BAD_VIEWPORT/)
   assert.throws(() => engine.parseViewport('10x10'), /BAD_VIEWPORT/)
+})
+
+test('sandbox policy: root keeps --no-sandbox, non-root tries chrome\'s own sandbox first with one named retry', () => {
+  assert.deepStrictEqual(engine.launchAttempts(true), [true], 'root: flag on from the start')
+  assert.deepStrictEqual(engine.launchAttempts(false), [false, true], 'non-root: sandbox live first, flag as the fallback')
+})
+
+test('mcp: a bare null frame is refused by a named -32600 reply, and the server keeps answering', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const { responses } = callMcp(dir, [
+    null,
+    { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} },
+  ])
+  const refusal = responses.find((m) => m.error)
+  assert.ok(refusal, 'the null frame gets a JSON-RPC error reply, not a dead server')
+  assert.strictEqual(refusal.error.code, -32600)
+  const census = responses.find((m) => m.id === 2)
+  assert.ok(census && census.result.tools.length > 0, 'the server is still alive after the hostile frame')
+})
+
+test('mcp: tools/call without a params object is a named -32602 refusal, not a crash', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const { responses } = callMcp(dir, [
+    { jsonrpc: '2.0', id: 9, method: 'tools/call' },
+    { jsonrpc: '2.0', id: 10, method: 'tools/list', params: {} },
+  ])
+  const refusal = responses.find((m) => m.id === 9)
+  assert.strictEqual(refusal.result.isError, true)
+  assert.match(refusal.result.content[0].text, /params object/)
+  const census = responses.find((m) => m.id === 10)
+  assert.ok(census && census.result.tools.length > 0, 'the server survived the paramless call')
 })
 
 maybeBrowser('look refuses a theme outside dark|light with a named code', () => {

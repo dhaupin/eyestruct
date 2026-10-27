@@ -1,5 +1,30 @@
 # eyestruct - rolling work log
 
+- **Hardening pass (2026-10-27, late) - the adversarial walk landed its
+  fixes.** The repo-wide sweep found five edges; four are now code, one
+  is docket noise (the ratify lane's unpinned `npx http-server`). (1)
+  MCP transport: a `null` frame and a paramless `tools/call` used to
+  throw inside the stdin callback (a catch-class crash that killed the
+  server); both now answer named JSON-RPC replies (-32600 / -32602) and
+  keep serving - two new smoke legs prove survival by asking the census;
+  (2) `lib/adopt.js` carried a duplicated divergent tail of
+  posArg/isFlagValue/flagValue shadow declarations that hoisted over the
+  run()'s real helpers - deleted; (3) engine launch args: `--no-sandbox`
+  was unconditional; now root keeps it, non-root keeps chrome's own
+  sandbox live first with one named retry (`launchAttempts` exported);
+  (4) ledger path confinement: the 26th reason-code `UNSAFE_PATH` refuses
+  absolute / `..`-escaping artifact paths at adopt/wave write time and
+  at every ledger read (gate included), so a hand-edited row cannot aim
+  gate or diff outside the eyes home; ledger temp writes are `wx`-fresh
+  with unguessable suffixes (the preplaced-symlink rename edge);
+  (5) docket: ratify-lane http-server stays unpinned (version truth
+  belongs to the manifest convention, a pin without a verify step is
+  guesswork). Ripples kept honest: AGENTS + web Home inventory now say
+  26 reason-codes, docs/reasons.md carries the row, CHANGELOG sums the
+  pass. Battery: npm test 29 pass / 0 fail (8 honest browserless
+  skips), npm run check green, crashtest leg 52/52 REFUSED 0 new 0
+  regressed.
+
 - **Freshness pass (2026-10-27, late) - the round-2 trifecta walk became a
   battery leg, and the docs visual gap closed locally.** (1) The walk is
   now `npm run check:trifecta`, opening the `check` chain: README's usage

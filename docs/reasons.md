@@ -50,6 +50,7 @@ error instead of killing the whole runner.
 | `PIN_MISMATCH` | capture ran on a pin other than the manifest baseline pin |
 | `ADOPT_NOTE_REQUIRED` | adopt requires `--note` explaining the change |
 | `UNSAFE_TEXT` | a text field carries a control character that would poison downstream readers |
+| `UNSAFE_PATH` | a ledger artifact path escapes the eyes home - paths are eyes-relative, never absolute, never carrying `..` segments |
 | `NO_BASELINE` | no committed baseline to diff against - capture with `look` then `adopt` |
 | `BAD_FLAG_VALUE` | the flag is present but carries an empty value - give it a value or drop the flag |
 | `BAD_VIEWPORT` | viewport must be WxH within the sane range |
@@ -69,6 +70,7 @@ error instead of killing the whole runner.
 | `UNRECORDED` | pixels changed without an `adopt` row | run `look` + `diff`, then `adopt --note` for the real change |
 | `DANGLING_ROW` | the row explains a file git no longer has | restore the file or rewrite history through the ledger, never past it |
 | `LEDGER_CORRUPT` / `MANIFEST_CORRUPT` | truncation or a bad merge | fix the file from git; the reader never guesses past a bad row |
+| `UNSAFE_PATH` | a hand-edited or hostile ledger row aims gate/diff outside the eyes home | rewrite the artifact path eyes-relative; the reader refuses, it never resolves escapes |
 | `MISSING_PINNED_BROWSER` | machine has no pinned chrome | install the manifest's `pin.browser-image` version |
 | `PACKSTRUCT_MISSING` | packstruct devDep missing | `npm i -D packstruct@<exact>` |
 
