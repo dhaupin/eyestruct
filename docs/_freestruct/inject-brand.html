@@ -13,14 +13,21 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "{{siteName}}",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Node.js",
-  "url": "{{siteUrl}}",
-  "description": "{{siteDescription}}",
-  "offers": { "@type": "Offer", "price": 0, "priceCurrency": "USD" },
-  "author": { "@type": "Organization", "name": "{{siteName}}", "url": "{{siteUrl}}" }
+  "@type": "Organization",
+  "name": "{{siteNameJson}}",
+  "url": "{{siteUrlJson}}",
+  "description": "{{siteDescriptionJson}}"{{authorJson}}
+}
+</script>
+
+<!-- The WebSite block rides the {{searchActionJson}} seam - empty unless the
+     config wires a search endpoint (no fake ?s= action for a pagefind modal). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{siteNameJson}}",
+  "url": "{{siteUrlJson}}"{{searchActionJson}}
 }
 </script>
 
