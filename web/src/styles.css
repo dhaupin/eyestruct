@@ -216,6 +216,9 @@ table.attacks td.mod { font-family: ui-monospace, monospace; color: var(--accent
 table.attacks td .what { color: var(--ink); }
 table.attacks td .why { color: var(--ink-soft); font-size: 12.5px; }
 .shipped { color: var(--moss); font-weight: 600; }
+/* island fallback (mounts client-side; the span shows while pending) */
+.island-loading { color: var(--ink-soft); font-size: 13px; display: block; padding: 8px 0; }
+.island-loading + * { margin-top: 0; }
 /* verdict cells (landing attacks table): semantic color only where a verdict
    earns it - moss for a refused attack (a win), accent for a docketed bound. */
 .verdict-ok { color: var(--moss); font-weight: 600; white-space: nowrap; }

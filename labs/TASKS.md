@@ -1,5 +1,26 @@
 # eyestruct - rolling work log
 
+- **Site passes (2026-10-27, evening).** (1) The mobile table guard landed
+  and got filed family-wide (flowforge#13, gistory#16, crashtest#41,
+  prestruct#62, packstruct#31, poststruct#14 + monoforge#7, freestruct#35
+  engine ask, vant#263) - with a vant#223 incident documented honestly in
+  vant#262 (agent overwrote another issue's body mid-filing; maintainer
+  restored from GitHub edit history). (2) Docs UX repairs (d26fdfc): brand
+  home baseurl-aware, Release posts in the nav, lean discussions index.
+  (3) The landing flesh-out (e90a4a1): three-part contract cards, the
+  two-dispatch pipeline, the self-policing verdict table (52/52 REFUSED),
+  install block - all on existing tokens. (4) robots.txt residue caught and
+  fixed (0a54997: crawlers were pointed at crashtest's sitemap); family
+  sweep + flowforge#16 (the template file is the crashtest blob
+  byte-identical). (5) Site P1-P3: footer Releases link, a real og-image
+  card (generator committed at web/scripts/og-image.mjs; build-local
+  dejavu-fonts-ttf via --no-save, lockfile untouched; numbers are the
+  claim-inventory receipts), and the live gate-status island
+  (GateStatusIsland, idle-mounted; fetches packs/eye-ledger.json +
+  labs/crashledger.json from raw.githubusercontent at load - CSP grew one
+  origin). Release-day hooks unchanged: the card's numbers, the landing
+  claims, and the discussions watchlist are the same five receipts,
+  re-verified together when 0.9.0 publishes.
 - **Scaffold pass (2026-10-25).** Repo shell staged at gistory's workspace
   from the flowforge rig @ 91e52e0 (the poststruct 0.9.0 rigging):
   web/ landing shell, docs/ on the rig layout with checker gates

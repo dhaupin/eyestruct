@@ -191,6 +191,21 @@ export default function Home() {
 
       <section className="section">
         <div className="wrap">
+          <h2>The committed memory, live</h2>
+          <p className="sub">
+            This page reads eyestruct's own memory from main the way a fresh
+            agent session would: the committed ledger files in git, fetched at
+            load - no server, no hidden state, and no numbers fresher than the
+            commits. Counts below update when the ledgers update.
+          </p>
+          <pre-island data-pre-island="gate-status" data-pre-load="idle">
+            <span className="island-loading">Loading live status from the committed ledgers on main...</span>
+          </pre-island>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
           <h2>Install</h2>
           <p className="sub">
             A Node 20 CLI, no daemons, no background services of any kind.

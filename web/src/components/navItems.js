@@ -20,6 +20,7 @@ export const NAV_ITEMS = [
  * the nav; provenance links belong in the footer, not the header.
  */
 export const FOOTER_EXTRAS = [
+  { label: 'Releases', href: 'https://github.com/dhaupin/eyestruct/releases' },
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
 ]

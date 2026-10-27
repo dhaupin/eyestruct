@@ -25,6 +25,11 @@
  *   <pre-island data-pre-island="promo-banner" data-pre-load="idle" />
  */
 
+import GateStatusIsland from './components/GateStatusIsland.jsx'
+
 export const islands = {
-  // 'your-island': YourIsland,
+  // LandingPage live status - reads the committed ledgers on main.
+  // Registry values are component functions (islands.js renders them via
+  // React.createElement directly, no wrapper allowed).
+  'gate-status': GateStatusIsland,
 }
