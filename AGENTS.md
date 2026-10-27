@@ -15,6 +15,17 @@ Working policies (seed; the brain grows these by working):
   Docs gates: `npm run lint:docs` - the PRD lives at labs/ UNDER ITS OWN
   VOICE (em-dash); docs/ is hyphen-voice and must stay clean.
 - Where things live: `labs/` (PRD canonical, TASKS, the eye home at
-  `labs/.eyes/` - the CLI default now), `models/private/magpie/`
-  (the brain; never shipped), `horcrux/` (stones), `packs/` (adversarial
-  probes; packstruct-linted), `web/` + `docs/` (the rig).
+  `labs/.eyes/` - the CLI default now - and the receipt hall at
+  `labs/.eyes-receipt/`), `models/private/magpie/` (the brain; never
+  shipped), `horcrux/` (the transfer stones), `packs/public/` (3
+  adversarial packs + `packs/eye-ledger.json`; packstruct-linted),
+  `web/` + `docs/` (the rig).
+- The battery is `.github/workflows/test.yml` (npm test + check + the
+  crashtest leg + the raster:gate icon leg); the docs lane is
+  `docs.yml` (Jekyll + freestruct + pagefind -> Pages at
+  docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`
+  (manual dispatch, the only baseline cutter). Reference docs live at
+  docs/cli and docs/mcp; the reference post in docs/discussions.
+- Receipts to cite: 25 reason-codes (lib/reasons.js), 26 pack verdicts
+  (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
+  the two ship receipts (labs/TASKS.md 2026-10-27 entry).
