@@ -20,7 +20,7 @@ are deliberate reviews.
 |---|---|
 | `labs/prd-eyes.md` | the canonical PRD (the stone's `labs/prd-eyes.md` block, verified byte-identical at cut time) |
 | `horcrux/magpie-p_mirror-eyes-2026.svg` | the transfer stone itself (rasterizes; refactor-of-record for the seed brain) |
-| `models/private/magpie/*.md` | the seed brain (never shipped in the package) |
+| `models/private/magpie/*.md` | the seed brain - left the repo 2026-10-27; home is the vant install (`models/private/magpie/`, wholesale gitignored there, rewritten with the shipped receipts). npm tarballs never carried it (files field) |
 
 ## New for eyestruct (this scaffold pass)
 

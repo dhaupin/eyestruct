@@ -3,6 +3,9 @@ web/node_modules/
 web/dist/
 dist/
 *.local
+# the brain's home is the vant install (moved 2026-10-27; the tarball
+# never carried it); belt so a stray re-seed never taints the repo
+models/
 .eyes-candidates/
 packs/local/
 labs/run-meta.json

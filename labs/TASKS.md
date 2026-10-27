@@ -1,5 +1,26 @@
 # eyestruct - rolling work log
 
+- **Brain move (2026-10-27, late) - models/private/magpie left the
+  repo for its vant install home.** The seed brain shipped along with
+  the project: six md files copied to
+  $HOME/vant/models/private/magpie/ (wholesale gitignored there per
+  vant's own rules - never taints its git), then rewritten from
+  SEED-truth to shipped-truth, receipts carried: identity now says
+  project agent for a 0.9.0 repo (not a candidate); structure.md swaps
+  the NYI skeleton for the settled tree; lessons.md earns its six
+  entries (named refusals, live receipt counts, path-confinement,
+  separate miss-names, single version truth, ported-UI sink sweeps);
+  errors.md closes the three founding watch items (one-capture law,
+  manifest pin, frame-level transport hardening) and opens the three
+  standing ones (canon-cut undispatched, http-server unpinned docket,
+  browserless CI skips); goals.md marks the MVP line SHIPPED and the
+  founding receipt EARNED; workflow.md pins the HOME RULE - the repo
+  carries no brain, do not re-seed one. Repo side: tracked brain
+  removed (the horcrux stones keep the transfer provenance), AGENTS +
+  MANIFEST now point at the vant home, .gitignore carries the models/
+  belt (the npm files field never carried it - pack dry-run receipt
+  stands).
+
 - **npm-publish pass (2026-10-27, late) - the gate before 0.9.0 on
   npm.** The package surface walked, five fixes: (1) `private: true`
   lifted - it refused publish outright; (2) `prepublishOnly` = npm test
