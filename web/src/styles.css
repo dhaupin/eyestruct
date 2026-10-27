@@ -202,6 +202,11 @@ html[data-theme="light"] .theme-switch .icon-moon { display: block; }
 .pipe-step span { color: var(--ink-soft); font-size: 13.5px; }
 
 /* --- attack table --- */
+/* Mobile guard for any table not riding .table-wrap: it scrolls inside its
+   own box instead of pinning the page to its min-content width (the same
+   fix the docs layout carries). Inline code keeps its token intact. */
+table:not(.attacks) { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table:not(.attacks) td code { white-space: nowrap; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
 table.attacks { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 table.attacks th { text-align: left; background: var(--raised); color: var(--ink); padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }

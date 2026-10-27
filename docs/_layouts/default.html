@@ -101,7 +101,7 @@
 
         /* Main content */
         .main { margin-left: var(--sidebar-width); margin-top: var(--header-height);
-            padding: 36px 40px 80px; max-width: 860px; }
+            padding: 36px 40px 80px; max-width: 860px; min-width: 0; }
         h1 { font-size: 30px; margin: 0 0 18px; letter-spacing: -.01em; line-height: 1.2; }
         h2 { font-size: 20px; margin: 30px 0 10px; }
         h3 { font-size: 16px; margin: 22px 0 8px; }
@@ -127,10 +127,18 @@
         .highlight .c, .highlight .c1, .highlight .cm, .highlight .cd { color: var(--ink-soft); font-style: italic; }
         blockquote { margin: 0 0 14px; padding: 12px 18px; color: var(--ink-soft);
             border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; }
-        table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 14px 0; }
+        /* Tables: any table wider than the viewport scrolls inside its own
+           box instead of stretching the page wide (the mobile bug: the page
+           pins to the table's min-content width and the H1 clips). Display
+           block + overflow-x is the zero-markup fix for kramdown tables.
+           Inline code keeps its tokens intact while prose cells wrap. */
+        table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 14px 0;
+            display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table td code { white-space: nowrap; }
         th { text-align: left; background: var(--raised); padding: 8px 12px;
             border-bottom: 1px solid var(--line); }
         td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+        th, td code { overflow-wrap: normal; }
 
         .doc-footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
             color: var(--ink-light); font-size: 13px; }
@@ -182,7 +190,7 @@
     <header class="header">
         <a href="{{ '/' }}" class="header-brand">
             <img src="{{ site.baseurl }}/icon.svg" alt="" class="brand-logo" aria-hidden="true">
-            <span><span class="brand-accent">your</span>site</span>
+            <span><span class="brand-accent">eye</span>struct</span>
             <span class="docs-tag">docs</span>
         </a>
         <div class="header-right">
