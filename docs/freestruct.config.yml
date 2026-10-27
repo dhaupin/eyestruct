@@ -21,3 +21,11 @@ twitter:
 basePath: /eyestruct
 
 outputDir: _site
+
+# linkCheck suspended until upstream lands (dhaupin/freestruct#32): the 1.1.0
+# strict link checker resolves root-absolute hrefs (`/eyestruct/...`) against
+# the artifact root with no basePath awareness, so every baseurl'd site in
+# the family fails --strict on its own nav. Everything else the strict gate
+# covers (single-prefix canonical/sitemap, og, noindex hygiene) stays on.
+# Flip back to default (remove this line) when #32 ships in a pinned release.
+linkCheck: false
