@@ -180,7 +180,7 @@
         // so only a persisted light theme needs flipping. Keep the key and
         // the palette in sync with the toggle handler below.
         try {
-            if (localStorage.getItem('flowforge-theme') === 'light') {
+            if (localStorage.getItem('eyestruct-theme') === 'light') {
                 document.documentElement.dataset.theme = 'light';
             }
         } catch (e) {}
@@ -239,7 +239,8 @@
     <main class="main">
         {{ content }}
         <div class="doc-footer">
-            eyestruct is <a href="https://github.com/dhaupin/eyestruct">open source</a> -
+            eyestruct is <a href="https://github.com/dhaupin/eyestruct">open source</a>,
+            installs from <a href="https://www.npmjs.com/package/eyestruct" target="_blank" rel="noopener">npm</a> -
             one of the struct-family rigs at <a href="https://creadev.org" target="_blank">Creadev.org</a>
         </div>
     </main>
@@ -261,7 +262,7 @@
         var el = document.documentElement;
         var next = el.dataset.theme === 'light' ? 'dark' : 'light';
         el.dataset.theme = next;
-        try { localStorage.setItem('flowforge-theme', next); } catch (e) {}
+        try { localStorage.setItem('eyestruct-theme', next); } catch (e) {}
     });
 
     // Sidebar (vant shape)

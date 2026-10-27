@@ -30,3 +30,5 @@
   items:
     - title: Product site
       url: https://eyestruct.creadev.org/
+    - title: npm
+      url: https://www.npmjs.com/package/eyestruct

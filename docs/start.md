@@ -17,6 +17,8 @@ only state that survives between looks is git state.
 ```bash
 npm install --save-dev eyestruct
 ```
+The [npm package page](https://www.npmjs.com/package/eyestruct) carries the
+same install with versions and registry metadata.
 
 Added as a devDependency, the CLI runs through npm scripts or `npx`
 (`npx eyestruct gate`). Working from the source on a fix instead? The

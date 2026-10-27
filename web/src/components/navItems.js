@@ -12,7 +12,9 @@ export const NAV_ITEMS = [
   { label: 'Home', to: '/', end: true, group: 'site' },
   { label: 'Packs', to: '/packs', group: 'site' },
   { label: 'Status', to: '/status', group: 'site' },
-  // outbound surfaces (npm link rides after 0.9.0 publishes; never before)
+  // outbound surfaces (the user's stance: npm presence is treated as live
+  // going forward; flip-page lands "very soon")
+  { label: 'npm', href: 'https://www.npmjs.com/package/eyestruct', group: 'out' },
   { label: 'Docs', href: 'https://docs.creadev.org/eyestruct/', group: 'out' },
   { label: 'GitHub', href: 'https://github.com/dhaupin/eyestruct', group: 'out' },
 ]

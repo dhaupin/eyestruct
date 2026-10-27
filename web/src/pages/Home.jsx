@@ -146,6 +146,10 @@ export default function Home() {
             A Node 20 CLI, no daemons, no background services of any kind.
           </p>
           <pre className="code"><span className="cm"># consumer path</span>{'\n'}<span className="k">npm</span> install --save-dev eyestruct{'\n'}{'\n'}<span className="cm"># contributor path (same install, from source)</span>{'\n'}<span className="k">git</span> clone https://github.com/dhaupin/eyestruct.git{'\n'}<span className="k">cd</span> eyestruct {'\n&&'} <span className="k">npm</span> ci --no-audit --no-fund</pre>
+          <p className="field-report">
+            Also on the <a href="https://www.npmjs.com/package/eyestruct">npm
+            package page</a> - same install, versions and registry metadata.
+          </p>
           <div className="cta-row">
             <a className="btn btn-primary" href={DOCS + '/start/'}>Getting started</a>
             <a className="btn btn-ghost" href={DOCS + '/playbooks/'}>Playbooks</a>
