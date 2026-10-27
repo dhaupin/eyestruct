@@ -583,3 +583,27 @@
   packs 30/30 honest, TRIFECTA: PASS with the release-cut row,
   conformance 8/8, lint:docs PASS. npm tarball dry-run re-verified:
   package 0.9.0, prepublishOnly = the full battery, 21 files.
+
+- **First publish attempt (2026-10-27, night) - the gate held, and it
+  caught a real battery bug.** The pip publish from a renderer-less
+  pocket terminal (Termux, optional native @resvg/resvg-js absent -
+  no prebuild for that platform) tripped `prepublishOnly` exactly as
+  designed: the working gate refused to publish from an environment
+  the battery cannot prove. The catch underneath: `raster` resolved
+  the renderer BEFORE reading the inputs, so on machines without the
+  optional renderer every stated-input refusal (missing file,
+  directory-as-input) answered MISSING_RENDER instead of
+  MISSING_INPUT - input refusals were machine-dependent, which no
+  hostile-input leg and no pack verdict may ever be. Fix is
+  product-order, not test-skips: raster reads/validates all stated
+  inputs FIRST (MISSING_INPUT), THEN judges renderer capability
+  (MISSING_RENDER - unchanged for valid inputs), THEN renders
+  (RASTER_BAD_XML). Verdicts are now deterministic across
+  environments; the battery leg expectations hold unchanged (50/42/0
+  here, renderer present). Receipts: npm test 50 tests / 42 pass / 0
+  fail, packs 30/30 honest, TRIFECTA: PASS, lint:docs PASS. Publish
+  guidance rides the reply: environments the battery cannot prove
+  (no optional native renderer) stay refused at publish - from a
+  machine with the devDeps installable (Linux/mac x64+arm64
+  prebuilds), or after npm test reports only the honest
+  browser-class skips here.
