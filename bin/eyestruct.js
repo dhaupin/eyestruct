@@ -6,6 +6,7 @@
 'use strict'
 
 const { fail, FailError } = require('../lib/reasons')
+const { version } = require('../package.json')
 
 const COMMANDS = {
   init: require('../lib/init'),
@@ -29,7 +30,9 @@ const COMMANDS = {
 }
 
 function usage() {
-  return `eyestruct v0.9.0 - eyes for production agents
+  // Version truth lives in package.json - a hardcoded string here would
+  // drift on the next bump (same trap the manifest pin already killed).
+  return `eyestruct v${version} - eyes for production agents
 
 Commands (each is one short process; the only surviving state is labs/.eyes/):
   init [--browser-image TAG] [--renderer resvg@V]   write labs/.eyes/manifest.yml + empty ledger

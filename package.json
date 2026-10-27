@@ -1,6 +1,5 @@
 {
   "name": "eyestruct",
-  "private": true,
   "version": "0.9.0",
   "description": "Eyes for production agents: deterministic look / look-diff with a committed visual memory (labs/.eyes/) that CI can gate. Process-per-look; the only surviving state is git state.",
   "license": "MIT",
@@ -9,6 +8,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhaupin/eyestruct.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dhaupin/eyestruct/issues"
   },
   "bin": {
     "eyestruct": "bin/eyestruct.js"
@@ -25,6 +27,7 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.js",
+    "prepublishOnly": "npm test && npm run check",
     "lint:docs": "node scripts/check-docs-frontmatter.cjs && node scripts/check-docs-links.cjs && node scripts/check-docs-style.cjs && node scripts/check-fiction-signatures.cjs && node scripts/check-jekyll-filters.cjs",
     "check": "npm run check:trifecta && npm run lint:docs && npm run packs && npm run lint:packs && npm run conform:packs",
     "check:trifecta": "node scripts/check-trifecta.cjs",

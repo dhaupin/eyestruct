@@ -114,6 +114,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   escapes the user query (self-XSS class, the q-interpolation catch).
   Receipts: 42 tests / 34 pass / 0 fail, battery + docs gates + hostile
   leg 52/52 all green.
+- The npm-publish pass (pre-0.9.0): `private` lifted so the package can
+  actually publish, `prepublishOnly` runs the battery (npm test &&
+  npm run check) before any tarball leaves, `bin/eyestruct.js` rides git
+  mode 100755, README carries the install section the docs ruling
+  promised (npm assumed live, not "coming soon"), `bugs` points at the
+  issue lane, and both version surfaces (`bin` usage line, MCP
+  SERVER_INFO) read from package.json instead of hardcoded strings.
+  Receipts: `npm pack --dry-run` = 20 files / 30.1 kB, exactly bin + lib
+  + LICENSE + README + CHANGELOG + manifest - the brain at
+  models/private/magpie, labs/, horcrux/, docs/, web/, packs/ all
+  excluded; npm test 42 tests / 34 pass / 0 fail; TRIFECTA: PASS.
 
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image

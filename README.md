@@ -17,6 +17,19 @@ eyestruct gate                                       # CI: exit 1 on unexplained
 eyestruct mcp                                        # stdio MCP surface, same calls as tools
 ```
 
+## Install
+
+```sh
+npm i -g eyestruct            # the CLI on your PATH
+# or in a repo whose battery calls the bin directly:
+npm i -D eyestruct@^0.9.0
+```
+
+The capture verbs (`look`, `diff`, `walk`, `ratify`) need a pinned chrome
+(`--browser-exec`, `EYESTRUCT_BROWSER`, the manifest pin, or the puppeteer
+cache this machine already fetched); the browserless lanes (`init`,
+`ledger`, `gate`, `adopt`, `raster`) never do.
+
 ## The spine
 
 | Layer | What it is |

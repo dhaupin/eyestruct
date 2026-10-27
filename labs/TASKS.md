@@ -1,5 +1,21 @@
 # eyestruct - rolling work log
 
+- **npm-publish pass (2026-10-27, late) - the gate before 0.9.0 on
+  npm.** The package surface walked, five fixes: (1) `private: true`
+  lifted - it refused publish outright; (2) `prepublishOnly` = npm test
+  && npm run check, so a dirty tree cannot pack through the battery;
+  (3) bin committed mode 100755 (was 644); (4) README gains the
+  Install section the ruling asked for (npm assumed live: `npm i -g
+  eyestruct` / dev install, plus the pinned-chrome note that
+  browserless lanes never need it); (5) version drift trap closed -
+  bin usage() and MCP SERVER_INFO now read package.json (the
+  manifest-pin lesson). Tarball audited via `npm pack --dry-run`:
+  20 files / 30.1 kB, bin + lib + LICENSE + README + CHANGELOG +
+  manifest ONLY - models/labs/horcrux/docs/web/packs excluded, so the
+  private brain cannot ride a publish. Docket: none new. Publish
+  itself stays manual from a dev machine behind the full battery
+  (the Planned block's ruling).
+
 - **Hardening pass, round 3 (2026-10-27, late) - the docket cleared +
   the web tier swept.** (1) bin dispatch: the value-flag guard now
   covers --browser-image/--renderer with the strict rule (a flag
