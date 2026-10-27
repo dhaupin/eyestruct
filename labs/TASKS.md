@@ -442,3 +442,22 @@
   visual canon block, committed pack-verdict lane — monoforge#12; the
   og/card + trifecta-walk blocks deliberately withheld under monoforge's own
   two-instance rule). Report hub: gistory#20. No code changed; filings only.
+
+- **Walk pass (2026-10-27, night) - the CI seam + the packledger write.**
+  Two fixes and one docket row from the bug/vuln walk: (1) all three
+  workflows pin their actions to commit SHAs resolved from source via
+  `git ls-remote` (checkout@11d5960a.../v4, setup-node@49933ea5.../v4,
+  cache@0057852b.../v4, upload-pages-artifact@fc324d35.../v5,
+  deploy-pages@d6db9016.../v4, setup-ruby@7f797815.../v1.335.0) - tag
+  pins were the one supply-chain class the house pulls convention
+  (pinned-SHA tools everywhere else) had not applied to its own CI;
+  version comments ride each pin so the next bump is a reviewed diff.
+  (2) `scripts/run-packs.cjs` writeLedger now writes the packledger
+  atomically (wx temp + rename, the lib/ledger.js appender recipe) - a
+  crash mid-adopt can no longer leave the committed verdict baseline
+  half-written. (3) Docket, named: bundle install's hash-then-extract is
+  a local TOCTOU (a tarball swapped between sha256File and tar would
+  earn a marker vouching for different bytes) - local-only, owned by
+  the same attacker-position argument as the decompression-bomb bound,
+  docket stays named. Family filing for the SHA-pin class rides the
+  next cross-file batch.

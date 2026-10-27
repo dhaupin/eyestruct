@@ -169,7 +169,18 @@ function compareAgainstLedger(rows, ledger, adopt) {
 function writeLedger(rows) {
   const rowsOut = rows.map((r) => ({ pack: r.pack, id: r.id, verdict: r.verdict, reason: r.reason }))
   fs.mkdirSync(path.dirname(LEDGER), { recursive: true })
-  fs.writeFileSync(LEDGER, JSON.stringify({ schemaVersion: 1, rows: rowsOut }, null, 2) + '\n')
+  // Atomic write, the same recipe lib/ledger.js's appender uses: a fresh
+  // 'wx' temp beside the target, then rename. The packledger is a committed
+  // baseline - a crash mid-write must never leave it half-written (a
+  // corrupt packledger currently fails LOUD at loadLedger, but losing the
+  // whole baseline over a density interrupt is avoidable, so it is avoided).
+  const tmp = `${LEDGER}.tmp-${process.pid}-${Math.random().toString(36).slice(2)}`
+  try {
+    fs.writeFileSync(tmp, JSON.stringify({ schemaVersion: 1, rows: rowsOut }, null, 2) + '\n', { flag: 'wx' })
+    fs.renameSync(tmp, LEDGER)
+  } finally {
+    try { fs.rmSync(tmp, { force: true }) } catch { /* already renamed or gone */ }
+  }
 }
 
 function fail(message) {
