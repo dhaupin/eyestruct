@@ -28,7 +28,7 @@
     "lint:docs": "node scripts/check-docs-frontmatter.cjs && node scripts/check-docs-links.cjs && node scripts/check-docs-style.cjs && node scripts/check-fiction-signatures.cjs && node scripts/check-jekyll-filters.cjs",
     "check": "npm run lint:docs && npm run packs && npm run lint:packs && npm run conform:packs",
     "packs": "node scripts/run-packs.cjs",
-    "lint:packs": "packstruct lint packs --deep",
+    "lint:packs": "node bin/eyestruct.js lint-packs --deep",
     "conform:packs": "packstruct audit-conformance . --loader \"node scripts/run-packs.cjs {packs}\"",
     "raster:gate": "node bin/eyestruct.js raster horcrux/*.svg",
     "build:web": "npm run build --prefix web",

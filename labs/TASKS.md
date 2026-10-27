@@ -58,6 +58,16 @@
   delivers it (E2BIG, raw OS stderr) - the first run mislabeled that as
   an exploit. Final state: packs 26 cases honest; crashtest 52/52
   REFUSED, 0 exploited, exit 0; npm test 15/0.
+- **Lint-lane pass (2026-10-27).** The packstruct lint lane became a real
+  verb: `eyestruct lint-packs [--deep] [--json] [--against <lib>] [dir]`
+  (mirrors crashtest's lint-packs, cli.js issue #32) - runs packstruct over
+  the repo's own install (node_modules/.bin first, then PATH), never
+  downloaded; missing packstruct -> PACKSTRUCT_MISSING exit 2 naming the
+  fix (explicitly requested lane = broken config, not a skip); exit codes
+  pass through verbatim; the packs ROOT is the default dir (the
+  packs/public footgun from gistory's first wiring is receipt-documented).
+  npm run lint:packs routes through the verb now. Both paths receipted:
+  green 3/3 packs + loud refusal with the install restored byte-identical.
 - **Landing pass (2026-10-26, evening) - the lock was the last drift.**
   The web rebrand rode main, but package-lock.json (58.7KB) never
   survived a text-lane carry: one transcription casualty on main (a

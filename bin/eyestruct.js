@@ -17,6 +17,10 @@ const COMMANDS = {
   raster: require('../lib/raster'),
   ratify: require('../lib/ratify'),
   walk: require('../lib/walk'),
+  // The packstruct passthrough: the pack lint lane as a discoverable verb
+  // (mirrors crashtest's lint-packs, issue #32) - the repo's own install,
+  // never downloaded, pass-through exit codes, loud refusal when absent.
+  'lint-packs': require('../lib/lint-packs'),
   // The MCP server owns the process lifetime until stdin closes - it reads
   // the transport stream directly, so it is a starter, not a per-call impl.
   // The MCP server runs until transport EOF; it owns the stream, the bin
@@ -34,6 +38,7 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   adopt <route/view> --note "..."    propose a baseline change (canon is CI-cut)
   ledger list [ROUTE] | show ID      read the memory
   gate                               CI job: exit 1 on unexplained labs/.eyes/ drift
+  lint-packs [--deep] [--json] [--against <lib>] [dir]  packstruct passthrough over the repo's own install
   raster [file...]                   strict parse + render + byte-size sanity
   walk <base-url>                    every route x viewport x theme, one pass
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
