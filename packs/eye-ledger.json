@@ -38,6 +38,12 @@
     },
     {
       "pack": "eye-shapes",
+      "id": "empty-verb-refused",
+      "verdict": "REFUSED",
+      "reason": "UNKNOWN_COMMAND"
+    },
+    {
+      "pack": "eye-shapes",
       "id": "gate-no-manifest",
       "verdict": "REFUSED",
       "reason": "MISSING_MANIFEST"
@@ -101,6 +107,16 @@
       "id": "browser-missing-refusal",
       "verdict": "REFUSED",
       "reason": "MISSING_PINNED_BROWSER"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "self-gate-passes",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "self-ledger-list-parses",
+      "verdict": "PASSED"
     },
     {
       "pack": "eye-shapes",

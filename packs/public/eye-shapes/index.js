@@ -49,6 +49,14 @@ const CASES = [
     },
   },
   {
+    id: 'empty-verb-refused',
+    attack: 'an empty-string verb improvises help instead of refusing (the crashtest-leg receipt)',
+    expect: { code: 1, reason: 'UNKNOWN_COMMAND' },
+    run(ctx, dir) {
+      return ctx.run([''], cwd(dir))
+    },
+  },
+  {
     id: 'gate-no-manifest',
     attack: 'gate runs blind without a manifest',
     expect: { code: 2, reason: 'MISSING_MANIFEST' },
@@ -189,6 +197,27 @@ const BROWSER_CLASS_CASES = [
   },
 ]
 
+/**
+ * Self-leg cases: the repo's own committed eye set (labs/.eyes) is canon
+ * this pack also defends - so it gets attacked here, read-only, from the
+ * tree root through the real CLI. No temp dirs, no seeds: the shipped
+ * baseline must pass its own gate, and the CLI must read its own ledger
+ * honestly. If the committed set ever drifts unexplained, these rows fail
+ * the campaign - the fix lands as a ledger row, not console archaeology.
+ */
+const SELF_CASES = [
+  {
+    id: 'self-gate-passes',
+    detail: 'gate over the committed labs/.eyes exits 0 - canon is explained',
+    args: ['gate'],
+  },
+  {
+    id: 'self-ledger-list-parses',
+    detail: 'ledger list over the committed set exits 0 with real rows, no stack frames',
+    args: ['ledger', 'list'],
+  },
+]
+
 function run(ctx) {
   const bounds = take(ctx, 'bounds')
   const browserBound = bounds['browser-class-in-ci']
@@ -214,6 +243,26 @@ function run(ctx) {
     if (ctx.dispose) ctx.dispose(dir)
   }
 
+  // The self-leg: read-only attacks on the repo's own canon. Same try/catch
+  // shape as the seeded battery; verdict PASSED (the defense held on real
+  // state) instead of REFUSED (a shell refused nothing - there was no shell).
+  for (const tc of SELF_CASES) {
+    try {
+      const out = take(ctx, 'run')(tc.args)
+      const stderr = String(out.stderr || '')
+      const bare = /(^|\n)\s*at /.test(stderr) || /eyestruct: internal error/.test(stderr)
+      if (out.code === 0 && !bare && String(out.stdout || '').trim().length > 0) {
+        rows.push({ pack: 'eye-shapes', id: tc.id, verdict: 'PASSED', detail: tc.detail })
+      } else {
+        ok = false
+        rows.push({ pack: 'eye-shapes', id: tc.id, verdict: 'EXPLOITED', expected: { code: 0, contract: 'named refusal or clean pass, never a stack trace' }, got: { code: out.code, stderr: stderr.slice(0, 200), stdoutLen: String(out.stdout || '').length } })
+      }
+    } catch (err) {
+      ok = false
+      rows.push({ pack: 'eye-shapes', id: tc.id, verdict: 'EXPLOITED', error: String(err && err.message).slice(0, 200) })
+    }
+  }
+
   // Browser-class rows: REFUSABLE only through the documented bound.
   if (!browserBound || !browserBound.owner || !browserBound.bound) {
     ok = false
@@ -227,4 +276,4 @@ function run(ctx) {
   return { ok, rows }
 }
 
-module.exports = { run, CASES, PKG, REQUIRED_KEYS }
+module.exports = { run, CASES, SELF_CASES, PKG, REQUIRED_KEYS }
