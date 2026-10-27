@@ -38,6 +38,7 @@ anything else refuses `UNKNOWN_COMMAND`.
 | `--json` | machine output (one JSON blob, machine-shaped) |
 | `--manifest PATH` | override the pin + route matrix location |
 | `--ledger PATH` | override the memory location; an explicit missing path refuses `LEDGER_MISSING` (the default home stays tolerant for fresh trees) |
+| `--version` | print the version and exit 0 (leading global: `eyestruct --version`; the truth is package.json, the same source usage() and the MCP SERVER_INFO read) |
 
 Both overrides accept the separated (`--ledger PATH`) and joined
 (`--ledger=PATH`) spellings - an empty value in either shape refuses

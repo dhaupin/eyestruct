@@ -48,19 +48,20 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
   mcp                                stdio MCP surface (same verbs as tools)
 
-Flags: --ledger PATH --manifest PATH --json
+Flags: --ledger PATH --manifest PATH --json --version
 `
 }
 
 // C1 carry (issue #3, from the retired gistory mount): global flags may
 // ride in FRONT of the verb too (`eyestruct --manifest X gate` dispatches
 // like `eyestruct gate --manifest X`). The leading window matches EXACTLY
-// the flags the dispatch owns - --ledger PATH, --manifest PATH, and the
-// boolean --json, separated form only - anything else leading still
+// the flags the dispatch owns - --ledger PATH, --manifest PATH, the
+// boolean --json, and --version (package.json is THE version truth, the
+// manifest-pin lesson), separated form only - anything else leading still
 // refuses UNKNOWN_COMMAND, so a typo can never silently reorder into a
 // verb's positional.
 const GLOBAL_VALUE_FLAGS = ['--ledger', '--manifest']
-const GLOBAL_BOOL_FLAGS = ['--json']
+const GLOBAL_BOOL_FLAGS = ['--json', '--version']
 
 function pullGlobalPrefix(argv) {
   const flags = []
@@ -92,8 +93,16 @@ async function main() {
   // A leading run of unknown leading tokens is hostile input, not a verb:
   // it refuses by name (the issue #3 receipts - `--bogus gate` and the
   // joined-empty `--ledger= gate` never reorder into a verb positional).
-  if (prefix && !prefix.flags.length && typeof cmd === 'string' && cmd.startsWith('--') && !(cmd === '--help' || cmd === '-h')) {
+  if (prefix && !prefix.flags.length && typeof cmd === 'string' && cmd.startsWith('--') && !(cmd === '--help' || cmd === '-h' || cmd === '--version')) {
     fail('UNKNOWN_COMMAND', `"${cmd}" is not a leading flag eyestruct knows`)
+  }
+  if (prefix && prefix.flags.includes('--version')) {
+    // --version is a leading global: the version truth lives in package.json
+    // (the manifest-pin lesson - usage() and MCP SERVER_INFO already read
+    // it). A trailing verb after --version is fine, like --help
+    // passthrough, so the check rides BEFORE the no-verb refusal.
+    process.stdout.write(require('../package.json').version + '\n')
+    process.exit(0)
   }
   // A leading run that consumed the whole argv without leaving a verb is
   // also hostile (`--manifest gate`): never improvise into usage()+exit 0.

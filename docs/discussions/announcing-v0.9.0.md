@@ -16,12 +16,13 @@ under gates, on npm like every other dev dependency.
 
 ## What ships
 
-- **Named refusals, not stack traces.** 25 reason-codes across the 0-1-2
+- **Named refusals, not stack traces.** 28 reason-codes across the 0-1-2
   exit contract: exit 1 means explained-drift trouble, exit 2 means
   capability trouble, and every nonzero exit names itself
   (`eyestruct[CODE]: explanation`). The full contract lives at
   [reason codes](/eyestruct/reasons).
-- **The eye polices itself.** 26 adversarial pack verdicts run against the
+- **The eye polices itself.** 30 adversarial pack verdicts across 4 packs
+  run against the
   real CLI, judged under the packstruct grammar with a committed
   packledger: refusals for unexplained drift, dangling rows, corrupt
   ledgers and manifests, note-less adopts, unsafe text - plus the

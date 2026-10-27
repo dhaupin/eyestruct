@@ -528,3 +528,34 @@
   GHOST_COMMIT FAIL pre-fix, and with the patched leg the SAME clone
   self-deepened (.git/shallow gone), verified the hash, PASS exit 0.
   Battery: check green end to end.
+
+- **Release dry-run + walk (2026-10-27, night) - the tars walked, two
+  catches fixed.** The npm tarball and the GitHub source archive were
+  produced and INSPECTED, not trusted: `npm pack` = 21 files (bin + 16
+  lib + LICENSE/README/CHANGELOG/package.json), bin committed mode
+  755, secret scan over the unpacked tree turns up only named-refusal
+  prose (zero keys, zero tokens, zero private/models content), and
+  `node bin/eyestruct.js` runs from the unpacked package (named
+  MISSING_MANIFEST on an empty tree). The GH source-archive simulation
+  (`git archive HEAD`) carries 174 entries, zero junk (no
+  logs/artifacts/node_modules/tarballs - the untracked scratch never
+  rides), manifestnof .gitattributes required; eyestruct-0.9.0.tgz
+  itself was deleted after inspection. Two catches from the same
+  walk: (1) the CLI had no `--version` - a package CLI every consumer
+  probes, refusing as UNKNOWN_COMMAND while package.json is already
+  the version truth; `--version` is now a leading global (leading
+  window = --ledger/--manifest/--json/--version, package.json printed
+  and exit 0, trailing verb tolerated like --help passthrough), usage
+  fence + docs/cli.md flag table + a battery leg (bare, exact
+  package.json equality, trailing verb, hostile-window still
+  refuses). (2) The staged release post
+  docs/discussions/announcing-v0.9.0.md cited stale pre-bundle-lane
+  counts (25 reason-codes / 26 pack verdicts) against a tree that
+  ships 28 / 30 across 4 packs - the paper-lie class the trifecta
+  guards everywhere else, caught here by the release dry-run reading
+  the post against the tree; counts corrected. One honest correction
+  rode the edit pass: the first --version ordering draft swallowed a
+  guard line and closed brace, and the full battery named it loudly
+  (31 stale-red) - the cause was found and the leg order restored
+  before the rerun. Battery: 50 tests / 42 pass / 0 fail, packs 30/30
+  honest, check green, conformance 8/8, lint:docs PASS.

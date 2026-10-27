@@ -315,6 +315,28 @@ test("C1 carry: leading global flags dispatch the verb (issue #3's probe receipt
   assert.match(helpAfter.stdout, /eyestruct v/)
 })
 
+test('--version is a leading global: package.json stays the single version truth', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+
+  const bare = run(['--version'], dir)
+  assert.strictEqual(bare.code, 0, 'got: ' + bare.stderr)
+  assert.match(bare.stdout.trim(), /^\d+\.\d+\.\d+$/, 'a bare dotted semver, nothing else - got: ' + JSON.stringify(bare.stdout))
+
+  const pkg = require('../package.json')
+  assert.strictEqual(bare.stdout.trim(), pkg.version, 'the printed version equals package.json exactly (the manifest-pin lesson, one truth source)')
+
+  // A trailing verb after --version is fine, like --help passthrough.
+  const withVerb = run(['--version', 'gate'], dir)
+  assert.strictEqual(withVerb.code, 0)
+  assert.match(withVerb.stdout.trim(), /^\d+\.\d+\.\d+$/)
+
+  // The hostile leading-token window still refuses everything else.
+  const bogus = run(['--bogus-version', 'gate'], dir)
+  assert.strictEqual(bogus.code, 1)
+  assert.match(bogus.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
+})
+
 // -- Wired engine seam (the pinned browser landed). These use the exec the
 // machine already has cached; if it is absent the tests skip honestly.
 
