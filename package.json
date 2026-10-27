@@ -38,6 +38,7 @@
     "@resvg/resvg-js": "^2.6.2"
   },
   "devDependencies": {
+    "freestruct": "^1.1.0",
     "packstruct": "1.0.0"
   },
   "dependencies": {
