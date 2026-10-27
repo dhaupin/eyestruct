@@ -27,6 +27,6 @@ Working policies (seed; the brain grows these by working):
   docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`
   (manual dispatch, the only baseline cutter). Reference docs live at
   docs/cli and docs/mcp; the reference post in docs/discussions.
-- Receipts to cite: 27 reason-codes (lib/reasons.js), 26 pack verdicts
+- Receipts to cite: 28 reason-codes (lib/reasons.js), 26 pack verdicts
   (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
   the two ship receipts (labs/TASKS.md 2026-10-27 entry).

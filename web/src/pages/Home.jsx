@@ -12,7 +12,7 @@
  * cites it (the discussions-index claim inventory holds the same list):
  * 26 pack cases / 3 packs (packs/eye-ledger.json, scripts/run-packs.cjs),
  * the seeded 52/52 crashtest leg (labs/crashledger.json baseline),
- * 27 named reason-codes (lib/reasons.js), the two-dispatch canon lane
+ * 28 named reason-codes (lib/reasons.js), the two-dispatch canon lane
  * (.github/workflows/eyes-ratify.yml).
  */
 import { Link } from 'react-router-dom'

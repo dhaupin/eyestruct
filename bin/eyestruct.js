@@ -49,10 +49,6 @@ Flags: --ledger PATH --manifest PATH --json
 `
 }
 
-function posArg(argv) {
-  return argv.find((a) => !a.startsWith('--'))
-}
-
 async function main() {
   const argv = process.argv.slice(2)
   const cmd = argv[0]
@@ -75,17 +71,30 @@ async function main() {
   // never a "use the default": the falsy-empty fallback would silently
   // point the verb at the tree home instead of the stated one (the
   // crashtest leg's receipt - `--ledger=` used to exit 0 reading nothing).
-  for (const flag of ['--manifest', '--ledger']) {
+  const VALUE_FLAGS = ['--manifest', '--ledger', '--browser-image', '--renderer']
+  for (const flag of VALUE_FLAGS) {
     // Both spellings: the separated form (--ledger PATH) and the joined
     // form (--ledger=PATH) - the crashtest flood used the joined form and
     // the first guard missed it entirely (same batch, same improvisation).
     const joined = args.find((a) => a.startsWith(flag + '='))
     if (joined && joined.slice((flag + '=').length) === '') {
-      fail('BAD_FLAG_VALUE', `${flag} carries an empty value - give it a path or drop the flag`)
+      fail('BAD_FLAG_VALUE', `${flag} carries an empty value - give it a value or drop the flag`)
     }
     const i = args.indexOf(flag)
-    if (i !== -1 && (args[i + 1] == null || args[i + 1] === '')) {
-      fail('BAD_FLAG_VALUE', `${flag} is present but carries an empty value - give it a path or drop the flag`)
+    if (i !== -1) {
+      const v = args[i + 1]
+      if (v == null || v === '') {
+        fail('BAD_FLAG_VALUE', `${flag} is present but carries an empty value - give it a value or drop the flag`)
+      }
+      // A flag cannot occupy the next flag's value slot: `init
+      // --browser-image --renderer r:1` used to write the PIN as
+      // "--renderer" (the hardening round-2 receipt). The init-only flags
+      // get the strict rule here; elsewhere (--viewport/--theme/--region)
+      // a flag-looking value already fails later by name (BAD_VIEWPORT,
+      // BAD_THEME, NO_BASELINE...).
+      if (v === true || String(v).startsWith('--')) {
+        fail('BAD_FLAG_VALUE', `${flag} needs a value - the next token is the flag "${v}"`)
+      }
     }
   }
   // The host-owned locations, now one shape: eyestruct keeps its own eyes at

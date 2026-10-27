@@ -102,6 +102,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and runs before the broad permalink check. Two new behavior legs
   (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
 
+  (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
+- Round three cleared the docket: a flag can no longer occupy another
+  flag's value slot (`init --browser-image --renderer r:1` used to write
+  the pin as "--renderer" - BAD_FLAG_VALUE now, nothing written); a flag
+  in the `--note` slot refuses as ADOPT_NOTE_REQUIRED instead of landing
+  "--wave" inside the note; `ledger show` splits its misses honestly -
+  no id is UNKNOWN_COMMAND, a wrong id is the new `ROW_MISSING` code (28
+  codes, exit 1) instead of borrowing DANGLING_ROW's name; the bin's
+  dead posArg is gone; and the docs search overlay's innerHTML sink
+  escapes the user query (self-XSS class, the q-interpolation catch).
+  Receipts: 42 tests / 34 pass / 0 fail, battery + docs gates + hostile
+  leg 52/52 all green.
+
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image
   (dispatch `eyes-ratify`); the proposals ride `ratified:false` until then.

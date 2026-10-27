@@ -1,5 +1,26 @@
 # eyestruct - rolling work log
 
+- **Hardening pass, round 3 (2026-10-27, late) - the docket cleared +
+  the web tier swept.** (1) bin dispatch: the value-flag guard now
+  covers --browser-image/--renderer with the strict rule (a flag
+  occupying the next flag's slot refuses BAD_FLAG_VALUE - nothing is
+  written; the `init --browser-image --renderer r:1` receipt) and the
+  dead posArg is gone. (2) adopt: a flag in the --note slot refuses
+  ADOPT_NOTE_REQUIRED (a flag-looking note used to land inside the row,
+  and the token also tripped the wave branch). (3) ledger: show's
+  misses split honestly - no id is UNKNOWN_COMMAND (shape), a wrong id
+  is ROW_MISSING (28th code, exit 1; the lookup-miss name), DANGLING_ROW
+  stays for git-nolonger-has artifacts only; mirrored in the MCP
+  ledger_show. (4) docs layout: the pagefind overlay interpolated the
+  user's query into innerHTML raw (self-XSS class); esc() now guards
+  both q sites; index-owned title/url/excerpt ride raw by design
+  (pagefind's excerpt HTML). (5) counts honest everywhere: 28 codes in
+  lib/reasons.js, docs/reasons.md, AGENTS, web Home inventory;
+  trifecta leg enforced the agreement. Battery: npm test 42 tests / 34
+  pass / 0 fail (8 honest skips), npm run check green end to end, host
+  leg 52/52 REFUSED 0 new 0 regressed, and the receipt ledgers went
+  untouched by the refusals' new wording.
+
 - **Hardening pass, round 2 (2026-10-27, late) - the un-swept seams.**
   (1) `lib/raster.js`: a stated input missing or unreadable escaped the
   bare readFileSync as raw ENOENT/EISDIR, reaching the bin's generic

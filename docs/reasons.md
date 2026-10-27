@@ -53,6 +53,7 @@ error instead of killing the whole runner.
 | `UNSAFE_TEXT` | a text field carries a control character that would poison downstream readers |
 | `UNSAFE_PATH` | a ledger artifact path escapes the eyes home - paths are eyes-relative, never absolute, never carrying `..` segments |
 | `NO_BASELINE` | no committed baseline to diff against - capture with `look` then `adopt` |
+| `ROW_MISSING` | no ledger row carries the stated id - a lookup miss, not a dangling artifact reference |
 | `BAD_FLAG_VALUE` | the flag is present but carries an empty value - give it a value or drop the flag |
 | `BAD_VIEWPORT` | viewport must be WxH within the sane range |
 | `BAD_THEME` | theme must be dark or light |

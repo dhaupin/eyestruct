@@ -52,6 +52,38 @@ test('seed the default repo state in the manifest + empty ledger', () => {
   assert.strictEqual(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8').trim(), '[]')
 })
 
+test('the init flag trap: a flag cannot occupy the next flag\'s value slot (BAD_FLAG_VALUE, nothing written)', () => {
+  const dir = tmpdir()
+  const r = run(['init', '--browser-image', '--renderer', 'r:1'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(r.stderr, /--renderer/)
+  assert.strictEqual(fs.existsSync(path.join(dir, 'labs/.eyes', 'manifest.yml')), false, 'the refusal must not leave a pin behind')
+})
+
+test('adopt refuses a flag occupying the --note slot (ADOPT_NOTE_REQUIRED, no row)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const r = run(['adopt', 'home/c.png', '--note', '--wave'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /ADOPT_NOTE_REQUIRED/)
+  const rows = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
+  assert.strictEqual(rows.length, 0, 'no row written with a flag as its note')
+})
+
+test('ledger show without an id is a shape refusal, and a wrong id is ROW_MISSING (not DANGLING_ROW)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const noId = run(['ledger', 'show'], dir)
+  assert.strictEqual(noId.code, 1)
+  assert.match(noId.stderr, /UNKNOWN_COMMAND/)
+  assert.match(noId.stderr, /row id/)
+  const miss = run(['ledger', 'show', 'row-9999'], dir)
+  assert.strictEqual(miss.code, 1)
+  assert.match(miss.stderr, /eyestruct\[ROW_MISSING\]/)
+  assert.ok(!/DANGLING_ROW/.test(miss.stderr), 'a lookup miss must not borrow the dangling-artifact name')
+})
+
 test('gate passes on a fully explained seeded tree', () => {
   const dir = tmpdir()
   run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
