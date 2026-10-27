@@ -2,8 +2,12 @@
 
 PRD draft. Stage-1 planning stone, same shape as `prd-crashtest.md` was at
 launch: this file is the seed a NEW repo and its own brain will open from.
-Nothing here is implemented. Owned by rook; every claim below is either a
-lived receipt from working in this fleet or sourced at first use.
+AMENDED 2026-10-27 — the seed sprouted: the repo exists (dhaupin/eyestruct),
+the CLI spine ships, and "nothing here is implemented" is true no more —
+see **State of build (2026-10-27)** near the end for the shipped/remaining
+ledger; the original sections below read as the plan that got it there.
+Owned by rook; every claim below is either a lived receipt from working in
+this fleet or sourced at first use.
 
 ## The name
 
@@ -320,7 +324,93 @@ Ship gate is two assertions, both first-person:
 - CI: the ledger gate is a normal job (diff .eyes/, fail on unexplained
   rows) — same shape crashtest's ledger gate already runs in gistory CI.
 
-## Transfer notes (fleet ritual)
+## State of build (2026-10-27)
+
+The transfer stone landed here and grew. Read this as the shipped/remaining
+ledger against the MVP cut; every "done" row has a receipt in-tree, and the
+remaining rows are ordered by what unblocks the ship receipts.
+
+### Shipped
+
+- **The repo is named and mounted.** Product `eyestruct` (repo
+  `dhaupin/eyestruct`, docs `docs.creadev.org/eyestruct`, package page
+  cited as live per dhaupin's standing call), agent magpie — the naming
+  split above held, and the flowforge rig is the known-good baseline it
+  rides (rig receipts in labs/TASKS.md, one entry per pass).
+- **The CLI surface is past "draft":** it shipped — every verb the
+  "CLI surface (draft)" section names is live, plus `ratify` (the canon
+  cut) and `lint-packs` (the packstruct wrapper, never a download). The
+  exit contract in place: a named reason-code on every nonzero exit — 25
+  of them in `lib/reasons.js`, mirrored on the docs reasons page, and the
+  crashtest leg verified the sharpenings (empty verb → `UNKNOWN_COMMAND`,
+  joined `--ledger=` → `BAD_FLAG_VALUE`, explicit missing `--ledger`
+  → `LEDGER_MISSING`, exit 2).
+- **The engine seam is wired.** `lib/engine.js` drives the PINNED chrome
+  through puppeteer-core — `--browser-exec / EYESTRUCT_BROWSER /
+  manifest pin / ~/.cache/puppeteer cache` discovery in that order, and
+  `MISSING_PINNED_BROWSER` names all four candidates when none is found.
+  One capture pass produces annotations + a11y map from the same pixels
+  (the "one capture, many artifacts" ruling, in code).
+- **Two-dispatch canon runs as a workflow.** `.github/workflows/
+  eyes-ratify.yml` (manual dispatch) reads the pin out of the manifest,
+  reproduces every route in the pinned env, cuts byte-identical canon via
+  append-only ratify rows, and its adopt-on-drift bootstrap promotes
+  pinned-env captures through walk → slots → adopt rows. Local pixels are
+  proposals; CI disposes.
+- **The eye polices itself, twice over.** Three self packs under
+  `packs/public/` (`eye-shapes`, `eye-ci-gate`, `eye-text-leg`), 26
+  committed verdicts in `packs/eye-ledger.json`, packstruct lint +
+  conformance riding `npm run check`; the crashtest leg in `test.yml`
+  fires 52 hostile attacks (argv batches, MCP stdio frames, 6 hostile
+  ledger variants, seed `0xE1E5`) — 52/52 REFUSED, 0 exploited, and a
+  three-contract sharpening ride proves the leg earns its keep.
+- **The MCP surface is real.** The stdio server answers JSON-RPC with 9
+  tools (look, diff, adopt, ratify, ledger_list, ledger_show, gate,
+  raster, walk) and structured errors for unknown methods — the CLI is
+  the contract, the server is its decoding, and hostile frames are among
+  the 52 the crashtest leg already refuses.
+- **The eye home is a host decision, kept.** `labs/.eyes/` is the default
+  (manifest + committed ledger live there now), `--manifest/--ledger`
+  re-pointing is wired everywhere, and the amendment to the memory law
+  section above reflects what shipped.
+- **The docs rig + the web double.** 17 lint-gated docs pages (start, cli,
+  reasons, packs, ci, 7 playbooks, discussions with the release-post
+  system + its first post `announcing-v0.9.0`), and the landing site with
+  `/packs` + `/status` routes whose live numbers fetch the same committed
+  ledgers a fresh session reads.
+
+### Remaining (ordered to unblock the ship receipts)
+
+1. **MVP 5 in the CI battery, not just in-tree.** The raster gate is a
+   verb but does not ride `test.yml` yet — a docs-art + icon set leg
+   (`raster` over `docs/icon.svg`, `web/public/icon.svg`, `labs/.eyes/`
+   renderables) turns the dogfood ruling into a CI leg, not a habit.
+2. **The two first-person ship receipts.** The engine, ledger and gate
+   exist; the receipts don't have sessions yet:
+   - a UI edit that breaks pixels while DOM collectors stay green gets
+     CAUGHT by `eyestruct gate` (the og-image founding receipt,
+     reproduced on a live surface — gistory is still the obvious first
+     client);
+   - a FRESH session answers a visual question from `labs/.eyes/` with
+     no browser open (the memory receipt).
+3. **The 0.9.0 bootstrap publish.** The one-time manual publish from a
+   dev machine behind the full gate (per the release-system block above;
+   package page already cited as live per house style — the receipt
+   chase makes it true).
+4. **Churn-wave ledger rows.** The one-note-explains-N-image-changes
+   ruling has no row type in `lib/ledger.js` yet — it lands with
+   the first real capture wave, which is the conversation that proves
+   what shape the row wants.
+5. **Family sequencing stays the fleet's call.** Poststruct first ships
+   per the 2026-10-25 ordering; eyestruct's finishing order above is
+   independent of it.
+
+The PRD's invariant survives contact with the build so far: every refusal
+that exists now is named; the only state that survives between looks is
+`labs/.eyes/`; every claim above has a receipt riding the tree. The two
+ship receipts in item 2 are the first ones worth having — everything else
+served them.
+
 
 - New repo, own brain (identity/goals/lessons/structure), horcrux at v0.
 - Branch: the posse pattern — dhaupin creates repo, agent builds on agent
