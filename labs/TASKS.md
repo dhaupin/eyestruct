@@ -510,3 +510,21 @@
   UNSAFE_PATH-class battery legs already own the refusal contract the
   tool now reuses. Battery: 49 tests / 41 pass / 0 fail (8 honest
   skips), packs 30/30 honest, check green, conformance 8/8.
+
+- **Issue #6 closed (2026-10-27, night) - the freshness leg self-heals
+  shallow checkouts.** An external report weisync filed the live catch:
+  gistory's depth-1 consumer clone answered the trifecta's history
+  probes falsely (GHOST_COMMIT for e4a73ac, a real commit - gistory CI
+  run 367 is the receipt; their side took fetch-depth: 0, but the
+  battery's verdict must not depend on each consumer's clone depth).
+  Fix, their recommended shape: step 7 detects `.git/shallow`, deepens
+  ONCE via `git fetch --unshallow origin`, a refused deepen names
+  SHALLOW_CLONE and skips the per-hash probes (no noisy ghost rows
+  stacked under the one row that names the real cause); a non-shallow
+  repo's path is byte-identical in behavior and cost. Agents.md's
+  battery bullet carries the clone-depth contract for the next
+  consumer wiring. Receipts: full-clone check zero-drift + TRIFECTA
+  PASS; a real depth-1 clone of main reproduced the exact
+  GHOST_COMMIT FAIL pre-fix, and with the patched leg the SAME clone
+  self-deepened (.git/shallow gone), verified the hash, PASS exit 0.
+  Battery: check green end to end.

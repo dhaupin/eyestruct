@@ -29,7 +29,11 @@ Working policies (seed; the brain grows these by working):
   `docs.yml` (Jekyll + freestruct + pagefind -> Pages at
   docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`
   (manual dispatch, the only baseline cutter). Reference docs live at
-  docs/cli and docs/mcp; the reference post in docs/discussions.
+  docs/cli and docs/mcp; the reference post in docs/discussions. The
+  freshness leg's history probes carry a clone-depth contract
+  (eyestruct#6): a shallow checkout self-deepens once, a refused
+  deepen names SHALLOW_CLONE and skips the probes - consumers never
+  need fetch-depth 0 to get an honest verdict.
 - Receipts to cite: 28 reason-codes (lib/reasons.js), 30 pack verdicts
   (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
   the bundle lane receipts (lib/bundle.js; offline executor, integrity

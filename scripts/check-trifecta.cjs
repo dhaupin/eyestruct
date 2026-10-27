@@ -202,12 +202,27 @@ function runTri({ root }) {
     if (!missing) pass('CHANGELOG paths: every Unreleased-cited artifact exists on disk')
   }
 
-  // 7. cited commit hashes exist in history (skipped without .git)
+  // 7. cited commit hashes exist in history (skipped without .git).
+  // Clone-depth contract (eyestruct#6): a depth-1 consumer clone answers
+  // every history probe falsely (GHOST_COMMIT for real commits), so a
+  // shallow checkout self-deepens ONCE before verifying. A refused deepen
+  // is a NAMED stale row - never a silent skip, never a fake pass.
   if (fs.existsSync(path.join(rootPath, '.git')) && changelog != null) {
+    let unstated = false
+    if (fs.existsSync(path.join(rootPath, '.git', 'shallow'))) {
+      const deepen = require('node:child_process').spawnSync('git', ['fetch', '--unshallow', 'origin'], { cwd: rootPath, encoding: 'utf8' })
+      if (deepen.status !== 0) {
+        stale.push('STALE (SHALLOW_CLONE) .git is shallow and auto-unshallow refused; receipt hashes unverifiable')
+        // Skip the per-hash probes: a depth-1 history answers every probe
+        // falsely, so running them would only stack noisy GHOST_COMMIT rows
+        // under the one row that names the real cause.
+        unstated = true
+      }
+    }
     const hashes = new Set()
     for (const m of unreleasedSlice(changelog).matchAll(/`([0-9a-f]{7,40})`/g)) hashes.add(m[1])
     let missing = 0
-    for (const h of hashes) {
+    for (const h of unstated ? new Set() : hashes) {
       const r = require('node:child_process').spawnSync('git', ['cat-file', '-e', `${h}^{commit}`], { cwd: rootPath })
       if (r.status !== 0) {
         stale.push(`STALE (GHOST_COMMIT) cited hash ${h} is not in this repo's history`)
