@@ -420,3 +420,18 @@
   instead. Origin blob == disk blob (3518984fec0d90796a06206a85ff2e92c1
   cf874c): package.json + package-lock.json now agree on the eyestruct
   name, and `npm ci` stays hermetic.
+
+- **poststruct/monoforge integration survey (2026-10-27).** Read both PRD
+  seeds end to end against what eyestruct ships. Verdicts: nothing in-tree
+  is owed to either spec (pack layout conforms — packstruct audit-conformance
+  8/8; text-gates-first already encoded as eye-text-leg; the receipt-hall
+  paper-lie classes the shapes would check are what the trifecta leg already
+  enforces); no new pack for eyestruct's own runner is warranted, because
+  eye-text-leg already IS the poststruct integration pack. Two third-instance
+  asks filed from the survey: `eyestruct-shapes` on poststruct's shapes
+  catalog (7 pure file-check ids; poststruct#19 — the catalog had rows for
+  wp/jekyll/gatsby/hugo/eleventy/nextjs/docs-suite/vant but none for the
+  .eyes canon family), and two monoforge template-block extractions (.eyes
+  visual canon block, committed pack-verdict lane — monoforge#12; the
+  og/card + trifecta-walk blocks deliberately withheld under monoforge's own
+  two-instance rule). Report hub: gistory#20. No code changed; filings only.
