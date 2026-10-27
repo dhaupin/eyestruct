@@ -228,6 +228,22 @@ test('raster catches invalid XML with a named code (the unrenderable-stone recei
   assert.match(r.stderr, /RASTER_BAD_XML/)
 })
 
+test('MISSING_INPUT: a stated input that does not exist is a named refusal (exit 2), not the internal-error fallback', () => {
+  const dir = tmpdir()
+  const r = run(['raster', path.join(dir, 'ghost.svg')], dir)
+  assert.strictEqual(r.code, 2)
+  assert.match(r.stderr, /eyestruct\[MISSING_INPUT\]/)
+  assert.match(r.stderr, /ghost\.svg/)
+  assert.ok(!/internal error/.test(r.stderr), 'never the generic fallback anymore')
+})
+
+test('MISSING_INPUT: a stated input that is a directory refuses by name too', () => {
+  const dir = tmpdir()
+  const r = run(['raster', dir], dir)
+  assert.strictEqual(r.code, 2)
+  assert.match(r.stderr, /eyestruct\[MISSING_INPUT\]/)
+})
+
 test('--help prints usage and exits 0', () => {
   const r = run(['--help'], tmpdir())
   assert.strictEqual(r.code, 0)

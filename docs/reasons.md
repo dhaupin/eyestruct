@@ -37,6 +37,7 @@ error instead of killing the whole runner.
 | `LEDGER_MISSING` | the stated `--ledger` path does not exist - run init or point at a real ledger file |
 | `MISSING_PINNED_BROWSER` | the pinned browser is not installed on this machine |
 | `MISSING_RENDER` | no raster renderer available (install the optional @resvg/resvg-js package) |
+| `MISSING_INPUT` | a stated input file does not exist or is not readable (the `LEDGER_MISSING` shape, for artifact inputs) |
 | `PACKSTRUCT_MISSING` | packstruct is not installed in this repo - the pack lint lane never downloads one at request time |
 | `MCP_POST_MVP` | the MCP surface lands after the CLI receipts are proven |
 

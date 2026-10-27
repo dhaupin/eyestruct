@@ -1,5 +1,28 @@
 # eyestruct - rolling work log
 
+- **Hardening pass, round 2 (2026-10-27, late) - the un-swept seams.**
+  (1) `lib/raster.js`: a stated input missing or unreadable escaped the
+  bare readFileSync as raw ENOENT/EISDIR, reaching the bin's generic
+  internal-error fallback instead of a named reason - now `MISSING_INPUT`
+  (27th code, exit 2; the LEDGER_MISSING shape for artifact inputs),
+  with two new smoke legs (missing file, directory-as-input). (2) The
+  ported docs linters still wore crashtest's labels and the link
+  checker's doubled-prefix rule pointed at `/crashtest/crashtest` (dead
+  here); labels cleaned and the rule is real now - `/eyestruct/
+  eyestruct/...` refused by name, evaluated BEFORE the broad permalink
+  check (a first-draft placement had it after, unreachable - caught on
+  re-read). (3) Docket, unchanged: bin's `posArg` is dead code;
+  `init --browser-image` followed by another flag reads that flag as its
+  value (the --manifest/--ledger guards do not cover init flags);
+  `ledger show` without an id answers DANGLING_ROW-shaped text for a
+  missing row; raster with a symlinked input stays resvg's own verdict.
+  CI on the hardening push (b64754c) ran green end to end (test + docs
+  lanes); crashledger receipt upgraded in the same window: the
+  stdio-flood leg now records 8 named responses to 8 frames (the two
+  crash frames answer since the transport fix). Battery: npm test 39
+  tests / 31 pass / 0 fail (8 honest skips), npm run check green with
+  the 27-code trifecta agreement.
+
 - **Hardening pass (2026-10-27, late) - the adversarial walk landed its
   fixes.** The repo-wide sweep found five edges; four are now code, one
   is docket noise (the ratify lane's unpinned `npx http-server`). (1)

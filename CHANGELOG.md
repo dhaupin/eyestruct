@@ -91,6 +91,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   campaign 26/26, and 5 new behavior legs in `tests/smoke.test.js`
   (temp dirs, no network).
 
+  (temp dirs, no network).
+- Round two of the walk swept the seams round one did not: a stated
+  raster input that does not exist or is unreadable now refuses with the
+  named code `MISSING_INPUT` (27 codes, exit 2 - the `LEDGER_MISSING`
+  shape for artifact inputs) instead of falling out as the generic
+  internal-error fallback; the two ported docs linters stop wearing
+  crashtest's labels, and the link checker's doubled-site-prefix rule is
+  now real for this repo (`/eyestruct/eyestruct/...` refused by name)
+  and runs before the broad permalink check. Two new behavior legs
+  (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
+
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image
   (dispatch `eyes-ratify`); the proposals ride `ratified:false` until then.
