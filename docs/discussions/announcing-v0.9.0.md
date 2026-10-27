@@ -39,9 +39,17 @@ under gates, on npm like every other dev dependency.
 - **`lint-packs` is a verb.** `eyestruct lint-packs` runs packstruct over
   your own install - never a download - and passes failures through with
   their exit codes intact.
-- **Honest seams.** `look`, `diff`, and `walk` declare their engine seam:
-  until the pinned browser image is present they refuse with a named
-  reason-code rather than fake anything.
+- **The vendored browser lane.** A runner that cannot fetch chrome on
+  demand carries the capture stack in a checksummed bundle instead:
+  `init --browser-bundle TARBALL` hashes the tarball (sha256 in the
+  manifest pin records `bundle@<sha16>`), extracts through the same open
+  file description it hashed (a swapped tarball cannot earn a marker
+  that vouches for different bytes), and captures resolve offline inside
+  the pin - executor order: `--browser-exec` / `EYESTRUCT_BROWSER` / pin
+  / bundle / cache / refusal.
+- **Honest seams.** `look`, `diff`, `walk`, and `ratify` capture for real
+  through the pinned browser (a live engine seam), and refuse with named
+  reason-codes when the pin is absent rather than fake anything.
 
 ## Install
 

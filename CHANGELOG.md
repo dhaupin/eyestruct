@@ -5,9 +5,11 @@ All notable changes to eyestruct will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.0] - 2026-10-27
 
-### Added (2026-10-27)
+The release cut: the npm tarball lands this tree exactly as shown. Below, two dated halves that ride the same version because nothing between them published - the catch-up rows (folded pre-publish from the Unreleased block) and the staging-era spine. The gistory staging ecosystem is cited history (the STANDING AMENDMENT, 2026-10-27): eyestruct follows no other repo from here.
+
+### Added (2026-10-27, the catch-up)
 - The capture seam is live: `lib/engine.js` drives the PINNED chrome through
   puppeteer-core (`--browser-exec` / `EYESTRUCT_BROWSER` / manifest pin /
   puppeteer-cache discovery, in that order) - `look`, `diff`, `walk`, and
@@ -71,8 +73,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Packs, docs/packs.md, og-image card regenerated at 30).
 
 ### Changed (2026-10-27)
-
-### Changed (2026-10-27)
 - The web + docs shell re-skinned off the template periwinkle, through
   petrol-night/pale-sea (spec cross-filed to flowforge#18) to the shipped
   pair, jade on graphite: warm graphite dark (#121011) + parchment light
@@ -121,8 +121,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `labs/crashledger.json` stays 52/52 REFUSED (0 new, 0 regressed), pack
   campaign 26/26, and 5 new behavior legs in `tests/smoke.test.js`
   (temp dirs, no network).
-
-  (temp dirs, no network).
 - Round two of the walk swept the seams round one did not: a stated
   raster input that does not exist or is unreadable now refuses with the
   named code `MISSING_INPUT` (27 codes, exit 2 - the `LEDGER_MISSING`
@@ -131,8 +129,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   crashtest's labels, and the link checker's doubled-site-prefix rule is
   now real for this repo (`/eyestruct/eyestruct/...` refused by name)
   and runs before the broad permalink check. Two new behavior legs
-  (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
-
   (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
 - Round three cleared the docket: a flag can no longer occupy another
   flag's value slot (`init --browser-image --renderer r:1` used to write
@@ -157,20 +153,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   models/private/magpie, labs/, horcrux/, docs/, web/, packs/ all
   excluded; npm test 42 tests / 34 pass / 0 fail; TRIFECTA: PASS.
 
-### Planned
-- CI ratify cuts the receipt-baseline proposals canon in the pinned image
-  (dispatch `eyes-ratify`); the proposals ride `ratified:false` until then.
-- The 0.9.0 bootstrap publish: manual publish from a dev machine behind the
-  full battery, then trusted publishing from the 1.0.0 tag onward.
+### Still ahead
+- The first canon dispatch (`eyes-ratify`): the proposals already ride
+  `ratified:false`, and the pinned-image dispatch is its own event (the
+  issue-triage rider).
+- Trusted publishing from the 1.0.0 tag onward (the manual ladder covers
+  the 0.x line only).
 
-## [0.9.0] - 2026-10-26
+### The spine (2026-10-26, the staging-era cut)
 
 The first cut, grown in the gistory staging ecosystem end to end
 (eyestruct-staging mount, its own nested git history, tar-ferry
 provenance). Receipts: `labs/TASKS.md` in-repo; the vaulted PRD rides
-the family horcrux.
+the family horcrux. Folded verbatim as history - the release-date row above carries the publish moment.
 
-### Added
+#### Added
 - CLI spine per the PRD (`labs/prd-eyes.md`): `bin/eyestruct.js` dispatch
   over `lib/` with the exit contract 0-1-2 and a named code on every
   refusal - diagnostics carry reasons, never bare crashes ("NO
@@ -200,7 +197,7 @@ the family horcrux.
 - `package.json` + `package-lock.json` agree on the eyestruct name; the
   lock landed byte-exact (origin blob 3518984fe... == disk).
 
-### Notes
+#### Notes
 - 0.9.x is the manual release ladder at move time; the family publish
   workflow refuses 0.x tags, and 1.0.0 flips trusted publishing.
 - docs voice law survived the write: locations and surfaces state facts

@@ -559,3 +559,27 @@
   (31 stale-red) - the cause was found and the leg order restored
   before the rerun. Battery: 50 tests / 42 pass / 0 fail, packs 30/30
   honest, check green, conformance 8/8, lint:docs PASS.
+
+- **0.9.0 release staging (2026-10-27, night) - the changelog folded, the
+  release shape trimmed.** Per the publish ruling: the Unreleased block
+  folded into `## [0.9.0] - 2026-10-27` (the npm publish lands this tree
+  as-is; nothing between the dated halves published), catching up the
+  2026-10-27 Added/Changed/Hardened rows verbatim plus the
+  staging-era spine as a verbatim history subsection; warts cleaned
+  while folding (the duplicate `### Changed` heading, two orphaned
+  receipt fragments); `Planned` became `Still ahead` (the canon
+  dispatch + the 1.0.0 trusted-publishing flip - the bootstrap-publish
+  row is now). Version truth checked everywhere: package.json 0.9.0,
+  zero 0.8 residue, zero staging hedges in README/start/Home; the
+  release post gained the bundle-lane bullet and its Honest seams
+  bullet now describes the LIVE engine seam. The fold exposed two
+  real trifecta bugs, both fixed: (1) unreleasedSlice returned the
+  WHOLE changelog when no `## [Unreleased]` header existed, auditing
+  every historical path citation as a fresh claim (the GHOST_PATH
+  false row) - absent header now means an EMPTY unreleased slice; (2)
+  step 6 demanded the dated Added heading even when the header was
+  legitimately gone - absent header is now its own named PASS row
+  ("the release-cut shape"). Battery: 50 tests / 42 pass / 0 fail,
+  packs 30/30 honest, TRIFECTA: PASS with the release-cut row,
+  conformance 8/8, lint:docs PASS. npm tarball dry-run re-verified:
+  package 0.9.0, prepublishOnly = the full battery, 21 files.

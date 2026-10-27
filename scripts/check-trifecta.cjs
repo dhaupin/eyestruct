@@ -70,7 +70,12 @@ const norm = (text) => text.replace(/\s+/g, ' ')
 
 function unreleasedSlice(text) {
   const start = text.indexOf('## [Unreleased]')
-  if (start === -1) return text
+  // No Unreleased header = nothing is unreleased (the release-cut shape,
+  // receipts stay in their dated sections): the audit slice is EMPTY, not
+  // the whole file - the whole-file fallback made a folded CHANGELOG audit
+  // every historical path citation as a fresh claim (the GHOST_PATH/
+  // NO_DATED_ADDED false rows the fold exposed, fixed here).
+  if (start === -1) return ''
   const rest = text.slice(start)
   const afterHeading = /^## \[Unreleased\][^\n]*\n/.exec(rest)
   const body = afterHeading ? rest.slice(afterHeading[0].length) : rest
@@ -194,12 +199,20 @@ function runTri({ root }) {
         missing++
       }
     }
-    if (/## \[Unreleased\]/.test(changelog) && /### Added \(\d{4}-\d{2}-\d{2}\)/.test(changelog)) {
-      pass('CHANGELOG: Unreleased carries a dated Added heading')
+    if (/## \[Unreleased\]/.test(changelog)) {
+      // The header's own contract: present = it must carry a dated Added
+      // heading (REAL futures only). Absent = the release-cut shape, receipts
+      // live in their dated sections - nothing unreleased is a PASS here too
+      // (the whole-file fallback was the bug the 0.9.0 fold exposed).
+      if (/### Added \(\d{4}-\d{2}-\d{2}\)/.test(changelog)) {
+        pass('CHANGELOG: Unreleased carries a dated Added heading')
+      } else {
+        stale.push('STALE (NO_DATED_ADDED) CHANGELOG Unreleased block lost its dated Added heading')
+      }
+      if (!missing) pass('CHANGELOG paths: every Unreleased-cited artifact exists on disk')
     } else {
-      stale.push('STALE (NO_DATED_ADDED) CHANGELOG Unreleased block lost its dated Added heading')
+      pass('CHANGELOG: no Unreleased block - the release-cut shape, receipts live in their dated sections')
     }
-    if (!missing) pass('CHANGELOG paths: every Unreleased-cited artifact exists on disk')
   }
 
   // 7. cited commit hashes exist in history (skipped without .git).
