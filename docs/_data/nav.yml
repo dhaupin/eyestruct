@@ -6,11 +6,23 @@
   items:
     - title: Home
       url: /eyestruct/
+    - title: Getting started
+      url: /eyestruct/start
 - title: Reference
   items:
+    - title: CLI reference
+      url: /eyestruct/cli
     - title: Verbs
       url: /eyestruct/verbs
+    - title: Reason codes
+      url: /eyestruct/reasons
     - title: Packs
       url: /eyestruct/packs
     - title: PRD
       url: /eyestruct/labs/prd-eyes
+- title: Operate
+  items:
+    - title: CI guide
+      url: /eyestruct/ci
+    - title: Playbooks
+      url: /eyestruct/playbooks
