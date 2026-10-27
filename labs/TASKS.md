@@ -36,6 +36,28 @@
   frontmatter gate caught a leading-slash permalink and
   held it to the plain-path contract). Whole npm run check + npm test
   green locally before landing.
+- **Harness pass (2026-10-27) - the eye polices itself, and crashtest rides CI.**
+  1) Eye-shapes self-pack: the pack's battery grew a self-leg - the committed
+  labs/.eyes canon must pass its own gate and ledger list read-only through
+  the real CLI (PACKS version 0.2.0, adopted into packs/eye-ledger.json).
+  2) Crashtest leg: crashtest@^1.1.0 devDep, crashtest.config.js root
+  (packs: false, seed 0xE1E5), labs/scenarios/eye-cli-contract.js attacking
+  hostile argv batches, MCP stdio frames (malformed JSON, proto-pollution,
+  oversized, null method/params), and 6 hostile ledger variants - always
+  subprocess, always in-process adjacency, fixed batches + seed for
+  determinism. labs/crashledger.json + labs/hardening.md committed as the
+  baseline; test.yml runs `npx crashtest run` after npm run check.
+  3) The leg earned its keep on ride #1: three contract sharpenings, all
+  RECEIPTED - empty verb `eyestruct ""` printed usage and exit 0 (now
+  UNKNOWN_COMMAND, exit 1); joined `--ledger=` silently fell back to the
+  default home (now BAD_FLAG_VALUE, both flag spellings); explicit
+  `--ledger <missing-path>` improvised [] with exit 0 (now LEDGER_MISSING,
+  exit 2 - the default home stays tolerant for fresh trees, gate catches
+  it via UNRECORDED). One harness lesson went into the attack itself:
+  oversized argv must stay under Linux MAX_ARG_STRLEN or exec never
+  delivers it (E2BIG, raw OS stderr) - the first run mislabeled that as
+  an exploit. Final state: packs 26 cases honest; crashtest 52/52
+  REFUSED, 0 exploited, exit 0; npm test 15/0.
 - **Landing pass (2026-10-26, evening) - the lock was the last drift.**
   The web rebrand rode main, but package-lock.json (58.7KB) never
   survived a text-lane carry: one transcription casualty on main (a

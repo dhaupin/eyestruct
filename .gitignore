@@ -4,3 +4,5 @@ web/dist/
 dist/
 *.local
 .eyes-candidates/
+packs/local/
+labs/run-meta.json

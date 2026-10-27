@@ -19,3 +19,10 @@ jobs:
       - run: npm ci --no-fund --no-audit
       - run: npm test
       - run: npm run check
+      # The crashtest leg, alongside the pack campaign: hostile argv, MCP
+      # stdio frames, and ledger parse attacks against the real CLI (in-
+      # process adjacency, zero network). Gate: exit 1 on a NEW EXPLOITED
+      # finding or a REFUSED->EXPLOITED regression against the committed
+      # labs/crashledger.json baseline - same explicit-adoption rule the
+      # packledger carries. Determinism: fixed attack batches + seed.
+      - run: npx crashtest run

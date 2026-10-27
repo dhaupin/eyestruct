@@ -50,6 +50,13 @@ function posArg(argv) {
 async function main() {
   const argv = process.argv.slice(2)
   const cmd = argv[0]
+  // An empty-string verb is hostild input, not "no verb": it gets the
+  // named refusal like any other bad verb (the crashtest leg's receipt -
+  // "eyestruct \"\"" used to print usage and exit 0, improvising). Bare
+  // invocation keeps printing help.
+  if (cmd === '') {
+    fail('UNKNOWN_COMMAND', 'the command name is empty - an empty-string verb is not a command')
+  }
   if (!cmd || cmd === '--help' || cmd === '-h') {
     process.stdout.write(usage())
     process.exit(0)
@@ -58,6 +65,23 @@ async function main() {
   if (!impl0) fail('UNKNOWN_COMMAND', `"${cmd}" is not an eyestruct command`)
   const impl = typeof impl0 === 'function' ? impl0 : impl0.run
   const args = argv.slice(1)
+  // A flag that is present but EMPTY (`--ledger=`) is a bad flag value,
+  // never a "use the default": the falsy-empty fallback would silently
+  // point the verb at the tree home instead of the stated one (the
+  // crashtest leg's receipt - `--ledger=` used to exit 0 reading nothing).
+  for (const flag of ['--manifest', '--ledger']) {
+    // Both spellings: the separated form (--ledger PATH) and the joined
+    // form (--ledger=PATH) - the crashtest flood used the joined form and
+    // the first guard missed it entirely (same batch, same improvisation).
+    const joined = args.find((a) => a.startsWith(flag + '='))
+    if (joined && joined.slice((flag + '=').length) === '') {
+      fail('BAD_FLAG_VALUE', `${flag} carries an empty value - give it a path or drop the flag`)
+    }
+    const i = args.indexOf(flag)
+    if (i !== -1 && (args[i + 1] == null || args[i + 1] === '')) {
+      fail('BAD_FLAG_VALUE', `${flag} is present but carries an empty value - give it a path or drop the flag`)
+    }
+  }
   // The host-owned locations, now one shape: eyestruct keeps its own eyes at
   // labs/.eyes (beside the PRD and the coming crash-harness state - the
   // gistory shape: labs/.eyes next to crashledger.json), because that IS
