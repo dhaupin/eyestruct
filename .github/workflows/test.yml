@@ -13,7 +13,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # fetch-depth: 0 - the battery reads history now (check:trifecta
+      # verifies CHANGELOG-cited commit hashes exist). The gistory-lock
+      # receipt already taught a shallow checkout breaks parent-reaching:
+      # same lesson, now in-lane. Without it, the freshness leg fails
+      # GHOST_COMMIT on every cited HEAD~n hash.
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm ci --no-fund --no-audit
