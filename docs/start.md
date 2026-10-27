@@ -14,14 +14,26 @@ only state that survives between looks is git state.
 
 ## Install
 
-eyestruct is not on npm yet (0.9.0 is staging-stamped), so the install is a
-clone plus a hermetic dependency restore:
+The supported install will be npm (this is a Node 20 CLI), arriving with
+the 0.9.0 release:
+
+```bash
+npm install --save-dev eyestruct
+```
+
+Staging note: the package is not published yet - 0.9.0 is staging-stamped -
+so the working install today is the source path, a clone plus a hermetic
+dependency restore:
 
 ```bash
 git clone https://github.com/dhaupin/eyestruct.git
 cd eyestruct
 npm ci --no-audit --no-fund
 ```
+
+Once the package lands, the clone path remains valid for contributing, but
+the npm path is the one every consumer should expect this page to lead
+with (same devdeps, same pins, from the lockfile instead of source).
 
 What `npm ci` installs and why:
 
