@@ -5,6 +5,28 @@ All notable changes to eyestruct will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added (2026-10-27)
+
+- The phone publish lane, GENERIC (family-reusable): `scripts/ship-from-download.cjs`
+  stages a zip-extracted npm tree into a Termux home folder (installs never
+  survive `/storage/emulated` - its FUSE mount refuses the `node_modules/.bin`
+  symlinks, EACCES), runs `npm ci`/`npm install`, then publishes through the
+  repo's own `prepublishOnly` gate. No repo imports - copy the file as-is into
+  any family repo and it ships that repo's tree. The token rides `NPM_TOKEN`
+  (the npm-standard env name; `NPM_SHIP_TOKEN` is the generic fallback), is
+  expanded from env into a staged one-line `.npmrc`, and never lands in argv,
+  on disk, or in the log; the staged file is unlinked in a finally, publish
+  failing or not. Named refusals only: wrong/unnamed tree, shared-storage
+  roots, occupied roots (advice, never deletion), non-npm_ tokens,
+  pre-existing `.npmrc`. `--clean` (never on by default) removes the staged
+  root after the run - on EVERY exit after staging, success or failure - so a
+  failed attempt cannot block the retry with `ROOT_OCCUPIED`; it never touches
+  the `--target`. Behavior tests: `tests/ship-from-download.test.js`
+  (temp dirs, fake runner seam, no network, foreign-name fixture proves the
+  product-agnostic contract).
+
 ## [0.9.0] - 2026-10-27
 
 The release cut: the npm tarball lands this tree exactly as shown. Below, two dated halves that ride the same version because nothing between them published - the catch-up rows (folded pre-publish from the Unreleased block) and the staging-era spine. The gistory staging ecosystem is cited history (the STANDING AMENDMENT, 2026-10-27): eyestruct follows no other repo from here.

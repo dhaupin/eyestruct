@@ -628,3 +628,42 @@
   capability-limited publish machine trips here first - the gate is doing
   the guarding, and each trip so far has ended in a real
   machine-dependence bug found.
+
+## Phone publish lane (2026-10-27, the ship script)
+
+- The Termux publish attempts earned a third real world surface receipt:
+  a GitHub zip has no .git and no node_modules, and /storage/emulated is
+  a symlinkless FUSE mount (npm install dies EACCES on the
+  node_modules/.bin/puppeteer link, errno -13). Installs and publishes
+  must happen inside the Termux home - the ship lane scripts that move:
+  scripts/ship-from-download.cjs (stage zip tree -> ~/web/... -> npm ci
+  -> npm publish, gate riding prepublishOnly unchanged).
+- Trust receipts built in: the token rides EYESTRUCT_NPM_TOKEN (env) or
+  --token-file, expands from env into a staged one-line .npmrc, and never
+  lands in argv (ps-safe), on disk, or in the log; the staged file is
+  unlinked in a finally, publish failing or not. Refusals named: WRONG_
+  TREE (wrong zip staged), SHARED_STORAGE_ROOT (the FUSE class),
+  ROOT_OCCUPIED (the rm line is advice, never action), BAD_TOKEN (a
+  non-npm_ token refuses, never guesses), NPMRC_EXISTS (never clobbers a
+  tree's own .npmrc). Exit contract 0 ok / 1 child failure / 2 refusal.
+- Proven on the machine before landing (the receipts rule even for the
+  lane that ships the receipts): node v26.3.1 + npm 12.2.1 (the user's
+  exact Termux stack) publish --dry-run exit 0 in a git-less zip tree,
+  tarball byte-identical to the clean-tree build (shasum
+  c0a2aae0c0691e6a24fe940fcbacd842713b6dfb, 21 files, 36.8 kB).
+- Behavior tests ride the battery: tests/ship-from-download.test.js
+  (temp dirs, fake runner seam, no network; 57 pass / 8 honest skips /
+  0 fail as landed).
+- Generalization pass (2026-10-27, same day): the lane went family-reusable -
+  no repo imports, ANY named npm tree ships (the wrong-package refusal
+  retired in favor of BAD_PACKAGE_NAME, the proof is a foreign-name fixture),
+  and the token var is the npm-standard NPM_TOKEN with NPM_SHIP_TOKEN as the
+  generic fallback alias. Copy scripts/ship-from-download.cjs across the
+  family unchanged.
+- The optional rm landed (2026-10-27): --clean removes the staged root on
+  every exit after staging (success, publish failure, install failure,
+  refusals) so the retry loop closes; the target survives; without the flag
+  the lane still never deletes. Two real bugs caught mid-structure by the
+  battery: a try-scoped npmrcPath whose finally-reference was silently
+  swallowed (the staged secret file would have survived) and an out-snapshot
+  copy that lost the clean receipt - both are now tests in the ship file.
