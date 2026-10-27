@@ -461,3 +461,52 @@
   the same attacker-position argument as the decompression-bomb bound,
   docket stays named. Family filing for the SHA-pin class rides the
   next cross-file batch.
+
+- **TOCTOU closure (2026-10-27, night) - the fd pin.** The named bundle
+  race is closed in code, quietly docketed no more: `bundle.install`
+  now opens the tarball ONCE, hashes that file description with
+  positioned reads (the shared offset never advances), and extracts
+  through the SAME fd (`tar -xzf /dev/fd/<n>`), so a directory-entry
+  swap between hash and extract feeds the unpack the hashed bytes, not
+  the swapped ones (rename-over class - deterministically receipted).
+  Defense-in-depth on the in-place writer: an extract is followed by a
+  re-hash of the same fd; a disagreement refuses
+  MISSING_PINNED_BROWSER by name ("a swap raced the extract") instead
+  of stamping the marker. Residual named in-text: an attacker who
+  restores the original bytes immediately before the re-hash (the
+  adversarial restore race) - the narrowest window left, and the docket
+  row stays honest about it. Platforms without /dev/fd degrade to the
+  raw-path extract, named in the code so the degraded case is never
+  silent. Two battery legs: the staged-swap leg (open A, rename B over
+  the path, install - extracted bytes must be A's) and the
+  offset-invariant leg (sha256Fd twice equal + equal to sha256File).
+  Docs/ci.md trust paragraph carries the fd pin. Battery: below.
+  with the fd pin. One runner lesson rode the closure: the parent's fd
+  NUMBER and the child's are not the same number - stdio entry index 3
+  hands the fd to tar AS fd 3 (/dev/fd/3), whatever the parent's
+  openSync returned; the first draft aimed tar at the parent's number
+  and five legs caught it loudly (the named refusal + tar's own stderr
+  in the repoproof). Battery: 49 tests / 41 pass / 0 fail (8 honest
+  skips), packs 30/30 honest, check green, conformance 8/8.
+
+- **MCP walk (2026-10-27, night) - three handler fixes in lib/mcp.js.**
+  (1) toolLook's candidate naming used Date.now() % 100000 - one name
+  shared across a ~100s window, so two looks in the window silently
+  overwrote each other's candidate evidence; names are randomBytes
+  per-capture now (the ledger temp-writer recipe). (2) toolDiff judged
+  SAME/DIFFERS by byte LENGTH only (cap.png.length === baseBytes) while
+  its own doc line promises byte equality - two different pixel states
+  sharing a PNG length would read SAME; the verdict is a real
+  Buffer.equals read now. (3) toolDiff's `against` accepted any
+  client-supplied path and joined it under the eyes home with no
+  confinement - the CLI's own UNSAFE_PATH rule (same class, receipts in
+  the hardening round) now refuses absolute / ..-escaping baselines by
+  name instead of handing diff an arbitrary file on disk. Docket note
+  from the same walk: both ratify surfaces record pin['browser-image']
+  only, so a bundle-pinned repo rides FALSE pins in ratify rows (rows
+  would claim browser-image undefined) - one-line honest fix when the
+  bundle-pinned canon lane first runs. repoproof for (3): mcp surface
+  tests cover framing only, no behavior legs existed; the
+  UNSAFE_PATH-class battery legs already own the refusal contract the
+  tool now reuses. Battery: 49 tests / 41 pass / 0 fail (8 honest
+  skips), packs 30/30 honest, check green, conformance 8/8.

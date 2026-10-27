@@ -503,6 +503,60 @@ test('bundle lane: a missing tarball is MISSING_INPUT, a chrome-less archive is 
   }
 })
 
+test('bundle lane: the fd pin - a path swap after open cannot change the bytes the install receipts', () => {
+  const prev = process.env.EYESTRUCT_BUNDLE_CACHE
+  process.env.EYESTRUCT_BUNDLE_CACHE = tmpdir()
+  try {
+    const gzA = makeBundleTarball({ 'chrome-linux64/chrome': 'fake-chrome-from-the-opened-tarball' })
+
+    // A genuine second tarball: same shape, genuinely different bytes.
+    const other = tmpdir()
+    fs.mkdirSync(path.join(other, 'chrome-linux64'), { recursive: true })
+    fs.writeFileSync(path.join(other, 'chrome-linux64', 'chrome'), 'evil-chrome-never-extracted')
+    const gzB = path.join(other, 'b.tgz')
+    const tb = spawnSync('tar', ['-czf', gzB, '-C', other, 'chrome-linux64'], { encoding: 'utf8' })
+    assert.strictEqual(tb.status, 0)
+    assert.notStrictEqual(fs.readFileSync(gzA).toString('hex'), fs.readFileSync(gzB).toString('hex'),
+      'the two tarballs must differ - otherwise the leg proves nothing (sanity)')
+
+    // The classic hash-then-extract race panel, staged deterministically:
+    // open A once, THEN swap the directory entry to B's inode. The old order
+    // would hash A and extract B; the fd pin feeds tar the A file description
+    // end to end, so the cache can only ever carry A's bytes.
+    const fd = fs.openSync(gzA, 'r')
+    fs.renameSync(gzB, gzA)
+    const r = bundleLib.installOpen(fd, gzA)
+    assert.strictEqual(path.basename(r.exec), 'chrome', 'the install receipt points at the exec')
+    assert.strictEqual(fs.readFileSync(r.exec, 'utf8'), 'fake-chrome-from-the-opened-tarball',
+      'the extracted bytes are the OPENED tarball, not the swapped one')
+    assert.match(r.sha, /^[0-9a-f]{64}$/)
+
+    // The swapped-in tarball installs under ITS OWN checksum when installed
+    // from its new path (the rename moved it there) - the cache dirs stay
+    // checksum-isolated (the same isolation the pack ledgers verify), so no
+    // mixed receipt can exist.
+    const rb = bundleLib.install(gzA)
+    assert.notStrictEqual(rb.sha, r.sha, 'the swapped-in bytes hash differently from the opened ones')
+    assert.strictEqual(fs.readFileSync(rb.exec, 'utf8'), 'evil-chrome-never-extracted')
+  } finally {
+    if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
+    else process.env.EYESTRUCT_BUNDLE_CACHE = prev
+  }
+})
+
+test('bundle lane: sha256Fd lives on positioned reads - one fd can hash, then extract, without an offset jump', () => {
+  const gz = makeBundleTarball({ 'chrome-linux64/chrome': 'offset-invariant-fixture' })
+  const fd = fs.openSync(gz, 'r')
+  try {
+    const h1 = bundleLib.sha256Fd(fd)
+    const h2 = bundleLib.sha256Fd(fd)
+    assert.strictEqual(h2, h1, 'a second pass over the fd sees byte 0 again - the shared offset never advanced')
+    assert.strictEqual(bundleLib.sha256File(gz), h1, 'the fd hash matches the path hash byte for byte')
+  } finally {
+    fs.closeSync(fd)
+  }
+})
+
 test('engine rejects a malformed viewport with a named code', () => {
   assert.throws(() => engine.parseViewport('wide'), /BAD_VIEWPORT/)
   assert.throws(() => engine.parseViewport('10x10'), /BAD_VIEWPORT/)

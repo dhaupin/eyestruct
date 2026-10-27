@@ -108,6 +108,10 @@ eyestruct init --browser-image chrome@<pinned-version> --renderer resvg@2.6.2 \
 `init` hashes the tarball (sha256), unpacks it once into
 `~/.cache/eyestruct/bundles/<sha-prefix>/`, marks the install with an
 integrity file, and records `bundle@<sha-prefix>` in the manifest pin.
+The hash and the extract run through one open file description (the
+fd pin): a tarball swapped between the two operations cannot feed the
+unpack different bytes, and an in-place tamper during the unpack is
+refused by name instead of stamped into the marker.
 The re-seed is idempotent: re-running the same `init --browser-bundle`
 line (or adding the bundle flag to a living manifest) preserves the pin
 and the route matrix byte-for-byte outside the bundle row, and reuses
