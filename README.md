@@ -30,3 +30,10 @@ Full product definition: [labs/prd-eyes.md](labs/prd-eyes.md).
 Status: 0.9.0 in staging. Browserless spine (init/manifest/ledger/gate/
 adopt/raster) is live and tested; capture wiring lands with the pinned
 browser image per the MVP cut.
+
+## Surfaces
+
+- **The landing** -> [eyestruct.creadev.org](https://eyestruct.creadev.org)
+- **The docs** -> [docs.creadev.org/eyestruct](https://docs.creadev.org/eyestruct)
+- **The workshop** -> [Creadev.org](https://creadev.org) (eyestruct is made by
+dhaupin @ Creadev.org - the same home as the landing and docs surfaces above)
