@@ -1,5 +1,31 @@
 # eyestruct - rolling work log
 
+- **Browser bundle lane (2026-10-27, late) - eyestruct#4 implemented.**
+  The vendored checksummed browser lane, per the issue's own scope (one
+  lib module + an init flag + a docs/ci.md row, no new verbs, init
+  stays browserless): (1) `lib/bundle.js` - sha256 the tarball, unpack
+  ONCE into the bundle cache under the checksum prefix
+  (EYESTRUCT_BUNDLE_CACHE or ~/.cache/eyestruct/bundles/, cache root
+  overridable for tests/sandboxes), integrity marker at install and
+  VERIFIED at every resolution (the bundle is trusted by receipt, never
+  by presence), idempotent reuse receipted; (2) executor resolution
+  order now: --browser-exec / EYESTRUCT_BROWSER / pin.browser-exec /
+  bundle / puppeteer cache / MISSING_PINNED_BROWSER - captures run
+  offline inside the pin for CI mode; (3) init --browser-bundle records
+  bundle@<sha16> in the manifest pin (manifest.write took the optional
+  row), and init itself stays browserless (one tar call at install,
+  zero at capture); (4) refusals stay named without new codes -
+  MISSING_INPUT (missing tarball / bad archive), MISSING_PINNED_BROWSER
+  (no chrome inside, tampered marker, missing install),
+  MANIFEST_CORRUPT (malformed pin recording). The issue's trust shape
+  rides the tree: upstream chrome-for-testing -> tarball -> sha256 in
+  the manifest -> marker in the cache; no unvetted npm middleman
+  (the @sparticuz rejection holds as receipts). Battery: npm test 46
+  tests / 38 pass / 0 fail (three bundle legs - install+resolve+tamper
+  proof with fake chrome tarballs in temp homes, no network), trifecta
+  green; docs/ci.md carries the produce/consume recipe + the trust
+  ladder; cli.md init row gained the flag.
+
 - **Issue triage (2026-10-27, late): the hand-off issue closed, the C1
   carry implemented.** (1) `eyestruct#2` (move-day readiness, the
   hand-off) closed completed: every step receipted in-tree - own

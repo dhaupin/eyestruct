@@ -41,6 +41,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `/packs` + `/status` ship as standalone routes reading the same committed
   ledgers a fresh session reads.
 
+- The vendored checksummed browser lane (issue #4): `init
+  --browser-bundle TARBALL` stays browserless (one sha256 pass + one tar
+  unpack), records `bundle@<sha16>` in the manifest pin, installs once
+  into the bundle cache with an integrity marker, and
+  `look`/`diff`/`walk`/`ratify` resolve that exec BEFORE the puppeteer
+  cache and the refusal - executor order: `--browser-exec` /
+  `EYESTRUCT_BROWSER` / `pin.browser-exec` / bundle / cache /
+  `MISSING_PINNED_BROWSER`. Trust is receipt-based, never
+  presence-based: a tampered or partially-unpacked cache refuses with
+  the same code until `init --browser-bundle` re-anchors it; a malformed
+  pin recording is `MANIFEST_CORRUPT`; a missing tarball is
+  `MISSING_INPUT`; a chrome-less archive is a named capability refusal.
+  Offline captures for CI mode; docs/ci.md carries the produce/consume
+  recipe; the issue's contract is a battery leg (fake tarballs in temp
+  homes - no network, no real chrome).
+
 ### Changed (2026-10-27)
 - The web + docs shell re-skinned off the template periwinkle, through
   petrol-night/pale-sea (spec cross-filed to flowforge#18) to the shipped

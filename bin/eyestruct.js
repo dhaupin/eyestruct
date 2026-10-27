@@ -35,7 +35,7 @@ function usage() {
   return `eyestruct v${version} - eyes for production agents
 
 Commands (each is one short process; the only surviving state is labs/.eyes/):
-  init [--browser-image TAG] [--renderer resvg@V]   write labs/.eyes/manifest.yml + empty ledger
+  init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]  seed labs/.eyes/ + the checksummed browser bundle lane
   look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]
   diff <url> [--against PATH]         fresh capture vs committed baseline (candidity: look then adopt)
   adopt <route/view> --note "..."    propose a baseline change (canon is CI-cut)
@@ -121,7 +121,7 @@ async function main() {
   // never a "use the default": the falsy-empty fallback would silently
   // point the verb at the tree home instead of the stated one (the
   // crashtest leg's receipt - `--ledger=` used to exit 0 reading nothing).
-  const VALUE_FLAGS = ['--manifest', '--ledger', '--browser-image', '--renderer']
+  const VALUE_FLAGS = ['--manifest', '--ledger', '--browser-image', '--renderer', '--browser-bundle']
   for (const flag of VALUE_FLAGS) {
     // Both spellings: the separated form (--ledger PATH) and the joined
     // form (--ledger=PATH) - the crashtest flood used the joined form and

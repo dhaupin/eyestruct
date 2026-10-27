@@ -16,7 +16,7 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 
 | command | signature | touches | notes |
 |-----------|-------------|-----------|---------|
-| `init` | `eyestruct init [--browser-image TAG] [--renderer resvg@V]` | writes `labs/.eyes/manifest.yml` + empty ledger | the pin + route matrix seed |
+| `init` | `eyestruct init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]` | writes `labs/.eyes/manifest.yml` + empty ledger | the pin + route matrix seed (the bundle flag adds the offline executor lane, see [ci](ci)) |
 | `look` | `eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/` + ledger row | needs the pinned browser; refusals are named |
 | `diff` | `eyestruct diff <url> [--against PATH]` | read-mostly; baseline via manifest routes | `--against` accepts eyes-relative or absolute paths |
 | `adopt` | `eyestruct adopt <path> [path...] [--wave] --note "why"` | ledger row(s) (unratified proposal) | `--note` mandatory; `--wave` collapses N targets into one wave row (one note explains N image changes in the same commit) |

@@ -9,7 +9,7 @@ const assert = require('node:assert')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
-const { execFileSync } = require('node:child_process')
+const { execFileSync, spawnSync } = require('node:child_process')
 
 const BIN = path.join(__dirname, '..', 'bin', 'eyestruct.js')
 
@@ -373,6 +373,103 @@ test('engine refuses honestly when the exec resolution finds nothing', () => {
   assert.throws(() => engine.findExec({ argv: ['--browser-exec', '/no/such/chrome'], pin: {} }), (err) => {
     return /MISSING_PINNED_BROWSER|browser exec not found/.test(err.message)
   })
+})
+
+// -- The bundle lane (issue #4): sha256-anchored, one unpack, verified on use.
+
+const bundleLib = require('../lib/bundle')
+
+function makeBundleTarball(fixtures) {
+  const dir = tmpdir()
+  const name = Object.keys(fixtures)[0]
+  fs.mkdirSync(path.dirname(path.join(dir, name)), { recursive: true })
+  for (const [rel, body] of Object.entries(fixtures)) {
+    fs.writeFileSync(path.join(dir, rel), body)
+  }
+  const gz = path.join(dir, 'bundle.tgz')
+  const t = spawnSync('tar', ['-czf', gz, '-C', dir, name], { encoding: 'utf8' })
+  assert.strictEqual(t.status, 0, 'tar must pack the fixture bundle: ' + t.stderr)
+  return gz
+}
+
+test('bundle lane: install records bundle@<sha16>, the engine resolves it before the cache, and reuse is receipted', () => {
+  const cache = tmpdir()
+  const gz = makeBundleTarball({ 'chrome-linux64/chrome': '#!/bin/sh\necho fake-chrome', 'chrome-linux64/chrome2': 'not-an-exec' })
+  const prev = process.env.EYESTRUCT_BUNDLE_CACHE
+  process.env.EYESTRUCT_BUNDLE_CACHE = cache
+  try {
+    const dir = tmpdir()
+    const r = run(['init', '--browser-bundle', gz], dir)
+    assert.strictEqual(r.code, 0, 'got: ' + r.stderr)
+    assert.match(r.stdout, /installed bundle\.tgz/)
+    assert.match(r.stdout, /exec.*chrome-linux64\/chrome/, 'the shallowest chrome is the receipt')
+    const manifest = fs.readFileSync(path.join(dir, 'labs/.eyes', 'manifest.yml'), 'utf8')
+    const mm = /browser-bundle: bundle@([0-9a-f]{16})/.exec(manifest)
+    assert.ok(mm, 'the pin carries bundle@<sha16>:\n' + manifest)
+
+    const exec = engine.findExec({ argv: [], pin: { 'browser-bundle': 'bundle@' + mm[1] } })
+    assert.strictEqual(fs.existsSync(exec), true, 'the resolved exec exists')
+    assert.ok(exec.includes(path.join(cache, mm[1])), 'the exec resolves inside the checksummed cache dir')
+
+    // Idempotent: a second install with the same tarball reuses the cache
+    // dir (receipt says so) and never re-unpacks.
+    const r2 = run(['init', '--browser-bundle', gz], dir)
+    assert.strictEqual(r2.code, 0, 'got: ' + r2.stderr)
+    assert.match(r2.stdout, /reused bundle\.tgz/)
+  } finally {
+    if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
+    else process.env.EYESTRUCT_BUNDLE_CACHE = prev
+  }
+})
+
+test('bundle lane: tampered integrity marker refuses by name; a chrome-less bundle is a capability truth', () => {
+  const cache = tmpdir()
+  const gz = makeBundleTarball({ 'chrome-linux/chrome': 'fake twice' })
+  const prev = process.env.EYESTRUCT_BUNDLE_CACHE
+  process.env.EYESTRUCT_BUNDLE_CACHE = cache
+  try {
+    const dir = tmpdir()
+    const r = run(['init', '--browser-bundle', gz], dir)
+    assert.strictEqual(r.code, 0, 'got: ' + r.stderr)
+    const prefix = /browser-bundle: bundle@([0-9a-f]{16})/.exec(
+      fs.readFileSync(path.join(dir, 'labs/.eyes', 'manifest.yml'), 'utf8'))[1]
+
+    // The cache is tampered: marker now disagrees with the recording.
+    fs.writeFileSync(path.join(cache, prefix, bundleLib.MARKER), 'f'.repeat(64) + '\n')
+    assert.throws(
+      () => engine.findExec({ argv: [], pin: { 'browser-bundle': 'bundle@' + prefix } }),
+      (err) => /MISSING_PINNED_BROWSER|integrity marker/.test(err.message),
+    )
+
+    // A malformed pin recording is a manifest truth, never a guessed exec.
+    assert.throws(() => engine.findExec({ argv: [], pin: { 'browser-bundle': 'nonsense' } }), (err) => /MANIFEST_CORRUPT/.test(err.message))
+  } finally {
+    if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
+    else process.env.EYESTRUCT_BUNDLE_CACHE = prev
+  }
+})
+
+test('bundle lane: a missing tarball is MISSING_INPUT, a chrome-less archive is a named capability refusal', () => {
+  const prev = process.env.EYESTRUCT_BUNDLE_CACHE
+  process.env.EYESTRUCT_BUNDLE_CACHE = tmpdir()
+  try {
+    const dir = tmpdir()
+    const r = run(['init', '--browser-bundle', '/no/such/bundle.tgz'], dir)
+    assert.strictEqual(r.code, 2)
+    assert.match(r.stderr, /eyestruct\[MISSING_INPUT\]/)
+
+    const plain = tmpdir()
+    fs.writeFileSync(path.join(plain, 'not-chrome.txt'), 'x')
+    const gz = path.join(plain, 'plain.tgz')
+    spawnSync('tar', ['-czf', gz, '-C', plain, 'not-chrome.txt'], { encoding: 'utf8' })
+    const r2 = run(['init', '--browser-bundle', gz], plain)
+    assert.strictEqual(r2.code, 2)
+    assert.match(r2.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+    assert.match(r2.stderr, /no chrome exec/)
+  } finally {
+    if (prev === undefined) delete process.env.EYESTRUCT_BUNDLE_CACHE
+    else process.env.EYESTRUCT_BUNDLE_CACHE = prev
+  }
 })
 
 test('engine rejects a malformed viewport with a named code', () => {

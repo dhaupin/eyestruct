@@ -89,3 +89,41 @@ Pages was enabled.
 
 Every leg is independent: a red pixel-canon dispatch does not hold the test
 lane, and a red docs deploy does not hold the battery.
+
+## Browser bundle (offline CI mode)
+
+A runner that cannot fetch chrome on demand can carry the capture stack
+inside a checksummed tarball instead:
+
+```sh
+# produce the bundle from any chrome tree (the puppeteer cache, or an
+# unpacked chrome-for-testing release): keep the top dir intact
+tar -czf eyestruct-browser.tgz chrome-linux64
+
+# consume it in the repo: seed the state with the bundle recorded
+eyestruct init --browser-image chrome@<pinned-version> --renderer resvg@2.6.2 \
+  --browser-bundle eyestruct-browser.tgz
+```
+
+`init` hashes the tarball (sha256), unpacks it once into
+`~/.cache/eyestruct/bundles/<sha-prefix>/`, marks the install with an
+integrity file, and records `bundle@<sha-prefix>` in the manifest pin.
+`look`, `diff`, `walk`, and `ratify` then resolve that exec BEFORE the
+puppeteer cache and the refusal - the capture runs offline inside the
+pin, and init stays browserless either way (one tar call, one hash).
+
+Executor resolution order, and what each trust step costs:
+
+| step | resolved from | trust |
+|--------|-----------------|---------|
+| 1 | `--browser-exec` / `EYESTRUCT_BROWSER` | the operator, by hand |
+| 2 | `pin.browser-exec` | the manifest pin |
+| 3 | `pin.browser-bundle` (this lane) | sha256 in the manifest + the cache's integrity marker, verified on every resolution |
+| 4 | the puppeteer cache | the machine's own install history |
+| 5 | nothing | `MISSING_PINNED_BROWSER`, named - never a guessed exec |
+
+A cache that disagrees with its manifest recording (tamper, partial
+unpack, a moved install) refuses with the same code - re-run
+`init --browser-bundle` to re-anchor. The tarball itself is never
+executed until unpack; the exec is chmod +x at install so the
+resolution is launchable without a resident daemon.
