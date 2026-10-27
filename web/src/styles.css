@@ -216,6 +216,11 @@ table.attacks td.mod { font-family: ui-monospace, monospace; color: var(--accent
 table.attacks td .what { color: var(--ink); }
 table.attacks td .why { color: var(--ink-soft); font-size: 12.5px; }
 .shipped { color: var(--moss); font-weight: 600; }
+/* verdict cells (landing attacks table): semantic color only where a verdict
+   earns it - moss for a refused attack (a win), accent for a docketed bound. */
+.verdict-ok { color: var(--moss); font-weight: 600; white-space: nowrap; }
+.verdict-mid { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.verdict-bad { color: var(--err); font-weight: 600; white-space: nowrap; }
 .field-report { color: var(--ink-soft); font-size: 13px; margin: 18px 0 0; }
 .field-report a { color: var(--accent); }
 .field-report .bad { color: var(--err); }
