@@ -37,9 +37,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   playbooks (7 recipes) / discussions (release-post system + the
   announcing-v0.9.0 post) - 18 lint-gated pages, with `cli.md` and
   `mcp.md` mirroring the real dispatch and the tools registry.
-- Web: the landing wears the real brand + periwinkle theme token pair, and
+- Web: the landing wears the real brand + its theme token pair, and
   `/packs` + `/status` ship as standalone routes reading the same committed
   ledgers a fresh session reads.
+
+### Changed (2026-10-27)
+- The web + docs shell re-skinned off the template periwinkle, through
+  petrol-night/pale-sea (spec cross-filed to flowforge#18) to the shipped
+  pair, jade on graphite: warm graphite dark (#121011) + parchment light
+  (#f6f1e7), jade iris accent (dark #45cf83 / light #197a4c AA), with
+  sage-olive success and coral error deliberately kept distinct from jade
+  (the verdict-table ruling) - receipts: commit `e4a73ac`, live curls of
+  both sites carrying the token values, dark/light frames captured via
+  the repo's own `look` engine. Palette specs + a switchable-paint-scheme
+  request ride the family template (flowforge#19/#20/#21).
+- The brand mark re-wears the accent: icon set + docs tile regenerated
+  through `make-icons.mjs`, whose art path now points at
+  `web/public/brand/eyestruct-logo.jpg` (it had regressed to the repo
+  root after the packs move - caught while re-running the trace), and
+  `og-image.mjs` constants + card follow the palette.
+- Docs fix: the light token block now defines `--accent-deep`, so Rouge
+  number/scalar tokens stop silently inheriting the dark-theme value on
+  white pages.
 
 ### Planned
 - CI ratify cuts the receipt-baseline proposals canon in the pinned image
