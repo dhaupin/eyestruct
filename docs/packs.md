@@ -11,7 +11,7 @@ nav_order: 3
 
 This page documents eyestruct's own pack lane: what the packs shipped under
 `packs/public/` attack, how the runner judges them, and how to write or adopt a
-pack. For the manifest grammar itself, see [Verbs](/{% link docs/verbs.md %})'s
+pack. For the manifest grammar itself, see [Verbs](/eyestruct/verbs/)'s
 sibling spec at [dhaupin/packstruct](https://github.com/dhaupin/packstruct).
 
 A pack is a self-contained bundle that loads into the shell's runner, uses the
