@@ -26,3 +26,7 @@
       url: /eyestruct/ci
     - title: Playbooks
       url: /eyestruct/playbooks
+- title: Family
+  items:
+    - title: Product site
+      url: https://eyestruct.creadev.org/

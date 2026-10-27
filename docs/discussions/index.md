@@ -38,16 +38,15 @@ markdown IS the announcement - view source, copy, strip the frontmatter, post.
 
 | post | version | live |
 | --- | --- | --- |
-| (none yet) | - | - |
+| [announcing-v0.9.0](/eyestruct/discussions/announcing-v0.9.0) | 0.9.0 | yes |
 
-## First-post watchlist: claims already receipted on the dev tree
+## The claim inventory the release post cites
 
-The index is empty deliberately: nothing is exposed yet (0.9.0 is not
-published), and per the timing rule above a post that names a version not
-on npm would be fiction by promotion. What ships changes that row. Until
-then, the claim inventory below is what the first post will cite - each
-verified against the dev tree today, each to be re-verified against the
-published tarball before the post goes anywhere:
+The v0.9.0 post carries the standing receipt inventory below - each claim
+verified against the shipped tree (CI runs the pack campaign and the
+crashtest leg on every push, and `lint:docs` keeps the pages honest),
+and re-run together on release day. When a claim goes stale, fix or drop
+the row and the post with it - claims do not ride on tree momentum.
 
 | claim for the first post | receipt on the tree |
 |----------------------------|-----------------------------|
