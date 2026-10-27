@@ -1,5 +1,20 @@
 # eyestruct - rolling work log
 
+- **Standing amendment (2026-10-27, late) - the repo is standalone.**
+  dhaupin's ruling: the gistory staging ecosystem is finished; eyestruct
+  is in the wild and follows no repo's lead. Receipted as a dated
+  STANDING AMENDMENT in the PRD head (era sections stay cited history,
+  not debts), and mirrored into the brain's identity.md Standing block
+  + workflow.md wake rules at the vant install. Practical meaning: no
+  external tar or host is waited on - horcrux snapshots are our cuts,
+  fleet wiring rides the filed family issues, the factory role passes
+  to a future monoforge + flowforge system when it exists. Repo
+  evidence checked before the edit: all 38 gistory mentions in the
+  tree are provenance or dated-era receipts (workflow port comments,
+  the 0.9.0 changelog section, TASKS log rows, PRD-era dated blocks) -
+  none put gistory in charge today, so only the PRD head needed the
+  dated marker. Battery green (npm test 42/34/0; TRIFECTA: PASS).
+
 - **Brain move (2026-10-27, late) - models/private/magpie left the
   repo for its vant install home.** The seed brain shipped along with
   the project: six md files copied to

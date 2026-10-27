@@ -9,6 +9,16 @@ ledger; the original sections below read as the plan that got it there.
 Owned by rook; every claim below is either a lived receipt from working in
 this fleet or sourced at first use.
 
+STANDING AMENDED 2026-10-27 (late) — the repo is standalone. eyestruct left
+the gistory staging ecosystem: the factory era is over, the gistory-era
+sections below (first-client plans, tar-ferry provenance, workspace receipts)
+are history to be cited, not a leash still held. No repo — gistory or any
+other — is awaited before a next step; fleet wiring happens repo by repo
+through the filed family issues, and horcrux snapshots are cut by us when we
+want one. The next factory — a system built on monoforge and flowforge —
+replaces the gistory role when it exists; until then this repo ships on its
+own battery.
+
 ## The name
 
 Magpies are among the very few non-mammal species ever documented passing
