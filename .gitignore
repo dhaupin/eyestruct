@@ -6,3 +6,10 @@ dist/
 .eyes-candidates/
 packs/local/
 labs/run-meta.json
+# local docs toolchain (the Jekyll preview recipe runs from a scratch
+# copy + Bundler path outside the repo, so these should never appear;
+# belt-and-suspenders so an accidental in-tree build taints nothing)
+docs/.bundle/
+docs/vendor/
+docs/_site/
+docs/Gemfile.lock
