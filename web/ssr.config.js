@@ -23,6 +23,24 @@ export default {
       },
     },
     {
+      path: '/packs',
+      priority: '0.9',
+      changefreq: 'weekly',
+      meta: {
+        title: 'Packs | eyestruct',
+        description: 'The adversarial surface: 26 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+      },
+    },
+    {
+      path: '/status',
+      priority: '0.8',
+      changefreq: 'daily',
+      meta: {
+        title: 'Live status | eyestruct',
+        description: 'The adversarial verdicts on main, read straight from the committed ledgers - the same files a fresh agent session owns. No server, no hidden state.',
+      },
+    },
+    {
       path: '/terms',
       priority: '0.3',
       changefreq: 'yearly',

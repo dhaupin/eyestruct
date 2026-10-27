@@ -15,6 +15,7 @@
  * 25 named reason-codes (lib/reasons.js), the two-dispatch canon lane
  * (.github/workflows/eyes-ratify.yml).
  */
+import { Link } from 'react-router-dom'
 import usePageMeta from '../hooks/usePageMeta.js'
 
 const SITE_URL = 'https://eyestruct.creadev.org'
@@ -117,92 +118,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="wrap">
-          <h2>The eye polices itself</h2>
-          <p className="sub">
-            26 adversarial pack cases over the real CLI, a second leg of 52
-            hostile attacks (seeded, deterministic), and a committed verdict
-            ledger: a NEW exploited case or any verdict regression fails CI.
-          </p>
-          <div className="table-wrap">
-            <table className="attacks">
-              <thead>
-                <tr><th>attack class</th><th>what it tries</th><th>verdict</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="mod">ledger tampering</td>
-                  <td><span className="what">corrupt JSON, duplicate ids,
-                  control-char payloads</span><div className="why">the reader
-                  refuses loudly, never improvises past a bad row</div></td>
-                  <td><span className="verdict-ok">REFUSED</span></td>
-                </tr>
-                <tr>
-                  <td className="mod">manifest corruption</td>
-                  <td><span className="what">strict hand-editable subset
-                  violations</span><div className="why">a bad manifest is a
-                  setup error (exit 2), named at the field</div></td>
-                  <td><span className="verdict-ok">REFUSED</span></td>
-                </tr>
-                <tr>
-                  <td className="mod">unexplained memory</td>
-                  <td><span className="what">drift with no ledger row, or a row
-                  whose file git lost</span><div className="why">UNRECORDED /
-                  DANGLING_ROW name it; the fix is mechanical</div></td>
-                  <td><span className="verdict-ok">REFUSED</span></td>
-                </tr>
-                <tr>
-                  <td className="mod">note-free adopts</td>
-                  <td><span className="what">adopt without --note</span>
-                  <div className="why">the explanation is captured at write
-                  time, not reconstructed after</div></td>
-                  <td><span className="verdict-ok">REFUSED</span></td>
-                </tr>
-                <tr>
-                  <td className="mod">hostile argv + stdio</td>
-                  <td><span className="what">14 hostile argv batches; MCP
-                  frames that are garbage, proto-polluted, oversized, or
-                  null-methoded; 6 hostile ledger file variants</span>
-                  <div className="why">fixed batch list and seed (0xE1E5) -
-                  the same commit always fires the same attacks</div></td>
-                  <td><span className="verdict-ok">52/52 REFUSED</span></td>
-                </tr>
-                <tr>
-                  <td className="mod">browser-class without a browser</td>
-                  <td><span className="what">capture attacks that need a
-                  headless image inside a browserless campaign</span>
-                  <div className="why">covered live by the battery's
-                  browser-cached machines, not faked in the campaign</div></td>
-                  <td><span className="verdict-mid">BOUNDED</span></td>
-                </tr>
-              </tbody>
-            </table>
+      <div className="section section-split">
+        <div className="split-card">
+          <h3>The eye polices itself</h3>
+          <p>26 adversarial pack cases over the real CLI, a second leg of 52
+          hostile attacks (seeded, deterministic), and a committed verdict
+          ledger: a NEW exploited case or any verdict regression fails CI.</p>
+          <div className="cta-row">
+            <Link className="btn btn-ghost" to="/packs">Packs</Link>
           </div>
-          <p className="field-report">
-            The counts above are current-tree receipts, not marketing: the pack
-            ledger sits at <code>packs/eye-ledger.json</code>, the crashtest
-            baseline at <code>labs/crashledger.json</code>, the full battery
-            map at <a href={DOCS + '/ci/'}>the CI guide</a>, and the verdict
-            taxonomy with the authoring surface at <a href={DOCS + '/packs/'}>packs</a>.
-          </p>
         </div>
-      </section>
-
-      <section className="section">
-        <div className="wrap">
-          <h2>The committed memory, live</h2>
-          <p className="sub">
-            This page reads eyestruct's own memory from main the way a fresh
-            agent session would: the committed ledger files in git, fetched at
-            load - no server, no hidden state, and no numbers fresher than the
-            commits. Counts below update when the ledgers update.
-          </p>
-          <pre-island data-pre-island="gate-status" data-pre-load="idle">
-            <span className="island-loading">Loading live status from the committed ledgers on main...</span>
-          </pre-island>
+        <div className="split-card">
+          <h3>Status: committed and live</h3>
+          <p>The same exposure you get on /packs, read from the same committed
+          ledgers fresh agents read - no server, no hidden state, no numbers
+          fresher than the commits.</p>
+          <div className="cta-row">
+            <Link className="btn btn-ghost" to="/status">Live status</Link>
+          </div>
         </div>
-      </section>
+      </div>
 
       <section className="section">
         <div className="wrap">
