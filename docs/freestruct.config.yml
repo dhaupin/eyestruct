@@ -6,7 +6,7 @@
 site:
   name: eyestruct Docs
   url: https://docs.creadev.org/eyestruct
-  description: "Eyes for production agents - deterministic look, committed .eyes/ visual memory, CI gates on unexplained drift."
+  description: "Eyes for production agents - deterministic look, committed labs/.eyes/ visual memory, CI gates on unexplained drift."
 twitter:
   card: summary_large_image
 # og.image deliberately omitted until the PNG set lands (og-image.png is

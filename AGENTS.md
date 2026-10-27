@@ -14,6 +14,7 @@ Working policies (seed; the brain grows these by working):
 - Tests: `npm test` (node:test, behavior-only, temp dirs, no network).
   Docs gates: `npm run lint:docs` - the PRD lives at labs/ UNDER ITS OWN
   VOICE (em-dash); docs/ is hyphen-voice and must stay clean.
-- Where things live: `labs/` (PRD canonical, TASKS), `models/private/magpie/`
+- Where things live: `labs/` (PRD canonical, TASKS, the eye home at
+  `labs/.eyes/` - the CLI default now), `models/private/magpie/`
   (the brain; never shipped), `horcrux/` (stones), `packs/` (adversarial
-  probes; packstruct-linted once wired), `web/` + `docs/` (the rig).
+  probes; packstruct-linted), `web/` + `docs/` (the rig).

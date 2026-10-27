@@ -149,6 +149,14 @@ which read as "agents can't really see."
 
 ### The memory law: `.eyes/` is git state
 
+Amendment - 2026-10-27 — host-decided placement. The `.eyes/` notation in
+this spec reads "the eye home, wherever the host keeps it"; it is not
+pinned to the tree root. eyestruct itself now defaults the home to
+`labs/.eyes/` (beside the PRD and the coming crash-harness state - the
+gistory shape, whose eyes live next to its crashledger), and hosts that
+prefer the root re-point it with `--manifest`/`--ledger`. Wherever it
+lives, the law is unchanged: committed, ledgered, CI-gated.
+
 Committed directory, one entry per route × viewport × theme: current image,
 the diff history that led to it, and the ledger row for each change. Any
 agent in the chain wakes up OWNING the project's visual history the same

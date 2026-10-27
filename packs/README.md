@@ -94,6 +94,6 @@ The runner is `scripts/run-packs.cjs` (`npm run packs`): zero-dependency,
 moduleCtx-armed, drives the REAL CLI as a subprocess, and enforces
 `packs/eye-ledger.json` - a new EXPLOITED fails, a verdict change against a
 previously recorded row fails, new rows adopt explicitly with
-`npm run packs -- --adopt`. `.eyes/` artifacts are out of the pack's scope:
+`npm run packs -- --adopt`. `labs/.eyes/` artifacts are out of the pack's scope:
 the gate (and its CI lane) owns those.
 

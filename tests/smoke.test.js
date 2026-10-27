@@ -46,18 +46,18 @@ test('seed the default repo state in the manifest + empty ledger', () => {
   const dir = tmpdir()
   const r = run(['init', '--browser-image', 'test-image:1', '--renderer', 'resvg@2.6.2'], dir)
   assert.strictEqual(r.code, 0)
-  const text = fs.readFileSync(path.join(dir, '.eyes', 'manifest.yml'), 'utf8')
+  const text = fs.readFileSync(path.join(dir, 'labs/.eyes', 'manifest.yml'), 'utf8')
   assert.match(text, /browser-image: test-image:1/)
   assert.match(text, /routes:/)
-  assert.strictEqual(fs.readFileSync(path.join(dir, '.eyes', 'ledger.json'), 'utf8').trim(), '[]')
+  assert.strictEqual(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8').trim(), '[]')
 })
 
 test('gate passes on a fully explained seeded tree', () => {
   const dir = tmpdir()
   run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
-  fs.mkdirSync(path.join(dir, '.eyes', 'home', 'desktop-1280'), { recursive: true })
-  fs.writeFileSync(path.join(dir, '.eyes', 'home', 'desktop-1280', 'current.png'), 'not-a-real-png-but-file-exists')
-  const ledger = path.join(dir, '.eyes', 'ledger.json')
+  fs.mkdirSync(path.join(dir, 'labs/.eyes', 'home', 'desktop-1280'), { recursive: true })
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'home', 'desktop-1280', 'current.png'), 'not-a-real-png-but-file-exists')
+  const ledger = path.join(dir, 'labs/.eyes', 'ledger.json')
   fs.writeFileSync(
     ledger,
     JSON.stringify([{ id: 'row-0001', ts: 1, agent: 't', commit: 'c', artifact: 'home/desktop-1280/current.png', type: 'look', note: 'seed' }]) + '\n',
@@ -70,8 +70,8 @@ test('gate passes on a fully explained seeded tree', () => {
 test('gate fails on an unexplained artifact (exit 1, UNRECORDED)', () => {
   const dir = tmpdir()
   run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
-  fs.mkdirSync(path.join(dir, '.eyes', 'home', 'desktop-1280'), { recursive: true })
-  fs.writeFileSync(path.join(dir, '.eyes', 'home', 'desktop-1280', 'current.png'), 'x')
+  fs.mkdirSync(path.join(dir, 'labs/.eyes', 'home', 'desktop-1280'), { recursive: true })
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'home', 'desktop-1280', 'current.png'), 'x')
   const r = run(['gate'], dir)
   assert.strictEqual(r.code, 1)
   assert.match(r.stderr, /eyestruct\[UNRECORDED\]/)
@@ -81,7 +81,7 @@ test('gate fails on an unexplained artifact (exit 1, UNRECORDED)', () => {
 test('gate fails on a dangling ledger row (exit 1)', () => {
   const dir = tmpdir()
   run(['init'], dir)
-  const ledger = path.join(dir, '.eyes', 'ledger.json')
+  const ledger = path.join(dir, 'labs/.eyes', 'ledger.json')
   fs.writeFileSync(
     ledger,
     JSON.stringify([{ id: 'row-0001', ts: 1, agent: 't', commit: 'c', artifact: 'ghost/current.png', type: 'look', note: 'x' }]) + '\n',
@@ -94,7 +94,7 @@ test('gate fails on a dangling ledger row (exit 1)', () => {
 test('corrupt ledger is a capability error (exit 2), never guessed past', () => {
   const dir = tmpdir()
   run(['init'], dir)
-  fs.writeFileSync(path.join(dir, '.eyes', 'ledger.json'), '{not json')
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), '{not json')
   const r = run(['gate'], dir)
   assert.strictEqual(r.code, 2)
   assert.match(r.stderr, /eyestruct\[LEDGER_CORRUPT\]/)
@@ -114,7 +114,7 @@ test('adopt with --note writes an unratified proposal row', () => {
   const r = run(['adopt', 'home/desktop-1280/current.png', '--note', 'rebuilt nav'], dir)
   assert.strictEqual(r.code, 0)
   assert.match(r.stdout, /proposed .* \(ratified:false\)/)
-  const rows = JSON.parse(fs.readFileSync(path.join(dir, '.eyes', 'ledger.json'), 'utf8'))
+  const rows = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
   assert.strictEqual(rows.length, 1)
   assert.strictEqual(rows[0].ratified, false)
   assert.strictEqual(rows[0].type, 'adopt')
@@ -197,9 +197,9 @@ maybeBrowser('look verb writes a candidate and leaves the ledger untouched', asy
   run(['init'], dir)
   const r = run(['look', FIXTURE, '--viewport', '800x600'], dir)
   assert.strictEqual(r.code, 0)
-  const cands = fs.readdirSync(path.join(dir, '.eyes-candidates')).filter((f) => f.endsWith('.png'))
+  const cands = fs.readdirSync(path.join(dir, 'labs/.eyes-candidates')).filter((f) => f.endsWith('.png'))
   assert.strictEqual(cands.length, 1)
-  assert.deepStrictEqual(fs.readFileSync(path.join(dir, '.eyes', 'ledger.json'), 'utf8').trim(), '[]')
+  assert.deepStrictEqual(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8').trim(), '[]')
 })
 
 maybeBrowser('diff without a baseline refuses with a named code (exit 1)', () => {
@@ -290,8 +290,8 @@ maybeBrowser('ratify: byte-identical slots ride append-only rows; drift is named
   run(['init'], dir)
   const r1 = run(['look', FIXTURE, '--viewport', '800x600'], dir)
   assert.strictEqual(r1.code, 0)
-  const cand = fs.readdirSync(path.join(dir, '.eyes-candidates')).find((f) => f.endsWith('.png'))
-  const slotDir = path.join(dir, '.eyes')
+  const cand = fs.readdirSync(path.join(dir, 'labs/.eyes-candidates')).find((f) => f.endsWith('.png'))
+  const slotDir = path.join(dir, 'labs/.eyes')
   // tamper: a DIFFERENT baseline must be un-verifiable, not auto-adopted
   fs.writeFileSync(path.join(slotDir, 'hand-write-tampered.png'), Buffer.alloc(2048, 7))
   run(['adopt', 'hand-write-tampered.png', '--note', 'a tampered canon row the pinned env cannot reproduce'], dir)
@@ -300,6 +300,6 @@ maybeBrowser('ratify: byte-identical slots ride append-only rows; drift is named
   // capture fails per-surface; what must hold is that NOTHING was ratified
   // and the exit contract named the drift, with the ledger append-only.
   assert.ok([0, 1].includes(r.code))
-  const ledger = JSON.parse(fs.readFileSync(path.join(dir, '.eyes', 'ledger.json'), 'utf8'))
+  const ledger = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
   assert.ok(!ledger.some((row) => row.type === 'ratify'), 'ratify must not forge proof rows for drifted canon')
 })

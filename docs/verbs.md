@@ -3,14 +3,14 @@ version: '1.0'
 permalink: verbs/
 layout: default
 title: Verbs
-description: Every eyestruct command is one short process - look, diff, adopt, ledger, gate, raster, ratify, walk, mcp. The only surviving state is .eyes/.
+description: Every eyestruct command is one short process - look, diff, adopt, ledger, gate, raster, ratify, walk, mcp. The only surviving state is labs/.eyes.
 nav_order: 2
 ---
 
 # Verbs
 
 Every command is one short process, never a daemon. The only state that
-survives between looks is `.eyes/` - committed, chain-shared via git.
+survives between looks is `labs/.eyes/` - committed, chain-shared via git.
 Exit contract: `0` green or explained, `1` drift or refusal with a named
 reason, `2` setup or capability trouble. No bare stack traces.
 
@@ -20,10 +20,11 @@ reason, `2` setup or capability trouble. No bare stack traces.
 eyestruct init [--browser-image TAG] [--renderer resvg@V]
 ```
 
-Writes `.eyes/manifest.yml` (the pin + route matrix, a strict
-hand-editable subset) and an empty ledger. Other hosts keep their eyes
-next to their own crashledger (gistory: `labs/.eyes`) via
-`--manifest`/`--ledger`; the default everywhere else is `.eyes/`.
+Writes `labs/.eyes/manifest.yml` (the pin + route matrix, a strict
+hand-editable subset) and an empty ledger. The default home itself is
+`labs/.eyes/` now - beside the PRD and the crash-harness state (the
+gistory shape) - and hosts that keep theirs elsewhere re-point it with
+`--manifest`/`--ledger`.
 
 ## Looking and diffing
 
@@ -32,7 +33,7 @@ eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec
 eyestruct diff <url> [--against PATH]
 ```
 
-`look` captures one route/view into `.eyes/` and appends a ledger row.
+`look` captures one route/view into `labs/.eyes/` and appends a ledger row.
 `diff` compares a fresh capture against the committed baseline; a local
 look followed by `adopt` is how a change gets proposed.
 
@@ -54,7 +55,7 @@ eyestruct gate
 eyestruct raster [file...]
 ```
 
-`gate` is the CI job: exit 1 on unexplained `.eyes/` drift. `raster`
+`gate` is the CI job: exit 1 on unexplained `labs/.eyes/` drift. `raster`
 does strict SVG parse + render + byte-size sanity - it never fake-passes
 without a renderer.
 

@@ -6,7 +6,7 @@
   "entry": "index.js",
   "env": {
     "fs": {
-      "targets": [".eyes/manifest.yml", ".eyes/ledger.json", ".eyes/<route>/<view>/current.png"]
+      "targets": ["labs/.eyes/manifest.yml", "labs/.eyes/ledger.json", "labs/.eyes/<route>/<view>/current.png"]
     },
     "cli": ["look", "diff", "adopt", "ledger", "gate", "raster", "walk", "mcp"]
   }

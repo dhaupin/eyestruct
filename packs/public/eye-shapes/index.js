@@ -61,7 +61,7 @@ const CASES = [
     attack: 'hand-mangled manifest pin reads as valid memory',
     setup(ctx, dir) {
       initRepo(ctx, dir)
-      ctx.writeFile(dir, '.eyes/manifest.yml', 'pin:\n  no-browser-key: nope\nroutes:\n')
+      ctx.writeFile(dir, 'labs/.eyes/manifest.yml', 'pin:\n  no-browser-key: nope\nroutes:\n')
     },
     expect: { code: 2, reason: 'MANIFEST_CORRUPT' },
     run(ctx, dir) {
@@ -73,7 +73,7 @@ const CASES = [
     attack: 'a half-written ledger is guessed past instead of refused',
     setup(ctx, dir) {
       initRepo(ctx, dir)
-      ctx.writeFile(dir, '.eyes/ledger.json', '{"rows": [oops')
+      ctx.writeFile(dir, 'labs/.eyes/ledger.json', '{"rows": [oops')
     },
     expect: { code: 2, reason: 'LEDGER_CORRUPT' },
     run(ctx, dir) {
@@ -86,8 +86,8 @@ const CASES = [
     setup(ctx, dir) {
       initRepo(ctx, dir)
       const row = '{"id":"row-0001","ts":1,"agent":"a","commit":"c","artifact":"home/current.png","type":"adopt","note":"n"}'
-      ctx.writeFile(dir, '.eyes/ledger.json', `[${row},${row}]`)
-      ctx.writeFile(dir, '.eyes/home/current.png', 'pngish')
+      ctx.writeFile(dir, 'labs/.eyes/ledger.json', `[${row},${row}]`)
+      ctx.writeFile(dir, 'labs/.eyes/home/current.png', 'pngish')
     },
     expect: { code: 2, reason: 'LEDGER_CORRUPT' },
     run(ctx, dir) {
@@ -117,7 +117,7 @@ const CASES = [
     attack: 'a pixel change ships with no ledger row explaining it',
     setup(ctx, dir) {
       initRepo(ctx, dir)
-      ctx.writeFile(dir, '.eyes/home/current.png', 'pngish')
+      ctx.writeFile(dir, 'labs/.eyes/home/current.png', 'pngish')
     },
     expect: { code: 1, reason: 'UNRECORDED' },
     run(ctx, dir) {
@@ -129,7 +129,7 @@ const CASES = [
     attack: 'a ledger row canonizes an artifact that no longer exists',
     setup(ctx, dir) {
       initRepo(ctx, dir)
-      ctx.writeFile(dir, '.eyes/ledger.json', JSON.stringify([{
+      ctx.writeFile(dir, 'labs/.eyes/ledger.json', JSON.stringify([{
         id: 'row-0001', ts: 1, agent: 'a', commit: 'c', type: 'adopt',
         artifact: 'home/ghost.png', note: 'claims a file that was never committed', ratified: false,
       }], null, 2))

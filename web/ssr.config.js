@@ -19,7 +19,7 @@ export default {
       changefreq: 'monthly',
       meta: {
         title: 'eyestruct - eyes for production agents',
-        description: 'Deterministic look and look-diff with a committed visual memory (.eyes/) that CI can gate. Process-per-look: the only surviving state is git state.',
+        description: 'Deterministic look and look-diff with a committed visual memory (labs/.eyes/) that CI can gate. Process-per-look: the only surviving state is git state.',
       },
     },
     {

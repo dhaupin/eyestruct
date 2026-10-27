@@ -27,13 +27,13 @@ const COMMANDS = {
 function usage() {
   return `eyestruct v0.9.0 - eyes for production agents
 
-Commands (each is one short process; the only surviving state is .eyes/):
-  init [--browser-image TAG] [--renderer resvg@V]   write .eyes/manifest.yml + empty ledger
+Commands (each is one short process; the only surviving state is labs/.eyes/):
+  init [--browser-image TAG] [--renderer resvg@V]   write labs/.eyes/manifest.yml + empty ledger
   look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]
   diff <url> [--against PATH]         fresh capture vs committed baseline (candidity: look then adopt)
   adopt <route/view> --note "..."    propose a baseline change (canon is CI-cut)
   ledger list [ROUTE] | show ID      read the memory
-  gate                               CI job: exit 1 on unexplained .eyes/ drift
+  gate                               CI job: exit 1 on unexplained labs/.eyes/ drift
   raster [file...]                   strict parse + render + byte-size sanity
   walk <base-url>                    every route x viewport x theme, one pass
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
@@ -58,8 +58,11 @@ async function main() {
   if (!impl0) fail('UNKNOWN_COMMAND', `"${cmd}" is not an eyestruct command`)
   const impl = typeof impl0 === 'function' ? impl0 : impl0.run
   const args = argv.slice(1)
-  // The host-owned locations: gistory keeps its eyes at labs/.eyes (next to
-  // crashledger.json), other repos keep the .eyes default. usage() promised
+  // The host-owned locations, now one shape: eyestruct keeps its own eyes at
+  // labs/.eyes (beside the PRD and the coming crash-harness state - the
+  // gistory shape: labs/.eyes next to crashledger.json), because that IS
+  // the tool default; hosts that want the root pass --manifest/--ledger or
+  // change the two lib defaults. usage() promised
   // these flags; they were parsed nowhere before - the defaults were the
   // only honored path. flags objects are READ here once and travel inside
   // ctx, so every verb resolves the same two files the dispatch named.

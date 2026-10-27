@@ -5,7 +5,7 @@
 title: eyestruct
 baseurl: "/eyestruct"
 url: "https://docs.creadev.org"
-description: "Eyes for production agents - deterministic look, committed .eyes/ visual memory, CI gates on unexplained drift. Process-per-look: the only surviving state is git state."
+description: "Eyes for production agents - deterministic look, committed labs/.eyes/ visual memory, CI gates on unexplained drift. Process-per-look: the only surviving state is git state."
 
 markdown: kramdown
 highlighter: rouge

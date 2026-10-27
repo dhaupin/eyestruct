@@ -1,4 +1,4 @@
-# CI-cut canon: the .eyes/ ratified:false rows become canon only when the
+# CI-cut canon: the labs/.eyes/ ratified:false rows become canon only when the
 # pinned environment reproduces the capture byte-identically. Local agents
 # (and this dev workspace) PROPOSE baselines; this workflow cuts them.
 #
@@ -8,12 +8,14 @@
 # the adopt-on-drift path proposes pinned-env captures; a fresh dispatch
 # is the independent witness that cuts canon. The ledger is append-only.
 #
-# THE EYES HOME IS A HOST DECISION. eyestruct IS eyes, so the repo keeps
-# the tool's default home: .eyes/ at the tree root (manifest routes, view
-# slots, ledger). One constant below; every step derives its paths from
-# $EYES_HOME, so a host move is this line plus the gate's default - never a
+# THE EYES HOME IS A HOST DECISION. eyestruct IS eyes, and its host moves
+# the home to labs/.eyes - beside the PRD and the coming crash-harness
+# state (the gistory shape: labs/.eyes next to crashledger.json). This is
+# also the tool's default now (the two defaults live in lib/ledger.js +
+# lib/manifest.js). Every step below still derives its paths from
+# $EYES_HOME, so a host move is this line plus those defaults - never a
 # hunt through step bodies. The --manifest/--ledger flags are wired into
-# bin/eyestruct.js; without them the tool silently falls back to .eyes/.
+# bin/eyestruct.js and passed explicitly in every invocation.
 #
 # Version truth lives in the manifest: the Provision step reads
 # pin.browser-image OUT of $EYES_HOME/manifest.yml instead of carrying its
@@ -22,8 +24,8 @@
 #
 # Ported from gistory's eyes-ratify.yml on move day (dhaupin/eyestruct#2
 # step 5), with three adaptations: the tool runs from THIS repo (bin/,
-# lib/ at the root - no staging prefix), EYES_HOME is the tool default
-# (.eyes/) per the move-plan's "a repo that IS eyes" line, and the bake
+# lib/ at the root - no staging prefix),            EYES_HOME is labs/.eyes - which is the tool default too - per the
+# move-plan's "a repo that IS eyes" line, and the bake
 # step rides web/'s own pipeline (prestruct build + repair-404) instead
 # of gistory's.
 #
@@ -42,7 +44,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  EYES_HOME: .eyes
+  EYES_HOME: labs/.eyes
 
 jobs:
   ratify:
@@ -122,9 +124,9 @@ jobs:
           echo "manifest-derived slots:"
           printf '%s\n' "$MAP"
           while read -r SLOT CAND; do
-            test -f ".eyes-candidates/$CAND" || (echo "walk did not produce $CAND" && exit 2)
+            test -f "labs/.eyes-candidates/$CAND" || (echo "walk did not produce $CAND" && exit 2)
             mkdir -p "$EYES_HOME/$SLOT"
-            cp ".eyes-candidates/$CAND" "$EYES_HOME/$SLOT/current.png"
+            cp "labs/.eyes-candidates/$CAND" "$EYES_HOME/$SLOT/current.png"
             node bin/eyestruct.js adopt "$SLOT" --note "bootstrap: pinned-env capture (linux chrome ${PINNED_CHROME:-pinned}) at $EYES_HOME; canon cuts on the next ratify dispatch" --manifest "$EYES_HOME/manifest.yml" --ledger "$EYES_HOME/ledger.json"
           done <<< "$MAP"
           echo "proposal committed; re-dispatch eyes-ratify to cut canon"
@@ -132,7 +134,7 @@ jobs:
       - name: Commit the proof rows
         run: |
           if git diff --quiet -- "$EYES_HOME/"; then
-            echo "No .eyes/ change - canon was already reproducible."
+            echo "No labs/.eyes/ change - canon was already reproducible."
             exit 0
           fi
           git config user.name "eyestruct ratify"

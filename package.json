@@ -2,7 +2,7 @@
   "name": "eyestruct",
   "private": true,
   "version": "0.9.0",
-  "description": "Eyes for production agents: deterministic look / look-diff with a committed visual memory (.eyes/) that CI can gate. Process-per-look; the only surviving state is git state.",
+  "description": "Eyes for production agents: deterministic look / look-diff with a committed visual memory (labs/.eyes/) that CI can gate. Process-per-look; the only surviving state is git state.",
   "license": "MIT",
   "type": "commonjs",
   "homepage": "https://docs.creadev.org/eyestruct",

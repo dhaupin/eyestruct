@@ -1,6 +1,6 @@
 // eye-text-leg - the poststruct integration pack. The family law it encodes:
 // text is the cheaper diff, so it gates FIRST before pixels are compared.
-// What it verifies about a target repo's .eyes/ surfaces:
+// What it verifies about a target repo's labs/.eyes/ surfaces:
 //
 //   1. text fields are written clean: a control character in a note, agent
 //      id or artifact path is refused at the write surface (UNSAFE_TEXT)
@@ -54,7 +54,7 @@ const CASES = [
     id: 'clean-note-writes-and-round-trips',
     claim: { verdict: 'PASSED' },
     checks(ctx, dir) {
-      const ledger = take(ctx, 'read')(dir, '.eyes/ledger.json')
+      const ledger = take(ctx, 'read')(dir, 'labs/.eyes/ledger.json')
       if (!ledger) return 'ledger missing after the adopt'
       let rows
       try {
@@ -71,7 +71,7 @@ const CASES = [
     id: 'manifest-stays-strict',
     claim: { verdict: 'PASSED' },
     checks(ctx, dir) {
-      const manifest = take(ctx, 'read')(dir, '.eyes/manifest.yml')
+      const manifest = take(ctx, 'read')(dir, 'labs/.eyes/manifest.yml')
       if (!manifest) return 'manifest missing on a freshly seeded repo'
       if (!/^pin:\n  browser-image: \S+/.test(manifest)) return 'pin block does not parse as the family schema'
       return null
