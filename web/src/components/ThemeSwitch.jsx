@@ -18,7 +18,7 @@ function toggleTheme() {
   el.dataset.theme = next
   try { localStorage.setItem(THEME_KEY, next) } catch { /* private mode: live without persistence */ }
   const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.setAttribute('content', next === 'light' ? '#f5f6fa' : '#10131a')
+  if (meta) meta.setAttribute('content', next === 'light' ? '#f3f4f8' : '#0d0e13')
 }
 
 export default function ThemeSwitch() {
@@ -26,7 +26,7 @@ export default function ThemeSwitch() {
     // Keep the meta theme-color honest if the bootstrap already flipped to light.
     if (document.documentElement.dataset.theme === 'light') {
       const meta = document.querySelector('meta[name="theme-color"]')
-      if (meta) meta.setAttribute('content', '#f5f6fa')
+      if (meta) meta.setAttribute('content', '#f3f4f8')
     }
   }, [])
   return (

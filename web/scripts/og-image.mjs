@@ -27,8 +27,8 @@ const require = createRequire(import.meta.url)
 const resolveTtf = (name) =>
   path.join(path.dirname(require.resolve('dejavu-fonts-ttf/package.json')), 'ttf', name)
 
-const A = '#6d8cff', P = '#10131a', S = '#161b24', RAISED = '#1d2430',
-      INK = '#e7eaf1', SOFT = '#98a2b3', MOSS = '#3fae72', LINE = '#2a3140'
+const A = '#7d8ff0', P = '#0d0e13', S = '#13151c', RAISED = '#1a1d28',
+      INK = '#e9ebf2', SOFT = '#97a0b4', MOSS = '#46bb82', LINE = '#262b39'
 
 const svg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
