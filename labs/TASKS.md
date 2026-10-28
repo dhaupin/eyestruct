@@ -1,5 +1,29 @@
 # eyestruct - rolling work log
 
+- **Interface-honesty counted change (2026-10-28).** The flag-gate walk
+  round found the lie class live: `gate --freeze` exited 0 - trailing
+  unknown flags were silently ignored, so any typo'd flag made a verb
+  quietly run without it (worst on a CI gate). Commissioned same-session
+  per the walk-exit rule, as a COUNTED change under the carrier ruling:
+  the 29th reason code `UNKNOWN_FLAG` (exit 1) landed in lib/reasons.js
+  WITH its eye-adapter carrier case first (`refusal-grammar-additions-
+  land-in-the-carrier-first` - the pack receipts the grammar addition,
+  re-baseline to 35 verdicts), the per-verb flag ledger in
+  bin/eyestruct.js (GLOBAL_FLAGS + VERB_FLAGS one table, joined forms
+  normalized, repeats refuse BAD_FLAG_VALUE - say it once), trailing
+  `--help`/`--version` now actually work after any verb, and the
+  mirrors moved in the same commit: census pins (29 codes / 35 rows),
+  AGENTS.md, docs/cli.md + docs/reasons.md, web ssr.config + Home +
+  Packs + the regenerated og-image card. Battery legs added in
+  tests/smoke.test.js (unknown trailing + joined + repeat + clean
+  known-flag + trailing help/version). Side commission: og-image.mjs
+  resolved `dejavu-fonts-ttf` from an undeclared dependency - it worked
+  only from a prior machine's hoist (the runner restart one-mortem);
+  now a declared web devDependency, web/package-lock.json updated.
+  End of round: battery 89 pass / 0 fail / 8 skips, all 6 check gates
+  PASS. The dated 0.9.0 announcement keeps its historical 28 - true
+  for its era.
+
 - **The promotion rule, commissioned (2026-10-28).** The walk/pack
   conundrum settled: a walk is the discovery rung, packs are the memory
   rung, and the rule that joins them is "a walk isn't done until nothing

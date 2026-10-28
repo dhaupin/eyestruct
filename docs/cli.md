@@ -103,10 +103,12 @@ Within 1.x:
 - **Additions are minors, loudly.** A new verb or flag lands as a minor
   bump with this page updated in the same commit; silence is never a
   release.
-- **The exit contract rides the same law.** The 0-1-2 contract and the 28
+- **The exit contract rides the same law.** The 0-1-2 contract and the 29
   named reason codes ([reason codes](/eyestruct/reasons), mirror of
   `lib/reasons.js`) are additive-first within 1.x; a removal can only ride
-  2.0.
+  2.0. The flag gate on this page is part of the honesty: unknown flags
+  refuse by name (`UNKNOWN_FLAG`) and a flag is stated once, never
+  restated - the 2026-10-28 interface-honesty counted change.
 - **Counts cannot drift.** The battery's count census (`tests/census.test.js`,
   eyestruct#10 item 3) compares every hand-copied count-claim on the
   audited docs/meta surfaces against the live ledgers and the source

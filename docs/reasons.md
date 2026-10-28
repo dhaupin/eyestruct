@@ -46,6 +46,7 @@ error instead of killing the whole runner.
 | code | one-line meaning |
 |--------|--------------------|
 | `UNKNOWN_COMMAND` | not an eyestruct command |
+| `UNKNOWN_FLAG` | not a flag this verb knows - a flag that does nothing is a lie, never a silent no-op |
 | `UNRECORDED` | a committed `labs/.eyes/` artifact has no ledger row explaining it |
 | `DANGLING_ROW` | a ledger row references an artifact that no longer exists |
 | `PIN_MISMATCH` | capture ran on a pin other than the manifest baseline pin |
@@ -81,7 +82,7 @@ from. Disagreement means the page is stale and the lib wins.
 
 ## The stability law for this table
 
-The 28 codes freeze at 1.0.0 under the same rule the CLI verbs and the
+The 29 codes freeze at 1.0.0 under the same rule the CLI verbs and the
 MCP tools carry: additive-first within 1.x (a new code is a minor bump
 plus a row here in the same commit), never a removal or a re-spelled
 semantic inside 1.x - those ride 2.0. The exit contract (0 green and

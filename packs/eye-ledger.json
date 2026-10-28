@@ -19,6 +19,11 @@
     },
     {
       "pack": "eye-adapter",
+      "id": "refusal-grammar-additions-land-in-the-carrier-first",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-adapter",
       "id": "adapter-canon-is-proposal-only",
       "verdict": "PASSED"
     },

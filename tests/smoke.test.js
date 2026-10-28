@@ -61,6 +61,39 @@ test('the init flag trap: a flag cannot occupy the next flag\'s value slot (BAD_
   assert.strictEqual(fs.existsSync(path.join(dir, 'labs/.eyes', 'manifest.yml')), false, 'the refusal must not leave a pin behind')
 })
 
+test('unknown trailing flags refuse by name (UNKNOWN_FLAG, the interface-honesty lid) - a flag that does nothing is a lie', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // `gate --freeze` used to exit 0, silently running without the typo.
+  const r = run(['gate', '--freeze'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /eyestruct\[UNKNOWN_FLAG\]/)
+  assert.match(r.stderr, /--freeze/)
+  assert.match(r.stderr, /not a flag the gate verb knows/)
+  // Joined form normalizes to the same refusal.
+  const joined = run(['gate', '--bogus=1'], dir)
+  assert.strictEqual(joined.code, 1)
+  assert.match(joined.stderr, /eyestruct\[UNKNOWN_FLAG\]/)
+  // Known flag + correct verb still runs clean (no false refusals).
+  const clean = run(['gate', '--json'], dir)
+  assert.strictEqual(clean.code, 0)
+})
+
+test('a flag is stated once (BAD_FLAG_VALUE on repeats), and trailing --help/--version do their job', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const dup = run(['ledger', 'list', '--ledger', 'a.json', '--ledger', 'b.json'], dir)
+  assert.strictEqual(dup.code, 1)
+  assert.match(dup.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(dup.stderr, /--ledger is stated more than once/)
+  const help = run(['gate', '--help'], dir)
+  assert.strictEqual(help.code, 0)
+  assert.match(help.stdout, /eyestruct v/)
+  const ver = run(['gate', '--version'], dir)
+  assert.strictEqual(ver.code, 0)
+  assert.strictEqual(ver.stdout.trim(), require('../package.json').version)
+})
+
 test('adopt refuses a flag occupying the --note slot (ADOPT_NOTE_REQUIRED, no row)', () => {
   const dir = tmpdir()
   run(['init'], dir)

@@ -135,6 +135,55 @@ async function main() {
   // Leading globals re-enter the args stream so every verb sees the same
   // flags no matter which side of the verb they rode in on.
   const args = prefix ? [...prefix.flags, ...argv.slice(prefix.after)] : argv.slice(1)
+  // The interface-honesty gate (the 2026-10-28 walk round, UNKNOWN_FLAG
+  // joined as the 29th code): per-verb flags live in ONE ledger in this
+  // file (the machine mirror of usage()'s lines), and a trailing token
+  // a verb does not know refuses BY NAME - `gate --freeze` used to exit 0
+  // silently running without its typo (the lie class). Joined forms
+  // (--flag=VALUE) normalize to the bare flag before the membership test;
+  // bools must be bare (a joined --json never turned json mode on).
+  // `--help`/`-h` after any verb prints usage (they do something now, not
+  // nothing); a trailing `--version` prints the package.json truth the
+  // same way the leading shape does. Repeated tokens refuse - say it once.
+  const GLOBAL_FLAGS = ['--ledger', '--manifest', '--json', '--version', '--help', '-h']
+  const VERB_FLAGS = {
+    init: ['--browser-image', '--renderer', '--browser-bundle'],
+    look: ['--viewport', '--theme', '--region', '--browser-exec'],
+    diff: ['--viewport', '--theme', '--region', '--browser-exec', '--against'],
+    spot: ['--viewport', '--theme', '--region', '--browser-exec'],
+    walk: ['--viewport', '--theme', '--region', '--browser-exec'],
+    ratify: ['--viewport', '--theme', '--region', '--browser-exec'],
+    adopt: ['--note', '--wave'],
+    ledger: [],
+    gate: [],
+    raster: [],
+    'lint-packs': ['--deep', '--against'],
+    serve: ['--port', '--headers'],
+    mcp: [],
+  }
+  const seen = new Set()
+  for (const t of args) {
+    if (!t.startsWith('-')) continue
+    const i = t.indexOf('=')
+    const norm = i === -1 ? t : t.slice(0, i)
+    if (norm === '-h' || norm === '--help') {
+      if (i !== -1) fail('BAD_FLAG_VALUE', `${norm} takes no value - use it bare`)
+      process.stdout.write(usage())
+      process.exit(0)
+    }
+    if (norm === '--version') {
+      if (i !== -1) fail('BAD_FLAG_VALUE', '--version takes no value - use it bare')
+      process.stdout.write(require('../package.json').version + '\n')
+      process.exit(0)
+    }
+    if (norm === '--json' && i !== -1) fail('BAD_FLAG_VALUE', '--json takes no value - use it bare')
+    if (seen.has(norm)) fail('BAD_FLAG_VALUE', `${norm} is stated more than once - say it once`)
+    seen.add(norm)
+    const allowed = GLOBAL_FLAGS.includes(norm) || (VERB_FLAGS[cmd] || []).includes(norm)
+    if (!allowed) {
+      fail('UNKNOWN_FLAG', `"${norm}" is not a flag the ${cmd} verb knows (allowed: ${[...GLOBAL_FLAGS, ...(VERB_FLAGS[cmd] || [])].join(' ')})`)
+    }
+  }
   // A flag that is present but EMPTY (`--ledger=`) is a bad flag value,
   // never a "use the default": the falsy-empty fallback would silently
   // point the verb at the tree home instead of the stated one (the

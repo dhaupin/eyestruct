@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (2026-10-28, interface honesty - the counted change)
+
+- The flag gate: trailing unknown flags refuse by name - the 29th reason
+  code, `UNKNOWN_FLAG` (exit 1) - instead of silently exiting 0 without
+  the typo'd flag (`gate --freeze` used to run as if the flag never
+  existed; a flag that does nothing is a lie, never a silent no-op).
+  Trailing `--help`/`--version` now DO their job after any verb, joined
+  bool forms (`--json=x`) refuse `BAD_FLAG_VALUE`, and any flag stated
+  more than once refuses the same way - say it once. The counted change
+  moved in one commit: `lib/reasons.js` (CODES + REASONS), the
+  eye-adapter carrier case that receipts the refusal-grammar addition
+  (35 pack verdicts / 5 packs, 0 exploited), the census pins (29 codes,
+  35 rows), AGENTS.md, docs/cli.md + docs/reasons.md mirrors, the web
+  og-image card, and the battery legs. Found by the walk round (the
+  gate `--freeze` probe), commissioned same-session per the walk-exit
+  rule; the card generator's undeclared `dejavu-fonts-ttf` dependency
+  (a one-mortem the runner restart exposed - it resolved only from a
+  prior machine's hoist) is now a declared web devDependency in the
+  same change.
+
 ### Fixed (2026-10-28, the walk)
 
 - `lib/serve-dist.js` served the brand jpgs as `application/octet-stream`

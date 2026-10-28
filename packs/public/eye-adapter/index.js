@@ -74,6 +74,21 @@ const CASES = [
     },
   },
   {
+    id: 'refusal-grammar-additions-land-in-the-carrier-first',
+    claim: { verdict: 'PASSED' },
+    checks(ctx, dir) {
+      // The interface-honesty code (UNKNOWN_FLAG, joined 2026-10-28 as the
+      // 29th): refusal codes are schema, so a registry addition must ride
+      // this case FIRST. This case is that receipt - and it pins the new
+      // code's exit class (drift/refusal = 1, never a setup class).
+      const reasons = require('../../../lib/reasons.js')
+      if (!reasons.CODES.UNKNOWN_FLAG) return 'the refusal registry gained a grammar rule without riding its carrier - add the case here FIRST, then the code'
+      if (reasons.CODES.UNKNOWN_FLAG !== 1) return 'UNKNOWN_FLAG must keep exit class 1 (drift/refusal), never a setup class'
+      if (reasons.CODES.UNKNOWN_COMMAND !== 1) return 'UNKNOWN_COMMAND must keep exit class 1'
+      return null
+    },
+  },
+  {
     id: 'adapter-canon-is-proposal-only',
     claim: { verdict: 'PASSED' },
     run(ctx, dir) {

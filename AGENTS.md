@@ -41,8 +41,10 @@ Working policies (seed; the brain grows these by working):
   semantic change on the public surfaces - the 13 COMMANDS verbs + usage
   flags (bin/eyestruct.js; serve + spot joined 2026-10-28 as the minor
   bump the law prescribes, with docs/cli.md moved in the same commit),
-  the 28 reason codes + the 0-1-2 exit
-  contract (lib/reasons.js), the 10 TOOLS + inputSchemas (lib/mcp.js;
+  the 29 reason codes + the 0-1-2 exit
+  contract (lib/reasons.js; UNKNOWN_FLAG joined 2026-10-28 as the
+  interface-honesty refusal, docs/reasons.md mirrored in the same
+  change), the 10 TOOLS + inputSchemas (lib/mcp.js;
   spot joined 2026-10-28 as the same-class minor bump, docs/mcp.md in
   the same change),
   the labs/.eyes/ manifest-pin schema, the adapter contract
@@ -86,9 +88,11 @@ Working policies (seed; the brain grows these by working):
   in the same session; the serve-dist HTTP-shape probes became
   tests/serve-dist.test.js; the lint-packs exit-fidelity claim became
   its adapter-api leg.
-- Receipts to cite: 28 reason-codes (lib/reasons.js), 34 pack verdicts
+- Receipts to cite: 29 reason-codes (lib/reasons.js; UNKNOWN_FLAG joined
+  2026-10-28 as the interface-honesty refusal), 35 pack verdicts
   across 5 packs (packs/eye-ledger.json; eye-adapter is the adapter
-  surface's schema carrier per the bridge/carrier ruling), the 52/52
+  surface's schema carrier per the bridge/carrier ruling, and its
+  refuse-grammar case receipted the UNKNOWN_FLAG addition), the 52/52
   hostile leg (labs/crashledger.json),
   the bundle lane receipts (lib/bundle.js; offline executor, integrity
   verified at every resolution), the two ship receipts (labs/TASKS.md

@@ -14,7 +14,7 @@ export default function Packs() {
     path: '/packs',
     title: 'Packs | eyestruct',
     description:
-      'The adversarial surface: 34 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+      'The adversarial surface: 35 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
   })
   return (
     <>
