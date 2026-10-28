@@ -679,3 +679,20 @@
   (status-page GitHub fetch, npm-registry install fetch, three named third
   parties). Receipt comment filed on the issue; the canonical reference
   still owes a real published surface before other repos should copy IT.
+- Post-0.9.0 truthfulness walk (2026-10-28, f340257 base): three live-surface
+  stale-claims caught - the "26 pack cases" figure in web/ssr.config.js's
+  /packs SEO meta, docs/ci.md, and docs/discussions/index.md all lagged the
+  committed 30-case ledger (the Home/Packs pages and AGENTS were re-counted
+  honestly in the earlier sweep; these three were the missed copy). Fixed to
+  30; prerender verified the corrected meta lands in dist HTML. Full CI
+  battery green on the same pass: raster:gate exit 0, crashtest 52/52
+  REFUSED / 0 EXPLOITED (baseline clean), npm test 63 pass / 8 skips,
+  npm run check exit 0 + TRIFECTA PASS. Clean elsewhere: secrets scan empty
+  (token/private-key patterns across bin/lib/scripts/tests/docs/web/packs/
+  .github), all workflow pins SHA-pinned with version comments, docs/cli.md
+  mirrors all 11 dispatch verbs, docs/mcp.md mirrors the full 10-tool
+  registry. Non-findings recorded honestly: cli.md's "--version/--help/
+  command" matches are prose phrasing, not fence citations (the trifecta's
+  fence parser is the receipt); artifacts/, vite-dev.log and the
+  self-declared VM-local web/vite-dev.config.mjs wrapper are preview strays,
+  now gitignored at their own request lines.

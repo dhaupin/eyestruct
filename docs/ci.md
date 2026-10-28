@@ -25,7 +25,7 @@ tweed, and where to look first when it goes red.
 | gate | what it polices | adopt flow |
 |-------|-------------------|--------------|
 | `lint:docs` | 5 gates: frontmatter, links, style (hyphen-only voice), fiction signatures, jekyll filters | fix the page |
-| `npm run packs` | the eye pack campaign - 26 adversarial cases over the real CLI | `npm run packs -- --adopt` re-baselines new refusals |
+| `npm run packs` | the eye pack campaign - 30 adversarial cases over the real CLI | `npm run packs -- --adopt` re-baselines new refusals |
 | `npm run lint:packs` | packstruct `--deep` grammar over `packs/` | fix the pack |
 | `npm run conform:packs` | packstruct audit-conformance with the loader | loader stays the ground truth |
 

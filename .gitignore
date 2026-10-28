@@ -9,6 +9,12 @@ models/
 .eyes-candidates/
 packs/local/
 labs/run-meta.json
+# session/preview strays (the dev-preview vite wrapper says on its own
+# face "not for commit"; artifacts/ carries the docs theme-frame probes;
+# vite-dev.log is a preview-server log)
+artifacts/
+vite-dev.log
+web/vite-dev.config.mjs
 # local docs toolchain (the Jekyll preview recipe runs from a scratch
 # copy + Bundler path outside the repo, so these should never appear;
 # belt-and-suspenders so an accidental in-tree build taints nothing)
