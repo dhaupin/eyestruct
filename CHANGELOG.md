@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (2026-10-28, agents-vision)
+
+- `spot` is the tenth MCP tool: one capture, always saved to
+  `labs/.eyes-candidates/` and returned as a file path the coding agent
+  re-opens with its own vision on a later turn - the MCP leg of the
+  agents-vision loop (`serve` stays CLI-only; it owns a port for its
+  lifetime, while the MCP server owns the stream). Mirrors updated in
+  the same change: docs/mcp.md (ten tools) and the count census pin
+  (`TRUTHS['mcp tools']` 9 -> 10).
+- The agents-vision playbook (`docs/playbooks/agents-vision.md`):
+  the mechanical recipe for a coding agent seeing its own work - serve
+  the baked tree, spot it, read the pixels with its own vision, act,
+  re-spot - with the five loop rules and the browser-resolution order.
+- The web surfaces carry the feature: a `/` feature card for the
+  instance loop and a header/footer Playbooks link into the docs
+  playbook tree, plus the dedicated `/agents` route - hero, the
+  five-step loop pipeline, CLI + MCP call examples, the served-tree
+  guarantees, the browser-resolution order, and the visual-memory pitch
+  - registered in AppLayout.jsx and ssr.config.js (sitemap + nav all
+  carry it; the header/footer/sidebar render 'Agents' from ONE list).
+- The world-facing claim surfaces now tell the two-lane story (CI canon
+  + instance sight) everywhere first-touch readers land: README (verb
+  block + "Two lanes, one eye" + playbook link + the stale 3-packs
+  recount), docs start (an instance-lane section beside the CI cycle),
+  docs home (key-facts row), CI guide ("instance mode runs outside this
+  battery" pointer), and the landing (both-lane hero code block, an
+  Agent-mode CTA, the four-verbs heading recount).
+- The three-altitude product story, written on the claim surfaces:
+  CI for devs/enterprise (shipping), adapters for agent platforms and
+  cloud builders (designed next; the MCP stdio surface is the first
+  adapter), and real-time eyes inside the chat session via
+  bridges/connectors (the designed pinnacle, labeled NOT shipped)
+  - README's "The three altitudes", the /agents "Where this goes" grid
+  (Now/Next/pinnacle with built/designed disclaimers), and an AGENTS.md
+  story row that bars past-tense claims for the unbuilt lanes.
+
 ### Added (2026-10-28, hardening)
 
 - The served-contract leg (`tests/dist-server.test.js`, part of `npm

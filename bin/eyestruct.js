@@ -18,6 +18,13 @@ const COMMANDS = {
   raster: require('../lib/raster'),
   ratify: require('../lib/ratify'),
   walk: require('../lib/walk'),
+  // The instance primitive: serve a baked tree with host-shaped _headers
+  // (the ONE implementation, shared with the battery leg + chromium lane).
+  // A starter like mcp - the process lives until the operator stops it.
+  serve: require('../lib/serve'),
+  // The agent-eyes verb: one capture saved to read with your own vision -
+  // the serve -> spot -> read -> act -> re-spot loop.
+  spot: require('../lib/look').runSpot,
   // The packstruct passthrough: the pack lint lane as a discoverable verb
   // (mirrors crashtest's lint-packs, issue #32) - the repo's own install,
   // never downloaded, pass-through exit codes, loud refusal when absent.
@@ -45,6 +52,8 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   lint-packs [--deep] [--json] [--against <lib>] [dir]  packstruct passthrough over the repo's own install
   raster [file...]                   strict parse + render + byte-size sanity
   walk <base-url>                    every route x viewport x theme, one pass
+  serve [dir] [--port N] [--headers FILE]  serve a baked tree with host-shaped _headers (the instance primitive)
+  spot <url> [--viewport WxH] [--theme T]  one capture saved to read with your own vision (labs/.eyes-candidates/spot-*.png)
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
   mcp                                stdio MCP surface (same verbs as tools)
 

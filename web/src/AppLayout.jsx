@@ -6,6 +6,7 @@ import { islands }      from './AppIslands.jsx'
 import Nav from './components/Nav.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
+import Agents from './pages/Agents.jsx'
 import Packs from './pages/Packs.jsx'
 import Status from './pages/Status.jsx'
 import Terms from './pages/Terms.jsx'
@@ -30,6 +31,7 @@ export default function AppLayout() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/agents" element={<Agents />} />
           <Route path="/packs" element={<Packs />} />
           <Route path="/status" element={<Status />} />
           <Route path="/terms" element={<Terms />} />

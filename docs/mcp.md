@@ -2,7 +2,7 @@
 permalink: mcp/
 layout: default
 title: MCP reference
-description: The stdio MCP surface - nine tools decoding the CLI verbs, newline-delimited JSON-RPC 2.0 over stdio, same named reason-codes mapped to tool errors. The CLI is the contract, the server is its decoding.
+description: The stdio MCP surface - ten tools decoding the CLI verbs, newline-delimited JSON-RPC 2.0 over stdio, same named reason-codes mapped to tool errors. The CLI is the contract, the server is its decoding.
 ---
 
 # MCP reference
@@ -23,7 +23,7 @@ The methods it handles:
 | `initialize` | answers `protocolVersion`, tool capabilities, and `serverInfo` (`eyestruct` / package version) |
 | `notifications/initialized` | intentionally un-answered - a notification is the protocol, not a dropped reply |
 | `ping` | answers an empty result |
-| `tools/list` | the nine tools with names, descriptions, and JSON Schema `inputSchema`s |
+| `tools/list` | the ten tools with names, descriptions, and JSON Schema `inputSchema`s |
 | `tools/call` | runs the named tool, returns `content` blocks; errors return `isError: true` with the named reason as text |
 | anything else | the named method is refused with a structured `unknown method` error |
 
@@ -38,7 +38,8 @@ unsupported fields refuse loudly at the boundary.
 
 ## The tools
 
-Nine tools decode the CLI verbs. Every refusal that a CLI verb would give
+Ten tools decode the CLI verbs (the count and shape live in
+`lib/mcp.js`'s `TOOLS` registry). Every refusal that a CLI verb would give
 the shell arrives as a tool error carrying the same
 `eyestruct[CODE]: explanation` text.
 
@@ -53,6 +54,7 @@ the shell arrives as a tool error carrying the same
 | `gate` | none | the CI pass: exit-contract verdict on unexplained drift, returned as machine JSON with the exit code |
 | `raster` | `files` | strict parse + render + byte sanity for committed renderables |
 | `walk` | `base_url` | every route x viewport x theme, one pass; candidates land in `labs/.eyes-candidates/` |
+| `spot` | `url`, `viewport`, `theme`, `region`, `include_image` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked. `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
 
 ## The core law at the tool surface
 
@@ -104,12 +106,13 @@ same rule the [CLI reference](/eyestruct/cli) carries.
 
 ## The 1.0.0 stability contract
 
-The nine-tool stdio surface freezes at 1.0.0 until 2.x. Within 1.x the
+The ten-tool stdio surface freezes at 1.0.0 until 2.x. Within 1.x the
 `TOOLS` registry in `lib/mcp.js` holds the same semver law the CLI holds:
 no tool name, argument, or schema semantic is removed or changed -
 removals and semantic changes ride a major bump only, additions land as
-minors with this page updated in the same commit. The `initialize`
-protocol shape and the error-mapping table above are part of the same
-frozen surface. The count census in the battery keeps any prose tool
-claim equal to `TOOLS.length`, so a tenth tool can never arrive with a
-"nine tools" sentence still standing.
+minors with this page updated in the same commit (spot joined that way,
+2026-10-28, with the agents-vision loop). The `initialize` protocol shape
+and the error-mapping table above are part of the same frozen surface.
+The count census in the battery keeps any prose tool claim equal to
+`TOOLS.length`, so an eleventh tool can never arrive with a "ten tools"
+sentence still standing.

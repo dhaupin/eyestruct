@@ -87,6 +87,23 @@ The repo ships its own battery - copy the composition from
 In one job it runs: hermetic install, the node test spine, the docs gates +
 pack campaign + conformance audit, and the crashtest adversarial leg.
 
+## See while you build (the instance lane)
+
+The CI cycle above courts regression; a second lane gives live sight while
+you work. `serve` serves a baked tree with the same host-shaped headers the
+deployment carries, and `spot` hands back one capture - a file path your
+coding agent can open with its own vision:
+
+```text
+eyestruct serve web/dist --port 4173 &
+eyestruct spot http://127.0.0.1:4173/status
+# read labs/.eyes-candidates/spot-*.png with your own vision, fix, re-spot
+```
+
+The loop: serve -> spot -> read -> act -> re-spot. A spot is a candidate -
+it never writes the ledger, and the canon stays CI-cut. Full recipe:
+[seeing for yourself](/eyestruct/playbooks/agents-vision/).
+
 ## Where to go next
 
 - [CLI reference](/eyestruct/cli) - every command and flag

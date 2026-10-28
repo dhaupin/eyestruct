@@ -25,6 +25,8 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 | `raster` | `eyestruct raster [file...]` | render + byte sanity per artifact | strict SVG/XML parse; never fake-passes |
 | `walk` | `eyestruct walk <base-url>` | `labs/.eyes-candidates/` | every route x viewport x theme in one pass |
 | `ratify` | `eyestruct ratify <base-url>` | append-only ratify rows | canon cut: byte-identical slots only, in the pinned env |
+| `serve` | `eyestruct serve [dir] [--port N] [--headers FILE]` | serves a directory | the instance primitive: a starter verb (lives until stopped); defaults to `web/dist` beside `web/public/_headers`; host-shaped headers incl the miss path |
+| `spot` | `eyestruct spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/spot-*.png` | one capture to read with your own vision - the agent-eyes loop (serve -> spot -> read -> act -> re-spot); candidate-only, ledger untouched |
 | `mcp` | `eyestruct mcp` | stdio JSON-RPC | same verbs as tools; JSON-lines out |
 | `lint-packs` | `eyestruct lint-packs [--deep] [--json] [--against <lib>] [dir]` | packstruct passthrough | repo's own install, never downloaded |
 
@@ -93,10 +95,11 @@ page's tables stay hand-maintained.
 At 1.0.0 this surface freezes until 2.x, and then it holds the semver way.
 Within 1.x:
 
-- **The verbs are locked.** The 11 `COMMANDS` entries in
+- **The verbs are locked.** The 13 `COMMANDS` entries in
   `bin/eyestruct.js` (init, look, diff, adopt, ledger, gate, raster,
-  ratify, walk, lint-packs, mcp) never lose a verb, a usage flag, or a
-  semantic. Removals and behavior changes ride a major bump only.
+  ratify, walk, serve, spot, mcp, lint-packs) never lose a verb, a usage flag, or a
+  semantic. Removals and behavior changes ride a major bump only; serve
+  and spot join the lock as the 2026-10-28 minor bump.
 - **Additions are minors, loudly.** A new verb or flag lands as a minor
   bump with this page updated in the same commit; silence is never a
   release.

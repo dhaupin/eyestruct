@@ -38,13 +38,30 @@ Working policies (seed; the brain grows these by working):
   deepen names SHALLOW_CLONE and skips the probes - consumers never
   need fetch-depth 0 to get an honest verdict.
 - The 1.0.0 stability law (eyestruct#10): within 1.x, no removal or
-  semantic change on the public surfaces - the 11 COMMANDS verbs + usage
-  flags (bin/eyestruct.js), the 28 reason codes + the 0-1-2 exit
-  contract (lib/reasons.js), the 9 TOOLS + inputSchemas (lib/mcp.js),
+  semantic change on the public surfaces - the 13 COMMANDS verbs + usage
+  flags (bin/eyestruct.js; serve + spot joined 2026-10-28 as the minor
+  bump the law prescribes, with docs/cli.md moved in the same commit),
+  the 28 reason codes + the 0-1-2 exit
+  contract (lib/reasons.js), the 10 TOOLS + inputSchemas (lib/mcp.js;
+  spot joined 2026-10-28 as the same-class minor bump, docs/mcp.md in
+  the same change),
   the labs/.eyes/ manifest-pin schema, and the packstruct@1 grammar
   pin. Additions are minor bumps, always with the mirrored docs page
   updated in the same commit; removals and semantic changes ride 2.0
   only.
+- The product story, three altitudes (README "The three altitudes" is
+  the canonical statement): CI for devs/enterprise (shipping), adapters
+  for agent platforms/cloud builders (designed next; MCP stdio is the
+  first adapter), and real-time eyes inside the chat session via
+  bridges/connectors (the designed pinnacle, NOT shipped - never claim
+  it works today).
+- The instance loop is native: `eyestruct serve [dir]` serves a baked
+  tree with the committed _headers rules host-shaped (the ONE
+  implementation, lib/serve-dist.js, shared with the battery leg + the
+  chromium lane; a starter like mcp), and `eyestruct spot <url>` saves
+  one capture to labs/.eyes-candidates/spot-*.png for the coding agent
+  to read with its own vision. The loop: serve -> spot -> read -> act ->
+  re-spot. Playbook: docs/playbooks/agents-vision.md.
 - The count census (tests/census.test.js): count-claims on the audited
   docs/meta surfaces must equal the live ledgers and source tables;
   change a count and its claims in the same commit or CI fails the

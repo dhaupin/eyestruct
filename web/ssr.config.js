@@ -23,6 +23,15 @@ export default {
       },
     },
     {
+      path: '/agents',
+      priority: '0.9',
+      changefreq: 'monthly',
+      meta: {
+        title: 'Agents | eyestruct',
+        description: 'The agents-vision loop: serve the baked tree, spot it, read the pixels with your own vision, act, re-spot. One command, one capture, a file path you can open - candidate-only, canon stays CI-cut.',
+      },
+    },
+    {
       path: '/packs',
       priority: '0.9',
       changefreq: 'weekly',

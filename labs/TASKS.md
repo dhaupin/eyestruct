@@ -808,3 +808,84 @@
   (served asOf c25175a vs generator 0273c25), rebuild landed it green -
   the spot check the whole workflow was built for, demonstrated on
   request.
+
+## 2026-10-28 - instances go native on the MCP leg (the tenth tool)
+
+- `spot` joined the MCP `TOOLS` registry: one capture, ALWAYS saved to
+  `labs/.eyes-candidates/` under a randomBytes name and returned as a
+  file path the agent re-opens with its own vision on a later turn - the
+  difference from `look` is the loop contract (a saved artifact to
+  re-open), not the pixels; the inline image rides only when
+  `include_image` is set (the core law holds at the MCP tool boundary
+  too: pay the pixels only when they are wanted).
+  The loop semantics carried in the tool note: serve -> spot -> read ->
+  act -> re-spot, candidate-only, the canon locked shut. `serve` stays
+  CLI-only by design: it owns a port for its lifetime, and the MCP
+  server already owns the stream.
+- Mirrors updated in the same change per the mirror rule: docs/mcp.md
+  (ten tools, the spot row, the 1.0.0 stability-contract wording, the
+  pointer to the agents-vision playbook), tests/census.test.js (the
+  TRUTHS['mcp tools'] pin 9 -> 10 with the dated note).
+
+## 2026-10-28 - the agents feature page (/agents), nav, and marketing
+
+- The website carries the agents-vision feature as a first-class route:
+  web/src/pages/Agents.jsx (hero + the five-step loop pipeline + CLI and
+  MCP code blocks + the "built for unattended builds" cards + the
+  browser-resolution order + the visual-memory split cards), registered
+  in AppLayout.jsx and the ssr.config route map (0.9/monthly, sitemap
+  regenerated), and pinned into navItems.js as the 'Agents' site group
+  entry - header links, footer, and the slide-out sidebar all inherit it.
+- Honest-marketing discipline held: every capability named on the page
+  points at a shipped surface (docs/cli.md, docs/mcp.md, the playbook),
+  and the canon claims defer to the two-dispatch docs, not to the
+  marketing page itself. Canon is CI-cut even in the copy.
+-  Receipt: `npm run build --prefix web` renders 6/6 pages (the route
+  added a page + agents title correct), nav and sitemap verified carrying
+  /agents, npm test 82 tests / 74 pass / 8 honest skips / 0 fail.
+  Build itself caught two JSX wrecks before anything served (the entity
+  quoting and a lost wrap close) - esbuild refused, not guessed.
+
+## 2026-10-28 - "CI OR instance" gap walk (the world-facing claim surfaces)
+
+- The question: does everything the WORLD reads tell the two-lane story
+  (CI canon lane + instance sight lane)? The walk found the instance lane
+  missing at every first-touch surface even though the tooling was fully
+  shipped. Fixes, claim surface by claim surface:
+  - README: the verb block gains serve + spot lines; a new "Two lanes,
+    one eye" section names CI-canon vs instance-sight with the playbook
+    + feature page; the docs link row gains the playbook; the Status
+    verb-line gains serve/spot; the spine's stale "3 adversarial packs"
+    recount to 4 (eye-bundle was never rippled here).
+  - docs/start.md: "See while you build (the instance lane)" section -
+    the two-command loop, the candidate-only rule, playbook pointer -
+    sitting beside the CI cycle it was missing across from.
+  - docs/index.md: the key-facts table gains the two-lanes row; the
+    Where-to-go-next list gains getting-started.
+  - docs/ci.md: intro pointer "instance mode runs outside this battery"
+    (the loop is local/opt-in; check:browser borrows it) + the
+    pre-existing garbled word "its tweed" -> "its gates".
+  - web Home: the hero code block now shows BOTH lanes (look/diff/gate
+    + serve + spot), an "Agent mode" CTA joins the hero buttons, and the
+    "One contract, three verbs" heading recount to four (the instance
+    card landed last round without rippling the heading).
+- Receipt: web rebuilt 6/6 (dist carries 'instance lane' + 'Agent
+  mode'), npm test 74 pass / 8 honest skips / 0 fail, npm run check all
+  gates PASS (trifecta, frontmatter, links, style, fiction signatures).
+
+## 2026-10-28 - the three altitudes (the product story, stated where the world reads)
+
+- The positioning is now a written ruling, not a chat-only idea: CI for
+  devs/enterprise (SHIPPING - the committed memory + named-code gates),
+  adapters for agent platforms/cloud builders (DESIGNED NEXT - the MCP
+  stdio surface is the first adapter; platform adapters ride the same
+  CLI contract), and real-time eyes inside the chat session via
+  bridges/connectors (the designed PINNACLE, explicitly not shipped).
+- Carried on three surfaces in one change: README ("The three
+  altitudes" section after the two-lanes section), /agents page (the
+  "Where this goes" card grid - Now/Next/Pinnacle, the unbuilt ones
+  carrying the <em>designed</em> disclaimer inline), AGENTS.md (the
+  story row, with the never-claim-it-works-today rule for the pinnacle).
+- Discipline note: the fiction-signature gate bans fabricated usage
+  stories; installed future lanes are the honest form - designed and
+  pointed at the PRD, labeled not-shipped, never past tense.

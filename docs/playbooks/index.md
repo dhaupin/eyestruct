@@ -20,6 +20,7 @@ reason-codes, append-only ledger, canon cut by CI.
 | 5 | [Answering from memory](/eyestruct/playbooks/answer-from-memory/) | a visual question answered browserless, from the committed state |
 | 6 | [Adding a route](/eyestruct/playbooks/add-a-route/) | extend the matrix by hand, then `walk` it |
 | 7 | [Red pack campaign](/eyestruct/playbooks/pack-campaign-red/) | `npm run packs` came back red: NEW / REGRESSION / RETIRED, and the adopt dance |
+| 8 | [Seeing for yourself](/eyestruct/playbooks/agents-vision/) | the instance loop: serve the baked tree, spot it, read the pixels with your own vision, act, re-spot |
 
 Recipes are single-file by design: moving text without moving intent, each
 one letter-accurate against the workflow it documents. The CI-guide companion

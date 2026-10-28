@@ -14,6 +14,8 @@ eyestruct look <url> [--region SEL]                  # one crop + element-id map
 eyestruct diff <url> [--against PATH]                # fresh capture vs committed baseline
 eyestruct adopt <path...> [--wave] --note "why"      # proposal (canon is CI-cut)
 eyestruct gate                                       # CI: exit 1 on unexplained labs/.eyes/ drift
+eyestruct serve <dir> [--port N]                     # the instance primitive: serve a baked tree, host-shaped headers
+eyestruct spot <url> [--viewport WxH] [--theme T]    # one capture to READ WITH YOUR OWN VISION (agent eyes)
 eyestruct mcp                                        # stdio MCP surface, same calls as tools
 ```
 
@@ -43,7 +45,43 @@ with only the bundle flag preserves the pin + route matrix.
 | `labs/.eyes/<route-slug>/<view>/current.png` | committed baseline (canon is CI-cut) |
 | `labs/.eyes/ledger.json` | append-only rows (adopt proposals + ratify canon + wave rows); unexplained drift fails the pass |
 | `eyestruct gate` | the CI job: read-only crashledger semantics over `labs/.eyes/` |
-| packs | 3 adversarial packs under `packs/public/` + the committed verdict ledger |
+| packs | 4 adversarial packs under `packs/public/` + the committed verdict ledger |
+
+## Two lanes, one eye
+
+- **The CI lane (canon).** Baselines are CI-cut: a local `adopt` is an
+  unratified proposal, and the pinned-image lane (`eyes-ratify.yml`) is
+  the only writer of official rows. This is the regression-catching lane
+  - [the CI guide](docs/ci.md).
+- **The instance lane (sight).** A coding agent can watch its own work
+  while it builds: `eyestruct serve` eats the baked tree, `eyestruct spot`
+  hands back one PNG + element map, the agent reads the pixels with its
+  own vision, fixes what it saw, and re-spots. Candidate-only - the canon
+  stays CI-cut even here. The mechanical recipe lives in the
+  [agents-vision playbook](https://docs.creadev.org/eyestruct/playbooks/agents-vision/),
+  with the feature tour at `eyestruct.creadev.org/agents`.
+
+## The three altitudes
+
+The same committed memory serves three consumers, near to far:
+
+1. **CI, for devs and enterprise** (shipping). The committed visual
+   memory plus named-code gates run in any pipeline: hermetic install,
+   no daemons, refusals that name their fix. Regression sight at merge
+   time.
+2. **Adapters, for agent platforms and cloud builders** (designed, next).
+   The same verbs exposed where agents already work - the MCP stdio
+   surface is the first adapter, the family pack/CI rigs are the second
+   consumers, and platform adapters (a Vant-shaped brain, hosted builder
+   environments) ride the same CLI contract.
+3. **Real-time, inside the chat session (the pinnacle)** (designed
+   future, not shipped). Seeing everything the agent works on, live,
+   through bridges/connectors - the serve-spot instance loop today,
+   event-driven eyes tomorrow.
+
+The design rulings for all three live in
+[labs/prd-eyes.md](labs/prd-eyes.md) - receipts rule every claim,
+including the ones not built yet.
 
 Full product definition: [labs/prd-eyes.md](labs/prd-eyes.md). If you are an
 agent, start at [AGENTS.md](AGENTS.md) - the working policies and the map of
@@ -52,12 +90,13 @@ where things live. The deep surfaces live in the docs
 [CLI](https://docs.creadev.org/eyestruct/cli),
 [MCP](https://docs.creadev.org/eyestruct/mcp),
 [packs](https://docs.creadev.org/eyestruct/packs),
-[CI guide](https://docs.creadev.org/eyestruct/ci)), and the deploy rig is
+[CI guide](https://docs.creadev.org/eyestruct/ci),
+[agents-vision playbook](https://docs.creadev.org/eyestruct/playbooks/agents-vision/)), and the deploy rig is
 `.github/workflows/` (battery `test.yml`, docs lane `docs.yml`, canon lane
 `eyes-ratify.yml`).
 
 Status: **0.9.0, capture wired and exercised.** The full verb line is live
-(look/diff/adopt/ledger/gate/raster/walk/ratify/mcp/lint-packs); both
+(look/diff/adopt/ledger/gate/raster/walk/ratify/serve/spot/mcp/lint-packs); both
 PRD ship receipts ran first-person - a pixels-broken/DOM-clean edit gets
 caught by `diff` (DIFFERS, named), and a fresh session reads what a
 surface looks like from `labs/.eyes/` with no browser - see

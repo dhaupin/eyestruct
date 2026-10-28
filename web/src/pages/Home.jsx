@@ -45,15 +45,16 @@ export default function Home() {
           </p>
           <div className="cta-row">
             <a className="btn btn-primary" href="https://github.com/dhaupin/eyestruct">See the repo</a>
+            <Link className="btn btn-ghost" to="/agents">Agent mode</Link>
             <a className="btn btn-ghost" href={DOCS + '/'}>Read the docs</a>
           </div>
-          <pre className="code"><span className="cm"># every look is one short invocation. the only surviving state is git state.</span>{'\n'}<span className="k">eyestruct</span> <span className="k">look</span> http://localhost:4173/{'\n'}<span className="cm"># drift becomes a ledger row; the reviewer is the next session, the UI is git diff</span>{'\n'}<span className="k">eyestruct</span> <span className="k">diff</span>{'\n'}<span className="cm"># CI refuses what no note explains - canon baselines are CI-cut</span>{'\n'}<span className="k">eyestruct</span> <span className="k">gate</span></pre>
+          <pre className="code"><span className="cm"># every look is one short invocation; the surviving state is git state</span>{'\n'}<span className="k">eyestruct</span> <span className="k">look</span> http://localhost:4173/{'\n'}<span className="cm"># CI lane: canon baselines are CI-cut; unexplained drift is refused</span>{'\n'}<span className="k">eyestruct</span> <span className="k">diff</span>{'\n'}<span className="k">eyestruct</span> <span className="k">gate</span>{'\n'}<span className="cm"># instance lane: the agent reads its own work with its own vision</span>{'\n'}<span className="k">eyestruct</span> <span className="k">serve</span> web/dist &amp;{'\n'}<span className="k">eyestruct</span> <span className="k">spot</span> http://127.0.0.1:4173/</pre>
         </div>
       </section>
 
       <section className="section">
         <div className="wrap">
-          <h2>One contract, three verbs</h2>
+          <h2>One contract, four verbs</h2>
           <p className="sub">
             Every command is one short process - never a daemon. The only state
             that survives a look is labs/.eyes/, and it lives in git like
@@ -77,6 +78,13 @@ export default function Home() {
               <p>Every nonzero exit is a named reason-code (eyestruct[CODE]).
               Unexplained drift in labs/.eyes/ gets the artifact pointed at and
               exit 1; corruption is refused loudly, never guessed past.</p>
+            </div>
+            <div className="card">
+              <h3><span className="glyph">👁</span> instance</h3>
+              <p>The agents-vision loop as a native verb pair: <code>serve</code>
+              serves the baked tree with the same headers the host carries,
+              <code> spot</code> captures one read-now PNG the coding agent opens
+              with its own vision - candidate-only, canon stays CI-cut.</p>
             </div>
           </div>
         </div>

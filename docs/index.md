@@ -18,6 +18,7 @@ state.
 
 ## Where to go next
 
+- **[Getting started](/eyestruct/start/)** - init, your first look-to-gate cycle, and the instance lane.
 - **[The PRD](https://github.com/dhaupin/eyestruct/blob/main/labs/prd-eyes.md)** - what
   eyestruct is, the receipts it grew from, and the design rulings (lives in
   labs/, the agent-voice surface).
@@ -27,6 +28,7 @@ state.
 
 | Question | Answer |
 |----------|--------|
+| Two lanes? | CI cuts canon; the serve -> spot instance loop gives live agent sight (see the [playbook](/eyestruct/playbooks/agents-vision/)). |
 | Daemon? | No. Every look is one short process. |
 | Where does sight persist? | `labs/.eyes/` - committed, chain-shared via git. |
 | Who reviews a change? | The next agent session; the review UI is `git diff`. |

@@ -9,7 +9,13 @@ description: What runs on eyestruct's own CI - the test battery, the pack campai
 
 eyestruct's CI is a battery of independent legs - each one honest alone,
 each one deterministic. This page maps every leg to its workflow, its
-tweed, and where to look first when it goes red.
+gates, and where to look first when it goes red.
+
+Instance mode runs outside this battery: the serve -> spot agent-vision
+loop is a local/opt-in tooling lane ([seeing for
+yourself](/eyestruct/playbooks/agents-vision/)), and only
+`check:browser`'s rendered-table check borrows from it. Nothing here
+requires a running eyestruct process - process-per-look holds in CI too.
 
 ## The battery (test.yml, every push and PR to main)
 

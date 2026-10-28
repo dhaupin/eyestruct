@@ -10,10 +10,12 @@
 export const NAV_ITEMS = [
   // primary app routes - drop in yours
   { label: 'Home', to: '/', end: true, group: 'site' },
+  { label: 'Agents', to: '/agents', group: 'site' },
   { label: 'Packs', to: '/packs', group: 'site' },
   { label: 'Status', to: '/status', group: 'site' },
   // outbound surfaces (the user's stance: npm presence is treated as live
   // going forward; flip-page lands "very soon")
+  { label: 'Playbooks', href: 'https://docs.creadev.org/eyestruct/playbooks/', group: 'out' },
   { label: 'npm', href: 'https://www.npmjs.com/package/eyestruct', group: 'out' },
   { label: 'Docs', href: 'https://docs.creadev.org/eyestruct/', group: 'out' },
   { label: 'GitHub', href: 'https://github.com/dhaupin/eyestruct', group: 'out' },
