@@ -53,6 +53,6 @@
     "packstruct": "1.0.0"
   },
   "dependencies": {
-    "puppeteer-core": "^23.11.1"
+    "puppeteer-core": "25.16.0"
   }
 }
