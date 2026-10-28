@@ -788,3 +788,23 @@
   MISSING_PINNED_BROWSER exit 2 with the fix named. In-VM receipt: the
   refusal path verified live (exit 2); the full 4-state pass needs a
   machine with chrome (EYESTRUCT_BROWSER=/path/to/chrome).
+
+## 2026-10-28 - the chromium lane's first real PASS (in a browserless VM)
+
+- Full 4-state pass achieved in-VM: chrome-headless-shell 156.0.8078.73
+  planted root-free (apt download refused - no root; the debs for libnss3,
+  libnspr4, the libX*, libasound2, libxkbcommon0, the atk family, and
+  libxrender/libxi/libxres were fetched straight from the Ubuntu pool and
+  extracted with dpkg -x into /tmp/spot/lroot, handed over via
+  LD_LIBRARY_PATH - zero system install). npm run check:browser exit 0:
+  pass 1 rendered the eyestruct served row from the live /status.json
+  truth, the crashtest PASS fixture (the foreign 14-count proving rows
+  come from served files), the packstruct RED fixture (EXPLOITED leg
+  degrades the row), and the poststruct clean HTTP 404 wording; pass 2
+  rendered the schema-2 refusal. The family table's browser behavior is
+  now machine-verified, not just eyeballed.
+- The served-contract leg also earned a second live catch this turn:
+  after the hardening push, the first spot run flagged the dist stale
+  (served asOf c25175a vs generator 0273c25), rebuild landed it green -
+  the spot check the whole workflow was built for, demonstrated on
+  request.
