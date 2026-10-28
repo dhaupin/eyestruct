@@ -133,7 +133,11 @@ Two properties every consumer needs before cutting canon on a real site:
   WordPress install). The honest landing on such surfaces: freeze what
   the freeze shim can, read `diff` output yourself, and adopt on purpose.
   A pixel-tolerance lane is designed (khf-wp's filing, issue #11), not
-  shipped - never gate on it before it lands.
+  shipped - the build shape now has a spec home (R-C2's T-T rows in
+  labs/prd-eyes.md: per-slot manifest-declared profiles, all-or-nothing
+  bounds, row-receipted cuts, a zero counted-change surface, ship gated
+  on the khf-wp run root's own three-run receipts) - never gate on it
+  before it lands.
 
 ## Consumer recipes: which verbs fit where
 

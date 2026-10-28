@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-11-01, the tolerance-lane spec)
+
+- The pixel-tolerance lane (R-C2, khf-wp's eyestruct#11) has its 1.1.0 build shape speced at labs/prd-eyes.md (T-T1–T-T8): tolerance is a manifest-declared per-slot mode (`tolerance:` profile naming channel/pixels/bbox bounds, all-or-nothing, `strict` default), the comparator is one pure function pinned at the bound edges by synthetic-plate battery legs, the canon cut stays byte-strict at `gate` (whose accounting never grows tolerance knowledge — browserless and honest by construction), `ratify` under a tolerant slot receipts the profile in the row it writes, the carrier cases mount in eye-shapes before any lib lands, and shipping is gated on reproducing khf-wp's texture receipts in their run root (three consecutive green canon cuts). The counted-change ruling is deliberately zero (no verb/tool/code/env), so the road to 1.1.0 is one carrier-lane commit chain, not a surface move. docs/ci.md's designed-not-shipped row now points at the spec home.
+
 ### Fixed (2026-11-01, the walk round: transport + containment + funnel)
 
 - The MCP stdio transport's newline buffer was unbounded: a client piping bytes without a newline (a frame bomb, malformed or hostile) grew the pending string until OOM - the newline-delimited contract never asked for that. The transport now carries a 1 MiB frame cap and refuses BEFORE accumulation: one named `-32700` reply ("send one newline-delimited request per line"), the transport stops reading, and the server closes at exit 1 - a refusal drop, not a silent drain. Battery leg pins the refusal over a real stdio spawn.
