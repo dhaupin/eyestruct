@@ -79,14 +79,22 @@ jobs:
         run: npm install -g npm@^11
       - id: gate
         name: the gate - 0.x refused, tag == packaged version
+        # Every github context value reaches this script through env, never
+        # inline interpolation - an expression-injected tag name is the
+        # classic Actions injection class (hardening walk 2026-10-28), and
+        # ref_name is attacker-adjacent input however much we trust the
+        # collaborators.
+        env:
+          TAG_REF: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -e
           V="$(node -p "require('./package.json').version")"
           case "$V" in
             0.*) echo "publish gate: refusing $V - the OIDC lane serves 1.0.0+ only (the family release ladder: 0.x is the manual ship lane)"; exit 1 ;;
           esac
-          REF="${{ github.ref_name }}"
-          EVENT="${{ github.event_name }}"
+          REF="$TAG_REF"
+          EVENT="$EVENT_NAME"
           if [ "$EVENT" = "push" ]; then
             if [ "$REF" != "v$V" ]; then
               echo "publish gate: refusing - tag $REF does not equal the packaged version v$V (a tag that lies about its version never cuts)"; exit 1
@@ -105,17 +113,26 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with: { fetch-depth: 0 }
+      # BLOCK_VERSION/TAG arrive through env from the publish job's outputs
+      # - the same no-inline-interpolation rule the gate obeys (outputs are
+      # script-derived today, but the rule is cheap and shape-wide).
+      # notes.md lives in RUNNER_TEMP: never a silent overwrite of a repo
+      # file that happens to carry the name.
       - name: extract the release notes from the changelog (refuses empty)
-        run: node scripts/release-notes.cjs "${{ needs.publish.outputs.version }}" > notes.md
+        env:
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+        run: node scripts/release-notes.cjs "$BLOCK_VERSION" > "$RUNNER_TEMP/notes.md"
       - name: cut the GH release from the tag (idempotent)
         env:
           GH_TOKEN: ${{ github.token }}
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+          BLOCK_TAG: ${{ needs.publish.outputs.tag }}
         run: |
-          TAG="${{ needs.publish.outputs.tag }}"
+          TAG="$BLOCK_TAG"
           if gh release view "$TAG" > /dev/null 2>&1; then
             echo "release $TAG already exists - not re-minting; the verify job judges its truth"
           else
-            gh release create "$TAG" --title "eyestruct ${{ needs.publish.outputs.version }}" --notes-file notes.md
+            gh release create "$TAG" --title "eyestruct $BLOCK_VERSION" --notes-file "$RUNNER_TEMP/notes.md"
           fi
 
   # No `needs` on release here by design under the if: the verify leg runs
@@ -143,5 +160,7 @@ jobs:
         run: |
           set -e
           V="$(node -p "require('./package.json').version")"
-          node scripts/verify-release.cjs --npm --version "$V"
+          EXPECTED_EXPORTS="$(node -p "Object.keys(require('./package.json').exports).join(',')")"
+          EYE_PROBE="const p=require('eyestruct');if(p.ADAPTER_CONTRACT!=='eyestruct-adapter@1')process.exit(1);if(!Array.isArray(p.reasonCodes)||!p.reasonCodes.length)process.exit(1)"
+          node scripts/verify-release.cjs --npm --version "$V" --exports "$EXPECTED_EXPORTS" --probe "$EYE_PROBE"
           node scripts/verify-release.cjs --gh --tag "v$V"

@@ -74,10 +74,20 @@ already published and released, on demand.
 
 The pack ladder does not wait for release day either:
 tests/release-verify.test.js runs the same script over `npm pack` output
-every push (the positive ladder plus the doctored-tar case - a file
-under a forbidden prefix must be refused BY NAME). Offline, the
-consumer-install half prints a named SKIP; in CI with registry access it
-always runs. The script's own exit contract (tooling, outside the frozen
+every push (the positive ladder, the doctored-tar case - a file under a
+forbidden prefix must be refused BY NAME - and the GENERIC-CORE proof:
+a synthetic foreign repo is verified with ZERO edits to the script, and
+a caller-stated `--forbidden` prefix catches a smuggle the defaults
+miss). The script is repo-agnostic by construction - name, version, bin
+path, and registry package are read from the caller's tree, and every
+repo-specific rule arrives as a flag: `--exports k1,k2,...` pins the
+frozen exports keys, `--probe "<js>"` adds a consumer probe against the
+installed package (eyestruct passes its adapter-contract assertion),
+`--forbidden p/,q/` extends the family-default forbidden list. An
+adopting repo copies one file and states its rules in its own workflow
+and battery - the script itself never moves. Offline, the consumer-
+install half prints a named SKIP; in CI with registry access it always
+runs. The script's own exit contract (tooling, outside the frozen
 reason surface): 0 verified, 1 verification failure (named), 2
 capability gap.
 

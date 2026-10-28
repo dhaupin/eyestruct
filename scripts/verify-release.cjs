@@ -21,33 +21,62 @@
 //
 //   verify-release --pack <tgz>            (the contents ladder, below)
 //
-// The pack ladder (audience: the 24-file tar, not the 201-file source tar):
+// The pack ladder (audience: the runtime tar, not the source tar):
 //   1. LIST: tar -tzf; every entry minus its package/ prefix.
-//   2. FORBIDDEN scan: labs/ web/ docs/ models/ packs/ tests/ .github/
-//      node_modules/, source maps, .env*, never ship. Named refusal.
-//   3. EXPECTED SET: `npm pack --dry-run --json` on the checkout is the
-//      same-algorithm authority for what publish would include - the
+//   2. FORBIDDEN scan: the family-default prefixes (below) plus any
+//      --forbidden additions - source maps and .env* never ship. Named
+//      refusal.
+//   3. EXPECTED SET: `npm pack --dry-run --json` ON THE CALLER'S TREE is
+//      the same-algorithm authority for what publish would include - the
 //      served set must equal it EXACTLY (no stragglers, no omissions).
 //   4. IDENTITY: package/package.json name + version == expected version.
-//   5. CONSUMER INSTALL: a scratch tree `npm install <tgz>`, then
-//      require('eyestruct') -> ADAPTER_CONTRACT, version, reasonCodes,
-//      and the installed bin answering --version as a child process.
-//      Honest SKIP (named) when the registry is unreachable - the verify
-//      job and CI always have network; a laptop, sometimes not, and the
-//      skip is printed rather than swallowed.
+//   5. CONSUMER INSTALL: a scratch tree `npm install <tgz>`, then the
+//      pack's own require probe (name@version), any --probe extras the
+//      caller states, and the installed bin answering --version as a
+//      child process. Honest SKIP (named) when the registry is
+//      unreachable - the verify job and CI always have network; a laptop,
+//      sometimes not, and the skip is printed rather than swallowed.
 //
 // Exit contract (tooling, not the frozen reason surface): 0 verified,
 // 1 verification failure (named), 2 capability gap (tar/npm/git/gh absent).
+//
+// GENERIC CORE (the family lane, 2026-10-28): nothing in the script is
+// repo-specific - name, version, bin path, and registry package are read
+// from the checkout's package.json, so a adopting repo drops the file in
+// with ZERO edits and states only its own rules as flags:
+//
+//   --exports k1,k2,k3    pin the tarball's exports map keys exactly
+//                         (pass the keys your package freezes, derived
+//                         from source by the caller, never hand-copied)
+//   --probe "<js expr>"   an extra consumer probe run against the
+//                         INSTALLED package (repeatable; eyestruct uses
+//                         the adapter-contract assertion, others may
+//                         pin their own marker constants)
+//   --forbidden p1/,p2/   forbidden path prefixes ADDED to the family
+//                         defaults (the defaults already name the tree
+//                         dirs that simply should not ride a tarball:
+//                         labs/ docs/ web/ packs/ tests/ scripts/
+//                         models/ examples/ .github/ node_modules/)
+//
+// What each repo passes lives in ITS OWN workflow/battery invocation - the
+// script stays identical across the family, so a fix here is one copy.
 
-'use strict'
-
-const { execFileSync, spawnSync } = require('child_process')
+const { spawnSync } = require('child_process')
 const crypto = require('crypto')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
 
-const REPO_ROOT = path.resolve(__dirname, '..')
+// The ladder judges the CALLER's tree, never the script's location:
+// process.cwd() is the checkout in the battery and the verify job, and a
+// foreign repo runs this same file from its own root against its own
+// tarball with zero edits (the generic-core rule, walk WL-7: a
+// script-relative REPO_ROOT quietly pinned the whole ladder to one repo).
+const REPO_ROOT = process.cwd()
+// The family-default forbidden list: tree dirs that simply should not ride
+// a runtime tarball on ANY of the family repos (private state, dev rigs,
+// CI wiring, node_modules). An adopting repo extends with --forbidden,
+// never edits this file.
 const FORBIDDEN_PREFIXES = [
   'labs/', 'web/', 'docs/', 'models/', 'packs/', 'tests/',
   'examples/', 'scripts/', 'node_modules/', '.github/',
@@ -66,10 +95,10 @@ function sh(cmd, args, opts) {
   return spawnSync(cmd, args, { encoding: 'utf8', ...opts })
 }
 
-function readVersion() {
+function readCheckout() {
   const pkg = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8'))
-  if (pkg.name !== 'eyestruct') fail(`checkout package.json is not eyestruct (name: ${pkg.name})`)
-  return pkg.version
+  if (!pkg.name || !pkg.version) fail(`checkout package.json carries no name/version`)
+  return pkg
 }
 
 // --- the pack ladder ----------------------------------------------------
@@ -80,26 +109,32 @@ function tarList(file) {
   return r.stdout.trim().split('\n').filter(Boolean).map((n) => n.replace(/^\.{1,2}\//, '')).map((n) => n.replace(/^package\//, '').replace(/^package$/, ''))
 }
 
-function forbidden(scan) {
+function forbidden(scan, extraPrefixes) {
+  const prefixes = [...FORBIDDEN_PREFIXES, ...extraPrefixes]
   const hits = []
   for (const name of scan) {
-    if (FORBIDDEN_PREFIXES.some((p) => name.startsWith(p))) hits.push(`${name} (forbidden path prefix)`)
+    for (const p of prefixes) {
+      if (name.startsWith(p)) hits.push(`${name} (forbidden path prefix ${p})`)
+    }
     for (const s of FORBIDDEN_SUFFIXES) {
       if (name.endsWith(s)) hits.push(`${name} (forbidden suffix ${s})`)
     }
-    if (/(^|\/)\.[\w-]+/.test(name) && !name.startsWith('package/')) hits.push(`${name} (dotfile)`)
+    // Tarball names arrive already package/-stripped, so any dot segment
+    // left in a name is a real dotfile, not the tarball's root dir.
+    if (/(^|\/)\.[\w-]+/.test(name)) hits.push(`${name} (dotfile)`)
   }
+  // Exact duplicates collapse: one file, one named hit (joined below).
   return hits
 }
 
-function packLadder(tgz, expectedVersion) {
+function packLadder(tgz, expectedVersion, cfg) {
   say(`[verify-release] pack ladder: ${tgz}`)
 
   // 2. forbidden scan before anything else - a file that must not ship is
   // refused BY NAME, fast (the doctored-tar battery case relies on this).
   const names = tarList(tgz)
   if (!names.length) fail('the tarball lists zero files')
-  const bad = forbidden(names)
+  const bad = forbidden(names, cfg.extraForbidden)
   if (bad.length) fail(`FORBIDDEN contents in the tarball: ${bad.join('; ')}`)
   say(`[verify-release] PASS forbidden scan (${names.length} entries, 0 forbidden)`)
 
@@ -117,25 +152,30 @@ function packLadder(tgz, expectedVersion) {
   const missing = want.filter((n) => !gotSet.includes(n))
   const extra = gotSet.filter((n) => !want.includes(n))
   if (missing.length || extra.length) {
-    fail(`served set != pack set of the release commit - missing: [${missing}] extra: [${extra}]`)
+    // Same discipline the gh ladder learned live: bare array interpolation
+    // swallows an empty-string finding ('[' + [''] + ']' prints as []).
+    fail(`served set != pack set of the release commit - missing: ${JSON.stringify(missing.slice(0, 10))} extra: ${JSON.stringify(extra.slice(0, 10))}`)
   }
   say(`[verify-release] PASS served set == npm pack of this tree (${want.length} files)`)
 
   // 4. identity.
-  const dest = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-verify-'))
+  const dest = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-'))
   const ex = sh('tar', ['-xzf', tgz, '-C', dest])
   if (ex.status !== 0) cap(`tar failed to extract ${tgz}: ${ex.stderr.trim()}`)
   const pkg = JSON.parse(fs.readFileSync(path.join(dest, 'package', 'package.json'), 'utf8'))
-  if (pkg.name !== 'eyestruct') fail(`tarball package name is ${pkg.name}`)
+  if (pkg.name !== cfg.name) fail(`tarball package name is ${pkg.name}, expected ${cfg.name}`)
   if (pkg.version !== expectedVersion) fail(`tarball version ${pkg.version} != expected ${expectedVersion}`)
-  const exportKeys = Object.keys(pkg.exports || {})
-  if (exportKeys.join(',') !== '.,./lib/index.js,./package.json') {
-    fail(`tarball exports map drifted: [${exportKeys.join(', ')}] - the frozen exports row moved without the mirror`)
+  if (cfg.exports) {
+    const exportKeys = Object.keys(pkg.exports || {})
+    if (exportKeys.join(',') !== cfg.exports) {
+      fail(`tarball exports map drifted: ${JSON.stringify(exportKeys)} - expected ${JSON.stringify(cfg.exports.split(','))}`)
+    }
+    say(`[verify-release] PASS exports map held (${cfg.exports})`)
   }
-  say(`[verify-release] PASS identity: eyestruct@${pkg.version}, exports map held`)
+  say(`[verify-release] PASS identity: ${pkg.name}@${pkg.version}`)
 
   // 5. consumer install. Network-honest: a named SKIP beats a silent one.
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-consumer-'))
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-consumer-'))
   fs.writeFileSync(path.join(home, 'package.json'), JSON.stringify({ name: 'verify-release', version: '0.0.0', private: true }, null, 2))
   const inst = sh('npm', ['install', '--no-fund', '--no-audit', '--ignore-scripts', tgz], { cwd: home, timeout: 180000 })
   const stderr = `${inst.stderr || ''}`
@@ -147,13 +187,33 @@ function packLadder(tgz, expectedVersion) {
     }
     return
   }
-  const probe = spawnSync('node', ['-e', `const e=require('eyestruct');if(e.ADAPTER_CONTRACT!=='eyestruct-adapter@1')process.exit(1);if(e.version!=='${expectedVersion}')process.exit(1);if(!Array.isArray(e.reasonCodes)||!e.reasonCodes.length)process.exit(1)`], { cwd: home, encoding: 'utf8' })
-  if (probe.status !== 0) fail(`adapter surface probe failed on the installed tarball (exit ${probe.status})`)
-  const binProbe = spawnSync('node', [path.join(home, 'node_modules', 'eyestruct', 'bin', 'eyestruct.js'), '--version'], { cwd: home, encoding: 'utf8' })
-  if (binProbe.status !== 0 || binProbe.stdout.trim() !== expectedVersion) {
-    fail(`installed bin --version answered "${(binProbe.stdout || '').trim()}" (wanted ${expectedVersion})`)
+  // The probing is derived from the INSTALLED package.json - the bin path
+  // and require name are the tarball's own truth, never a hardcoded one.
+  // The default probe is LOAD-ONLY on purpose: package mains do not all
+  // export .version (the toy foreign-repo case proved the class), and the
+  // version truth is already compared from the tarball's package.json in
+  // step 4. Repos with a stricter surface pass it as --probe (eyestruct:
+  // its adapter-contract marker).
+  const installedPkg = JSON.parse(fs.readFileSync(path.join(home, 'node_modules', cfg.name, 'package.json'), 'utf8'))
+  const defaultProbe = `require(${JSON.stringify(cfg.name)})`
+  const probes = [defaultProbe, ...cfg.probes]
+  for (let i = 0; i < probes.length; i++) {
+    const probe = spawnSync('node', ['-e', probes[i]], { cwd: home, encoding: 'utf8' })
+    if (probe.status !== 0) {
+      fail(`consumer probe (${i === 0 ? 'version' : 'index ' + i}) failed on the installed tarball (exit ${probe.status}): ${probes[i]}`)
+    }
   }
-  say(`[verify-release] PASS consumer install: adapter surface loads (eyestruct-adapter@1), bin --version -> ${binProbe.stdout.trim()}`)
+  say(`[verify-release] PASS consumer probes (${probes.length})`)
+  let binProbe = { status: 0, stdout: '' }
+  const binName = installedPkg.bin ? (typeof installedPkg.bin === 'string' ? cfg.name : Object.keys(installedPkg.bin)[0]) : null
+  if (binName) {
+    const binPath = typeof installedPkg.bin === 'string' ? path.join(home, 'node_modules', cfg.name, installedPkg.bin) : path.join(home, 'node_modules', cfg.name, installedPkg.bin[binName])
+    binProbe = spawnSync('node', [binPath, '--version'], { cwd: home, encoding: 'utf8' })
+    if (binProbe.status !== 0 || binProbe.stdout.trim() !== expectedVersion) {
+      fail(`installed bin ${binName} --version answered "${(binProbe.stdout || '').trim()}" (wanted ${expectedVersion})`)
+    }
+    say(`[verify-release] PASS installed bin ${binName} --version -> ${binProbe.stdout.trim()}`)
+  }
   fs.rmSync(dest, { recursive: true, force: true })
   fs.rmSync(home, { recursive: true, force: true })
 }
@@ -182,11 +242,12 @@ function httpsBuffer(url) {
   })
 }
 
-async function npmLadder(expectedVersion) {
-  say('[verify-release] npm ladder: https://registry.npmjs.org/eyestruct')
+async function npmLadder(expectedVersion, cfg) {
+  const regUrl = `https://registry.npmjs.org/${cfg.name}`
+  say(`[verify-release] npm ladder: ${regUrl}`)
   let meta
   try {
-    meta = await httpsJson('https://registry.npmjs.org/eyestruct')
+    meta = await httpsJson(regUrl)
   } catch (e) {
     say(`[verify-release] SKIP npm ladder (registry unreachable: ${e.message})`)
     return false
@@ -199,7 +260,7 @@ async function npmLadder(expectedVersion) {
   if (!att) fail(`published ${expectedVersion} carries no provenance attestations - the OIDC trust chain did not stamp this cut`)
   say(`[verify-release] PASS registry latest == ${expectedVersion}, provenance attestations present`)
 
-  const tarball = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-registry-')), 'served.tgz')
+  const tarball = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-registry-')), 'served.tgz')
   let buf
   try { buf = await httpsBuffer(ver.dist.tarball) } catch (e) {
     say(`[verify-release] SKIP tarball download (${e.message})`)
@@ -212,7 +273,7 @@ async function npmLadder(expectedVersion) {
     fail(`served tarball integrity ${got ? got.slice(0, 12) + '...' : '(empty)'} != registry metadata ${wantIntegrity ? wantIntegrity.slice(0, 12) + '...' : '(empty)'}`)
   }
   say('[verify-release] PASS served tarball sha512 == registry integrity metadata')
-  packLadder(tarball, expectedVersion)
+  packLadder(tarball, expectedVersion, cfg)
   return true
 }
 
@@ -238,7 +299,7 @@ function ghLadder(tag) {
   // Source tarball == git archive of the release commit.
   const arch = spawnSync('git', ['archive', '--format=tar.gz', commit], { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 })
   if (arch.status !== 0) cap(`git archive ${commit} failed`)
-  const src = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-gh-')), 'src.tgz')
+  const src = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-gh-')), 'src.tgz')
   fs.writeFileSync(src, arch.stdout)
   const archList = tarList(src) // named 'release-commit.tar' style: prefix casers
   const tarFile = path.join(path.dirname(src), 'ghsrc.tgz')
@@ -269,15 +330,31 @@ function ghLadder(tag) {
 
 function main() {
   const a = process.argv.slice(2)
+  // Config: everything repo-specific arrives as flags; the script itself is
+  // one identical file across the family.
+  const checkout = readCheckout()
+  const cfg = { name: checkout.name, exports: null, probes: [], extraForbidden: [] }
+  const exportsIdx = a.indexOf('--exports')
+  if (exportsIdx !== -1) cfg.exports = a[exportsIdx + 1]
+  const forbiddenIdx = a.indexOf('--forbidden')
+  if (forbiddenIdx !== -1) {
+    if (a[forbiddenIdx + 1]) cfg.extraForbidden = String(a[forbiddenIdx + 1]).split(',').filter(Boolean)
+  }
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] === '--probe') {
+      if (!a[i + 1]) cap('--probe needs a js expression')
+      cfg.probes.push(a[i + 1])
+    }
+  }
   const wantPack = a.includes('--pack')
   const wantNpm = a.includes('--npm')
   const wantGh = a.includes('--gh')
   if (!wantPack && !wantNpm && !wantGh) {
-    say('usage: verify-release [--pack <tgz>] [--npm] [--gh --tag vX.Y.Z] [--version X.Y.Z]')
+    say('usage: verify-release [--pack <tgz>] [--npm] [--gh --tag vX.Y.Z] [--version X.Y.Z] [--exports k1,k2,...] [--probe "<js>"] [--forbidden p1/,p2/]')
     process.exit(2)
   }
   const versionArgIdx = a.indexOf('--version')
-  const version = versionArgIdx !== -1 ? a[versionArgIdx + 1] : readVersion()
+  const version = versionArgIdx !== -1 ? a[versionArgIdx + 1] : checkout.version
 
   const tagIdx = a.indexOf('--tag')
   if (wantGh && (tagIdx === -1 || !a[tagIdx + 1])) cap('--gh needs --tag vX.Y.Z')
@@ -290,14 +367,14 @@ function main() {
       if (!packTarget) cap('--pack needs a tarball path')
     }
     if (wantNpm) {
-      const served = await npmLadder(version)
+      const served = await npmLadder(version, cfg)
       if (served) packTarget = null // the registry ladder already ran the pack ladder on the SERVED tarball
       if (!served && !wantPack) {
         say('[verify-release] registry unreachable and no --pack target given; nothing verified')
         process.exit(1)
       }
     }
-    if (wantPack && packTarget) packLadder(packTarget, version)
+    if (wantPack && packTarget) packLadder(packTarget, version, cfg)
     if (wantGh) {
       const gitOk = sh('git', ['rev-parse', '--git-dir'])
       if (gitOk.status !== 0) cap('not a git worktree; the gh ladder needs the release commit')

@@ -26,6 +26,13 @@ const root = path.resolve(__dirname, '..')
 const script = path.join(root, 'scripts', 'verify-release.cjs')
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
 
+// Eyestruct's own rules arrive as flags, derived from source - the script
+// carries none of them (the generic-core rule): the exports keys pin comes
+// from the checkout's package.json, and the adapter-contract probe is the
+// frozen consumer marker this repo's install must answer.
+const exportsKeys = Object.keys(pkg.exports).join(',')
+const eyeProbe = "const p=require('eyestruct');if(p.ADAPTER_CONTRACT!=='eyestruct-adapter@1')process.exit(1);if(!Array.isArray(p.reasonCodes)||!p.reasonCodes.length)process.exit(1)"
+
 function packTree(dest) {
   // npm pack of the repo root: the same files npm publish will include
   // (prepublishOnly is NOT a pack hook - the pack list is judged as one).
@@ -42,18 +49,91 @@ function run(args) {
   return spawnSync('node', [script, ...args], { cwd: root, encoding: 'utf8', timeout: 300000 })
 }
 
+// The generic-core proof (walk WL-7 commissioned): the same script file,
+// run from a FOREIGN repo's root against that repo's own tarball, must
+// verify everything with ZERO edits to the script. The toy repo has its
+// own name, version, main entry, and bin - none of which the script knows
+// in advance; everything it asserts is derived from the caller's tree and
+// the tarball's package.json.
+test('the generic core verifies a foreign repo with zero edits to the script', () => {
+  const toy = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-toy-'))
+  fs.writeFileSync(path.join(toy, 'package.json'), JSON.stringify({
+    name: 'toy-verify',
+    version: '4.2.0',
+    main: 'index.js',
+    bin: { 'toy-verify': 'bin.js' },
+    files: ['index.js', 'bin.js'],
+  }, null, 2))
+  fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = { marker: 'toy-verify@1' }\n")
+  fs.writeFileSync(path.join(toy, 'bin.js'), '#!/usr/bin/env node\nconsole.log(process.argv.includes(\'--version\') ? \'4.2.0\' : \'4.2.0\')\n')
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
+  const tgz = path.join(toy, 'toy-verify-4.2.0.tgz')
+  // cwd is the TOY repo: the caller's tree is the one judged.
+  const rv = spawnSync('node', [script, '--pack', tgz, '--version', '4.2.0'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const out = `${rv.stdout}\n${rv.stderr}`
+  assert.equal(rv.status, 0, `generic ladder failed on the toy repo (${rv.status}):\n${out}`)
+  assert.ok(out.includes('PASS identity: toy-verify@4.2.0'), `toy identity missing:\n${out}`)
+  assert.ok(out.includes('PASS consumer probes (1)'), `the toy's version probe never ran:\n${out}`)
+  assert.ok(out.includes('PASS installed bin toy-verify --version -> 4.2.0'), `the toy's bin was never probed:\n${out}`)
+  fs.rmSync(toy, { recursive: true, force: true })
+})
+
+// The caller's own forbidden list is a flag, not an edit: a prefix the
+// family defaults don't name must still be refused BY NAME when the
+// adopting repo states it.
+test('a caller-stated --forbidden prefix refuses a smuggle the defaults miss', () => {
+  const toy = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-toy2-'))
+  fs.writeFileSync(path.join(toy, 'package.json'), JSON.stringify({
+    name: 'toy-verify',
+    version: '4.2.0',
+    main: 'index.js',
+    files: ['index.js'],
+  }, null, 2))
+  fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = 1\n")
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
+  fs.mkdirSync(path.join(toy, 'secrets'), { recursive: true })
+  fs.writeFileSync(path.join(toy, 'secrets', 'private.txt'), 'must never ship\n')
+  // Manually splice the smuggle into the tarball (npm pack would exclude
+  // it via the files field) - the threat is a file, not a broken archive.
+  const ex = path.join(toy, 'extracted')
+  fs.mkdirSync(ex, { recursive: true })
+  const unt = spawnSync('tar', ['-xzf', path.join(toy, 'toy-verify-4.2.0.tgz'), '-C', ex], { encoding: 'utf8' })
+  assert.equal(unt.status, 0, `unpack failed: ${unt.stderr}`)
+  fs.mkdirSync(path.join(ex, 'package', 'secrets'), { recursive: true })
+  fs.writeFileSync(path.join(ex, 'package', 'secrets', 'private.txt'), 'must never ship\n')
+  const doctored = path.join(toy, 'doctored.tgz')
+  const repack = spawnSync('tar', ['-czf', doctored, '-C', path.join(ex, 'package'), '.'], { encoding: 'utf8' })
+  assert.equal(repack.status, 0, `repack failed: ${repack.stderr}`)
+  // The default list does NOT name secrets/ - without the flag it passes
+  // the scan (and only trips the expected-set mismatch); WITH the caller's
+  // flag it is refused by name.
+  const withFlag = spawnSync('node', [script, '--pack', doctored, '--version', '4.2.0', '--forbidden', 'secrets/'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const flaggedOut = `${withFlag.stdout}\n${withFlag.stderr}`
+  assert.equal(withFlag.status, 1, `the caller's forbidden flag did not bite (${withFlag.status}):\n${flaggedOut}`)
+  assert.ok(flaggedOut.includes('secrets/private.txt'), `the refusal does not name the smuggle:\n${flaggedOut}`)
+  fs.rmSync(toy, { recursive: true, force: true })
+})
+
 test('the pack ladder verifies real npm pack output (contents + identity + consumer install)', () => {
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'release-verify-'))
   const tgz = packTree(work)
-  const r = run(['--pack', tgz, '--version', pkg.version])
+  const r = run(['--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe])
   const out = `${r.stdout}\n${r.stderr}`
   assert.equal(r.status, 0, `pack ladder failed (${r.status}):\n${out}`)
   assert.ok(out.includes('PASS forbidden scan'), 'forbidden scan never ran')
   assert.ok(out.includes('PASS served set == npm pack of this tree'), 'expected-set equality never asserted')
   assert.ok(out.includes('PASS identity: eyestruct@'), 'identity line missing')
+  assert.ok(out.includes('PASS exports map held'), 'the exports pin never ran')
+  if (out.includes('PASS consumer probes')) {
+    assert.ok(out.includes('PASS installed bin'), 'the installed bin probe never ran when the install landed')
+  }
   // The consumer-install half needs the registry; either a real PASS or a
-  // NAMED SKIP is acceptable - a silent absence is not.
-  if (!out.includes('PASS consumer install')) {
+  // NAMED SKIP is acceptable - a silent absence is not. The message names:
+  // 'PASS consumer probes' (+ 'PASS installed bin') on the happy path,
+  // 'SKIP consumer install' when the registry is unreachable.
+  if (!out.includes('PASS consumer probes')) {
     assert.ok(out.includes('SKIP consumer install'), `no PASS and no named SKIP for the consumer install:\n${out}`)
   }
   fs.rmSync(work, { recursive: true, force: true })
