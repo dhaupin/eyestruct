@@ -101,3 +101,15 @@ This page mirrors `lib/mcp.js` (the `TOOLS` registry feeds `tools/list`
 verbatim). When a tool name, argument, or behavior and this page
 disagree, the source wins and this page gets a fix on the next edit -
 same rule the [CLI reference](/eyestruct/cli) carries.
+
+## The 1.0.0 stability contract
+
+The nine-tool stdio surface freezes at 1.0.0 until 2.x. Within 1.x the
+`TOOLS` registry in `lib/mcp.js` holds the same semver law the CLI holds:
+no tool name, argument, or schema semantic is removed or changed -
+removals and semantic changes ride a major bump only, additions land as
+minors with this page updated in the same commit. The `initialize`
+protocol shape and the error-mapping table above are part of the same
+frozen surface. The count census in the battery keeps any prose tool
+claim equal to `TOOLS.length`, so a tenth tool can never arrive with a
+"nine tools" sentence still standing.

@@ -87,3 +87,25 @@ This page mirrors `eyestruct --help` from `bin/eyestruct.js`. When the
 usage text and this page disagree, the usage text wins and this page gets
 a fix on the next edit - the doc gate checks links and voice, and this
 page's tables stay hand-maintained.
+
+## The 1.0.0 stability contract
+
+At 1.0.0 this surface freezes until 2.x, and then it holds the semver way.
+Within 1.x:
+
+- **The verbs are locked.** The 11 `COMMANDS` entries in
+  `bin/eyestruct.js` (init, look, diff, adopt, ledger, gate, raster,
+  ratify, walk, lint-packs, mcp) never lose a verb, a usage flag, or a
+  semantic. Removals and behavior changes ride a major bump only.
+- **Additions are minors, loudly.** A new verb or flag lands as a minor
+  bump with this page updated in the same commit; silence is never a
+  release.
+- **The exit contract rides the same law.** The 0-1-2 contract and the 28
+  named reason codes ([reason codes](/eyestruct/reasons), mirror of
+  `lib/reasons.js`) are additive-first within 1.x; a removal can only ride
+  2.0.
+- **Counts cannot drift.** The battery's count census (`tests/census.test.js`,
+  eyestruct#10 item 3) compares every hand-copied count-claim on the
+  audited docs/meta surfaces against the live ledgers and the source
+  tables, so the stale-26 drift class fails CI instead of waiting for a
+  walk to catch it.

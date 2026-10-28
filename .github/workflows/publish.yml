@@ -1,0 +1,39 @@
+name: publish
+# The repo-cut release lane (eyestruct#10 item 2). 0.9.0 shipped via the
+# phone ship lane (receipted at 9744c76); this lane is the 1.0.0 cut and
+# every cut after it.
+#
+# npm trusted publishing (OIDC): no NPM_TOKEN secret exists, the job's
+# id-token proves the tarball came from THIS tree instead.
+# npm >= 11.5.1 is the trusted-publishing floor, installed here.
+# The battery rides automatically: npm publish runs prepublishOnly
+# (npm test && npm run check) - a red battery cannot mint a tarball.
+#
+# Manual dispatch only, like eyes-ratify: publishing is a baseline cut for
+# the registry, so the registry lane inherits the only-a-deliberate-cut law.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with: { fetch-depth: 0 } # prepublishOnly's check:trifecta reads history
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 22 }
+      - name: npm floor for trusted publishing (11.5.1+)
+        run: npm install -g npm@^11
+      - name: 0.x refusal at the gate
+        run: |
+          V="$(node -p "require('./package.json').version")"
+          case "$V" in
+            0.*) echo "publish gate: refusing $V - the OIDC lane serves 1.0.0+ only (the family release ladder: 0.x is the manual ship lane)"; exit 1 ;;
+          esac
+          echo "publish gate: $V passes the 0.x refusal"
+      - run: npm ci --no-fund --no-audit
+      - run: npm publish --provenance

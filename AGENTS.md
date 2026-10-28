@@ -25,7 +25,10 @@ Working policies (seed; the brain grows these by working):
   one into this repo, the npm tarball never carried it (files field).
 - The battery is `.github/workflows/test.yml` (npm test + check (opens
   with the check:trifecta freshness leg) + the
-  crashtest leg + the raster:gate icon leg); the docs lane is
+  crashtest leg + the raster:gate icon leg + the floors-node18 leg (the
+  >=18 claim re-receipted on every push)); the registry cut lane is
+  `publish.yml` (manual dispatch, OIDC trusted publishing, 0.x refusal
+  at the gate, battery riding prepublishOnly); the docs lane is
   `docs.yml` (Jekyll + freestruct + pagefind -> Pages at
   docs.creadev.org/eyestruct); canon lane is `eyes-ratify.yml`
   (manual dispatch, the only baseline cutter). Reference docs live at
@@ -34,6 +37,18 @@ Working policies (seed; the brain grows these by working):
   (eyestruct#6): a shallow checkout self-deepens once, a refused
   deepen names SHALLOW_CLONE and skips the probes - consumers never
   need fetch-depth 0 to get an honest verdict.
+- The 1.0.0 stability law (eyestruct#10): within 1.x, no removal or
+  semantic change on the public surfaces - the 11 COMMANDS verbs + usage
+  flags (bin/eyestruct.js), the 28 reason codes + the 0-1-2 exit
+  contract (lib/reasons.js), the 9 TOOLS + inputSchemas (lib/mcp.js),
+  the labs/.eyes/ manifest-pin schema, and the packstruct@1 grammar
+  pin. Additions are minor bumps, always with the mirrored docs page
+  updated in the same commit; removals and semantic changes ride 2.0
+  only.
+- The count census (tests/census.test.js): count-claims on the audited
+  docs/meta surfaces must equal the live ledgers and source tables;
+  change a count and its claims in the same commit or CI fails the
+  copy. Never hand-copy a number the census can derive.
 - Receipts to cite: 28 reason-codes (lib/reasons.js), 30 pack verdicts
   (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
   the bundle lane receipts (lib/bundle.js; offline executor, integrity

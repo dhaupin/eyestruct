@@ -78,3 +78,14 @@ error instead of killing the whole runner.
 
 This page mirrors `lib/reasons.js` - the CODES + REASONS tables it emits
 from. Disagreement means the page is stale and the lib wins.
+
+## The stability law for this table
+
+The 28 codes freeze at 1.0.0 under the same rule the CLI verbs and the
+MCP tools carry: additive-first within 1.x (a new code is a minor bump
+plus a row here in the same commit), never a removal or a re-spelled
+semantic inside 1.x - those ride 2.0. The exit contract (0 green and
+explained / 1 drift and refusal / 2 setup and capability) is frozen for
+the life of 1.x. The count census in the battery compares any hand-copy
+code count against `Object.keys(CODES).length`, so the stale drift class
+cannot re-form here either.

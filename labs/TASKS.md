@@ -711,3 +711,35 @@
   unchanged field (it stays truthful for the runtime). CHANGELOG row rides;
   the node-18 CI runtime leg (keep the consumer claim continuously
   defended instead of by one local receipt) goes on the 1.0.0 worklist.
+
+## 2026-10-28 - the 1.0.0 solidity batch (eyestruct#10 items 1, 3, 4, 5)
+
+- Stability contract landed (item 1): the freeze-until-2.x law is written
+  at the three mirrored surfaces (docs/cli.md, docs/mcp.md, docs/reasons.md)
+  plus AGENTS.md - verbs (11, the COMMANDS table), reason codes (28 +
+  0-1-2), MCP tools (9 + inputSchemas), manifest-pin schema, packstruct@1
+  grammar; additions are minor bumps with the mirror updated in the same
+  commit, removals ride 2.0 only.
+- Count census landed (item 3): tests/census.test.js derives every truth
+  from the living sources (CODES keys, eye-ledger rows, crashledger
+  findings, TOOLS registry, COMMANDS table) and scans the audited
+  hand-copy surfaces (docs/ci.md, docs/discussions/index.md,
+  web/ssr.config.js). First run caught a live stale claim before any
+  release rode it: docs/discussions/index.md carried "25 reason-codes",
+  truth 28 - fixed in the same commit. The census also settled a walk-row
+  dispute: the 2026-10-28 truthfulness walk said "docs/mcp.md mirrors the
+  full 10-tool registry" - the registry is 9 tools and mcp.md always said
+  nine; the 10 was the walk row's own typo, now receipted (AGENTS row
+  corrected). Census governs only derivable claims; unknown prose numbers
+  still need the walk.
+- Stage registry ruling (item 5): eyestruct on npm has TWO
+  versions, latest=0.9.0 and 0.0.0-stage (a 2-file, 331-byte
+  "Temporary package placeholder for staged publishing" stub, stub:true).
+  Registry ruling (item 5): UNPUBLISH - the 0.9.0 publish permanently
+  holds the name, so the stub carries no name-reservation value; its only
+  live effect is a confusing version row in the registry dropdown. Carry
+  it out (needs the 2FA holder):
+  `npm unpublish eyestruct@0.0.0-stage`
+  After it lands, re-read registry dist-tags (expect latest=0.9.0 only)
+  and tick this row. If npm refuses unpublish, adopted ruling: KEEP and
+  re-receipt as intentionally carried with the dropdown note.

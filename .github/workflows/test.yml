@@ -37,3 +37,22 @@ jobs:
       # labs/crashledger.json baseline - same explicit-adoption rule the
       # packledger carries. Determinism: fixed attack batches + seed.
       - run: npx crashtest run
+
+  # The runtime floor leg (eyestruct#10 item 4): the consumer engines
+  # claim (node >=18) keeps a continuous CI receipt instead of decaying
+  # after one local receipt (v18.20.8, 2026-10-28, docs/ci.md floors
+  # table). Cheap on purpose: install + the test spine only. `npm run
+  # check` is deliberately NOT run here - on 18 the packstruct ESM
+  # conformance fixtures refuse to load (no require(esm)) and the gate
+  # refuses at conform:packs by design; that refusal is the documented
+  # battery floor, not a failure of this leg (docs/ci.md).
+  floors-node18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 18 }
+      - run: npm ci --no-fund --no-audit
+      - run: node --version
+      - run: npm test

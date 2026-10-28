@@ -16,9 +16,10 @@ tweed, and where to look first when it goes red.
 | step | leg | gates |
 |-------|-------|---------|
 | `npm ci` | hermetic install | exact-pinned devdeps only; the lockfile is law |
-| `npm test` | node:test spine | behavior-only, temp dirs, no network, no browser |
+| `npm test` | node:test spine (behavior-only, temp dirs, no network) + the count census | every hand-copied count-claim on the audited surfaces equals the live ledgers (eyestruct#10) |
 | `npm run check` | four sub-gates: docs lint, pack campaign, `lint:packs`, conformance audit | see below |
 | `npx crashtest run` | adversarial leg over the real CLI | committed `labs/crashledger.json` baseline |
+| `floors-node18` (second job, same push) | node 18 receives `npm ci` + `npm test` only | the consumer `engines >=18` claim keeps a continuous CI receipt (see the floors table) |
 
 ### Runtime floors (receipts, not vibes)
 
@@ -45,6 +46,9 @@ Two floors, both receipt-backed - do not blur them:
 | `v18.20.8` | 63 pass / 8 skips / 0 fail | refuses at `conform:packs` (see floors above) | consumer CLI surface proven; no fixtures loader |
 | node 20 (CI, run #58) | green | green | the battery floor line CI defends |
 | `v24.21.0` / `v26.3.1` | green | green | the Termux publish machine's line |
+
+The `floors-node18` job re-runs the v18 row on every push, so the 18 line
+stays a standing receipt instead of a one-mortem (eyestruct#10 item 4).
 
 ### Inside `npm run check`
 
