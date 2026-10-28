@@ -47,6 +47,23 @@ test('adapter api: the contract marker + the named-refusal surface carry the tre
   assert.equal(api.ledger, require('../lib/ledger.js'))
 })
 
+test('adapter api: the VERBS map stays inside the CLI COMMANDS table (the drift round pin)', () => {
+  // The adapter surface hand-lists its verbs - a hand-list without a
+  // census-style pin is the drift class: COMMANDS gains a verb and the
+  // adapter surface either outruns the bin (a bridge the CLI never agreed
+  // to) or lags it (an altitude that lost a verb). Canon stays CI-cut:
+  // ratify must never ride the adapter surface, restated here as a pin.
+  const src = fs.readFileSync(path.join(__dirname, '..', 'bin/eyestruct.js'), 'utf8')
+  const table = src.match(/const COMMANDS = \{[\s\S]*?\n\}/)
+  assert.ok(table, 'bin/eyestruct.js must carry the COMMANDS table the pin derives from')
+  const cmds = new Set([...table[0].matchAll(/^\s+'?([a-z][a-z-]+)'?:\s*(?:require|\()/gm)].map((m) => m[1]))
+  assert.ok(cmds.size > 0, 'COMMANDS table drift pin found zero verbs - the match lost the shape')
+  for (const verb of Object.keys(api.verbs)) {
+    assert.ok(cmds.has(verb), `adapter verb "${verb}" is not a CLI COMMAND - the adapter surface and the bin dispatch table drifted apart`)
+  }
+  assert.ok(!Object.keys(api.verbs).includes('ratify'), 'canon is CI-cut: ratify must never ride the adapter surface')
+})
+
 test('adapter api: dispatch runs the CLI verb verbatim (same ctx shape, same output shape)', () => {
   const root = seedRepo(tempRepo())
   const code = api.dispatch('gate', api.ctxOf(root, ['--json'], true))

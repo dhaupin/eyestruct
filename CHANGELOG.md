@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed (2026-11-01, the drift round, pass two)
+
+- The engine's exec-resolution header still described the pre-bundle ladder (four steps ending at the puppeteer cache) while the code - and every documented surface - consult `pin.browser-bundle` between the pin and the cache; the header now carries the five-step ladder it already implemented (comment-vs-truth, resolved in the header's favor of the truth). The documented ladder itself (docs/env.md, the AGENTS bundle row) probed CONCORD.
+- The adapter surface's `VERBS` map was a hand-list with no drift pin - the exact unchecked hand-list class the count census kills elsewhere. A new adapter-api leg pins it: every `VERBS` key must exist in bin/eyestruct.js's `COMMANDS` table (a bridge the CLI never agreed to, or an altitude that lost a verb, refuses by name at the battery), and `ratify` must never ride the adapter surface (canon is CI-cut, restated as a pin rather than prose).
+
 ### Fixed (2026-11-01, the cross-surface drift round)
 
 - The canon-slot naming truth existed in triplicate: the exact same derivation (`/` -> `home`, path slug -> `${slug}/${view}`) was hand-copied in look.js (`routeSlot`), ratify.js (`slotDir`), and mcp.js (`slotOfFirst`) - three owners of one truth, so a future canon-naming change moved silently in one lane and not the others. ONE reader remains (ratify.slotDir - the eyes-ratify bootstrap already treats it as the named source); look's diff default and mcp's diff default now arrive at their baselines THROUGH it, with the MCP lane keeping its named `NO_BASELINE` empty-manifest refusal. A contract leg pins the reader's exact outputs (`home/desktop-1280`, slug dissolving, the `page` fallback) so the shape has a permanent receipt. Deliberately untouched: walk.candidateName is a DIFFERENT naming with a different default (`root` for `/` by the khf-wp contract) - candidates name paths, canon slots name pages, stated in both code and leg.
