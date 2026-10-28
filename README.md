@@ -69,11 +69,12 @@ The same committed memory serves three consumers, near to far:
    memory plus named-code gates run in any pipeline: hermetic install,
    no daemons, refusals that name their fix. Regression sight at merge
    time.
-2. **Adapters, for agent platforms and cloud builders** (designed, next).
-   The same verbs exposed where agents already work - the MCP stdio
-   surface is the first adapter, the family pack/CI rigs are the second
-   consumers, and platform adapters (a Vant-shaped brain, hosted builder
-   environments) ride the same CLI contract.
+2. **Adapters, for agent platforms and cloud builders** (shipping in
+   layers). The same verbs exposed where agents already work: the MCP
+   stdio surface is the first adapter, the adapter API (`lib/index.js`,
+   `eyestruct-adapter@1`) is the second, and platform adapters (a
+   Vant-shaped brain, hosted builder environments) consume the contract
+   - no forking, no re-parsing.
 3. **Real-time, inside the chat session (the pinnacle)** (designed
    future, not shipped). Seeing everything the agent works on, live,
    through bridges/connectors - the serve-spot instance loop today,

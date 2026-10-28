@@ -107,6 +107,7 @@ it never writes the ledger, and the canon stays CI-cut. Full recipe:
 ## Where to go next
 
 - [CLI reference](/eyestruct/cli) - every command and flag
+- [Adapter API](/eyestruct/adapters) - the programmatic surface if you are integrating, not shelling
 - [Reason codes](/eyestruct/reasons) - what every named refusal means
 - [Playbooks](/eyestruct/playbooks) - the workflows the family runs daily
 - The PRD for the design rulings: it lives at `labs/prd-eyes.md` in the repo

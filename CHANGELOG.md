@@ -42,6 +42,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - README's "The three altitudes", the /agents "Where this goes" grid
   (Now/Next/pinnacle with built/designed disclaimers), and an AGENTS.md
   story row that bars past-tense claims for the unbuilt lanes.
+- The adapter API (`lib/index.js`, `eyestruct-adapter@1`): the
+  programmatic surface the adapters altitude rides - the same library
+  modules the CLI dispatches behind one frozen contract (six browserless
+  verbs via `dispatch`, the shared `FailError` + 28-code refusal
+  surface, the manifest/ledger stores, bundle/engine/serveDist).
+  `dispatch` returns the exit code and never exits a hosted caller;
+  canon stays CI-cut from the adapter side by construction. Battery leg
+  `tests/adapter-api.test.js` pins the contract's shape; the reference
+  page is docs/adapters.md (nav-row added).
+- The PRD's build-state ledger refreshed to the 2026-10-28 truth, plus
+  the Goals and Requirements sections for the three altitudes: the
+  adapter contract (R-A1..R-A6), the event-driven lane (R-R1..R-R5 -
+  receipts before any past-tense claim for the pinnacle), and the
+  video/TUI column requirements.
 
 ### Added (2026-10-28, hardening)
 

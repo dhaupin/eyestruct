@@ -889,3 +889,37 @@
 - Discipline note: the fiction-signature gate bans fabricated usage
   stories; installed future lanes are the honest form - designed and
   pointed at the PRD, labeled not-shipped, never past tense.
+
+## 2026-10-28 - the adapters altitude becomes importable (eyestruct-adapter@1)
+
+- The claim-surface walk (user ask: "build whatever is claimed in
+  web/docs not built yet") found exactly one first-layer claim that was
+  buildable today: the adapter surface as a real importable module. The
+  stale-check other finds: --wave already shipped (the PRD's remaining
+  list was outdated on it), the capture-correctness pack stays honestly
+  queued (docs/packs.md), video/TUI columns and the event-driven
+  pinnacle stay designed.
+- SHIPPED: lib/index.js (`eyestruct-adapter@1`) - the adapter API - the
+  same library modules the CLI dispatches, behind one frozen contract:
+  dispatch (six browserless verbs, CLI-verbatim ctx), FailError + the
+  28-code reason surface, manifest/ledger stores (one writer of truth
+  per store), bundle/engine/serveDist. dispatch returns the exit code
+  and never process.exit-entry-nothing in a hosted builder. Canon stays
+  CI-cut from the adapter side by construction - the API cannot cut
+  canon, that is a feature.
+- Battery leg: tests/adapter-api.test.js (5 cases - contract marker,
+  CLI-verbatim gate dispatch, FailError refusals carrying
+  eyestruct[CODE] text, ADOPT_NOTE_REQUIRED via the dispatch, unknown
+  verb refusal naming the available set).
+- Mirrors: docs/adapters.md (the reference page, nav row added),
+  README altitude 2 now "shipping in layers" (MCP first, lib second,
+  platform adapters consume), /agents "Next: adapters" card now "Now:
+  adapters" (hosted-builder ones still designed), AGENTS story row
+  updated, docs/start + docs/index pointer rows.
+- PRD refreshed under its own voice: the stale 2026-10-27 build-state
+  cut replaced with the 2026-10-28 truth (raster gate rides test.yml,
+  bootstrap publish landed, wave row type exists, 10 tools/30
+  verdicts/4 packs) + new Goals (the three altitudes) and Requirements
+  sections: the adapter contract (R-A1..R-A6), the event-driven lane
+  (R-R1..R-R5, the pinnacle spec - especially R-R5: receipts before any
+  past-tense claim), and the video/TUI column requirements.

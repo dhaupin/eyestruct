@@ -170,11 +170,12 @@ export default function Agents() {
               this page names a surface you can run today.</p>
             </div>
             <div className="card">
-              <h3><span className="glyph">→</span> Next: adapters</h3>
-              <p>The same verbs where agents already work - the MCP surface
-              is the first adapter, and the same CLI contract rides into
-              platform adapters and hosted builder environments.
-              <em> Designed, not shipped.</em></p>
+              <h3><span className="glyph">→</span> Now: adapters</h3>
+              <p>The same contract where agents already work: the MCP stdio
+              surface is the first adapter, and
+              <code> eyestruct-adapter@1</code> (<code>lib/index.js</code>) is
+              the second - platforms import the truth instead of forking it.
+              Hosted-builder adapters: designed, in flight.</p>
             </div>
             <div className="card">
               <h3><span className="glyph">◉</span> The pinnacle: real-time</h3>

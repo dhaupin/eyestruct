@@ -45,16 +45,19 @@ Working policies (seed; the brain grows these by working):
   contract (lib/reasons.js), the 10 TOOLS + inputSchemas (lib/mcp.js;
   spot joined 2026-10-28 as the same-class minor bump, docs/mcp.md in
   the same change),
-  the labs/.eyes/ manifest-pin schema, and the packstruct@1 grammar
+  the labs/.eyes/ manifest-pin schema, the adapter contract
+  (lib/index.js, eyestruct-adapter@1; docs/adapters.md is its mirror;
+  additions are minor bumps), and the packstruct@1 grammar
   pin. Additions are minor bumps, always with the mirrored docs page
   updated in the same commit; removals and semantic changes ride 2.0
   only.
 - The product story, three altitudes (README "The three altitudes" is
   the canonical statement): CI for devs/enterprise (shipping), adapters
-  for agent platforms/cloud builders (designed next; MCP stdio is the
-  first adapter), and real-time eyes inside the chat session via
-  bridges/connectors (the designed pinnacle, NOT shipped - never claim
-  it works today).
+  for agent platforms/cloud builders (MCP stdio is the first adapter,
+  lib/index.js eyestruct-adapter@1 the second - platform adapters ride
+  them; hosted-builder ones still designed), and real-time eyes inside
+  the chat session via bridges/connectors (the designed pinnacle, NOT
+  shipped - never claim it works today).
 - The instance loop is native: `eyestruct serve [dir]` serves a baked
   tree with the committed _headers rules host-shaped (the ONE
   implementation, lib/serve-dist.js, shared with the battery leg + the

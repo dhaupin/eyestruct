@@ -324,7 +324,7 @@ Ship gate is two assertions, both first-person:
 - Headless Chromium runs in these sandboxes today via on-demand download
   (gistory's `ui:browsers` pattern: skip in install, fetch per machine);
   magpie consumes the same harness style. Viewport/theme capture against
-  the managed preview or a served static build — both are how the existing
+  the managed preview  or a served static build — both are how the existing
   audit already works.
 - Committed artifacts survive workspace resyncs (models/, horcrux/ stones
   riding in repo trees, lived repeatedly). Gitignored visual state does
@@ -350,11 +350,11 @@ remaining rows are ordered by what unblocks the ship receipts.
 - **The CLI surface is past "draft":** it shipped — every verb the
   "CLI surface (draft)" section names is live, plus `ratify` (the canon
   cut) and `lint-packs` (the packstruct wrapper, never a download). The
-  exit contract in place: a named reason-code on every nonzero exit — 25
-  of them in `lib/reasons.js`, mirrored on the docs reasons page, and the
-  crashtest leg verified the sharpenings (empty verb → `UNKNOWN_COMMAND`,
-  joined `--ledger=` → `BAD_FLAG_VALUE`, explicit missing `--ledger`
-  → `LEDGER_MISSING`, exit 2).
+  exit contract in place: a named reason-code on every nonzero exit — 28
+  of them in `lib/reasons.js`, mirrored on the docs reasons page, count
+  locked by the battery census, and the crashtest leg verified the
+  sharpenings (empty verb → `UNKNOWN_COMMAND`, joined `--ledger=` →
+  `BAD_FLAG_VALUE`, explicit missing `--ledger` → `LEDGER_MISSING`, exit 2).
 - **The engine seam is wired.** `lib/engine.js` drives the PINNED chrome
   through puppeteer-core — `--browser-exec / EYESTRUCT_BROWSER /
   manifest pin / ~/.cache/puppeteer cache` discovery in that order, and
@@ -374,11 +374,12 @@ remaining rows are ordered by what unblocks the ship receipts.
   fires 52 hostile attacks (argv batches, MCP stdio frames, 6 hostile
   ledger variants, seed `0xE1E5`) — 52/52 REFUSED, 0 exploited, and a
   three-contract sharpening ride proves the leg earns its keep.
-- **The MCP surface is real.** The stdio server answers JSON-RPC with 9
+- **The MCP surface is real.** The stdio server answers JSON-RPC with 10
   tools (look, diff, adopt, ratify, ledger_list, ledger_show, gate,
-  raster, walk) and structured errors for unknown methods — the CLI is
-  the contract, the server is its decoding, and hostile frames are among
-  the 52 the crashtest leg already refuses.
+  raster, walk, spot) and structured errors for unknown methods — the
+  CLI is the contract, the server is its decoding, and hostile frames
+  are among the 52 the crashtest leg already refuses. `spot` made the
+  agents-vision loop native on the MCP leg (2026-10-28).
 - **The eye home is a host decision, kept.** `labs/.eyes/` is the default
   (manifest + committed ledger live there now), `--manifest/--ledger`
   re-pointing is wired everywhere, and the amendment to the memory law
@@ -389,37 +390,122 @@ remaining rows are ordered by what unblocks the ship receipts.
   `/packs` + `/status` routes whose live numbers fetch the same committed
   ledgers a fresh session reads.
 
-### Remaining (ordered to unblock the ship receipts)
+### Remaining (2026-10-28 refresh — the 2026-10-27 cut is obsolete)
 
-1. **MVP 5 in the CI battery, not just in-tree.** The raster gate is a
-   verb but does not ride `test.yml` yet — a docs-art + icon set leg
-   (`raster` over `docs/icon.svg`, `web/public/icon.svg`, `labs/.eyes/`
-   renderables) turns the dogfood ruling into a CI leg, not a habit.
-2. **The two first-person ship receipts.** The engine, ledger and gate
-   exist; the receipts don't have sessions yet:
-   - a UI edit that breaks pixels while DOM collectors stay green gets
-     CAUGHT by `eyestruct gate` (the og-image founding receipt,
-     reproduced on a live surface — gistory is still the obvious first
-     client);
-   - a FRESH session answers a visual question from `labs/.eyes/` with
-     no browser open (the memory receipt).
-3. **The 0.9.0 bootstrap publish.** The one-time manual publish from a
-   dev machine behind the full gate (per the release-system block above;
-   package page already cited as live per house style — the receipt
-   chase makes it true).
-4. **Churn-wave ledger rows.** The one-note-explains-N-image-changes
-   ruling has no row type in `lib/ledger.js` yet — it lands with
-   the first real capture wave, which is the conversation that proves
-   what shape the row wants.
-5. **Family sequencing stays the fleet's call.** Poststruct first ships
-   per the 2026-10-25 ordering; eyestruct's finishing order above is
-   independent of it.
+Closed since the last cut, receipts in-tree: the raster gate rides the
+CI battery (`npm run raster:gate` in `test.yml`); the 0.9.0 bootstrap
+publish landed (0.9.0 is live on the registry); the churn-wave row type
+exists (`adopt --wave`, one note → N artifacts, `lib/ledger.js` type
+`wave` refused-loose like every other row); 10 MCP tools; 30 pack
+verdicts across 4 packs; the family status dialect + count census + the
+agents-vision loop (`serve`/`spot` on CLI, MCP, and a dedicated feature
+page) are all shipped.
+
+Still remaining, ordered by what the product needs next:
+
+1. **The two first-person ship receipts, at scale.** The loop exists and
+   got demonstrated first-person in a browserless VM (the chromium-lane
+   PASS, the spot-capture-with-own-vision receipt). What remains is
+   making them routine on REAL surfaces — the poststruct/monoforge
+   adopting lanes, not just this repo — so the receipts live on other
+   people's commits too, not only ours.
+2. **The capture-correctness pack** (the docs/packs.md queued row): a
+   pack whose cases exercise real captures in CI with the pinned
+   browser — lands when the Ci-mode chromium lane becomes a default
+   runner capability rather than an opt-in.
+3. **Adapters, layer two.** The contract exists (see Requirements — the
+   adapter contract, shipped this refresh as `eyestruct-adapter@1`);
+   what remains is the first PLATFORM consumer actually riding it (the
+   vant install wiring ci-mode through the import instead of a
+   subprocess, then the flowforge template's own adoption).
 
 The PRD's invariant survives contact with the build so far: every refusal
 that exists now is named; the only state that survives between looks is
 `labs/.eyes/`; every claim above has a receipt riding the tree. The two
-ship receipts in item 2 are the first ones worth having — everything else
+ship receipts are the first ones worth having — everything else
 served them.
+
+## Goals — the three altitudes (2026-10-28, written where the world reads)
+
+The product serves three consumers of the same committed memory, near to
+far (README "The three altitudes" is the canonical statement; AGENTS.md
+carries the story rule):
+
+- **G1 — CI, for devs and enterprise (shipping).** The committed visual
+  memory plus named-code gates run in any pipeline: hermetic install,
+  process-per-look, refusals that name their fix, regression sight at
+  merge time.
+- **G2 — adapters, for agent platforms and cloud builders (shipping in
+  layers).** The same verbs exposed where agents already work: the MCP
+  stdio surface is the first adapter, the programmatic surface is the
+  second, and platform adapters (a vant-shaped brain, hosted builder
+  environments) consume the contract without forking or re-parsing.
+- **G3 — real-time, inside the chat session (the pinnacle; designed
+  future, NOT shipped).** Eyes that see everything the agent touches,
+  live, through bridges/connectors — the serve→spot instance loop is the
+  seed (a pull model: the agent asks to see); the road is the push model
+  (eyes that see without being asked). Until it ships with receipts, no
+  surface may claim it works today — designed ≠ past tense.
+
+## Requirements — the adapter contract (shipped this refresh)
+
+The adapter altitude's programmatic layer, now in-tree as
+`lib/index.js`, marker `eyestruct-adapter@1`, mirrored at
+docs/adapters.md:
+
+- **R-A1 — one contract, decodable three ways.** The CLI verbs, the MCP
+  tool schemas, and the adapter API must decode the same behavior; the
+  adapter surface dispatches the CLI's own verb functions with the CLI's
+  own ctx shape, so adapter calls and CLI calls take one path and drift
+  is impossible by construction. Battery leg: `tests/adapter-api.test.js`.
+- **R-A2 — the refusal contract is shared verbatim.** Any refusal
+  arrives as `FailError` carrying the same `eyestruct[CODE]:`
+  text — a consumer never re-derives an exit table. The 28-code census
+  keeps the claims equal.
+- **R-A3 — never exits the caller.** `dispatch` returns the exit code;
+  a refusal throws. A hosted builder must not lose its process to our
+  error semantics.
+- **R-A4 — one writer of truth per store, at every altitude.** The
+  exposed `manifest`/`ledger` modules ARE the CLI's modules; a platform
+  cannot smuggle a private store copy past the corruption refusals.
+- **R-A5 — canon is CI-cut from the adapter side too.** There is no API
+  path that cuts canon; a local adopt through the import is a proposal
+  (`ratified:false`), same as every other surface.
+- **R-A6 — the frozen-surface law.** `eyestruct-adapter@1` holds across
+  1.x: additions are minor bumps with docs/adapters.md mirrored in the
+  same commit; removals/semantic changes ride 2.0.
+
+## Requirements — the event-driven lane (the pinnacle; designed, not shipped)
+
+What G3 must satisfy before any surface names it shipped:
+
+- **R-R1 — pushes ride the same contract as pulls.** An event
+  (workspace save, route change, deploy hook) arrives at the same
+  capture engine and writes the same candidate artifacts + map;
+  event-driven sight is the loop's trigger model, never a parallel
+  pipeline with different truth semantics.
+- **R-R2 — canon stays CI-cut even in real time.** Pushed captures are
+  candidates/proposals by construction; the two-dispatch rule holds at
+  event frequency. A push can never write a ratified row.
+- **R-R3 — process budget is bounded.** Process-per-look survives: an
+  event storm may coalesce (N events → one capture round), it may not
+  spawn daemon processes. Resource floors are named, not vibes.
+- **R-R4 — bridges/connectors are adapters.** A connector is a G2
+  consumer plus an event source; it rides `eyestruct-adapter@1` + the
+  MCP surface, never a private protocol fork.
+- **R-R5 — receipts before any past-tense claim.** The lane ships when
+  its accepted loop (event → capture → read → act → re-capture) runs
+  first-person with committed receipts; until then every surface says
+  designed, not shipped.
+
+## Requirements — the remaining blind-spot columns (video/TUI; designed)
+
+The PRD's blind-spot ruling (columns, not exceptions) still stands:
+SVG→raster shipped first; video→keyframes and TUI→buffer capture follow
+the same contract — one manifest column map, one renderer pin per
+column, the same candidate→adopt→canon ladder, the same named
+refusals. A column lands when its determinism receipt can pass the
+battery in the CI VM, not before.
 
 
 - New repo, own brain (identity/goals/lessons/structure), horcrux at v0.
