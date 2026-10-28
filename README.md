@@ -24,7 +24,7 @@ eyestruct mcp                                        # stdio MCP surface, same c
 ```sh
 npm i -g eyestruct            # the CLI on your PATH
 # or in a repo whose battery calls the bin directly:
-npm i -D eyestruct@^0.9.0
+npm i -D eyestruct@^1.0.0
 ```
 
 The capture verbs (`look`, `diff`, `walk`, `ratify`) need a pinned chrome
@@ -98,8 +98,8 @@ where things live. The deep surfaces live in the docs
 `.github/workflows/` (battery `test.yml`, docs lane `docs.yml`, canon lane
 `eyes-ratify.yml`).
 
-Status: **0.9.0, capture wired and exercised.** The full verb line is live
-(look/diff/adopt/ledger/gate/raster/walk/ratify/serve/spot/mcp/lint-packs); both
+Status: **1.0.0, capture wired and exercised, interfaces frozen.** The full verb line is live
+(init/look/diff/adopt/ledger/gate/raster/walk/ratify/serve/spot/mcp/lint-packs); both
 PRD ship receipts ran first-person - a pixels-broken/DOM-clean edit gets
 caught by `diff` (DIFFERS, named), and a fresh session reads what a
 surface looks like from `labs/.eyes/` with no browser - see
