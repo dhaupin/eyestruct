@@ -1,5 +1,28 @@
 # eyestruct - rolling work log
 
+- **Release-day accuracy round + two walk laps (2026-10-28, pre-tag).
+  (1) The accuracy sweep:** web is clean (all seven pages live and
+  follow-redirect 200, robots open, counts accurate at 35/52/29),
+  docs/start.md accurate (pin table, first cycle, instance loop, next
+  links), and the announcement is LIVE-exact at `docs.creadev.org/
+  eyestruct/discussions/announcing-v1.0.0` (trailing-slash nuance
+  below). README carried the release-day blockers: the install pin
+  `@^0.9.0` and the status line both said 0.9.0, and the verb line was
+  MISSING init (twelve of thirteen) - fixed at f9c92e7, CI green (run
+  #75). The publish-lane claim held: the OIDC gate genuinely refuses
+  0.x, so the next published version is exactly 1.0.0. Release-pack
+  probes pass: `npm pack` names eyestruct-1.0.0.tgz and `--version`
+  parity holds. (2) The docket row (named, not fixed, per the walk-exit
+  rule): the docs rig's trailing-slash behavior is inconsistent
+  per-page - permalinks spelled with a slash serve directory-style
+  (start/, adapters/ 200), permalinks spelled bare 404 the slashed
+  spelling (env/, announcing-v0.9.0/) while no-slash always works; the
+  doc links are all no-slash, so navigation is unbroken, but a
+  hand-typed slash hits 404 depending on the page. The clean fix is at
+  the docs rig (a trailing-slash redirect or normalized permalinks
+  sitewide), not in eyestruct's pages. Nothing else stale found on the
+  audited numbers - no fake receipts carried into the tag.
+
 - **The 1.0.0 discussions pause (2026-10-28).** Two commissions, one
   commit: the wrap purge and the staged announcement. (1) The wrap
   purge: discussion prose flows now - paragraphs keep their natural
