@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-11-01, the version-truth census)
+
+- `package.json` is the single version truth, and the living surfaces can no longer drift from it: a census leg derives the root version and refuses (a) a `web/package.json` version that moved in a different commit, (b) a README `Status: **X.Y.Z` line carrying a stale number. The scan that commissioned it classified the whole tree: era rows (changelog dated sections, the freeze posts, the freeze-at-1.0.0 contract lines, dated TASKS entries) are LAWFUL and keep their era wording by design; range pins (`^1.0.0`) are lawful because they bind 1.x compatibility, not the current version; dep specs (`packstruct | exact 1.0.0`, the devDependency entries, workflow comments) name other packages. The only hand-synced truths were web's package.json and the README status line - both held by the leg now, so the release commit's always-move-them-together step is enforced, not remembered. Family ruling asked for: every sibling adopts the same shape (issue filed to the fam with this repo as the worked example).
+
 ### Fixed (2026-11-01, the drift round, pass two)
 
 - The engine's exec-resolution header still described the pre-bundle ladder (four steps ending at the puppeteer cache) while the code - and every documented surface - consult `pin.browser-bundle` between the pin and the cache; the header now carries the five-step ladder it already implemented (comment-vs-truth, resolved in the header's favor of the truth). The documented ladder itself (docs/env.md, the AGENTS bundle row) probed CONCORD.

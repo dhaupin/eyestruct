@@ -183,3 +183,25 @@ test('census: no audited surface carries a stale count-claim', () => {
     stale.length ? `stale count-claims found:\n${stale.map(fmt).join('\n')}` : ''
   )
 })
+
+test('version truth: package.json is the single version source, and the living surfaces cannot drift from it', () => {
+  // The stale-README class (the 0.9.0 release-day catches): a living
+  // surface hand-copies the CURRENT version, the release moves, and the
+  // copy keeps lagging. Two classes are pinned here; the LAWFUL others
+  // stay out of scope - range pins (^1.0.0) bind 1.x compatibility, not
+  // the current version, and dated era rows (changelog sections, the
+  // freeze posts, the freeze-at-1.0.0 contract lines) keep their era
+  // wording by design.
+  const root = require('../package.json').version
+  assert.ok(/^\d+\.\d+\.\d+/.test(root), 'census runner: root package.json version did not parse')
+
+  // web/package.json: a second hand-synced truth must equal the root.
+  const web = require('../web/package.json')
+  assert.equal(web.version, root, 'web/package.json version drifted from root package.json - the release commit moves them together, and the leg now holds the moving')
+
+  // README status line: the current-version claim derives from root.
+  const readme = fs.readFileSync(path.join(REPO, 'README.md'), 'utf8')
+  const status = readme.match(/Status: \*\*(\d+\.\d+\.\d+)/)
+  assert.ok(status, 'README must carry a "Status: **X.Y.Z, ..." line for the version pin (the pin relocates WITH the claim if the copy moves)')
+  assert.equal(status[1], root, 'README status line carries a stale version - move it in the same commit as root package.json, or drop the number')
+})
