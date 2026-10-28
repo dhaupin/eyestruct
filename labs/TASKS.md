@@ -667,3 +667,15 @@
   battery: a try-scoped npmrcPath whose finally-reference was silently
   swallowed (the staged secret file would have survived) and an out-snapshot
   copy that lost the clean receipt - both are now tests in the ship file.
+- Legal-page convergence (2026-10-28): Terms + Privacy landed on the family
+  canonical form per eyestruct#7's written five-point structure; prerender
+  5/5 (one non-empty h1 per legal page, dated web-version line). Before
+  building, the issue's cited reference surfaces were verified ABSENT -
+  poststruct@main carries no web/ tree (LICENSE + stub README + horcrux +
+  labs only, main is the sole branch, the claimed
+  web/src/pages/Terms.jsx+Privacy.jsx 404, and poststruct.creadev.org does
+  not even resolve, 000 on all three probes) - so the pages were built
+  from the issue body's own spec text, with eyestruct's own true facts
+  (status-page GitHub fetch, npm-registry install fetch, three named third
+  parties). Receipt comment filed on the issue; the canonical reference
+  still owes a real published surface before other repos should copy IT.

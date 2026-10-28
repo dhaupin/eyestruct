@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed (2026-10-28)
+
+- Terms + Privacy converged on the family canonical legal-page form per
+  eyestruct#7's written structure (eyebrow line, dated `Web version
+  2026-10-28` line with the long-form pointer at the repo, the section
+  skeletons - use/purpose/ownership/fair-use/changes for Terms,
+  short-version-first/tool/website/named-third-parties/retention/questions
+  for Privacy, one non-empty h1 per page). Facts are eyestruct's own: the
+  status page's GitHub fetch, the npm-registry install fetch, and the
+  three named third parties (Cloudflare Pages hosting, npmjs registry,
+  GitHub). Prerender-verified (`prestruct build`, 5/5 pages, REPAIR-404
+  PASS). The reference implementation the issue pointed at was verified
+  ABSENT on its claimed surface (receipt comment on the issue), so the
+  pages were built from the issue body's own spec text.
+
 ### Added (2026-10-27)
 
 - The phone publish lane, GENERIC (family-reusable): `scripts/ship-from-download.cjs`

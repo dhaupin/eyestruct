@@ -240,6 +240,9 @@ table.attacks td .why { color: var(--ink-soft); font-size: 12.5px; }
 .field-report .ok { color: var(--moss); }
 
 /* --- legal pages --- */
+.legal .eyebrow { text-transform: none; letter-spacing: 0.02em; font-size: 13.5px; color: var(--ink-soft); margin: 0 0 10px; }
+.legal .web-version { font-size: 12.5px; color: var(--ink-soft); border-bottom: 1px solid var(--line); padding-bottom: 14px; margin: 0 0 22px; }
+.legal .web-version a { color: var(--accent); }
 .legal h3 { margin: 26px 0 8px; font-size: 16px; }
 .legal ul { color: var(--ink-soft); padding-left: 22px; }
 .legal ul li { margin: 6px 0; }
