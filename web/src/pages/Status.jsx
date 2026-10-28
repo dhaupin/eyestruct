@@ -84,6 +84,19 @@ export default function Status() {
 
       <section className="section">
         <div className="wrap">
+          <h2>The family, one dialect</h2>
+          <p className="sub">
+            Four repos serve the same status contract: one schema, one fixed
+            path, ledger-derived numbers only.
+          </p>
+          <pre-island data-pre-island="family-status" data-pre-load="idle">
+            <span className="island-loading">Reading the family's served status files...</span>
+          </pre-island>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
           <h2>When it goes red</h2>
           <p className="sub">
             A red gate names its artifact and reason-code. The triage map

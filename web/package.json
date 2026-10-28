@@ -6,7 +6,8 @@
   "description": "eyestruct site - the landing for eyes for production agents (prestruct prerender + static hosting)",
   "scripts": {
     "dev": "vite",
-    "build": "prestruct build && node scripts/repair-404.cjs",
+    "build": "node scripts/build-status.mjs && prestruct build && node scripts/repair-404.cjs",
+    "status:build": "node scripts/build-status.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

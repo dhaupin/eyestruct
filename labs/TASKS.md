@@ -743,3 +743,25 @@
   After it lands, re-read registry dist-tags (expect latest=0.9.0 only)
   and tick this row. If npm refuses unpublish, adopted ruling: KEEP and
   re-receipt as intentionally carried with the dropdown note.
+
+## 2026-10-28 - the family status dialect (cross-repo contract groundwork)
+
+- Formalized the four-repo status read into one dialect (family-status@1,
+  docs/status.md): every member serves status.json at the fixed path
+  /status.json on its site, generated (never hand-edited) from its own
+  committed ledgers; every member's status page reads the others with
+  per-sibling graceful failure. eyestruct side landed fully: emitter
+  (web/scripts/build-status.mjs, zero-dep, reads packs/eye-ledger.json +
+  labs/crashledger.json + all packs/public/*/pack.json; refuses a
+  manifest with zero ledger rows and ledger rows for unknown packs),
+  wired first in web build (output gitignored - never committed, the
+  stale-copy class dies by regeneration), family island on /status,
+  battery leg tests/status.test.js (5 tests: verdict derivation incl.
+  RED degradation, the two intersection refusals, write receipt,
+  real-tree counts re-derived against live ledgers).
+- Live probe receipt: eyestruct.creadev.org 200, crashtest.creadev.org
+  200, packstruct.creadev.org 200, poststruct.creadev.org 000 (the M0
+  cut is not served yet). The island renders a not-yet row - never a
+  guessed PASS - until each sibling serves the dialect.
+- Sibling adoptions filed as issues (poststruct, packstruct, crashtest)
+  with this commit as the worked example.

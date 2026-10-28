@@ -26,10 +26,14 @@
  */
 
 import GateStatusIsland from './components/GateStatusIsland.jsx'
+import FamilyStatusIsland from './components/FamilyStatusIsland.jsx'
 
 export const islands = {
   // LandingPage live status - reads the committed ledgers on main.
   // Registry values are component functions (islands.js renders them via
   // React.createElement directly, no wrapper allowed).
   'gate-status': GateStatusIsland,
+  // Status page family panel - reads the four served /status.json files
+  // (the family-status@1 dialect).
+  'family-status': FamilyStatusIsland,
 }

@@ -54,3 +54,9 @@ Working policies (seed; the brain grows these by working):
   the bundle lane receipts (lib/bundle.js; offline executor, integrity
   verified at every resolution), the two ship receipts (labs/TASKS.md
   2026-10-27 entry).
+- The family status dialect (family-status@1, docs/status.md): the
+  served `web/public/status.json` (fixed path `/status.json` on the
+  site) is GENERATED on every web build by web/scripts/build-status.mjs
+  from the committed ledgers - never hand-edit it, never commit it
+  (gitignored). The /status page reads the four family sites' files
+  (FamilyStatusIsland); behavior pinned by tests/status.test.js.
