@@ -2,7 +2,7 @@
 permalink: ci/
 layout: default
 title: CI guide
-description: What runs on eyestruct's own CI - the test battery, the pack campaign, the crashtest adversarial leg, the ratify canon lane, and the docs deploy. Where to look when a run goes red.
+description: What runs on eyestruct's own CI - the test battery, the pack campaign, the crashtest adversarial leg, the ratify canon lane, the tag-driven release ladder, and the docs deploy. Where to look when a run goes red.
 ---
 
 # CI guide
@@ -44,6 +44,42 @@ Two floors, both receipt-backed - do not blur them:
   CI pins `node-version: 20`, which floats to latest 20.x and satisfies
   the floor; a pinned 20.0 would not, so keep the floor phrase in any
   future matrix pin.
+
+## The release ladder (publish.yml, tag -> publish -> release -> verify)
+
+The 1.0.0 cut proved the honest gap: a green publish step asserts the
+publish act, not the published truth. From the tag on, one ladder owns the
+cut end-to-end, and the tag (not a finger) starts it - `push` on
+`v*` tags. Manual dispatch keeps the deliberate-cut law with two modes,
+`publish` and `verify-only`.
+
+| job | what it does | what it refuses |
+|-------|---------------|-------------------|
+| `publish` | OIDC trusted publishing (`npm publish --provenance`, the id-token proves the tarball came from this tree; npm >= 11.5.1 floor installed in-lane); `prepublishOnly` (npm test && npm run check) rides automatically, so a red battery cannot mint a tarball | 0.x versions (the family ship ladder keeps 0.x manual), and on a tag push, a tag that does not equal the packaged version - a tag that lies about its version never cuts |
+| `release` | mints the GH release object from the pushed tag; the notes are EXTRACTED from the changelog's own `[version]` section by `scripts/release-notes.cjs` | an empty extraction (no changelog section for the packaged version) - the cut refuses rather than minting a noteless or miswired release; an existing release object is not re-minted, it carries on to verify |
+| `verify` | the post-publish truth: `scripts/verify-release.cjs --npm` (registry latest == the tree's package version; the SERVED tarball's sha512 == the registry's own integrity metadata; provenance attestations present; then the full pack ladder on the served tarball) and `--gh` (the release object exists for the tag; its target == the tag's commit; the source tarball's file list is byte-identical to `git archive` of the release commit - zero drift) | every disconnect: a settled wrong dist-tag, a tampered or drifted tarball, a missing provenance stamp, a release pointing at the wrong commit, a source tar that leaks or omits files |
+
+The pack ladder the verify job runs on the served tarball, in one line:
+tar contents are scanned against the FORBIDDEN list (labs/, web/, docs/,
+models/, packs/, tests/, .github/, node_modules/, source maps, .env -
+smuggles are named, not summarized), the served set must equal `npm pack`
+of the same tree exactly, the packaged name/version/exports map must
+match the frozen rows, and the tarball is installed into a scratch tree
+where `require('eyestruct')` (the adapter contract) and the installed bin
+answering `--version` are driven as a real consumer.
+
+`verify-only` dispatch mode runs the verify job alone - no publish, no
+release minting - re-proving a cut (or the lane itself) against what is
+already published and released, on demand.
+
+The pack ladder does not wait for release day either:
+tests/release-verify.test.js runs the same script over `npm pack` output
+every push (the positive ladder plus the doctored-tar case - a file
+under a forbidden prefix must be refused BY NAME). Offline, the
+consumer-install half prints a named SKIP; in CI with registry access it
+always runs. The script's own exit contract (tooling, outside the frozen
+reason surface): 0 verified, 1 verification failure (named), 2
+capability gap.
 
 ## Runtime receipts by node line (2026-10-28)
 
