@@ -123,6 +123,25 @@ test('served dist: the deployed assets carry the family reader', { skip: ifNoDis
   }
 })
 
+test('served dist: brand images carry honest image content-types', { skip: ifNoDist() }, async () => {
+  const { createServer } = require('../lib/serve-dist')
+  const server = await createServer({ root: DIST, headersFile: HEADERS_FILE })
+  try {
+    const jpg = fs
+      .readdirSync(path.join(DIST, 'brand'), { withFileTypes: true })
+      .map((e) => e.name)
+      .find((n) => /\.jpe?g$/i.test(n))
+    assert.ok(jpg, 'the dist carries brand/ jpgs - the gallery data')
+    const res = await get(server.port, `/brand/${jpg}`)
+    assert.equal(res.status, 200)
+    // octet-stream for an <img> target is the mimetype-guess class the
+    // host never does; the served shape must match the hosted shape.
+    assert.match(res.headers['content-type'], /^image\/jpeg/)
+  } finally {
+    await server.close()
+  }
+})
+
 // If no dist exists, say exactly how to get one - an honest skip, never a
 // fake pass (and never a mystery skip).
 function ifNoDist() {

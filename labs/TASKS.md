@@ -1,5 +1,26 @@
 # eyestruct - rolling work log
 
+- **Walk round (2026-10-28, post-carrier).** Two live probes outside the
+  battery, both honest: (1) the served-contract leg caught the only red
+  in the first pass - a STALE dist (`asOf` lagging one commit behind HEAD
+  because the runner restart had dropped both `node_modules` trees); the
+  fix was the documented rebuild, not a test weaken, and the leg re-ran
+  green at the tip. (2) The subsequent walk found REAL work in
+  `lib/serve-dist.js`: brand jpgs served `application/octet-stream` (the
+  content-type table had no jpg/jpeg/webp cases) - fixed + pinned by a
+  new battery leg issuing a real HTTP request for a brand asset. Edge
+  probes through the real binary: encoded + raw `../` traversal both 404,
+  unknown route 404, `HEAD` sane, `/status.json` rides the committed
+  `access-control-allow-origin` + no-store clauses live. Adapter surface
+  probe: `dispatch('frobnicate')` throws `FailError` `
+eyestruct[UNKNOWN_COMMAND]` and the host process lives; MCP `tools/list`
+  over a real stdio handshake returns the 10 tools verbatim. `npm pack
+  --dry-run` clean: 24 files, ~46 KB, no labs/web/docs/models leakage
+  (README/LICENSE/CHANGELOG are the only prose riders). Reason-code
+  sweep: every `fail('X')` call site resolves inside the frozen 28.
+  End of round: battery 80 pass / 0 fail, `npm run check` all gates
+  PASS.
+
 - **Bundle lane: the docs/web/deploy pass + the fourth pack (2026-10-27,
   late).** With #4 implemented and closed, the whole claim surface
   caught up with it. (1) Tar-traversal experiment RECEIPT (not assumed):

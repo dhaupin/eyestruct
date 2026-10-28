@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed (2026-10-28, the walk)
+
+- `lib/serve-dist.js` served the brand jpgs as `application/octet-stream`
+  - the content-type table had no `.jpg`/`.jpeg`/`.webp` cases, so every
+  `<img>` target under `/brand/` lied about its type through the local
+  `serve` loop (the host serves them `image/jpeg` natively). Now the
+  served shape matches the hosted shape, and a served-contract leg pins
+  the content-type with a real HTTP request (`tests/dist-server.test.js`,
+  the battery's jpg-bridge now 5/5).
+
 ### Added (2026-10-28, agents-vision)
 
 - `spot` is the tenth MCP tool: one capture, always saved into the
