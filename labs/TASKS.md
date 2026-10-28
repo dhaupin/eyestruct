@@ -1,5 +1,27 @@
 # eyestruct - rolling work log
 
+- **The promotion rule, commissioned (2026-10-28).** The walk/pack
+  conundrum settled: a walk is the discovery rung, packs are the memory
+  rung, and the rule that joins them is "a walk isn't done until nothing
+  it found is uncommissioned" - a probe that never got encoded is a
+  one-mortem. Two prose-only probes from this week's walks were still
+  unhoused, so they got their legs in the same session: (1)
+  tests/serve-dist.test.js - the serve-dist HTTP-shape proofs
+  (traversal-neutrality with a decoy-in-parent leak file, HEAD, the
+  candidate ladder, wildcard prefix rules, miss-path header honesty,
+  the web/public _headers grammar - always-runs, tmp roots, no dist
+  dependency). The leg immediately PAID for itself: it caught the walk
+  round's own reading error (the "traversal 404s" probe was WHATWG URL
+  normalization dissolving dot-segments before the handler runs, not
+  the resolve-containment belt - the belt's real catch class is the
+  decode-time %2f forms, now receipted with a parent decoy). (2) the
+  lint-packs exit-fidelity leg (tests/adapter-api.test.js): "the exit
+  code IS the verdict" was a comment claim with no receipt; now
+  pinned - clean tree returns 0, a usage VIOLATION rides out as 1.
+  Battery at the tip: 87 pass / 0 fail / 8 honest skips. The rule also
+  went out to the family as the packstruct 1.1.0 spec ask + the
+  crashtest/gistory adaptation notes.
+
 - **Walk round (2026-10-28, post-carrier).** Two live probes outside the
   battery, both honest: (1) the served-contract leg caught the only red
   in the first pass - a STALE dist (`asOf` lagging one commit behind HEAD

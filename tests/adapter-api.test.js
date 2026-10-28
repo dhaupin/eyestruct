@@ -85,6 +85,21 @@ test('adapter api: the adopt dispatch enforces ADOPT_NOTE_REQUIRED and writes a 
   fs.rmSync(root, { recursive: true, force: true })
 })
 
+test('adapter api: lint-packs passthrough exit fidelity - the exit code IS the verdict', () => {
+  // Commissioned from the walk round (the comment-claim "the exit code
+  // IS the verdict" had no receipt): the passthrough must return 0 on a
+  // clean pack tree and 1 when packstruct reports findings, never its
+  // own opinion. packstruct is an exact devDependency, present wherever
+  // the battery runs (CI runs lint:packs beside this leg).
+  const clean = api.dispatch('lint-packs', api.ctxOf(process.cwd(), []))
+  assert.equal(clean, 0, 'the repo pack tree must lint clean in-tree')
+  const findings = api.dispatch(
+    'lint-packs',
+    api.ctxOf(process.cwd(), ['/no/such/pack-dir'])
+  )
+  assert.equal(findings, 1, 'a usage VIOLATION rides out as exit 1')
+})
+
 test('adapter api: unknown verbs refuse by name with the available verb list', () => {
   assert.throws(
     () => api.dispatch('teleport', api.ctxOf(process.cwd(), [])),

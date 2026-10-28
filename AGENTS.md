@@ -76,6 +76,16 @@ Working policies (seed; the brain grows these by working):
   docs/meta surfaces must equal the live ledgers and source tables;
   change a count and its claims in the same commit or CI fails the
   copy. Never hand-copy a number the census can derive.
+- The walk-exit rule (the promotion rule, 2026-10-28): a manual walk is
+  not done until nothing it found is uncommissioned. A probe that never
+  got encoded is a one-mortem; the walk's exit criterion is that every
+  finding is now permanent - a battery leg, a pack verdict row, or a
+  named docket row - so future walks only see fresh ground. Walks
+  DISCOVER classes; packs REMEMBER them. Worked example: the jpg
+  content-type refusal (serve round) became the served-contract jpg leg
+  in the same session; the serve-dist HTTP-shape probes became
+  tests/serve-dist.test.js; the lint-packs exit-fidelity claim became
+  its adapter-api leg.
 - Receipts to cite: 28 reason-codes (lib/reasons.js), 34 pack verdicts
   across 5 packs (packs/eye-ledger.json; eye-adapter is the adapter
   surface's schema carrier per the bridge/carrier ruling), the 52/52
