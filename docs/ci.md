@@ -115,6 +115,49 @@ NEXT dispatch is the independent witness that cuts canon. Self-certification
 is impossible by construction - the deciding dispatch is never the one that
 proposed.
 
+## The capture contract (what the canon compares)
+
+Two properties every consumer needs before cutting canon on a real site:
+
+- **Captures are viewport-only.** The capture is the pin's viewport; a
+  `#fragment` navigation or a below-the-fold edit to the same route reads
+  `SAME` by design, not oversight. Verify scroll-shifting content with
+  its own route row - full-page capture is a designed affordance, not
+  shipped.
+- **The canon cut is byte equality, stricter than pixel vision.** A
+  re-roll whose pixels are identical but whose bytes drifted reads `SAME`
+  at `diff` and refuses at `ratify` - and real Chrome paint over
+  photographic textures is not byte-stable: a one-pixel drifter can move
+  between runs even when the app itself is frozen (receipted by the first
+  consumer wiring, dhaupin/khf-wp `qa/eyes/`, on a texture-heavy
+  WordPress install). The honest landing on such surfaces: freeze what
+  the freeze shim can, read `diff` output yourself, and adopt on purpose.
+  A pixel-tolerance lane is designed (khf-wp's filing, issue #11), not
+  shipped - never gate on it before it lands.
+
+## Consumer recipes: which verbs fit where
+
+The gate reasons over git state and the ledger alone, so it is the only
+capture-adjacent verb that fits CI without an environment. Everything
+that captures needs the pinned browser and a rendered target, which puts
+look / diff / walk / ratify / spot environment-local on a CMS:
+
+| Verbs | Runs | Why |
+| --- | --- | --- |
+| `gate` | CI, anywhere | ledger accounting over the manifest + committed artifacts, zero captures |
+| `look` `diff` `walk` `ratify` `spot` | environment-local | each reads a rendered page through the pinned browser |
+| `adopt` `ledger` `init` `lint-packs` | repo state | no captures, no browser |
+| `serve` | local | owns a port for its lifetime, CLI-only |
+| `mcp` | a chat session or host | stdio server, the same contract as the CLI |
+| `raster` | cache-warm lane | rasterizes committed SVG artifacts |
+
+For a CMS or any non-static target, the shape the first consumer wiring
+settled on generalizes: CI holds the browserless `gate`; captures live
+in a sandbox that can bake and serve the real site; the canon cut rides
+the manual `eyes-ratify` dispatch, so a deciding dispatch and a proposing
+dispatch are never the same run (the recipe is dhaupin/khf-wp `qa/eyes/`,
+a mu-plugin freeze armed by the run wrapper, put -> drive -> unlink).
+
 ## The docs lane (docs.yml, docs/ paths)
 
 ```text

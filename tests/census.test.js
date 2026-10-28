@@ -15,10 +15,14 @@
 //
 // Behavior-only, temp-free, no network: it reads repo files like the
 // check:trifecta leg does. A count written as a word ("nine tools") is
-// censused the same as a digit; the word map covers twenty and under.
-// The census governs only claims it can derive - never invents a truth,
-// never fakes a pass when its own parsing loses the shape (the registry
-// matchers assert, they do not degrade).
+// censused the same as a digit; the word branch is the WORD map's own
+// vocabulary, not a bare letter run - non-count words before a noun
+// ("the CLI verbs", "named reason-codes", "backed tools") are prose,
+// not claims, and must not assert the runner. The census governs only
+// claims it can derive - never invents a truth, never fakes a pass
+// when its own parsing loses the shape (the registry matchers assert,
+// they do not degrade). Digit claims of any size are caught; spelled
+// counts above twenty must be written as digits on audited surfaces.
 
 const test = require('node:test')
 const assert = require('node:assert/strict')
@@ -39,6 +43,11 @@ function num(raw) {
   assert.ok(Number.isFinite(n), `census runner failed to normalize claim text "${raw}"`)
   return n
 }
+
+// The claim token, never hand-copied: digits of any size, or a spelled
+// count from the WORD map itself (so the alternation cannot drift from
+// the map the num() lookup uses).
+const TOKEN = `\\d+|${Object.keys(WORD).join('|')}`
 
 // ---- truths (each one derived from the lib/ledger, never copied) ----------
 
@@ -88,6 +97,9 @@ const SURFACES = [
   'docs/ci.md',
   'docs/discussions/index.md',
   'web/ssr.config.js',
+  'docs/packs.md',
+  'docs/mcp.md',
+  'docs/cli.md',
 ]
 
 // A claim spec: a global regex plus a claim(m) extraction. Every match of
@@ -97,12 +109,12 @@ const SURFACES = [
 const CLAIMS = [
   {
     kind: 'reason-codes',
-    re: /(\d+|[a-z]{3,6}) reason-?codes?/g,
+    re: new RegExp(`\\b(${TOKEN}) reason-?codes?\\b`, 'g'),
     claim: (m) => num(m[1]),
   },
   {
     kind: 'pack cases',
-    re: /(\d+|[a-z]{3,6}) (?:adversarial )?pack (?:cases|verdicts)/g,
+    re: new RegExp(`\\b(${TOKEN}) (?:adversarial )?pack (?:cases|verdicts)\\b`, 'g'),
     claim: (m) => num(m[1]),
   },
   {
@@ -117,12 +129,12 @@ const CLAIMS = [
   },
   {
     kind: 'mcp tools',
-    re: /(\d+|[a-z]{3,6}) (?:MCP )?tools\b/g,
+    re: new RegExp(`\\b(${TOKEN}) (?:MCP )?tools\\b`, 'g'),
     claim: (m) => num(m[1]),
   },
   {
     kind: 'cli verbs',
-    re: /(\d+|[a-z]{3,6}) (?:CLI )?verbs\b/g,
+    re: new RegExp(`\\b(${TOKEN}) (?:CLI )?verbs\\b`, 'g'),
     claim: (m) => num(m[1]),
   },
 ]

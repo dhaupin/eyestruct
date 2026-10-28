@@ -1,5 +1,27 @@
 # eyestruct - rolling work log
 
+- **The consumer-contract round (2026-10-28, pre-tag).** The issue
+  board walked against the tree: the khf-wp filings (#11 + #12) still
+  had two doc asks unlanded and one refusal message too bare, so all
+  three landed and each got its receipt. (1) docs/ci.md gained "The
+  capture contract" (viewport-only by design; byte equality stricter
+  than pixel vision; textured surfaces cut canon by reviewed adopt;
+  the tolerance lane named designed, never shipped) and "Consumer
+  recipes" (which verbs fit CI, which are environment-local, the CMS
+  shape). (2) `WALK_EMPTY`'s message now states the real cause from
+  the filing: a comment-only manifest parses as zero routes - same
+  code, same exit, mirror moved in the same change. (3) The census
+  widened to docs/packs.md + docs/mcp.md + docs/cli.md - and widened
+  honestly: the claim token became the WORD map's own vocabulary
+  after a "named pack cases" prose article asserted the runner (the
+  match lost the shape and it REFUSED, as designed - the fix made
+  non-count words unmatchable instead of degrading the assert).
+  Zero stale findings on the widened surfaces. The node-18 CI leg was
+  already landed (test.yml carries it), and the 0.9 sweep across the
+  tree came back all-benign: dated history, SVG path data, sitemap
+  priorities. Battery 94 pass / 0 fail / 8 honest skips; all check
+  gates PASS.
+
 - **Release-day accuracy round + two walk laps (2026-10-28, pre-tag).
   (1) The accuracy sweep:** web is clean (all seven pages live and
   follow-redirect 200, robots open, counts accurate at 35/52/29),

@@ -64,7 +64,7 @@ error instead of killing the whole runner.
 | `CROP_TOO_BIG` | the `--region` selector is over the cheap-layer size cap |
 | `RASTER_BAD_XML` | the artifact does not parse as strict SVG or XML |
 | `RASTER_TRIVIAL` | the artifact rendered to nothing or an implausibly small payload |
-| `WALK_EMPTY` | the manifest declares no routes to walk |
+| `WALK_EMPTY` | the manifest declares no routes to walk - a comment-only file parses as zero routes (the literal routes: header row is required) |
 
 ## Triage cheat sheet
 

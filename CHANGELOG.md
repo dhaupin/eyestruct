@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-10-28
 
+### Added (2026-10-28, the consumer-contract round)
+
+- docs/ci.md states the two capture contracts the first real consumer
+  filing asked for by name: captures are viewport-only (a `#fragment`
+  navigation or a below-the-fold edit reads `SAME` by design, full-page
+  capture stays a designed affordance, not shipped), and the canon cut
+  is byte equality - stricter than pixel vision, and real Chrome paint
+  over photographic textures is not byte-stable, so textured surfaces
+  cut canon by reviewed adopt, with the pixel-tolerance lane named as
+  designed, never shipped (khf-wp's filings, eyestruct#11 + #12).
+  A consumer-recipes table landed beside it: which verbs fit CI
+  (`gate`, browserless), which are environment-local, and the CMS
+  target shape the khf-wp `qa/eyes/` run root settled on.
+- `WALK_EMPTY`'s message now carries the actual cause for the freshest
+  consumer: a comment-only manifest parses as zero routes (the literal
+  `routes:` header row is required) - message-level clarity only, same
+  code, same exit (docs/reasons.md mirror moved in the same change).
+- The count census widened: `docs/packs.md`, `docs/mcp.md`, and
+  `docs/cli.md` joined the audited surfaces, and the claim token is now
+  the WORD map's own vocabulary instead of a bare letter run, so prose
+  articles before a noun ("the tools", "named reason-codes") no longer
+  assert the runner - zero stale findings on the widened surfaces.
+
 ### Added (2026-10-28, the slot-name rule)
 
 - A manifest route row may carry `slot:` to name the walk candidate
