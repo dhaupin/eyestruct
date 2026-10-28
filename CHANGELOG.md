@@ -51,6 +51,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   canon stays CI-cut from the adapter side by construction. Battery leg
   `tests/adapter-api.test.js` pins the contract's shape; the reference
   page is docs/adapters.md (nav-row added).
+- The bridge/carrier ruling, shipped as the fifth pack
+  (`packs/public/eye-adapter`): adapters and connectors are strictly
+  bridges - they never define, author, or evolve schema; anything
+  schema-touching lands as a pack carrier under the packstruct@1
+  grammar FIRST. The adapter surface names its carrier
+  (`SCHEMA_CARRIER`), and the carrier's four campaign cases gate the
+  bridge-only dispatch list, the shared refusal grammar, the
+  never-exits law, and the proposal-only canon rule (no `ratify`
+  through a bridge). Pack campaign now 34 verdicts / 5 packs, 0
+  exploited (re-baselined `--adopt`); all count claims rippled (census,
+  AGENTS, README, docs, web, og-image regenerated) and
+  scripts/run-packs.cjs arms `api()` so the carrier tests the real
+  import, never a private copy.
 - The PRD's build-state ledger refreshed to the 2026-10-28 truth, plus
   the Goals and Requirements sections for the three altitudes: the
   adapter contract (R-A1..R-A6), the event-driven lane (R-R1..R-R5 -

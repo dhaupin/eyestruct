@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "name": "eye-adapter",
+  "description": "The adapter surface's schema carrier (the bridge/carrier ruling, 2026-10-28): adapters and connectors are strictly bridges - they never define, author, or evolve schema; whatever touches schema rides a pack under the packstruct@1 grammar. This pack carries eyestruct-adapter@1: the bridge-only dispatch list, the shared refusal grammar, the never-exits law, and the proposal-only canon rule (no ratify through a bridge, an adapter-side adopt is always unratified).",
+  "version": "0.1.0",
+  "entry": "index.js",
+  "env": {
+    "fs": {
+      "targets": ["labs/.eyes/manifest.yml", "labs/.eyes/ledger.json"]
+    },
+    "cli": ["init", "gate", "adopt", "ledger", "raster", "lint-packs"]
+  }
+}

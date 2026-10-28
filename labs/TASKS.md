@@ -923,3 +923,44 @@
   sections: the adapter contract (R-A1..R-A6), the event-driven lane
   (R-R1..R-R5, the pinnacle spec - especially R-R5: receipts before any
   past-tense claim), and the video/TUI column requirements.
+
+## 2026-10-28 - the bridge/carrier ruling lands in packs (eye-adapter)
+
+- dhaupin's ruling: adapters and connectors are STRICTLY bridges - they
+  move calls/events/artifacts between surfaces and never define, author,
+  or evolve schema. Anything that touches schema needs a CARRIER in
+  packs/public/ under the packstruct@1 grammar; an adapter that defines
+  rules outside the campaign is doing it from outside the receipts.
+- The adapter surface now names its carrier: lib/index.js exports
+  SCHEMA_CARRIER = packs/public/eye-adapter, and the ruling text lives
+  in the module header (dispatch, refusal sharing, never-exits,
+  proposal-only canon are campaign-gated, not import-gated).
+- SHIPPED: packs/public/eye-adapter (5th pack, packjson 0.1.0, 4 cases
+  committed in eye-ledger.json, re-baselined --adopt; campaign counts
+  now 34 verdicts / 5 packs, 0 exploited):
+  - adapter-surface-is-bridge-only: the bridge marker + SCHEMA_CARRIER
+    naming THIS pack + the closed dispatch list (schema-defining verbs
+    must land here first) + the shared-refusal contract (FailError is
+    the CLI's module, never a copy);
+  - adapter-refusals-speak-the-family-grammar: eyestruct[CODE] text on
+    a refused verb (also fixed a doubled lead-in lib/index.js carried in
+    its UNKNOWN_COMMAND message - reasons.js already prints it);
+  - adapter-never-exits-its-caller: a refusal throws FailError, the
+    process stays alive (the hosted-caller law);
+  - adapter-canon-is-proposal-only: an adapter-side adopt writes
+    ratified:false and the surface does NOT dispatch ratify - the bridge
+    cannot cut canon even with the stores in hand.
+- Runner vocabulary: scripts/run-packs.cjs armModuleCtx grew api() (the
+  real lib/index.js loader), so the pack tests exactly the module the
+  consumers import - a private require path in the pack would test a
+  copy, not the truth.
+- Count census ripple (34 / 5 packs): census TRUTHS pin, AGENTS (where-
+  things-live 5 packs + receipts row), README spine + altitude 2,
+  docs/packs.md (five packs + the eye-adapter row), docs/ci.md, docs/
+  discussions/index.md (both census surfaces), web Home + Packs +
+  ssr.config + FamilyStatusIsland comment, og-image card text
+  REGENERATED (66732 bytes), PRD counts.
+- Receipts: npm run packs 34 GREEN 0 exploited; packstruct lint --deep
+  5 packs checked; conform:packs 8/8; battery 79 pass / 0 fail; trifecta
+  PASS after the AGENTS recount ripple (the STALE RECEIPT_DRIFT catch
+  proving the count census still bites).

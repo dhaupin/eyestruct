@@ -15,10 +15,10 @@ Working policies (seed; the brain grows these by working):
   Docs gates: `npm run lint:docs` - the PRD lives at labs/ UNDER ITS OWN
   VOICE (em-dash); docs/ is hyphen-voice and must stay clean.
 - Where things live: `labs/` (PRD canonical, TASKS, the eye home at
-  `labs/.eyes/` - the CLI default now - and the receipt hall at
-  `labs/.eyes-receipt/`), `horcrux/` (the transfer stones),  `packs/public/` (4
-  adversarial packs + `packs/eye-ledger.json`;
-  packstruct-linted; `eye-bundle` covers the vendored browser lane), `web/` + `docs/` (the rig). THE BRAIN:
+  `labs/.eyes/` - the CLI default now - and the receipt hall at  `labs/.eyes-receipt/`), `horcrux/` (the transfer stones),  `packs/public/` (5
+  adversarial packs + `packs/eye-ledger.json`; packstruct-linted;
+  `eye-bundle` covers the vendored browser lane, `eye-adapter` carries
+  the adapter surface's schema), `web/` + `docs/` (the rig). THE BRAIN:
   `models/private/magpie/` left the tree 2026-10-27 - it lives in the
   vant install (`$HOME/vant/models/private/magpie/`, wholesale
   gitignored there, updated with the shipped receipts); never re-seed
@@ -51,6 +51,13 @@ Working policies (seed; the brain grows these by working):
   pin. Additions are minor bumps, always with the mirrored docs page
   updated in the same commit; removals and semantic changes ride 2.0
   only.
+- The bridge/carrier ruling (2026-10-28): adapters and connectors are
+  STRICTLY bridges - they move calls/events/artifacts between surfaces
+  and never define, author, or evolve schema. Anything schema-touching
+  lands as a CARRIER pack in packs/public/ under the packstruct@1
+  grammar first. lib/index.js names its carrier via SCHEMA_CARRIER
+  (packs/public/eye-adapter); a bridge that outruns its pack is refused
+  by name in the campaign.
 - The product story, three altitudes (README "The three altitudes" is
   the canonical statement): CI for devs/enterprise (shipping), adapters
   for agent platforms/cloud builders (MCP stdio is the first adapter,
@@ -69,8 +76,10 @@ Working policies (seed; the brain grows these by working):
   docs/meta surfaces must equal the live ledgers and source tables;
   change a count and its claims in the same commit or CI fails the
   copy. Never hand-copy a number the census can derive.
-- Receipts to cite: 28 reason-codes (lib/reasons.js), 30 pack verdicts
-  (packs/eye-ledger.json), the 52/52 hostile leg (labs/crashledger.json),
+- Receipts to cite: 28 reason-codes (lib/reasons.js), 34 pack verdicts
+  across 5 packs (packs/eye-ledger.json; eye-adapter is the adapter
+  surface's schema carrier per the bridge/carrier ruling), the 52/52
+  hostile leg (labs/crashledger.json),
   the bundle lane receipts (lib/bundle.js; offline executor, integrity
   verified at every resolution), the two ship receipts (labs/TASKS.md
   2026-10-27 entry).

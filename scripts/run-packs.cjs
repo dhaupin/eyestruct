@@ -118,6 +118,13 @@ function armModuleCtx() {
     read(dir, rel) {
       try { return fs.readFileSync(path.join(dir, rel), 'utf8') } catch { return null }
     },
+    // The adapter surface, armed the same way the CLI runner is: the pack
+    // that carries the adapter contract (eye-adapter) exercises it through
+    // this loader, never a private require path, so the pack tests exactly
+    // the module the consumers import.
+    api() {
+      return require(path.join(ROOT, 'lib', 'index.js'))
+    },
     bounds: {
       // Documented, docketed accepted risks. An absent bound would be a
       // finding, so every bound here carries owner + reason.

@@ -49,8 +49,17 @@ the same commit; removals and semantic changes ride 2.0.
   committed ledger.
 - **Canon is CI-cut from the adapter side too.** A local adopt through
   the API is an unratified proposal (`ratified:false`), exactly like the
-  CLI and MCP surfaces. There is no API path that cuts canon - the
-  pinned-image lane is the only writer of official baselines.
+  CLI and MCP surfaces. There is no API path that cuts canon (the
+  surface does not dispatch `ratify`) - the pinned-image lane is the
+  only writer of official baselines.
+- **Bridges bridge; packs carry.** Adapters and connectors never
+  define, author, or evolve schema: row types, manifest fields, refusal
+  codes, and this contract itself are carried by a pack under the
+  packstruct grammar FIRST, and the surface names its carrier via
+  `SCHEMA_CARRIER` (`packs/public/eye-adapter`). A bridge that ships
+  schema without riding its pack is refused by name in the pack
+  campaign - the carrier's cases gate the dispatch list, the refusal
+  grammar, the never-exits law, and the proposal-only rule.
 - **Browserless by default.** The dispatched verbs are the browserless
   set; captures stay in the CI lanes (the pinned-image lane, the opt-in
   chromium lane) and the verbs that do require chrome (`look`, `diff`,
@@ -76,8 +85,10 @@ This page mirrors `lib/index.js` (the export list) and the verbs it
 dispatches mirror `bin/eyestruct.js`. When a symbol and this page
 disagree, the source wins - the same rule the
 [CLI reference](/eyestruct/cli) and [MCP reference](/eyestruct/mcp)
-carry. The battery pins the contract's shape in
-`tests/adapter-api.test.js`.
+carry. The contract's shape is pinned twice: by the battery
+(`tests/adapter-api.test.js`) and by its schema carrier in the pack
+campaign (`packs/public/eye-adapter` - the bridge/carrier ruling's
+campaign-gated cases).
 
 ## The 1.0.0 stability contract
 

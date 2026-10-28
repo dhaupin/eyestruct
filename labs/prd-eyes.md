@@ -396,8 +396,8 @@ Closed since the last cut, receipts in-tree: the raster gate rides the
 CI battery (`npm run raster:gate` in `test.yml`); the 0.9.0 bootstrap
 publish landed (0.9.0 is live on the registry); the churn-wave row type
 exists (`adopt --wave`, one note → N artifacts, `lib/ledger.js` type
-`wave` refused-loose like every other row); 10 MCP tools; 30 pack
-verdicts across 4 packs; the family status dialect + count census + the
+`wave` refused-loose like every other row); 10 MCP tools; 34 pack
+verdicts across 5 packs; the family status dialect + count census + the
 agents-vision loop (`serve`/`spot` on CLI, MCP, and a dedicated feature
 page) are all shipped.
 
@@ -474,6 +474,16 @@ docs/adapters.md:
 - **R-A6 — the frozen-surface law.** `eyestruct-adapter@1` holds across
   1.x: additions are minor bumps with docs/adapters.md mirrored in the
   same commit; removals/semantic changes ride 2.0.
+- **R-A7 — bridges never author schema (the carrier ruling,
+  2026-10-28).** Adapters and connectors are strictly bridges: they move
+  calls, events, and artifacts between surfaces and never define,
+  author, or evolve schema. Whatever touches schema — row types,
+  manifest fields, refusal codes, the adapter contract itself — is
+  carried by a pack in `packs/public/` under the packstruct@1 grammar
+  FIRST. The adapter surface names its carrier (`SCHEMA_CARRIER`) and
+  the carrier pack (`eye-adapter`) refuses a bridge that outran its
+  pack: the dispatch list, the refusal grammar, the never-exits law,
+  and the proposal-only canon rule are campaign-gated, not import-gated.
 
 ## Requirements — the event-driven lane (the pinnacle; designed, not shipped)
 

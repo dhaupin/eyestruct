@@ -45,7 +45,7 @@ with only the bundle flag preserves the pin + route matrix.
 | `labs/.eyes/<route-slug>/<view>/current.png` | committed baseline (canon is CI-cut) |
 | `labs/.eyes/ledger.json` | append-only rows (adopt proposals + ratify canon + wave rows); unexplained drift fails the pass |
 | `eyestruct gate` | the CI job: read-only crashledger semantics over `labs/.eyes/` |
-| packs | 4 adversarial packs under `packs/public/` + the committed verdict ledger |
+| packs | 5 adversarial packs under `packs/public/` + the committed verdict ledger (`eye-adapter` is the adapter surface's schema carrier) |
 
 ## Two lanes, one eye
 
@@ -72,9 +72,11 @@ The same committed memory serves three consumers, near to far:
 2. **Adapters, for agent platforms and cloud builders** (shipping in
    layers). The same verbs exposed where agents already work: the MCP
    stdio surface is the first adapter, the adapter API (`lib/index.js`,
-   `eyestruct-adapter@1`) is the second, and platform adapters (a
-   Vant-shaped brain, hosted builder environments) consume the contract
-   - no forking, no re-parsing.
+   `eyestruct-adapter@1`, schema-carried by the `eye-adapter` pack) is
+   the second, and platform adapters (a Vant-shaped brain, hosted
+   builder environments) consume the contract - no forking, no
+   re-parsing. Bridges never author schema: anything schema-touching
+   lands as a pack carrier first.
 3. **Real-time, inside the chat session (the pinnacle)** (designed
    future, not shipped). Seeing everything the agent works on, live,
    through bridges/connectors - the serve-spot instance loop today,

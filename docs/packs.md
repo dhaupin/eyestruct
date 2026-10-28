@@ -22,7 +22,7 @@ the unit CI audits.
 
 ## What ships today
 
-eyestruct ships four packs plus a committed verdict ledger:
+eyestruct ships five packs plus a committed verdict ledger:
 
 | Pack | What it attacks |
 |---|---|
@@ -30,6 +30,7 @@ eyestruct ships four packs plus a committed verdict ledger:
 | `eye-ci-gate` | The crashledger-semantics gate itself, in disposable fixture repos: unexplained drift fails, dangling canon fails louder, schema integrity is enforced, and an explained tree passes. Any repo implementing the eye gate passes unchanged. |
 | `eye-text-leg` | The poststruct integration. Text is the cheaper diff so it gates first: control characters are refused at the ledger write surface, clean notes round-trip through the CLI's own reader, and the manifest stays strict-family schema. |
 | `eye-bundle` | The vendored checksummed browser lane: a missing tarball and a chrome-less archive are named capability refusals, a happy install records `bundle@<sha16>` in the pin, a bundle-only re-seed is idempotent (the route matrix survives), and installs are checksum-isolated. The decompression-bomb class is a documented accepted-risk bound. |
+| `eye-adapter` | The adapter surface's schema carrier (the bridge/carrier ruling): adapters and connectors are strictly bridges - they never define, author, or evolve schema. Carries `eyestruct-adapter@1`: the bridge-only dispatch list, the shared refusal grammar, the never-exits law, and the proposal-only canon rule (no `ratify` through a bridge; an adapter-side adopt is always unratified). A bridge that ships schema without riding this pack is refused by name. |
 
 The verdict ledger is `packs/eye-ledger.json` - one row per recorded scenario,
 pinned to its nonce so an adopted row cannot silently change verdict later.

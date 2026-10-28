@@ -2,6 +2,27 @@
   "schemaVersion": 1,
   "rows": [
     {
+      "pack": "eye-adapter",
+      "id": "adapter-surface-is-bridge-only",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-adapter",
+      "id": "adapter-refusals-speak-the-family-grammar",
+      "verdict": "REFUSED",
+      "reason": "UNKNOWN_COMMAND"
+    },
+    {
+      "pack": "eye-adapter",
+      "id": "adapter-never-exits-its-caller",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-adapter",
+      "id": "adapter-canon-is-proposal-only",
+      "verdict": "PASSED"
+    },
+    {
       "pack": "eye-bundle",
       "id": "bundle-tarball-missing-refused",
       "verdict": "REFUSED",

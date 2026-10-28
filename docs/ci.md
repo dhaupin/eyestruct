@@ -61,7 +61,7 @@ stays a standing receipt instead of a one-mortem (eyestruct#10 item 4).
 | gate | what it polices | adopt flow |
 |-------|-------------------|--------------|
 | `lint:docs` | 5 gates: frontmatter, links, style (hyphen-only voice), fiction signatures, jekyll filters | fix the page |
-| `npm run packs` | the eye pack campaign - 30 adversarial cases over the real CLI | `npm run packs -- --adopt` re-baselines new refusals |
+| `npm run packs` | the eye pack campaign - 34 adversarial cases over the real CLI (five packs incl. eye-adapter, the adapter surface's schema carrier) | `npm run packs -- --adopt` re-baselines new refusals |
 | `npm run lint:packs` | packstruct `--deep` grammar over `packs/` | fix the pack |
 | `npm run conform:packs` | packstruct audit-conformance with the loader | loader stays the ground truth |
 
