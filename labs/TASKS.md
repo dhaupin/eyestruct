@@ -19,7 +19,20 @@ eyestruct[UNKNOWN_COMMAND]` and the host process lives; MCP `tools/list`
   (README/LICENSE/CHANGELOG are the only prose riders). Reason-code
   sweep: every `fail('X')` call site resolves inside the frozen 28.
   End of round: battery 80 pass / 0 fail, `npm run check` all gates
-  PASS.
+  PASS. Round two, same day: lint-packs passthrough exit-fidelity held on
+  a probe against a missing dir (real exit 1 with the VIOLATION visible;
+  the one apparent exit-0 was the probe pipe's `head` status, not the
+  verb's - probe-discipline receipt for the next walker). raster input
+  paranoia: nonexistent / dotdot / directory inputs all refuse
+  MISSING_INPUT exit 2. serve refusals: missing root MISSING_INPUT,
+  --port 99999 BAD_FLAG_VALUE exit 1. spot without a browser names
+  MISSING_PINNED_BROWSER with the exact cache path; a bogus
+  --browser-exec names the unfound path. check:browser lane honest-skips
+  with the fix named. All 14 CI `uses:` entries SHA-pinned + version
+  commented; publish lane OIDC-only (no token secret in the repo).
+  Count-claims sweep: every live surface reads 13 verbs / 28 codes /
+  10 tools / 34 verdicts / 5 packs; the two lingering 4-pack readings
+  sit inside correctly-dated 0.9.0-era historical sections.
 
 - **Bundle lane: the docs/web/deploy pass + the fourth pack (2026-10-27,
   late).** With #4 implemented and closed, the whole claim surface
