@@ -50,6 +50,35 @@ function get(port, pathname) {
   })
 }
 
+test('served containment: a symlink inside the served root escapes nothing - the loopback server is not a file reader', { skip: process.platform === 'win32' }, async () => {
+  // The containment contract covers WHAT an entry resolves to, not just
+  // where its path sits: a committed untrusted tree can carry a symlink
+  // whose target is an arbitrary host file, and statSync (old behavior)
+  // followed it straight out of the root. lstat refuses the entry by name.
+  // Behavior-only, no dist needed: the leg builds its own served tree.
+  const { createServer } = require('../lib/serve-dist')
+  const root = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'eyestruct-serve-'))
+  const secret = path.join(root, '..', 'eyestruct-serve-secret.txt')
+  fs.writeFileSync(secret, 'outside-the-served-root\n')
+  try {
+    fs.writeFileSync(path.join(root, 'index.html'), '<html><body>ok</body></html>')
+    fs.symlinkSync(secret, path.join(root, 'leak.txt'))
+    const server = await createServer({ root })
+    try {
+      const good = await get(server.port, '/')
+      assert.equal(good.status, 200, 'the honest entries in the tree still serve')
+      const leak = await get(server.port, '/leak.txt')
+      assert.equal(leak.status, 404, 'the escape symlink is refused, not followed')
+      assert.ok(!leak.body.includes('outside-the-served-root'), 'no bytes read through the symlink, ever')
+    } finally {
+      await server.close()
+    }
+  } finally {
+    fs.rmSync(secret, { force: true })
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
 test('dist: the committed _headers carries the family status dialect clauses', () => {
   const clauses = fs.readFileSync(HEADERS_FILE, 'utf8')
   // The /status.json block: ACAO ALWAYS (the dialect pages browser-fetch

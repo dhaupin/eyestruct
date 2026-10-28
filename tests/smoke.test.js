@@ -220,6 +220,22 @@ test('adopt --wave writes ONE wave row over N slots, gate counts each artifact e
   assert.match(g2.stderr, /DANGLING_ROW/)
 })
 
+test('gate enumerates a wide drift with the cap: the count stays exact, the fold-out names stay in the ledger', () => {
+  const dir = tmpdir()
+  run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
+  const rows = []
+  for (let i = 0; i < 25; i++) rows.push({ id: `ghost-row-${String(i).padStart(2, '0')}`, ts: Date.now(), agent: 'x', commit: 'x', type: 'adopt', artifact: `ghost${i}/current.png`, note: 'x' })
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), JSON.stringify(rows, null, 2) + '\n')
+  const g = run(['gate'], dir)
+  assert.strictEqual(g.code, 1)
+  assert.match(g.stderr, /DANGLING_ROW/)
+  // Funnel honesty: the count is exact, the enumeration is capped - a big
+  // ledger must not pour megabytes of names into one CI log line.
+  assert.match(g.stderr, /\[25, showing first 20\]/)
+  assert.match(g.stderr, /ghost-row-07/)
+  assert.ok(!/ghost-row-2[0-9]/.test(g.stderr), 'rows past the cap must not be enumerated - the ledger is where they live')
+})
+
 test('UNSAFE_PATH: a ledger row that escapes the eyes home is refused on read (exit 1, named)', () => {
   const dir = tmpdir()
   run(['init'], dir)
@@ -663,6 +679,32 @@ test('mcp: tools/call without a params object is a named -32602 refusal, not a c
   assert.match(refusal.result.content[0].text, /params object/)
   const census = responses.find((m) => m.id === 10)
   assert.ok(census && census.result.tools.length > 0, 'the server survived the paramless call')
+})
+
+test('mcp: a frame bomb (bytes without a newline) is refused by a named -32700 reply at the buffer cap, and the process drops (bounded, never an OOM)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const { spawnSync } = require('node:child_process')
+  // 2 MiB of no-newline 'a' - double the transport cap. The honest refusal
+  // is a named -32700 reply and a bounded process drop; the old behavior was
+  // unbounded string growth (an OOM the newline-delimited contract never
+  // asked for). The triple check: named reply, exit 1 (a refusal drop, not
+  // clean EOF), and the whole spawn finishes fast (spawnSync only returns
+  // once the child closed - a hang would time out the suite instead).
+  const r = spawnSync(process.execPath, [BIN, 'mcp'], { cwd: dir, input: 'a'.repeat(2 * 1024 * 1024), encoding: 'utf8' })
+  const lines = String(r.stdout || '').trim().split('\n').filter(Boolean)
+  const refusal = lines.length ? JSON.parse(lines[lines.length - 1]) : null
+  assert.ok(refusal && refusal.error, 'the flood gets a JSON-RPC error reply, not silence or an OOM kill')
+  assert.strictEqual(refusal.error.code, -32700)
+  assert.match(refusal.error.message, /newline buffer cap/)
+  assert.strictEqual(r.status, 1, 'the transport drops as a named refusal (exit 1), not a clean EOF (exit 0)')
+  // The SAME byte count framed as newline-delimited garbage stays the old,
+  // bounded behavior - per-line parse-error replies, clean EOF. The cap is a
+  // message-size bound, never a byte-count limit.
+  const framed = spawnSync(process.execPath, [BIN, 'mcp'], { cwd: dir, input: ('a'.repeat(65536) + '\n').repeat(32), encoding: 'utf8' })
+  const framedLines = String(framed.stdout || '').trim().split('\n').filter(Boolean)
+  assert.ok(framedLines.length > 0, 'framed hostile lines still get their per-line refusals')
+  assert.strictEqual(framed.status, 0, 'EOF after framed lines is still a clean transport end')
 })
 
 maybeBrowser('look refuses a theme outside dark|light with a named code', () => {
