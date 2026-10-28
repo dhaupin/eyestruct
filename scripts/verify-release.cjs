@@ -245,12 +245,21 @@ function ghLadder(tag) {
   const dl = spawnSync('gh', ['api', `repos/${repo}/tarball/${tag}`, '-H', 'Accept: application/vnd.github+json'], { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 })
   if (dl.status !== 0) cap(`gh api tarball download failed`)
   fs.writeFileSync(tarFile, dl.stdout)
-  const ghNames = new Set(sh('tar', ['-tzf', tarFile]).stdout.trim().split('\n').filter(Boolean).map((n) => n.replace(/^[^/]+\//, '')))
+  // The GH source tar carries ONE entry git archive never does: its root
+  // directory ('owner-repo-sha/'). It is a directory, not a file - a
+  // prefix-strip turns it into the empty string, which must be DROPPED,
+  // never compared (a name that lost its identity to normalization is
+  // not drift; one that kept a wrong identity is). Same rule both sides:
+  // strip the top segment, drop what became empty.
+  const ghEntries = sh('tar', ['-tzf', tarFile]).stdout.trim().split('\n').filter(Boolean)
+  const ghNames = new Set(ghEntries.map((n) => n.replace(/^[^/]+\//, '')).filter(Boolean))
   const archNames = new Set(archList.filter(Boolean))
   const missing = [...archNames].filter((n) => !ghNames.has(n))
   const extra = [...ghNames].filter((n) => !archNames.has(n))
   if (missing.length || extra.length) {
-    fail(`GH source tarball drifts from the release commit tree - missing: [${missing.slice(0, 10)}] extra: [${extra.slice(0, 10)}]`)
+    // JSON.stringify on purpose: an empty string must stay visible - a
+    // bare [${list}] interpolates [''] into [] and hides the finding.
+    fail(`GH source tarball drifts from the release commit tree - missing: ${JSON.stringify(missing.slice(0, 10))} extra: ${JSON.stringify(extra.slice(0, 10))}`)
   }
   say(`[verify-release] PASS GH source tarball == git archive of ${commit.slice(0, 12)} (${archNames.size} files, zero drift)`)
   fs.rmSync(path.dirname(src), { recursive: true, force: true })
