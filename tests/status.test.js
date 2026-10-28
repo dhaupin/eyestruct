@@ -13,7 +13,13 @@ const os = require('node:os')
 const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 
-const { build, write } = require('../web/scripts/build-status.mjs')
+// The one ESM emitter, dynamically imported - the same reason the
+// served-contract leg does it this way: node 18 (the consumer floor this
+// battery re-receipts) cannot require(esm), and a top-level require would
+// kill the whole file before any fixture ran. Each test awaits it.
+async function emitter() {
+  return import('../web/scripts/build-status.mjs')
+}
 
 function fixtureRepo({ packRows, findings, manifestPacks }) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-status-'))
@@ -40,7 +46,8 @@ function fixtureRepo({ packRows, findings, manifestPacks }) {
 
 const PASS_ROW = { pack: 'eye-x', id: 'case-a', verdict: 'REFUSED' }
 
-test('status: the dialect fields and leg rows derive from the committed ledgers', () => {
+test('status: the dialect fields and leg rows derive from the committed ledgers', async () => {
+  const { build } = await emitter()
   const root = fixtureRepo({
     packRows: [PASS_ROW, { pack: 'eye-x', id: 'case-b', verdict: 'PASSED' }],
     findings: [{ id: 'f1', verdict: 'REFUSED', detail: 'x' }],
@@ -61,7 +68,8 @@ test('status: the dialect fields and leg rows derive from the committed ledgers'
   assert.deepEqual(s.packs, [{ name: 'eye-x', spec: 'packstruct@1', manifest: 'packs/public/eye-x/pack.json', cases: 2 }])
 })
 
-test('status: any case verdict outside the pass set degrades the leg to RED (never a fake PASS)', () => {
+test('status: any case verdict outside the pass set degrades the leg to RED (never a fake PASS)', async () => {
+  const { build } = await emitter()
   const root = fixtureRepo({
     packRows: [PASS_ROW, { pack: 'eye-x', id: 'case-b', verdict: 'EXPLOITED' }],
     findings: [],
@@ -82,7 +90,8 @@ test('status: any case verdict outside the pass set degrades the leg to RED (nev
   assert.equal(build(root2).legs.find((l) => l.leg === 'packs').verdict, 'RED')
 })
 
-test('status: the emitter refuses the intersection cases loudly (manifest without rows, rows without manifest)', () => {
+test('status: the emitter refuses the intersection cases loudly (manifest without rows, rows without manifest)', async () => {
+  const { build } = await emitter()
   assert.throws(
     () => build(fixtureRepo({
       packRows: [PASS_ROW],
@@ -108,7 +117,8 @@ test('status: the emitter refuses the intersection cases loudly (manifest withou
   )
 })
 
-test('status: write() lands a parseable file at the requested path and returns receipts', () => {
+test('status: write() lands a parseable file at the requested path and returns receipts', async () => {
+  const { write } = await emitter()
   const root = fixtureRepo({
     packRows: [PASS_ROW],
     findings: [],
@@ -123,7 +133,8 @@ test('status: write() lands a parseable file at the requested path and returns r
   assert.deepEqual(parsed, status)
 })
 
-test('status: the real tree serves counts that agree with the live committed ledgers', () => {
+test('status: the real tree serves counts that agree with the live committed ledgers', async () => {
+  const { build } = await emitter()
   const s = build()
   const packRows = require('../packs/eye-ledger.json').rows.length
   const findings = fs.readFileSync(path.join('labs', 'crashledger.json'), 'utf8')

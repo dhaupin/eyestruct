@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added (2026-10-28, agents-vision)
 
-- `spot` is the tenth MCP tool: one capture, always saved to
-  `labs/.eyes-candidates/` and returned as a file path the coding agent
+- `spot` is the tenth MCP tool: one capture, always saved into the
+  gitignored candidates tree and returned as a file path the coding agent
   re-opens with its own vision on a later turn - the MCP leg of the
   agents-vision loop (`serve` stays CLI-only; it owns a port for its
   lifetime, while the MCP server owns the stream). Mirrors updated in
