@@ -85,6 +85,11 @@ const CASES = [
       if (!reasons.CODES.UNKNOWN_FLAG) return 'the refusal registry gained a grammar rule without riding its carrier - add the case here FIRST, then the code'
       if (reasons.CODES.UNKNOWN_FLAG !== 1) return 'UNKNOWN_FLAG must keep exit class 1 (drift/refusal), never a setup class'
       if (reasons.CODES.UNKNOWN_COMMAND !== 1) return 'UNKNOWN_COMMAND must keep exit class 1'
+      // RASTER_CANVAS joined 2026-11-01 (the canvas-bomb walk round): same
+      // carrier-first receipt, same class pin - an allocation-bomb refusal
+      // on committed SVGs is a drift/refusal, never a setup error.
+      if (!reasons.CODES.RASTER_CANVAS) return 'RASTER_CANVAS landed in the raster gate without its carrier receipt - the case rides here first'
+      if (reasons.CODES.RASTER_CANVAS !== 1) return 'RASTER_CANVAS must keep exit class 1 (drift/refusal)'
       return null
     },
   },

@@ -63,6 +63,7 @@ error instead of killing the whole runner.
 | `CROP_TARGET_MISSING` | the `--region` selector matched nothing on the page |
 | `CROP_TOO_BIG` | the `--region` selector is over the cheap-layer size cap |
 | `RASTER_BAD_XML` | the artifact does not parse as strict SVG or XML |
+| `RASTER_CANVAS` | the SVG declares a render canvas over the raster cap - a giant canvas is an allocation bomb, refused before the renderer loads |
 | `RASTER_TRIVIAL` | the artifact rendered to nothing or an implausibly small payload |
 | `WALK_EMPTY` | the manifest declares no routes to walk - a comment-only file parses as zero routes (the literal routes: header row is required) |
 
@@ -82,7 +83,7 @@ from. Disagreement means the page is stale and the lib wins.
 
 ## The stability law for this table
 
-The 29 codes freeze at 1.0.0 under the same rule the CLI verbs and the
+The 30 codes freeze at 1.0.0 under the same rule the CLI verbs and the
 MCP tools carry: additive-first within 1.x (a new code is a minor bump
 plus a row here in the same commit), never a removal or a re-spelled
 semantic inside 1.x - those ride 2.0. The exit contract (0 green and

@@ -13,7 +13,7 @@
  * 35 pack cases / 5 packs (packs/eye-ledger.json, scripts/run-packs.cjs;
  * eye-bundle covers the vendored checksummed browser lane),
  * the seeded 52/52 crashtest leg (labs/crashledger.json baseline),
- * 29 named reason-codes (lib/reasons.js), the two-dispatch canon lane
+ * 30 named reason-codes (lib/reasons.js), the two-dispatch canon lane
  * (.github/workflows/eyes-ratify.yml).
  */
 import { Link } from 'react-router-dom'

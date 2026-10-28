@@ -329,6 +329,34 @@ function rendererAvailable() {
 }
 const maybeRenderer = rendererAvailable() ? test : test.skip
 
+// The RASTER_CANVAS receipt is INPUT-stage: the declared-size guard fires
+// before the renderer module loads, so the leg is always-runnable - the
+// refusal is never machine-dependent (the MISSING_RENDER doctrine, applied
+// at the new cap).
+test('RASTER_CANVAS: an SVG declaring a giant render canvas is refused by name before any renderer loads', () => {
+  const dir = tmpdir()
+  const bomb = path.join(dir, 'bomb.svg')
+  fs.writeFileSync(bomb, '<svg xmlns="http://www.w3.org/2000/svg" width="200000" height="200000"><rect width="10" height="10"/></svg>')
+  const r = run(['raster', bomb], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /RASTER_CANVAS/)
+  assert.match(r.stderr, /declares a canvas of 200,000 x 200,000 px/)
+  assert.match(r.stderr, /12,000 px per dimension/)
+  const area = path.join(dir, 'area.svg')
+  fs.writeFileSync(area, '<svg xmlns="http://www.w3.org/2000/svg" width="11000" height="11000"></svg>')
+  const ra = run(['raster', area], dir)
+  assert.strictEqual(ra.code, 1)
+  assert.match(ra.stderr, /RASTER_CANVAS/)
+  const tiny = path.join(dir, 'tiny.svg')
+  fs.writeFileSync(tiny, '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"></svg>')
+  const rt = run(['raster', tiny], dir)
+  // The cap's question is only the declared size: a sane canvas passes the
+  // guard whatever the honest downstream verdict is (an empty plate still
+  // refuses RASTER_TRIVIAL on a renderer-present machine, pinned by the
+  // honesty legs - the cap must never brush it, and never brush them).
+  assert.ok(!/RASTER_CANVAS/.test(rt.stderr))
+})
+
 maybeRenderer('raster catches invalid XML with a named code (the unrenderable-stone receipt)', () => {
   const dir = tmpdir()
   const bad = path.join(dir, 'bad.svg')
