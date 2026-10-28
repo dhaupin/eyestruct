@@ -114,3 +114,15 @@ Within 1.x:
   audited docs/meta surfaces against the live ledgers and the source
   tables, so the stale-26 drift class fails CI instead of waiting for a
   walk to catch it.
+- **The contract clamp (2026-10-28).** Four de-facto surfaces joined the
+  freeze, each named and leg-held in one commit: the package `exports`
+  map (`eyestruct`, `eyestruct/lib/index.js`, and `eyestruct/package.json`
+  resolve; every other deep path refuses at the package level), the
+  env-var inventory ([environment reference](/eyestruct/env), derived
+  from source and pinned by the battery), the `--json` machine-output
+  shapes of every browserless verb (key snapshots in
+  `tests/contract.test.js` - a field rename is a named failure, never a
+  silent consumer break), and the manifest + ledger schema jails
+  (corruption variants refuse by name - `MANIFEST_CORRUPT`,
+  `LEDGER_CORRUPT`, `UNSAFE_PATH` - so the schemas hold a test, not
+  just prose).

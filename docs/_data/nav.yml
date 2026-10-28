@@ -18,6 +18,8 @@
       url: /eyestruct/adapters
     - title: Reason codes
       url: /eyestruct/reasons
+    - title: Environment reference
+      url: /eyestruct/env
     - title: Packs
       url: /eyestruct/packs
     - title: Family status dialect

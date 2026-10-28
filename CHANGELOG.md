@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (2026-10-28, the 1.0.0 contract clamp)
+
+- Four de-facto surfaces joined the freeze, closing the audit's gap
+  list before the tag: **the package exports map** (exactly `eyestruct`,
+  `eyestruct/lib/index.js` as the documented adapter mirror, and
+  `eyestruct/package.json` resolve; every other deep path refuses at
+  the package level - `ERR_PACKAGE_PATH_NOT_EXPORTED`), **the env-var
+  inventory** (new reference page [environment reference](/eyestruct/env):
+  `EYESTRUCT_BROWSER`, `EYESTRUCT_BUNDLE_CACHE`, `EYESTRUCT_AGENT`,
+  `EYESTRUCT_COMMIT`, with stated precedence; the battery derives the
+  live set from source and pins it in `tests/contract.test.js`, and
+  every pinned name must have its row), **the `--json` machine-output
+  shapes** (key snapshots for the browserless verbs in the same file -
+  `ledger list`, `gate`, `adopt`; refusals stay on stderr by design so
+  json rides success shapes only), and **the manifest + ledger schema
+  jails** (real corruption variants - a pin row off-shape, a missing
+  `pin.renderer`, a route row missing a field, unreadable/non-array
+  ledgers, missing required fields, an empty-wave artifacts array, a
+  hand-edited absolute artifact path - all refuse their named codes:
+  `MANIFEST_CORRUPT` exit 2, `LEDGER_CORRUPT` exit 2, `UNSAFE_PATH`
+  exit 1). The stability-law row in AGENTS.md and this page's
+  [CLI reference](/eyestruct/cli) section name the four surfaces in the
+  same commit. Additive-only: no verb, code, tool, or counted noun
+  moved - the census pins hold at 13 verbs / 29 codes / 10 tools /
+  35 verdicts / 4 pack-census surfaces as-is.
+
 ### Added (2026-10-28, interface honesty - the counted change)
 
 - The flag gate: trailing unknown flags refuse by name - the 29th reason

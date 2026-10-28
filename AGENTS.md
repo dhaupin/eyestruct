@@ -47,7 +47,18 @@ Working policies (seed; the brain grows these by working):
   change), the 10 TOOLS + inputSchemas (lib/mcp.js;
   spot joined 2026-10-28 as the same-class minor bump, docs/mcp.md in
   the same change),
-  the labs/.eyes/ manifest-pin schema, the adapter contract
+  the labs/.eyes/ manifest-pin schema (pin: browser-image + renderer
+  required, browser-exec optional; route rows need path/view/theme/
+  viewport - the shape the parser names and the contract legs jail),
+  the ledger row schema (rows need id/ts/agent/commit/type/note, plus
+  artifact or a non-empty artifacts wave array; paths are eyes-relative
+  at write AND read - UNSAFE_PATH), the package exports map ( eyestruct,
+  eyestruct/lib/index.js, eyestruct/package.json; deeper paths refuse
+  ERR_PACKAGE_PATH_NOT_EXPORTED - the deep-require clamp), the env-var
+  inventory (EYESTRUCT_BROWSER / BUNDLE_CACHE / AGENT / COMMIT,
+  docs/env.md is the mirror; the contract leg derives the set from
+  source), and the browserless --json machine-output shapes (key
+  snapshots in tests/contract.test.js), the adapter contract
   (lib/index.js, eyestruct-adapter@1; docs/adapters.md is its mirror;
   additions are minor bumps), and the packstruct@1 grammar
   pin. Additions are minor bumps, always with the mirrored docs page

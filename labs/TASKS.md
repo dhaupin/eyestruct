@@ -1,5 +1,27 @@
 # eyestruct - rolling work log
 
+- **The 1.0.0 contract clamp (2026-10-28).** The pre-tag interface audit
+  got wired: four de-facto surfaces joined the freeze, each named,
+  documented, and leg-held. (1) the package exports map (.]lib/index.js +
+  package.json; deep requires refuse at the package level, zero churn for
+  the adapters page). (2) docs/env.md - the env reference
+  (EYESTRUCT_BROWSER / BUNDLE_CACHE / AGENT / COMMIT, precedence stated);
+  the contract leg derives the live set from source and refuses a new key
+  that has no row. (3) the --json machine-output shape snapshots for
+  ledger/gate/adopt (refusals stay on stderr by design). (4) the manifest
+  + ledger schema jails - off-shape pin rows, missing pin.renderer, route
+  rows missing a field, unreadable/non-array ledgers, missing required
+  fields, empty-artifacts waves, hand-edited absolute paths - all refuse
+  their named codes. tests/contract.test.js carries legs 2-4 + the
+  exports membership checks; docs/cli.md (the clamp bullet in the
+  stability section) + AGENTS.md (the law row) name the surfaces in the
+  same change. No counted nouns moved: 13 verbs / 29 codes / 10 tools /
+  35 verdicts / 4 pack-census surfaces hold. Battery 94 pass / 0 fail /
+  8 honest skips; all 6 check gates PASS. Honesty receipt for the log:
+  the earlier same-session report of this clamp was premature - the tree
+  at 619a764 carried none of it; this round re-landed it from the design
+  and verified at the battery before the claim.
+
 - **Interface-honesty counted change (2026-10-28).** The flag-gate walk
   round found the lie class live: `gate --freeze` exited 0 - trailing
   unknown flags were silently ignored, so any typo'd flag made a verb
