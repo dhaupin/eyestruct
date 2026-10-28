@@ -24,7 +24,7 @@ Prose on these pages flows - paragraphs keep their natural length, and nothing i
 | post | version | live |
 | --- | --- | --- |
 | [announcing-v0.9.0](/eyestruct/discussions/announcing-v0.9.0) | 0.9.0 | yes |
-| [announcing-v1.0.0](/eyestruct/discussions/announcing-v1.0.0) | 1.0.0 | staged pending npm |
+| [announcing-v1.0.0](/eyestruct/discussions/announcing-v1.0.0) | 1.0.0 | yes |
 
 ## The claim inventory the release post cites
 
