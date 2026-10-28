@@ -4,7 +4,7 @@ All notable changes to eyestruct will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-10-28
 
 ### Added (2026-11-01, the version-truth census)
 
@@ -44,9 +44,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - `web/` moves `react-router-dom` from the v6 line to `^7.18.5` (the advisory fix path the registry audit pointed at keeps the router's own npm audit clean), and the bump exposed a prerender seam the v6 line never hit: react-router-dom 7 resolves its node entry to the CJS `dist/index.js`, which Vite's SSR module registry transforms with an empty exports namespace, and prestruct's engine loads `StaticRouter` by plain dynamic import OUTSIDE that registry - so the naive fixes either lose named exports ("useLocation is not a function") or end up with two module instances minting two React contexts ("useLocation() may be used only in the context of a <Router> component", 0/6 pages rendered). The fix is `web/scripts/rrdom-esm-redirect.mjs`, a load-scoped vite plugin that serves the SSR registry a module delegating to Node's own ESM import of `dist/index.mjs` through a Function-constructed dynamic import - the same file URL the engine's import resolves to, so both sides share one instance and one set of React contexts; `web/vite.config.js` carries `ssr.noExternal` for the registry-in-process path. Client bundle untouched (the vendor manualChunks build is unchanged), `prestruct build` renders 6/6 (the battery's served-dist + prerendered-island legs pass on the rebuilt dist).
 - `puppeteer-core` moves from the ^23 line to pinned 25.16.0 per the audit's one-command fix for the nine transitive advisories in its 23.x chain (the extract-zip symlink classes, basic-ftp, zod) - launch API unchanged, battery still 94/0.
-
-## [1.0.0] - 2026-10-28
-
 ### Added (2026-10-28, the consumer-contract round)
 
 - docs/ci.md states the two capture contracts the first real consumer filing asked for by name: captures are viewport-only (a `#fragment` navigation or a below-the-fold edit reads `SAME` by design, full-page capture stays a designed affordance, not shipped), and the canon cut is byte equality - stricter than pixel vision, and real Chrome paint over photographic textures is not byte-stable, so textured surfaces cut canon by reviewed adopt, with the pixel-tolerance lane named as designed, never shipped (khf-wp's filings, eyestruct#11 + #12). A consumer-recipes table landed beside it: which verbs fit CI (`gate`, browserless), which are environment-local, and the CMS target shape the khf-wp `qa/eyes/` run root settled on.
