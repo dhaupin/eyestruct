@@ -236,6 +236,20 @@ test('gate enumerates a wide drift with the cap: the count stays exact, the fold
   assert.ok(!/ghost-row-2[0-9]/.test(g.stderr), 'rows past the cap must not be enumerated - the ledger is where they live')
 })
 
+test('diff --against escapes: the baseline stays eyes-relative (UNSAFE_PATH, no browser demanded)', () => {
+  const dir = tmpdir()
+  const r = run(['init', '--browser-image', 't:1', '--renderer', 'r:1'], dir)
+  assert.strictEqual(r.code, 0)
+  // An escape attempt must refuse BY NAME before the engine ever loads -
+  // the same confinement the ledger reader and the MCP toolDiff carry.
+  const up = run(['diff', 'https://example.com', '--against', '../../outside.png'], dir)
+  assert.strictEqual(up.code, 1)
+  assert.match(up.stderr, /UNSAFE_PATH/)
+  const abs = run(['diff', 'https://example.com', '--against', '/etc/hosts'], dir)
+  assert.strictEqual(abs.code, 1)
+  assert.match(abs.stderr, /UNSAFE_PATH/)
+})
+
 test('UNSAFE_PATH: a ledger row that escapes the eyes home is refused on read (exit 1, named)', () => {
   const dir = tmpdir()
   run(['init'], dir)
