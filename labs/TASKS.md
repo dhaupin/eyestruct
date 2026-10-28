@@ -1,1152 +1,140 @@
 # eyestruct - rolling work log
 
-- **The consumer-contract round (2026-10-28, pre-tag).** The issue
-  board walked against the tree: the khf-wp filings (#11 + #12) still
-  had two doc asks unlanded and one refusal message too bare, so all
-  three landed and each got its receipt. (1) docs/ci.md gained "The
-  capture contract" (viewport-only by design; byte equality stricter
-  than pixel vision; textured surfaces cut canon by reviewed adopt;
-  the tolerance lane named designed, never shipped) and "Consumer
-  recipes" (which verbs fit CI, which are environment-local, the CMS
-  shape). (2) `WALK_EMPTY`'s message now states the real cause from
-  the filing: a comment-only manifest parses as zero routes - same
-  code, same exit, mirror moved in the same change. (3) The census
-  widened to docs/packs.md + docs/mcp.md + docs/cli.md - and widened
-  honestly: the claim token became the WORD map's own vocabulary
-  after a "named pack cases" prose article asserted the runner (the
-  match lost the shape and it REFUSED, as designed - the fix made
-  non-count words unmatchable instead of degrading the assert).
-  Zero stale findings on the widened surfaces. The node-18 CI leg was
-  already landed (test.yml carries it), and the 0.9 sweep across the
-  tree came back all-benign: dated history, SVG path data, sitemap
-  priorities. Battery 94 pass / 0 fail / 8 honest skips; all check
-  gates PASS.
+- **The consumer-contract round (2026-10-28, pre-tag).** The issue board walked against the tree: the khf-wp filings (#11 + #12) still had two doc asks unlanded and one refusal message too bare, so all three landed and each got its receipt. (1) docs/ci.md gained "The capture contract" (viewport-only by design; byte equality stricter than pixel vision; textured surfaces cut canon by reviewed adopt; the tolerance lane named designed, never shipped) and "Consumer recipes" (which verbs fit CI, which are environment-local, the CMS shape). (2) `WALK_EMPTY`'s message now states the real cause from the filing: a comment-only manifest parses as zero routes - same code, same exit, mirror moved in the same change. (3) The census widened to docs/packs.md + docs/mcp.md + docs/cli.md - and widened honestly: the claim token became the WORD map's own vocabulary after a "named pack cases" prose article asserted the runner (the match lost the shape and it REFUSED, as designed - the fix made non-count words unmatchable instead of degrading the assert). Zero stale findings on the widened surfaces. The node-18 CI leg was already landed (test.yml carries it), and the 0.9 sweep across the tree came back all-benign: dated history, SVG path data, sitemap priorities. Battery 94 pass / 0 fail / 8 honest skips; all check gates PASS.
 
-- **Release-day accuracy round + two walk laps (2026-10-28, pre-tag).
-  (1) The accuracy sweep:** web is clean (all seven pages live and
-  follow-redirect 200, robots open, counts accurate at 35/52/29),
-  docs/start.md accurate (pin table, first cycle, instance loop, next
-  links), and the announcement is LIVE-exact at `docs.creadev.org/
-  eyestruct/discussions/announcing-v1.0.0` (trailing-slash nuance
-  below). README carried the release-day blockers: the install pin
-  `@^0.9.0` and the status line both said 0.9.0, and the verb line was
-  MISSING init (twelve of thirteen) - fixed at f9c92e7, CI green (run
-  #75). The publish-lane claim held: the OIDC gate genuinely refuses
-  0.x, so the next published version is exactly 1.0.0. Release-pack
-  probes pass: `npm pack` names eyestruct-1.0.0.tgz and `--version`
-  parity holds. (2) The docket row (named, not fixed, per the walk-exit
-  rule): the docs rig's trailing-slash behavior is inconsistent
-  per-page - permalinks spelled with a slash serve directory-style
-  (start/, adapters/ 200), permalinks spelled bare 404 the slashed
-  spelling (env/, announcing-v0.9.0/) while no-slash always works; the
-  doc links are all no-slash, so navigation is unbroken, but a
-  hand-typed slash hits 404 depending on the page. The clean fix is at
-  the docs rig (a trailing-slash redirect or normalized permalinks
-  sitewide), not in eyestruct's pages. Nothing else stale found on the
-  audited numbers - no fake receipts carried into the tag.
+- **Release-day accuracy round + two walk laps (2026-10-28, pre-tag). (1) The accuracy sweep:** web is clean (all seven pages live and follow-redirect 200, robots open, counts accurate at 35/52/29), docs/start.md accurate (pin table, first cycle, instance loop, next links), and the announcement is LIVE-exact at `docs.creadev.org/ eyestruct/discussions/announcing-v1.0.0` (trailing-slash nuance below). README carried the release-day blockers: the install pin `@^0.9.0` and the status line both said 0.9.0, and the verb line was MISSING init (twelve of thirteen) - fixed at f9c92e7, CI green (run #75). The publish-lane claim held: the OIDC gate genuinely refuses 0.x, so the next published version is exactly 1.0.0. Release-pack probes pass: `npm pack` names eyestruct-1.0.0.tgz and `--version` parity holds. (2) The docket row (named, not fixed, per the walk-exit rule): the docs rig's trailing-slash behavior is inconsistent per-page - permalinks spelled with a slash serve directory-style (start/, adapters/ 200), permalinks spelled bare 404 the slashed spelling (env/, announcing-v0.9.0/) while no-slash always works; the doc links are all no-slash, so navigation is unbroken, but a hand-typed slash hits 404 depending on the page. The clean fix is at the docs rig (a trailing-slash redirect or normalized permalinks sitewide), not in eyestruct's pages. Nothing else stale found on the audited numbers - no fake receipts carried into the tag.
 
-- **The 1.0.0 discussions pause (2026-10-28).** Two commissions, one
-  commit: the wrap purge and the staged announcement. (1) The wrap
-  purge: discussion prose flows now - paragraphs keep their natural
-  length, the 72-column commit-time habit is dead at the only two
-  surfaces that carried it (announcing-v0.9.0 + the posts index;
-  tables exempt), and the rule lives in the index's conventions bullet
-  so it cannot come back quietly. Bonus receipt from the same read:
-  the index's frontmatter bullet was mangled into the voice bullet at
-  a merge site - found by the purge pass and fixed. (2) The 1.0.0 cut:
-  the Unreleased arc (agents-vision -> interface honesty -> contract
-  clamp -> slot-name rule) folded into `## [1.0.0] - 2026-10-28` (the
-  release-cut shape the trifecta accepts - receipts in dated sections),
-  versions moved everywhere the present tense lives (root + web
-  package.json, the brand badge; dated historical rows keep their era
-  numbers), and `docs/discussions/announcing-v1.0.0.md` drafted
-  STAGED PENDING NPM per the new timing rule (the index row says
-  staged; the draft marker comes off in the same commit that first
-  serves 1.0.0 on npm - never earlier). Every count in the post was
-  re-verified against the tree at HEAD (13 verbs / 29 codes / 10
-  tools / 35 verdicts / 52-refused hostile leg). Battery 94 pass / 0
-  fail; the trifecta's release-cut branch PASSes; lint:docs 23 pages
-  green. npm publish stays the operator's dispatch.
+- **The 1.0.0 discussions pause (2026-10-28).** Two commissions, one commit: the wrap purge and the staged announcement. (1) The wrap purge: discussion prose flows now - paragraphs keep their natural length, the 72-column commit-time habit is dead at the only two surfaces that carried it (announcing-v0.9.0 + the posts index; tables exempt), and the rule lives in the index's conventions bullet so it cannot come back quietly. Bonus receipt from the same read: the index's frontmatter bullet was mangled into the voice bullet at a merge site - found by the purge pass and fixed. (2) The 1.0.0 cut: the Unreleased arc (agents-vision -> interface honesty -> contract clamp -> slot-name rule) folded into `## [1.0.0] - 2026-10-28` (the release-cut shape the trifecta accepts - receipts in dated sections), versions moved everywhere the present tense lives (root + web package.json, the brand badge; dated historical rows keep their era numbers), and `docs/discussions/announcing-v1.0.0.md` drafted STAGED PENDING NPM per the new timing rule (the index row says staged; the draft marker comes off in the same commit that first serves 1.0.0 on npm - never earlier). Every count in the post was re-verified against the tree at HEAD (13 verbs / 29 codes / 10 tools / 35 verdicts / 52-refused hostile leg). Battery 94 pass / 0 fail; the trifecta's release-cut branch PASSes; lint:docs 23 pages green. npm publish stays the operator's dispatch.
 
-- **The slot-name rule commissioned (2026-10-28, walk round).**
-  khf-wp's #12 friction landed as a one-field affordance: a manifest
-  route row may carry `slot:` to name the walk candidate explicitly
-  (`- path: /  slot: home` -> `walk__home_view_theme.png`), killing the
-  root -> home rename seed step their run root carries. Implementation
-  was deliberately minimal: the parser already passes unknown
-  `key: value` pairs through untouched, so the change is exactly
-  candidateName honoring the field (the only reader), a docs/cli.md
-  walk-bullet rule row, the AGENTS manifest-schema enumeration, the
-  CHANGELOG section, and a contract-leg acceptance case proving the
-  override through the REAL parser plus pinning both defaults (root
-  survives for khf-wp's existing seeding; path-slug naming unchanged).
-  Battery at the tip: 94 pass / 0 fail / 8 honest skips, all 6 check
-  gates PASS; the freshness leg tripped once on the rebuilt dist and
-  was satisfied by rebuilding, never weakening.
+- **The slot-name rule commissioned (2026-10-28, walk round).** khf-wp's #12 friction landed as a one-field affordance: a manifest route row may carry `slot:` to name the walk candidate explicitly (`- path: /  slot: home` -> `walk__home_view_theme.png`), killing the root -> home rename seed step their run root carries. Implementation was deliberately minimal: the parser already passes unknown `key: value` pairs through untouched, so the change is exactly candidateName honoring the field (the only reader), a docs/cli.md walk-bullet rule row, the AGENTS manifest-schema enumeration, the CHANGELOG section, and a contract-leg acceptance case proving the override through the REAL parser plus pinning both defaults (root survives for khf-wp's existing seeding; path-slug naming unchanged). Battery at the tip: 94 pass / 0 fail / 8 honest skips, all 6 check gates PASS; the freshness leg tripped once on the rebuilt dist and was satisfied by rebuilding, never weakening.
 
-- **The 1.0.0 contract clamp (2026-10-28).** The pre-tag interface audit
-  got wired: four de-facto surfaces joined the freeze, each named,
-  documented, and leg-held. (1) the package exports map (.]lib/index.js +
-  package.json; deep requires refuse at the package level, zero churn for
-  the adapters page). (2) docs/env.md - the env reference
-  (EYESTRUCT_BROWSER / BUNDLE_CACHE / AGENT / COMMIT, precedence stated);
-  the contract leg derives the live set from source and refuses a new key
-  that has no row. (3) the --json machine-output shape snapshots for
-  ledger/gate/adopt (refusals stay on stderr by design). (4) the manifest
-  + ledger schema jails - off-shape pin rows, missing pin.renderer, route
-  rows missing a field, unreadable/non-array ledgers, missing required
-  fields, empty-artifacts waves, hand-edited absolute paths - all refuse
-  their named codes. tests/contract.test.js carries legs 2-4 + the
-  exports membership checks; docs/cli.md (the clamp bullet in the
-  stability section) + AGENTS.md (the law row) name the surfaces in the
-  same change. No counted nouns moved: 13 verbs / 29 codes / 10 tools /
-  35 verdicts / 4 pack-census surfaces hold. Battery 94 pass / 0 fail /
-  8 honest skips; all 6 check gates PASS. Honesty receipt for the log:
-  the earlier same-session report of this clamp was premature - the tree
-  at 619a764 carried none of it; this round re-landed it from the design
-  and verified at the battery before the claim.
+- **The 1.0.0 contract clamp (2026-10-28).** The pre-tag interface audit got wired: four de-facto surfaces joined the freeze, each named, documented, and leg-held. (1) the package exports map (.]lib/index.js + package.json; deep requires refuse at the package level, zero churn for the adapters page). (2) docs/env.md - the env reference (EYESTRUCT_BROWSER / BUNDLE_CACHE / AGENT / COMMIT, precedence stated); the contract leg derives the live set from source and refuses a new key that has no row. (3) the --json machine-output shape snapshots for ledger/gate/adopt (refusals stay on stderr by design). (4) the manifest + ledger schema jails - off-shape pin rows, missing pin.renderer, route rows missing a field, unreadable/non-array ledgers, missing required fields, empty-artifacts waves, hand-edited absolute paths - all refuse their named codes. tests/contract.test.js carries legs 2-4 + the exports membership checks; docs/cli.md (the clamp bullet in the stability section) + AGENTS.md (the law row) name the surfaces in the same change. No counted nouns moved: 13 verbs / 29 codes / 10 tools / 35 verdicts / 4 pack-census surfaces hold. Battery 94 pass / 0 fail / 8 honest skips; all 6 check gates PASS. Honesty receipt for the log: the earlier same-session report of this clamp was premature - the tree at 619a764 carried none of it; this round re-landed it from the design and verified at the battery before the claim.
 
-- **Interface-honesty counted change (2026-10-28).** The flag-gate walk
-  round found the lie class live: `gate --freeze` exited 0 - trailing
-  unknown flags were silently ignored, so any typo'd flag made a verb
-  quietly run without it (worst on a CI gate). Commissioned same-session
-  per the walk-exit rule, as a COUNTED change under the carrier ruling:
-  the 29th reason code `UNKNOWN_FLAG` (exit 1) landed in lib/reasons.js
-  WITH its eye-adapter carrier case first (`refusal-grammar-additions-
-  land-in-the-carrier-first` - the pack receipts the grammar addition,
-  re-baseline to 35 verdicts), the per-verb flag ledger in
-  bin/eyestruct.js (GLOBAL_FLAGS + VERB_FLAGS one table, joined forms
-  normalized, repeats refuse BAD_FLAG_VALUE - say it once), trailing
-  `--help`/`--version` now actually work after any verb, and the
-  mirrors moved in the same commit: census pins (29 codes / 35 rows),
-  AGENTS.md, docs/cli.md + docs/reasons.md, web ssr.config + Home +
-  Packs + the regenerated og-image card. Battery legs added in
-  tests/smoke.test.js (unknown trailing + joined + repeat + clean
-  known-flag + trailing help/version). Side commission: og-image.mjs
-  resolved `dejavu-fonts-ttf` from an undeclared dependency - it worked
-  only from a prior machine's hoist (the runner restart one-mortem);
-  now a declared web devDependency, web/package-lock.json updated.
-  End of round: battery 89 pass / 0 fail / 8 skips, all 6 check gates
-  PASS. The dated 0.9.0 announcement keeps its historical 28 - true
-  for its era.
+- **Interface-honesty counted change (2026-10-28).** The flag-gate walk round found the lie class live: `gate --freeze` exited 0 - trailing unknown flags were silently ignored, so any typo'd flag made a verb quietly run without it (worst on a CI gate). Commissioned same-session per the walk-exit rule, as a COUNTED change under the carrier ruling: the 29th reason code `UNKNOWN_FLAG` (exit 1) landed in lib/reasons.js WITH its eye-adapter carrier case first (`refusal-grammar-additions- land-in-the-carrier-first` - the pack receipts the grammar addition, re-baseline to 35 verdicts), the per-verb flag ledger in bin/eyestruct.js (GLOBAL_FLAGS + VERB_FLAGS one table, joined forms normalized, repeats refuse BAD_FLAG_VALUE - say it once), trailing `--help`/`--version` now actually work after any verb, and the mirrors moved in the same commit: census pins (29 codes / 35 rows), AGENTS.md, docs/cli.md + docs/reasons.md, web ssr.config + Home + Packs + the regenerated og-image card. Battery legs added in tests/smoke.test.js (unknown trailing + joined + repeat + clean known-flag + trailing help/version). Side commission: og-image.mjs resolved `dejavu-fonts-ttf` from an undeclared dependency - it worked only from a prior machine's hoist (the runner restart one-mortem); now a declared web devDependency, web/package-lock.json updated. End of round: battery 89 pass / 0 fail / 8 skips, all 6 check gates PASS. The dated 0.9.0 announcement keeps its historical 28 - true for its era.
 
-- **The promotion rule, commissioned (2026-10-28).** The walk/pack
-  conundrum settled: a walk is the discovery rung, packs are the memory
-  rung, and the rule that joins them is "a walk isn't done until nothing
-  it found is uncommissioned" - a probe that never got encoded is a
-  one-mortem. Two prose-only probes from this week's walks were still
-  unhoused, so they got their legs in the same session: (1)
-  tests/serve-dist.test.js - the serve-dist HTTP-shape proofs
-  (traversal-neutrality with a decoy-in-parent leak file, HEAD, the
-  candidate ladder, wildcard prefix rules, miss-path header honesty,
-  the web/public _headers grammar - always-runs, tmp roots, no dist
-  dependency). The leg immediately PAID for itself: it caught the walk
-  round's own reading error (the "traversal 404s" probe was WHATWG URL
-  normalization dissolving dot-segments before the handler runs, not
-  the resolve-containment belt - the belt's real catch class is the
-  decode-time %2f forms, now receipted with a parent decoy). (2) the
-  lint-packs exit-fidelity leg (tests/adapter-api.test.js): "the exit
-  code IS the verdict" was a comment claim with no receipt; now
-  pinned - clean tree returns 0, a usage VIOLATION rides out as 1.
-  Battery at the tip: 87 pass / 0 fail / 8 honest skips. The rule also
-  went out to the family as the packstruct 1.1.0 spec ask + the
-  crashtest/gistory adaptation notes.
+- **The promotion rule, commissioned (2026-10-28).** The walk/pack conundrum settled: a walk is the discovery rung, packs are the memory rung, and the rule that joins them is "a walk isn't done until nothing it found is uncommissioned" - a probe that never got encoded is a one-mortem. Two prose-only probes from this week's walks were still unhoused, so they got their legs in the same session: (1) tests/serve-dist.test.js - the serve-dist HTTP-shape proofs (traversal-neutrality with a decoy-in-parent leak file, HEAD, the candidate ladder, wildcard prefix rules, miss-path header honesty, the web/public _headers grammar - always-runs, tmp roots, no dist dependency). The leg immediately PAID for itself: it caught the walk round's own reading error (the "traversal 404s" probe was WHATWG URL normalization dissolving dot-segments before the handler runs, not the resolve-containment belt - the belt's real catch class is the decode-time %2f forms, now receipted with a parent decoy). (2) the lint-packs exit-fidelity leg (tests/adapter-api.test.js): "the exit code IS the verdict" was a comment claim with no receipt; now pinned - clean tree returns 0, a usage VIOLATION rides out as 1. Battery at the tip: 87 pass / 0 fail / 8 honest skips. The rule also went out to the family as the packstruct 1.1.0 spec ask + the crashtest/gistory adaptation notes.
 
-- **Walk round (2026-10-28, post-carrier).** Two live probes outside the
-  battery, both honest: (1) the served-contract leg caught the only red
-  in the first pass - a STALE dist (`asOf` lagging one commit behind HEAD
-  because the runner restart had dropped both `node_modules` trees); the
-  fix was the documented rebuild, not a test weaken, and the leg re-ran
-  green at the tip. (2) The subsequent walk found REAL work in
-  `lib/serve-dist.js`: brand jpgs served `application/octet-stream` (the
-  content-type table had no jpg/jpeg/webp cases) - fixed + pinned by a
-  new battery leg issuing a real HTTP request for a brand asset. Edge
-  probes through the real binary: encoded + raw `../` traversal both 404,
-  unknown route 404, `HEAD` sane, `/status.json` rides the committed
-  `access-control-allow-origin` + no-store clauses live. Adapter surface
-  probe: `dispatch('frobnicate')` throws `FailError` `
-eyestruct[UNKNOWN_COMMAND]` and the host process lives; MCP `tools/list`
-  over a real stdio handshake returns the 10 tools verbatim. `npm pack
-  --dry-run` clean: 24 files, ~46 KB, no labs/web/docs/models leakage
-  (README/LICENSE/CHANGELOG are the only prose riders). Reason-code
-  sweep: every `fail('X')` call site resolves inside the frozen 28.
-  End of round: battery 80 pass / 0 fail, `npm run check` all gates
-  PASS. Round two, same day: lint-packs passthrough exit-fidelity held on
-  a probe against a missing dir (real exit 1 with the VIOLATION visible;
-  the one apparent exit-0 was the probe pipe's `head` status, not the
-  verb's - probe-discipline receipt for the next walker). raster input
-  paranoia: nonexistent / dotdot / directory inputs all refuse
-  MISSING_INPUT exit 2. serve refusals: missing root MISSING_INPUT,
-  --port 99999 BAD_FLAG_VALUE exit 1. spot without a browser names
-  MISSING_PINNED_BROWSER with the exact cache path; a bogus
-  --browser-exec names the unfound path. check:browser lane honest-skips
-  with the fix named. All 14 CI `uses:` entries SHA-pinned + version
-  commented; publish lane OIDC-only (no token secret in the repo).
-  Count-claims sweep: every live surface reads 13 verbs / 28 codes /
-  10 tools / 34 verdicts / 5 packs; the two lingering 4-pack readings
-  sit inside correctly-dated 0.9.0-era historical sections.
+- **Walk round (2026-10-28, post-carrier).** Two live probes outside the battery, both honest: (1) the served-contract leg caught the only red in the first pass - a STALE dist (`asOf` lagging one commit behind HEAD because the runner restart had dropped both `node_modules` trees); the fix was the documented rebuild, not a test weaken, and the leg re-ran green at the tip. (2) The subsequent walk found REAL work in `lib/serve-dist.js`: brand jpgs served `application/octet-stream` (the content-type table had no jpg/jpeg/webp cases) - fixed + pinned by a new battery leg issuing a real HTTP request for a brand asset. Edge probes through the real binary: encoded + raw `../` traversal both 404, unknown route 404, `HEAD` sane, `/status.json` rides the committed `access-control-allow-origin` + no-store clauses live. Adapter surface probe: `dispatch('frobnicate')` throws `FailError` ` eyestruct[UNKNOWN_COMMAND]` and the host process lives; MCP `tools/list` over a real stdio handshake returns the 10 tools verbatim. `npm pack --dry-run` clean: 24 files, ~46 KB, no labs/web/docs/models leakage (README/LICENSE/CHANGELOG are the only prose riders). Reason-code sweep: every `fail('X')` call site resolves inside the frozen 28. End of round: battery 80 pass / 0 fail, `npm run check` all gates PASS. Round two, same day: lint-packs passthrough exit-fidelity held on a probe against a missing dir (real exit 1 with the VIOLATION visible; the one apparent exit-0 was the probe pipe's `head` status, not the verb's - probe-discipline receipt for the next walker). raster input paranoia: nonexistent / dotdot / directory inputs all refuse MISSING_INPUT exit 2. serve refusals: missing root MISSING_INPUT, --port 99999 BAD_FLAG_VALUE exit 1. spot without a browser names MISSING_PINNED_BROWSER with the exact cache path; a bogus --browser-exec names the unfound path. check:browser lane honest-skips with the fix named. All 14 CI `uses:` entries SHA-pinned + version commented; publish lane OIDC-only (no token secret in the repo). Count-claims sweep: every live surface reads 13 verbs / 28 codes / 10 tools / 34 verdicts / 5 packs; the two lingering 4-pack readings sit inside correctly-dated 0.9.0-era historical sections.
 
-- **Bundle lane: the docs/web/deploy pass + the fourth pack (2026-10-27,
-  late).** With #4 implemented and closed, the whole claim surface
-  caught up with it. (1) Tar-traversal experiment RECEIPT (not assumed):
-  GNU tar strips leading `../` from member names at pack/extract time
-  (the test archive's members landed INSIDE the target dir; the escape
-  echo the first probe printed was the stripped-name folder, not an
-  escape) - and the sharper class born in the sweep: a chrome
-  SYMLINK inside a supplied tarball. `findChromeExec` now accepts only
-  regular files (a symlink-named chrome can never aim the executor
-  outside the bundle), with a battery leg proving the refusal. (2)
-  `init` became an IDEMPOTENT seed: a bundle-only re-seed on a living
-  manifest preserves the pin + route matrix byte-for-byte outside the
-  bundle row - closing both the latent wholesale-rewrite footgun and
-  the CI seed step's live need. (3) The deploy lane grew the optional
-  ci-mode executor: `eyes-ratify` dispatch input `bundle-tarball`
-  seeds the bundle through the repo's own init and skips the
-  @puppeteer/browsers fetch (empty default keeps the lane minted).
-  (4) The FOURTH pack: `packs/public/eye-bundle` (4 cases - two hostile
-  archive shapes refused by name, install + idempotent re-seed pass,
-  installs checksum-isolated); the packledger re-baselined
-  (--adopt): 30 committed verdicts / 4 packs, 0 exploited; counts
-  re-rippled to every claimant (AGENTS, web Home + Packs + the
-  attack-class table row, docs/packs.md, og-image.mjs, and the card
-  itself REGENERATED with dejavu fonts), the trifecta leg enforcing
-  the agreement. (5) README gains the bundle note + the idempotency
-  ruling; docs/ci.md carries the re-seed semantics; docs/packs.md
-  ships the eye-bundle row; crashtest.config.js verified for the
-  hostile leg (scenarios auto-scanned; bundle attacks filed to the
-  crashtest harness as the next request). Battery: npm test 47 tests
-  / 39 pass / 0 fail, packs 30/30 honest, check green.
+- **Bundle lane: the docs/web/deploy pass + the fourth pack (2026-10-27, late).** With #4 implemented and closed, the whole claim surface caught up with it. (1) Tar-traversal experiment RECEIPT (not assumed): GNU tar strips leading `../` from member names at pack/extract time (the test archive's members landed INSIDE the target dir; the escape echo the first probe printed was the stripped-name folder, not an escape) - and the sharper class born in the sweep: a chrome SYMLINK inside a supplied tarball. `findChromeExec` now accepts only regular files (a symlink-named chrome can never aim the executor outside the bundle), with a battery leg proving the refusal. (2) `init` became an IDEMPOTENT seed: a bundle-only re-seed on a living manifest preserves the pin + route matrix byte-for-byte outside the bundle row - closing both the latent wholesale-rewrite footgun and the CI seed step's live need. (3) The deploy lane grew the optional ci-mode executor: `eyes-ratify` dispatch input `bundle-tarball` seeds the bundle through the repo's own init and skips the @puppeteer/browsers fetch (empty default keeps the lane minted). (4) The FOURTH pack: `packs/public/eye-bundle` (4 cases - two hostile archive shapes refused by name, install + idempotent re-seed pass, installs checksum-isolated); the packledger re-baselined (--adopt): 30 committed verdicts / 4 packs, 0 exploited; counts re-rippled to every claimant (AGENTS, web Home + Packs + the attack-class table row, docs/packs.md, og-image.mjs, and the card itself REGENERATED with dejavu fonts), the trifecta leg enforcing the agreement. (5) README gains the bundle note + the idempotency ruling; docs/ci.md carries the re-seed semantics; docs/packs.md ships the eye-bundle row; crashtest.config.js verified for the hostile leg (scenarios auto-scanned; bundle attacks filed to the crashtest harness as the next request). Battery: npm test 47 tests / 39 pass / 0 fail, packs 30/30 honest, check green.
 
-- **Browser bundle lane (2026-10-27, late) - eyestruct#4 implemented.**
-  The vendored checksummed browser lane, per the issue's own scope (one
-  lib module + an init flag + a docs/ci.md row, no new verbs, init
-  stays browserless): (1) `lib/bundle.js` - sha256 the tarball, unpack
-  ONCE into the bundle cache under the checksum prefix
-  (EYESTRUCT_BUNDLE_CACHE or ~/.cache/eyestruct/bundles/, cache root
-  overridable for tests/sandboxes), integrity marker at install and
-  VERIFIED at every resolution (the bundle is trusted by receipt, never
-  by presence), idempotent reuse receipted; (2) executor resolution
-  order now: --browser-exec / EYESTRUCT_BROWSER / pin.browser-exec /
-  bundle / puppeteer cache / MISSING_PINNED_BROWSER - captures run
-  offline inside the pin for CI mode; (3) init --browser-bundle records
-  bundle@<sha16> in the manifest pin (manifest.write took the optional
-  row), and init itself stays browserless (one tar call at install,
-  zero at capture); (4) refusals stay named without new codes -
-  MISSING_INPUT (missing tarball / bad archive), MISSING_PINNED_BROWSER
-  (no chrome inside, tampered marker, missing install),
-  MANIFEST_CORRUPT (malformed pin recording). The issue's trust shape
-  rides the tree: upstream chrome-for-testing -> tarball -> sha256 in
-  the manifest -> marker in the cache; no unvetted npm middleman
-  (the @sparticuz rejection holds as receipts). Battery: npm test 46
-  tests / 38 pass / 0 fail (three bundle legs - install+resolve+tamper
-  proof with fake chrome tarballs in temp homes, no network), trifecta
-  green; docs/ci.md carries the produce/consume recipe + the trust
-  ladder; cli.md init row gained the flag.
+- **Browser bundle lane (2026-10-27, late) - eyestruct#4 implemented.** The vendored checksummed browser lane, per the issue's own scope (one lib module + an init flag + a docs/ci.md row, no new verbs, init stays browserless): (1) `lib/bundle.js` - sha256 the tarball, unpack ONCE into the bundle cache under the checksum prefix (EYESTRUCT_BUNDLE_CACHE or ~/.cache/eyestruct/bundles/, cache root overridable for tests/sandboxes), integrity marker at install and VERIFIED at every resolution (the bundle is trusted by receipt, never by presence), idempotent reuse receipted; (2) executor resolution order now: --browser-exec / EYESTRUCT_BROWSER / pin.browser-exec / bundle / puppeteer cache / MISSING_PINNED_BROWSER - captures run offline inside the pin for CI mode; (3) init --browser-bundle records bundle@<sha16> in the manifest pin (manifest.write took the optional row), and init itself stays browserless (one tar call at install, zero at capture); (4) refusals stay named without new codes - MISSING_INPUT (missing tarball / bad archive), MISSING_PINNED_BROWSER (no chrome inside, tampered marker, missing install), MANIFEST_CORRUPT (malformed pin recording). The issue's trust shape rides the tree: upstream chrome-for-testing -> tarball -> sha256 in the manifest -> marker in the cache; no unvetted npm middleman (the @sparticuz rejection holds as receipts). Battery: npm test 46 tests / 38 pass / 0 fail (three bundle legs - install+resolve+tamper proof with fake chrome tarballs in temp homes, no network), trifecta green; docs/ci.md carries the produce/consume recipe + the trust ladder; cli.md init row gained the flag.
 
-- **Issue triage (2026-10-27, late): the hand-off issue closed, the C1
-  carry implemented.** (1) `eyestruct#2` (move-day readiness, the
-  hand-off) closed completed: every step receipted in-tree - own
-  battery minted and 40+ green runs, ratify lane home with
-  EYES_HOME=labs/.eyes, lint:packs in the battery, staging leftovers
-  retired (the brain's vant home + the PRD's standing amend); the one
-  honest rider stays: the first canon dispatch is its own event. (2)
-  `eyestruct#3` (C1 carry from the retired mount: globals in front of
-  the verb) IMPLEMENTED, commit `3925ebc`: pullGlobalPrefix matches
-  exactly the dispatch-owned globals (--ledger/--manifest/--json,
-  separated form), unknown leading tokens refuse UNKNOWN_COMMAND, the
-  consume-then-improvise hole (leading flags with no trailing verb)
-  refuses by name, --help passthrough survives, and the leading window
-  was laid onto the CURRENT dispatch since the carry's raw diff context
-  had gone stale upstream (posArg gone, strict value-flag guards, and
-  version truth in packagejson). The issue's eight probe receipts are
-  now a battery leg: 43 tests / 35 pass / 0 fail, TRIFECTA PASS. (3)
-  `eyestruct#4` (the vendored checksummed browser lane) stays open -
-  a real feature for the offline-capture roadmap, not closable today.
+- **Issue triage (2026-10-27, late): the hand-off issue closed, the C1 carry implemented.** (1) `eyestruct#2` (move-day readiness, the hand-off) closed completed: every step receipted in-tree - own battery minted and 40+ green runs, ratify lane home with EYES_HOME=labs/.eyes, lint:packs in the battery, staging leftovers retired (the brain's vant home + the PRD's standing amend); the one honest rider stays: the first canon dispatch is its own event. (2) `eyestruct#3` (C1 carry from the retired mount: globals in front of the verb) IMPLEMENTED, commit `3925ebc`: pullGlobalPrefix matches exactly the dispatch-owned globals (--ledger/--manifest/--json, separated form), unknown leading tokens refuse UNKNOWN_COMMAND, the consume-then-improvise hole (leading flags with no trailing verb) refuses by name, --help passthrough survives, and the leading window was laid onto the CURRENT dispatch since the carry's raw diff context had gone stale upstream (posArg gone, strict value-flag guards, and version truth in packagejson). The issue's eight probe receipts are now a battery leg: 43 tests / 35 pass / 0 fail, TRIFECTA PASS. (3) `eyestruct#4` (the vendored checksummed browser lane) stays open - a real feature for the offline-capture roadmap, not closable today.
 
-- **Standing amendment (2026-10-27, late) - the repo is standalone.**
-  dhaupin's ruling: the gistory staging ecosystem is finished; eyestruct
-  is in the wild and follows no repo's lead. Receipted as a dated
-  STANDING AMENDMENT in the PRD head (era sections stay cited history,
-  not debts), and mirrored into the brain's identity.md Standing block
-  + workflow.md wake rules at the vant install. Practical meaning: no
-  external tar or host is waited on - horcrux snapshots are our cuts,
-  fleet wiring rides the filed family issues, the factory role passes
-  to a future monoforge + flowforge system when it exists. Repo
-  evidence checked before the edit: all 38 gistory mentions in the
-  tree are provenance or dated-era receipts (workflow port comments,
-  the 0.9.0 changelog section, TASKS log rows, PRD-era dated blocks) -
-  none put gistory in charge today, so only the PRD head needed the
-  dated marker. Battery green (npm test 42/34/0; TRIFECTA: PASS).
+- **Standing amendment (2026-10-27, late) - the repo is standalone.** dhaupin's ruling: the gistory staging ecosystem is finished; eyestruct is in the wild and follows no repo's lead. Receipted as a dated STANDING AMENDMENT in the PRD head (era sections stay cited history, not debts), and mirrored into the brain's identity.md Standing block + workflow.md wake rules at the vant install. Practical meaning: no external tar or host is waited on - horcrux snapshots are our cuts, fleet wiring rides the filed family issues, the factory role passes to a future monoforge + flowforge system when it exists. Repo evidence checked before the edit: all 38 gistory mentions in the tree are provenance or dated-era receipts (workflow port comments, the 0.9.0 changelog section, TASKS log rows, PRD-era dated blocks) - none put gistory in charge today, so only the PRD head needed the dated marker. Battery green (npm test 42/34/0; TRIFECTA: PASS).
 
-- **Brain move (2026-10-27, late) - models/private/magpie left the
-  repo for its vant install home.** The seed brain shipped along with
-  the project: six md files copied to
-  $HOME/vant/models/private/magpie/ (wholesale gitignored there per
-  vant's own rules - never taints its git), then rewritten from
-  SEED-truth to shipped-truth, receipts carried: identity now says
-  project agent for a 0.9.0 repo (not a candidate); structure.md swaps
-  the NYI skeleton for the settled tree; lessons.md earns its six
-  entries (named refusals, live receipt counts, path-confinement,
-  separate miss-names, single version truth, ported-UI sink sweeps);
-  errors.md closes the three founding watch items (one-capture law,
-  manifest pin, frame-level transport hardening) and opens the three
-  standing ones (canon-cut undispatched, http-server unpinned docket,
-  browserless CI skips); goals.md marks the MVP line SHIPPED and the
-  founding receipt EARNED; workflow.md pins the HOME RULE - the repo
-  carries no brain, do not re-seed one. Repo side: tracked brain
-  removed (the horcrux stones keep the transfer provenance), AGENTS +
-  MANIFEST now point at the vant home, .gitignore carries the models/
-  belt (the npm files field never carried it - pack dry-run receipt
-  stands).
+- **Brain move (2026-10-27, late) - models/private/magpie left the repo for its vant install home.** The seed brain shipped along with the project: six md files copied to $HOME/vant/models/private/magpie/ (wholesale gitignored there per vant's own rules - never taints its git), then rewritten from SEED-truth to shipped-truth, receipts carried: identity now says project agent for a 0.9.0 repo (not a candidate); structure.md swaps the NYI skeleton for the settled tree; lessons.md earns its six entries (named refusals, live receipt counts, path-confinement, separate miss-names, single version truth, ported-UI sink sweeps); errors.md closes the three founding watch items (one-capture law, manifest pin, frame-level transport hardening) and opens the three standing ones (canon-cut undispatched, http-server unpinned docket, browserless CI skips); goals.md marks the MVP line SHIPPED and the founding receipt EARNED; workflow.md pins the HOME RULE - the repo carries no brain, do not re-seed one. Repo side: tracked brain removed (the horcrux stones keep the transfer provenance), AGENTS + MANIFEST now point at the vant home, .gitignore carries the models/ belt (the npm files field never carried it - pack dry-run receipt stands).
 
-- **npm-publish pass (2026-10-27, late) - the gate before 0.9.0 on
-  npm.** The package surface walked, five fixes: (1) `private: true`
-  lifted - it refused publish outright; (2) `prepublishOnly` = npm test
-  && npm run check, so a dirty tree cannot pack through the battery;
-  (3) bin committed mode 100755 (was 644); (4) README gains the
-  Install section the ruling asked for (npm assumed live: `npm i -g
-  eyestruct` / dev install, plus the pinned-chrome note that
-  browserless lanes never need it); (5) version drift trap closed -
-  bin usage() and MCP SERVER_INFO now read package.json (the
-  manifest-pin lesson). Tarball audited via `npm pack --dry-run`:
-  20 files / 30.1 kB, bin + lib + LICENSE + README + CHANGELOG +
-  manifest ONLY - models/labs/horcrux/docs/web/packs excluded, so the
-  private brain cannot ride a publish. Docket: none new. Publish
-  itself stays manual from a dev machine behind the full battery
-  (the Planned block's ruling).
+- **npm-publish pass (2026-10-27, late) - the gate before 0.9.0 on npm.** The package surface walked, five fixes: (1) `private: true` lifted - it refused publish outright; (2) `prepublishOnly` = npm test && npm run check, so a dirty tree cannot pack through the battery; (3) bin committed mode 100755 (was 644); (4) README gains the Install section the ruling asked for (npm assumed live: `npm i -g eyestruct` / dev install, plus the pinned-chrome note that browserless lanes never need it); (5) version drift trap closed - bin usage() and MCP SERVER_INFO now read package.json (the manifest-pin lesson). Tarball audited via `npm pack --dry-run`: 20 files / 30.1 kB, bin + lib + LICENSE + README + CHANGELOG + manifest ONLY - models/labs/horcrux/docs/web/packs excluded, so the private brain cannot ride a publish. Docket: none new. Publish itself stays manual from a dev machine behind the full battery (the Planned block's ruling).
 
-- **Hardening pass, round 3 (2026-10-27, late) - the docket cleared +
-  the web tier swept.** (1) bin dispatch: the value-flag guard now
-  covers --browser-image/--renderer with the strict rule (a flag
-  occupying the next flag's slot refuses BAD_FLAG_VALUE - nothing is
-  written; the `init --browser-image --renderer r:1` receipt) and the
-  dead posArg is gone. (2) adopt: a flag in the --note slot refuses
-  ADOPT_NOTE_REQUIRED (a flag-looking note used to land inside the row,
-  and the token also tripped the wave branch). (3) ledger: show's
-  misses split honestly - no id is UNKNOWN_COMMAND (shape), a wrong id
-  is ROW_MISSING (28th code, exit 1; the lookup-miss name), DANGLING_ROW
-  stays for git-nolonger-has artifacts only; mirrored in the MCP
-  ledger_show. (4) docs layout: the pagefind overlay interpolated the
-  user's query into innerHTML raw (self-XSS class); esc() now guards
-  both q sites; index-owned title/url/excerpt ride raw by design
-  (pagefind's excerpt HTML). (5) counts honest everywhere: 28 codes in
-  lib/reasons.js, docs/reasons.md, AGENTS, web Home inventory;
-  trifecta leg enforced the agreement. Battery: npm test 42 tests / 34
-  pass / 0 fail (8 honest skips), npm run check green end to end, host
-  leg 52/52 REFUSED 0 new 0 regressed, and the receipt ledgers went
-  untouched by the refusals' new wording.
+- **Hardening pass, round 3 (2026-10-27, late) - the docket cleared + the web tier swept.** (1) bin dispatch: the value-flag guard now covers --browser-image/--renderer with the strict rule (a flag occupying the next flag's slot refuses BAD_FLAG_VALUE - nothing is written; the `init --browser-image --renderer r:1` receipt) and the dead posArg is gone. (2) adopt: a flag in the --note slot refuses ADOPT_NOTE_REQUIRED (a flag-looking note used to land inside the row, and the token also tripped the wave branch). (3) ledger: show's misses split honestly - no id is UNKNOWN_COMMAND (shape), a wrong id is ROW_MISSING (28th code, exit 1; the lookup-miss name), DANGLING_ROW stays for git-nolonger-has artifacts only; mirrored in the MCP ledger_show. (4) docs layout: the pagefind overlay interpolated the user's query into innerHTML raw (self-XSS class); esc() now guards both q sites; index-owned title/url/excerpt ride raw by design (pagefind's excerpt HTML). (5) counts honest everywhere: 28 codes in lib/reasons.js, docs/reasons.md, AGENTS, web Home inventory; trifecta leg enforced the agreement. Battery: npm test 42 tests / 34 pass / 0 fail (8 honest skips), npm run check green end to end, host leg 52/52 REFUSED 0 new 0 regressed, and the receipt ledgers went untouched by the refusals' new wording.
 
-- **Hardening pass, round 2 (2026-10-27, late) - the un-swept seams.**
-  (1) `lib/raster.js`: a stated input missing or unreadable escaped the
-  bare readFileSync as raw ENOENT/EISDIR, reaching the bin's generic
-  internal-error fallback instead of a named reason - now `MISSING_INPUT`
-  (27th code, exit 2; the LEDGER_MISSING shape for artifact inputs),
-  with two new smoke legs (missing file, directory-as-input). (2) The
-  ported docs linters still wore crashtest's labels and the link
-  checker's doubled-prefix rule pointed at `/crashtest/crashtest` (dead
-  here); labels cleaned and the rule is real now - `/eyestruct/
-  eyestruct/...` refused by name, evaluated BEFORE the broad permalink
-  check (a first-draft placement had it after, unreachable - caught on
-  re-read). (3) Docket, unchanged: bin's `posArg` is dead code;
-  `init --browser-image` followed by another flag reads that flag as its
-  value (the --manifest/--ledger guards do not cover init flags);
-  `ledger show` without an id answers DANGLING_ROW-shaped text for a
-  missing row; raster with a symlinked input stays resvg's own verdict.
-  CI on the hardening push (b64754c) ran green end to end (test + docs
-  lanes); crashledger receipt upgraded in the same window: the
-  stdio-flood leg now records 8 named responses to 8 frames (the two
-  crash frames answer since the transport fix). Battery: npm test 39
-  tests / 31 pass / 0 fail (8 honest skips), npm run check green with
-  the 27-code trifecta agreement.
+- **Hardening pass, round 2 (2026-10-27, late) - the un-swept seams.** (1) `lib/raster.js`: a stated input missing or unreadable escaped the bare readFileSync as raw ENOENT/EISDIR, reaching the bin's generic internal-error fallback instead of a named reason - now `MISSING_INPUT` (27th code, exit 2; the LEDGER_MISSING shape for artifact inputs), with two new smoke legs (missing file, directory-as-input). (2) The ported docs linters still wore crashtest's labels and the link checker's doubled-prefix rule pointed at `/crashtest/crashtest` (dead here); labels cleaned and the rule is real now - `/eyestruct/ eyestruct/...` refused by name, evaluated BEFORE the broad permalink check (a first-draft placement had it after, unreachable - caught on re-read). (3) Docket, unchanged: bin's `posArg` is dead code; `init --browser-image` followed by another flag reads that flag as its value (the --manifest/--ledger guards do not cover init flags); `ledger show` without an id answers DANGLING_ROW-shaped text for a missing row; raster with a symlinked input stays resvg's own verdict. CI on the hardening push (b64754c) ran green end to end (test + docs lanes); crashledger receipt upgraded in the same window: the stdio-flood leg now records 8 named responses to 8 frames (the two crash frames answer since the transport fix). Battery: npm test 39 tests / 31 pass / 0 fail (8 honest skips), npm run check green with the 27-code trifecta agreement.
 
-- **Hardening pass (2026-10-27, late) - the adversarial walk landed its
-  fixes.** The repo-wide sweep found five edges; four are now code, one
-  is docket noise (the ratify lane's unpinned `npx http-server`). (1)
-  MCP transport: a `null` frame and a paramless `tools/call` used to
-  throw inside the stdin callback (a catch-class crash that killed the
-  server); both now answer named JSON-RPC replies (-32600 / -32602) and
-  keep serving - two new smoke legs prove survival by asking the census;
-  (2) `lib/adopt.js` carried a duplicated divergent tail of
-  posArg/isFlagValue/flagValue shadow declarations that hoisted over the
-  run()'s real helpers - deleted; (3) engine launch args: `--no-sandbox`
-  was unconditional; now root keeps it, non-root keeps chrome's own
-  sandbox live first with one named retry (`launchAttempts` exported);
-  (4) ledger path confinement: the 26th reason-code `UNSAFE_PATH` refuses
-  absolute / `..`-escaping artifact paths at adopt/wave write time and
-  at every ledger read (gate included), so a hand-edited row cannot aim
-  gate or diff outside the eyes home; ledger temp writes are `wx`-fresh
-  with unguessable suffixes (the preplaced-symlink rename edge);
-  (5) docket: ratify-lane http-server stays unpinned (version truth
-  belongs to the manifest convention, a pin without a verify step is
-  guesswork). Ripples kept honest: AGENTS + web Home inventory now say
-  26 reason-codes, docs/reasons.md carries the row, CHANGELOG sums the
-  pass. Battery: npm test 29 pass / 0 fail (8 honest browserless
-  skips), npm run check green, crashtest leg 52/52 REFUSED 0 new 0
-  regressed.
+- **Hardening pass (2026-10-27, late) - the adversarial walk landed its fixes.** The repo-wide sweep found five edges; four are now code, one is docket noise (the ratify lane's unpinned `npx http-server`). (1) MCP transport: a `null` frame and a paramless `tools/call` used to throw inside the stdin callback (a catch-class crash that killed the server); both now answer named JSON-RPC replies (-32600 / -32602) and keep serving - two new smoke legs prove survival by asking the census; (2) `lib/adopt.js` carried a duplicated divergent tail of posArg/isFlagValue/flagValue shadow declarations that hoisted over the run()'s real helpers - deleted; (3) engine launch args: `--no-sandbox` was unconditional; now root keeps it, non-root keeps chrome's own sandbox live first with one named retry (`launchAttempts` exported); (4) ledger path confinement: the 26th reason-code `UNSAFE_PATH` refuses absolute / `..`-escaping artifact paths at adopt/wave write time and at every ledger read (gate included), so a hand-edited row cannot aim gate or diff outside the eyes home; ledger temp writes are `wx`-fresh with unguessable suffixes (the preplaced-symlink rename edge); (5) docket: ratify-lane http-server stays unpinned (version truth belongs to the manifest convention, a pin without a verify step is guesswork). Ripples kept honest: AGENTS + web Home inventory now say 26 reason-codes, docs/reasons.md carries the row, CHANGELOG sums the pass. Battery: npm test 29 pass / 0 fail (8 honest browserless skips), npm run check green, crashtest leg 52/52 REFUSED 0 new 0 regressed.
 
-- **Freshness pass (2026-10-27, late) - the round-2 trifecta walk became a
-  battery leg, and the docs visual gap closed locally.** (1) The walk is
-  now `npm run check:trifecta`, opening the `check` chain: README's usage
-  fence is matched against the real COMMANDS dispatch and bin `usage()`
-  (no phantom verbs/flags - the round-1 catches), cited workflow lanes,
-  npm scripts and docs pages must exist on disk, AGENTS receipt counts
-  must agree with the tree LIVE (25 reason-codes / 26 pack verdicts /
-  52/52 findings / 3 packs, whitespace-normalized because line wraps are
-  cosmetic), and CHANGELOG's Unreleased block must cite only artifacts on
-  disk and hashes in history. Ruling learned on the leg's own first run:
-  historical release sections stay out of scope - they are receipts of
-  their era (`docs/verbs.md` was real at 0.9.0; folded into `cli.md`
-  later). Behavior coverage in `tests/trifecta.test.js` (temp-dir
-  fixtures; the checker refused my OWN test fixture first - baseFixture
-  forgot CHANGELOG.md and the leg said so by name). (2) The honest round-2
-  gap - docs tokens verified only after push - closed: the sandbox now
-  runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12 from
-  the official ruby/setup-ruby prebuilt toolchain, bundled libs via
-  LD_LIBRARY_PATH, binstubs shimmed through the interpreter because they
-  bake /opt/hostedtoolcache shebangs, Bundler path pointed OUTSIDE the
-  repo so no lockfile/.bundle ever lands in-tree; scratch copy under
-  /tmp so even the build products stay out). jekyll build: 0.416s, green;
-  both halves captured through the repo's own `look` engine at 1280x800
-  with the localStorage launcher trick - graphite + jade dark frame,
-  parchment + deep-jade light frame, element map riding as designed
-  (labels overlaying the ids), all verified first-person.
+- **Freshness pass (2026-10-27, late) - the round-2 trifecta walk became a battery leg, and the docs visual gap closed locally.** (1) The walk is now `npm run check:trifecta`, opening the `check` chain: README's usage fence is matched against the real COMMANDS dispatch and bin `usage()` (no phantom verbs/flags - the round-1 catches), cited workflow lanes, npm scripts and docs pages must exist on disk, AGENTS receipt counts must agree with the tree LIVE (25 reason-codes / 26 pack verdicts / 52/52 findings / 3 packs, whitespace-normalized because line wraps are cosmetic), and CHANGELOG's Unreleased block must cite only artifacts on disk and hashes in history. Ruling learned on the leg's own first run: historical release sections stay out of scope - they are receipts of their era (`docs/verbs.md` was real at 0.9.0; folded into `cli.md` later). Behavior coverage in `tests/trifecta.test.js` (temp-dir fixtures; the checker refused my OWN test fixture first - baseFixture forgot CHANGELOG.md and the leg said so by name). (2) The honest round-2 gap - docs tokens verified only after push - closed: the sandbox now runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12 from the official ruby/setup-ruby prebuilt toolchain, bundled libs via LD_LIBRARY_PATH, binstubs shimmed through the interpreter because they bake /opt/hostedtoolcache shebangs, Bundler path pointed OUTSIDE the repo so no lockfile/.bundle ever lands in-tree; scratch copy under /tmp so even the build products stay out). jekyll build: 0.416s, green; both halves captured through the repo's own `look` engine at 1280x800 with the localStorage launcher trick - graphite + jade dark frame, parchment + deep-jade light frame, element map riding as designed (labels overlaying the ids), all verified first-person.
 
-- **Finishing pass 3 (2026-10-27) - mcp ref, raster leg, wave rows, and BOTH ship receipts, first-person.** (1) `docs/mcp.md`
-  landed (18 pages, nav Reference row): the stdio surface described from
-  `lib/mcp.js` itself - nine tools, JSON-RPC framing, the core law at the
-  tool boundary (pixels only when `include_image`), error mapping, host
-  wiring. (2) MVP-5 rides CI: `raster:gate` re-pointed at the art that
-  ships (`docs/icon.svg` + `web/public/icon.svg` - the old `horcrux/*.svg`
-  glob died in the stone removal) and a `npm run raster:gate` leg in
-  `test.yml`; both icons rasterize 1630B opaque. (3) Churn-wave rows
-  shipped for real: type 'wave' rows carry `artifacts: [...]` (one note
-  explains N image changes), `eyestruct adopt <path...> --wave` writes ONE row
-  over N changed slots, gate explains every referenced artifact and
-  dangles louder on a wave ghost (`row-id (path)` in the refusal),
-  `ledger list` prints wave rows as `a.png + b.png` and routes-filter
-  honors wave members; two new smoke legs + the two legacy ones still
-  green. (4) The two first-person receipts, both SEEN not narrated:
-  - **Receipt A (the founding catch, reproduced).** Live demo surface
-    at `labs/.eyes-receipt/page.html` (ids: hero-title, hero-sub,
-    card-title, field-name, field-email), its own eye home via
-    `--manifest/--ledger` (pin chromium@153.0.8010.0, the lambda
-    chromium build run through `EYESTRUCT_BROWSER` + bundled libs -
-    system apt is locked down here; `~/.cache/puppeteer` chrome fetched
-    but refused at libnspr4, correctly reported as CAPTURE_BLOCKED and
-    removed so the default battery stays browser-skip). Baseline look:
-    21018B, 5 ids mapped + overlay labels - BUFFY LOOKED AT THE PIXELS
-    (title visible, card, inputs). Then the break: ONE CSS line flips
-    `.hero h1` color to the band's own bg; the DOM diff of the edit is
-    EMPTY (same nodes, same ids - every selector still resolves), while
-    `eyestruct diff` returns DIFFERS (baseline 21018B vs fresh 19241B)
-    and exit 1 - NAMED, not silent. The caught pair rides the tree:
-    `labs/.eyes-receipt/receipt-caught.png` (Settings gone, page id-boxes
-    unchanged) and `receipt-region.png` (#hero-title crop: element still
-    queryable, text invisible). Ledger trail: row-0001 baseline adopt +
-    row-0002 the wave (one note over both evidence frames) - the
-    churn-wave row's first real use.
-  - **Receipt B (the memory receipt).** The fresh-session half ran
-    with no browser at all: `ledger list` + `ledger show` answered what
-    the demo surface looks like from the committed memory (dark 1280x800,
-    Settings leading, profile card with name/email inputs, annotated
-    id-boxes) without a single capture or DOM walk - the ledger + the
-    committed current.png were the whole interface.
-  - Both receipts are PROPOSALS (ratified:false) per the law - canon
-    cut happens when CI ratify reproduces them in the pinned image; the
-    demo home is a separate eye home, so the landing's committed
-    labs/.eyes/ canon is untouched.
-(5) `docs/cli.md` adopt row documents `--wave`. Battery: npm test 25/25
-  with the browser exported (8 formerly-skipped look/diff/ratify legs ran
-  and passed), 0 new / 0 regressed / 0 accepted on the crashtest leg, npm
-  run check green, lint:docs 5/5 at 18 pages.
-- **Site passes (2026-10-27, evening).** (1) The mobile table guard landed
-  and got filed family-wide (flowforge#13, gistory#16, crashtest#41,
-  prestruct#62, packstruct#31, poststruct#14 + monoforge#7, freestruct#35
-  engine ask, vant#263) - with a vant#223 incident documented honestly in
-  vant#262 (agent overwrote another issue's body mid-filing; maintainer
-  restored from GitHub edit history). (2) Docs UX repairs (d26fdfc): brand
-  home baseurl-aware, Release posts in the nav, lean discussions index.
-  (3) The landing flesh-out (e90a4a1): three-part contract cards, the
-  two-dispatch pipeline, the self-policing verdict table (52/52 REFUSED),
-  install block - all on existing tokens. (4) robots.txt residue caught and
-  fixed (0a54997: crawlers were pointed at crashtest's sitemap); family
-  sweep + flowforge#16 (the template file is the crashtest blob
-  byte-identical). (5) Site P1-P3: footer Releases link, a real og-image
-  card (generator committed at web/scripts/og-image.mjs; build-local
-  dejavu-fonts-ttf via --no-save, lockfile untouched; numbers are the
-  claim-inventory receipts), and the live gate-status island
-  (GateStatusIsland, idle-mounted; fetches packs/eye-ledger.json +
-  labs/crashledger.json from raw.githubusercontent at load - CSP grew one
-  origin). Release-day hooks unchanged: the card's numbers, the landing
-  claims, and the discussions watchlist are the same five receipts,
-  re-verified together when 0.9.0 publishes.
-- **Scaffold pass (2026-10-25).** Repo shell staged at gistory's workspace
-  from the flowforge rig @ 91e52e0 (the poststruct 0.9.0 rigging):
-  web/ landing shell, docs/ on the rig layout with checker gates
-  (SITE_PREFIX mirrored to /eyestruct), packs/ + LICENSE starters.
-  Canonical PRD + the transfer stone + the seed brain moved in from the
-  gistory staging mount. CLI spine written per the PRD: bin dispatch +
-  lib reasons (exit contract 0-1-2, named code on every refusal) /
-  manifest (pin + route matrix, strict hand-editable subset parser) /
-  ledger (append-only, atomic, corruption refuses loudly - the vant
-  inspect receipt) / gate (crashledger semantics: unexplained drift exit 1,
-  capability trouble exit 2) / adopt (note required at write time;
-  local adopt is an unratified proposal - canon is CI-cut) / look, diff,
-  walk (engine seam declared; refuses honestly until the pinned browser
-  image) / raster (strict parse + render + byte sanity; never fake-passes
-  without a renderer) / mcp (post-MVP stub, honest refusal). Docs voice
-  conflict caught by the rig style gate: the PRD (em-dash voice) stays at
-  labs/, docs carries hyphen-voice identity pages. 13/13 smoke tests pass;
-  lint:docs 5/5 gates pass.
-- **Next slices - CLOSED (2026-10-27 triage), all five shipped.**
-  1) engine.capture wired and lit: look/diff/walk run real captures in
-  the pinned browser (finishing pass 3 Receipt A, first-person), and
-  the bundle lane added the offline executor ahead of the pin. 2)
-  eye-shapes self-pack + crashtest harness: shipped in the harness pass
-  (pack 0.2.0 self-leg, crashtest@^1.1.0 leg riding test.yml, 52/52
-  REFUSED). 3) packstruct lint:packs wiring: shipped as the
-  lint-packs verb (lint-lane pass). 4) MCP stdio surface: shipped
-  (docs/mcp.md describes it from lib/mcp.js; hardening passes closed
-  the transport crash class). 5) The two first-person ship receipts:
-  shipped as Receipts A + B in finishing pass 3. Nothing re-opens
-  from this block; the live roadmap is the issue board (#5) and the
-  docket rows below.
-- **Completion sprint (2026-10-26, pre-move).** 1) Web landing rebranded
-  the flowforge placeholder: 12 fields (ssr identity block, Home copy + CTAs,
-  nav brand/links/badge, footer, manifest, theme key both ends, package
-  name) - `prestruct build` local green, dist proves zero flowforge
-  strings, inject-brand populates eyestruct identity. 2) Own CI minted:
-  .github/workflows/test.yml (node 20, npm ci hermetic, npm test +
-  npm run check) - the tar-move plan's injected change #1, so move-day's
-  first standalone push is gated by its own battery, not the borrow.
-  3) docs/verbs.md added (usage lines match bin dispatch exactly; the
-  frontmatter gate caught a leading-slash permalink and
-  held it to the plain-path contract). Whole npm run check + npm test
-  green locally before landing.
-- **Harness pass (2026-10-27) - the eye polices itself, and crashtest rides CI.**
-  1) Eye-shapes self-pack: the pack's battery grew a self-leg - the committed
-  labs/.eyes canon must pass its own gate and ledger list read-only through
-  the real CLI (PACKS version 0.2.0, adopted into packs/eye-ledger.json).
-  2) Crashtest leg: crashtest@^1.1.0 devDep, crashtest.config.js root
-  (packs: false, seed 0xE1E5), labs/scenarios/eye-cli-contract.js attacking
-  hostile argv batches, MCP stdio frames (malformed JSON, proto-pollution,
-  oversized, null method/params), and 6 hostile ledger variants - always
-  subprocess, always in-process adjacency, fixed batches + seed for
-  determinism. labs/crashledger.json + labs/hardening.md committed as the
-  baseline; test.yml runs `npx crashtest run` after npm run check.
-  3) The leg earned its keep on ride #1: three contract sharpenings, all
-  RECEIPTED - empty verb `eyestruct ""` printed usage and exit 0 (now
-  UNKNOWN_COMMAND, exit 1); joined `--ledger=` silently fell back to the
-  default home (now BAD_FLAG_VALUE, both flag spellings); explicit
-  `--ledger <missing-path>` improvised [] with exit 0 (now LEDGER_MISSING,
-  exit 2 - the default home stays tolerant for fresh trees, gate catches
-  it via UNRECORDED). One harness lesson went into the attack itself:
-  oversized argv must stay under Linux MAX_ARG_STRLEN or exec never
-  delivers it (E2BIG, raw OS stderr) - the first run mislabeled that as
-  an exploit. Final state: packs 26 cases honest; crashtest 52/52
-  REFUSED, 0 exploited, exit 0; npm test 15/0.
-- **Lint-lane pass (2026-10-27).** The packstruct lint lane became a real
-  verb: `eyestruct lint-packs [--deep] [--json] [--against <lib>] [dir]`
-  (mirrors crashtest's lint-packs, cli.js issue #32) - runs packstruct over
-  the repo's own install (node_modules/.bin first, then PATH), never
-  downloaded; missing packstruct -> PACKSTRUCT_MISSING exit 2 naming the
-  fix (explicitly requested lane = broken config, not a skip); exit codes
-  pass through verbatim; the packs ROOT is the default dir (the
-  packs/public footgun from gistory's first wiring is receipt-documented).
-  npm run lint:packs routes through the verb now. Both paths receipted:
-  green 3/3 packs + loud refusal with the install restored byte-identical.
-- **Docs scaffold pass (2026-10-27).** The docs tree grew from identity
-  pages to the family scaffold: start (install + init + first look-to-gate
-  cycle), cli (full verb surface + exit contract), reasons (complete
-  named-refusal table mirrored from lib/reasons.js), ci (four battery legs
-  + cannon lane + docs lane + when-red triage map), playbooks (six
-  recipes), and the labs/prd-eyes proxy (the nav item that pointed at a
-  nonexistent page now explains why the PRD lives in labs/ under its own
-  voice). Nav rewired on one source (docs/_data/nav.yml). Style gate
-  caught one banned cliche in the draft ("unlock"), fixed. lint:docs 5/5
-  at 10 pages, npm run check green (fa97161, live + CI-verified). The
-  same gap-fill inventory was filed family-wide: poststruct#13 /
-  monoforge#6 (whole tree), crashtest#40 (CI leg), gistory#15
-  (playbooks + CI), freestruct#34 (playbooks), prestruct#61
-  (CI + playbooks).
-- **Docs cruise (2026-10-27) - the scaffold filled out.** three legs from
-  the survey: (1) verbs.md retired into cli.md - the canon/coverage pair
-  (walk = coverage, ratify = canon, pinned-image lane only) and the
-  mask-invariant drift rule now live in the CLI reference; the old page's
-  "look writes labs/.eyes" prose was pre-harness drift, gone with it; (2)
-  playbooks split to one-recipe-per-page (7 pages now, the index a table)
-  with a seventh recipe written straight from run-packs.cjs receipts:
-  red pack campaign triage - NEW / REGRESSION / RETIRED row classes, the
-  --adopt wholesale-rewrite contract, and the ledger diff as the review
-  artifact; (3) the discussions index stays release-post-shaped (one post
-  per release, fiction-by-promotion rule intact) but gains a first-post
-  watchlist: five claims already receipted on the dev tree (reason codes,
-  pack campaign, crashtest leg, two-dispatch canon, the lint-packs
-  wrapper), to be re-verified against the published tarball before the
-  first post exists. lint:docs 5/5 at 16 pages, check green.
-- **Docs pass 2 (2026-10-27) - install leads with npm.** start.md opens
-  install with `npm install --save-dev eyestruct` outright (the package
-  page treats npm as the consumer path; the clone stays as the
-  contributing path). The staging hedging was dropped per direction.
-  Reality stamp, held in ink here until the corner lands: the package is
-  not yet published - start.md currently promises npm before npm is
-  true. Flip this row to history when the publish lands. Gates green,
-  pushed, docs CI + battery success, live page serving the new copy
-  (b648eed).
-- **Landing pass (2026-10-26, evening) - the lock was the last drift.**
-  The web rebrand rode main, but package-lock.json (58.7KB) never
-  survived a text-lane carry: one transcription casualty on main (a
-  partial `eyestruct-site` with a placeholder blob), reverted runner-side
-  by a one-shot (which also taught fetch-depth: 0 - a shallow checkout
-  cannot `git checkout <parent> -- path`). Final shape: the lock rode a
-  gzip+base64 payload through a runner-side repair+emit one-shot that
-  sha-gated f47974f87e152364 and JSON-checked root name `eyestruct-site`
-  before writing, then removed its payload; the three one-shot workflows
-  (web-lock-restore/emit/repair) were retired through the commit lane
-  (commit 59dae63). The repair pass fixed one two-row scramble in its own
-  payload near row 117 ("EMNEWAKhs" rode as "EMNEWSAKh" plus a stray
-  join), caught by blob-id before any dispatch; and it learned the two
-  hard GITHUB_TOKEN rules the hard way: a run cannot hold the
-  "workflows" permission scope (the API refuses to even parse the
-  workflows key), and a run's push may not patch files under
-  .github/workflows - so both workflow cleanups rode the commit lane
-  instead. Origin blob == disk blob (3518984fec0d90796a06206a85ff2e92c1
-  cf874c): package.json + package-lock.json now agree on the eyestruct
-  name, and `npm ci` stays hermetic.
+- **Finishing pass 3 (2026-10-27) - mcp ref, raster leg, wave rows, and BOTH ship receipts, first-person.** (1) `docs/mcp.md` landed (18 pages, nav Reference row): the stdio surface described from `lib/mcp.js` itself - nine tools, JSON-RPC framing, the core law at the tool boundary (pixels only when `include_image`), error mapping, host wiring. (2) MVP-5 rides CI: `raster:gate` re-pointed at the art that ships (`docs/icon.svg` + `web/public/icon.svg` - the old `horcrux/*.svg` glob died in the stone removal) and a `npm run raster:gate` leg in `test.yml`; both icons rasterize 1630B opaque. (3) Churn-wave rows shipped for real: type 'wave' rows carry `artifacts: [...]` (one note explains N image changes), `eyestruct adopt <path...> --wave` writes ONE row over N changed slots, gate explains every referenced artifact and dangles louder on a wave ghost (`row-id (path)` in the refusal), `ledger list` prints wave rows as `a.png + b.png` and routes-filter honors wave members; two new smoke legs + the two legacy ones still green. (4) The two first-person receipts, both SEEN not narrated: - **Receipt A (the founding catch, reproduced).** Live demo surface at `labs/.eyes-receipt/page.html` (ids: hero-title, hero-sub, card-title, field-name, field-email), its own eye home via `--manifest/--ledger` (pin chromium@153.0.8010.0, the lambda chromium build run through `EYESTRUCT_BROWSER` + bundled libs - system apt is locked down here; `~/.cache/puppeteer` chrome fetched but refused at libnspr4, correctly reported as CAPTURE_BLOCKED and removed so the default battery stays browser-skip). Baseline look: 21018B, 5 ids mapped + overlay labels - BUFFY LOOKED AT THE PIXELS (title visible, card, inputs). Then the break: ONE CSS line flips `.hero h1` color to the band's own bg; the DOM diff of the edit is EMPTY (same nodes, same ids - every selector still resolves), while `eyestruct diff` returns DIFFERS (baseline 21018B vs fresh 19241B) and exit 1 - NAMED, not silent. The caught pair rides the tree: `labs/.eyes-receipt/receipt-caught.png` (Settings gone, page id-boxes unchanged) and `receipt-region.png` (#hero-title crop: element still queryable, text invisible). Ledger trail: row-0001 baseline adopt + row-0002 the wave (one note over both evidence frames) - the churn-wave row's first real use. - **Receipt B (the memory receipt).** The fresh-session half ran with no browser at all: `ledger list` + `ledger show` answered what the demo surface looks like from the committed memory (dark 1280x800, Settings leading, profile card with name/email inputs, annotated id-boxes) without a single capture or DOM walk - the ledger + the committed current.png were the whole interface. - Both receipts are PROPOSALS (ratified:false) per the law - canon cut happens when CI ratify reproduces them in the pinned image; the demo home is a separate eye home, so the landing's committed labs/.eyes/ canon is untouched. (5) `docs/cli.md` adopt row documents `--wave`. Battery: npm test 25/25 with the browser exported (8 formerly-skipped look/diff/ratify legs ran and passed), 0 new / 0 regressed / 0 accepted on the crashtest leg, npm run check green, lint:docs 5/5 at 18 pages.
+- **Site passes (2026-10-27, evening).** (1) The mobile table guard landed and got filed family-wide (flowforge#13, gistory#16, crashtest#41, prestruct#62, packstruct#31, poststruct#14 + monoforge#7, freestruct#35 engine ask, vant#263) - with a vant#223 incident documented honestly in vant#262 (agent overwrote another issue's body mid-filing; maintainer restored from GitHub edit history). (2) Docs UX repairs (d26fdfc): brand home baseurl-aware, Release posts in the nav, lean discussions index. (3) The landing flesh-out (e90a4a1): three-part contract cards, the two-dispatch pipeline, the self-policing verdict table (52/52 REFUSED), install block - all on existing tokens. (4) robots.txt residue caught and fixed (0a54997: crawlers were pointed at crashtest's sitemap); family sweep + flowforge#16 (the template file is the crashtest blob byte-identical). (5) Site P1-P3: footer Releases link, a real og-image card (generator committed at web/scripts/og-image.mjs; build-local dejavu-fonts-ttf via --no-save, lockfile untouched; numbers are the claim-inventory receipts), and the live gate-status island (GateStatusIsland, idle-mounted; fetches packs/eye-ledger.json + labs/crashledger.json from raw.githubusercontent at load - CSP grew one origin). Release-day hooks unchanged: the card's numbers, the landing claims, and the discussions watchlist are the same five receipts, re-verified together when 0.9.0 publishes.
+- **Scaffold pass (2026-10-25).** Repo shell staged at gistory's workspace from the flowforge rig @ 91e52e0 (the poststruct 0.9.0 rigging): web/ landing shell, docs/ on the rig layout with checker gates (SITE_PREFIX mirrored to /eyestruct), packs/ + LICENSE starters. Canonical PRD + the transfer stone + the seed brain moved in from the gistory staging mount. CLI spine written per the PRD: bin dispatch + lib reasons (exit contract 0-1-2, named code on every refusal) / manifest (pin + route matrix, strict hand-editable subset parser) / ledger (append-only, atomic, corruption refuses loudly - the vant inspect receipt) / gate (crashledger semantics: unexplained drift exit 1, capability trouble exit 2) / adopt (note required at write time; local adopt is an unratified proposal - canon is CI-cut) / look, diff, walk (engine seam declared; refuses honestly until the pinned browser image) / raster (strict parse + render + byte sanity; never fake-passes without a renderer) / mcp (post-MVP stub, honest refusal). Docs voice conflict caught by the rig style gate: the PRD (em-dash voice) stays at labs/, docs carries hyphen-voice identity pages. 13/13 smoke tests pass; lint:docs 5/5 gates pass.
+- **Next slices - CLOSED (2026-10-27 triage), all five shipped.** 1) engine.capture wired and lit: look/diff/walk run real captures in the pinned browser (finishing pass 3 Receipt A, first-person), and the bundle lane added the offline executor ahead of the pin. 2) eye-shapes self-pack + crashtest harness: shipped in the harness pass (pack 0.2.0 self-leg, crashtest@^1.1.0 leg riding test.yml, 52/52 REFUSED). 3) packstruct lint:packs wiring: shipped as the lint-packs verb (lint-lane pass). 4) MCP stdio surface: shipped (docs/mcp.md describes it from lib/mcp.js; hardening passes closed the transport crash class). 5) The two first-person ship receipts: shipped as Receipts A + B in finishing pass 3. Nothing re-opens from this block; the live roadmap is the issue board (#5) and the docket rows below.
+- **Completion sprint (2026-10-26, pre-move).** 1) Web landing rebranded the flowforge placeholder: 12 fields (ssr identity block, Home copy + CTAs, nav brand/links/badge, footer, manifest, theme key both ends, package name) - `prestruct build` local green, dist proves zero flowforge strings, inject-brand populates eyestruct identity. 2) Own CI minted: .github/workflows/test.yml (node 20, npm ci hermetic, npm test + npm run check) - the tar-move plan's injected change #1, so move-day's first standalone push is gated by its own battery, not the borrow. 3) docs/verbs.md added (usage lines match bin dispatch exactly; the frontmatter gate caught a leading-slash permalink and held it to the plain-path contract). Whole npm run check + npm test green locally before landing.
+- **Harness pass (2026-10-27) - the eye polices itself, and crashtest rides CI.** 1) Eye-shapes self-pack: the pack's battery grew a self-leg - the committed labs/.eyes canon must pass its own gate and ledger list read-only through the real CLI (PACKS version 0.2.0, adopted into packs/eye-ledger.json). 2) Crashtest leg: crashtest@^1.1.0 devDep, crashtest.config.js root (packs: false, seed 0xE1E5), labs/scenarios/eye-cli-contract.js attacking hostile argv batches, MCP stdio frames (malformed JSON, proto-pollution, oversized, null method/params), and 6 hostile ledger variants - always subprocess, always in-process adjacency, fixed batches + seed for determinism. labs/crashledger.json + labs/hardening.md committed as the baseline; test.yml runs `npx crashtest run` after npm run check. 3) The leg earned its keep on ride #1: three contract sharpenings, all RECEIPTED - empty verb `eyestruct ""` printed usage and exit 0 (now UNKNOWN_COMMAND, exit 1); joined `--ledger=` silently fell back to the default home (now BAD_FLAG_VALUE, both flag spellings); explicit `--ledger <missing-path>` improvised [] with exit 0 (now LEDGER_MISSING, exit 2 - the default home stays tolerant for fresh trees, gate catches it via UNRECORDED). One harness lesson went into the attack itself: oversized argv must stay under Linux MAX_ARG_STRLEN or exec never delivers it (E2BIG, raw OS stderr) - the first run mislabeled that as an exploit. Final state: packs 26 cases honest; crashtest 52/52 REFUSED, 0 exploited, exit 0; npm test 15/0.
+- **Lint-lane pass (2026-10-27).** The packstruct lint lane became a real verb: `eyestruct lint-packs [--deep] [--json] [--against <lib>] [dir]` (mirrors crashtest's lint-packs, cli.js issue #32) - runs packstruct over the repo's own install (node_modules/.bin first, then PATH), never downloaded; missing packstruct -> PACKSTRUCT_MISSING exit 2 naming the fix (explicitly requested lane = broken config, not a skip); exit codes pass through verbatim; the packs ROOT is the default dir (the packs/public footgun from gistory's first wiring is receipt-documented). npm run lint:packs routes through the verb now. Both paths receipted: green 3/3 packs + loud refusal with the install restored byte-identical.
+- **Docs scaffold pass (2026-10-27).** The docs tree grew from identity pages to the family scaffold: start (install + init + first look-to-gate cycle), cli (full verb surface + exit contract), reasons (complete named-refusal table mirrored from lib/reasons.js), ci (four battery legs + cannon lane + docs lane + when-red triage map), playbooks (six recipes), and the labs/prd-eyes proxy (the nav item that pointed at a nonexistent page now explains why the PRD lives in labs/ under its own voice). Nav rewired on one source (docs/_data/nav.yml). Style gate caught one banned cliche in the draft ("unlock"), fixed. lint:docs 5/5 at 10 pages, npm run check green (fa97161, live + CI-verified). The same gap-fill inventory was filed family-wide: poststruct#13 / monoforge#6 (whole tree), crashtest#40 (CI leg), gistory#15 (playbooks + CI), freestruct#34 (playbooks), prestruct#61 (CI + playbooks).
+- **Docs cruise (2026-10-27) - the scaffold filled out.** three legs from the survey: (1) verbs.md retired into cli.md - the canon/coverage pair (walk = coverage, ratify = canon, pinned-image lane only) and the mask-invariant drift rule now live in the CLI reference; the old page's "look writes labs/.eyes" prose was pre-harness drift, gone with it; (2) playbooks split to one-recipe-per-page (7 pages now, the index a table) with a seventh recipe written straight from run-packs.cjs receipts: red pack campaign triage - NEW / REGRESSION / RETIRED row classes, the --adopt wholesale-rewrite contract, and the ledger diff as the review artifact; (3) the discussions index stays release-post-shaped (one post per release, fiction-by-promotion rule intact) but gains a first-post watchlist: five claims already receipted on the dev tree (reason codes, pack campaign, crashtest leg, two-dispatch canon, the lint-packs wrapper), to be re-verified against the published tarball before the first post exists. lint:docs 5/5 at 16 pages, check green.
+- **Docs pass 2 (2026-10-27) - install leads with npm.** start.md opens install with `npm install --save-dev eyestruct` outright (the package page treats npm as the consumer path; the clone stays as the contributing path). The staging hedging was dropped per direction. Reality stamp, held in ink here until the corner lands: the package is not yet published - start.md currently promises npm before npm is true. Flip this row to history when the publish lands. Gates green, pushed, docs CI + battery success, live page serving the new copy (b648eed).
+- **Landing pass (2026-10-26, evening) - the lock was the last drift.** The web rebrand rode main, but package-lock.json (58.7KB) never survived a text-lane carry: one transcription casualty on main (a partial `eyestruct-site` with a placeholder blob), reverted runner-side by a one-shot (which also taught fetch-depth: 0 - a shallow checkout cannot `git checkout <parent> -- path`). Final shape: the lock rode a gzip+base64 payload through a runner-side repair+emit one-shot that sha-gated f47974f87e152364 and JSON-checked root name `eyestruct-site` before writing, then removed its payload; the three one-shot workflows (web-lock-restore/emit/repair) were retired through the commit lane (commit 59dae63). The repair pass fixed one two-row scramble in its own payload near row 117 ("EMNEWAKhs" rode as "EMNEWSAKh" plus a stray join), caught by blob-id before any dispatch; and it learned the two hard GITHUB_TOKEN rules the hard way: a run cannot hold the "workflows" permission scope (the API refuses to even parse the workflows key), and a run's push may not patch files under .github/workflows - so both workflow cleanups rode the commit lane instead. Origin blob == disk blob (3518984fec0d90796a06206a85ff2e92c1 cf874c): package.json + package-lock.json now agree on the eyestruct name, and `npm ci` stays hermetic.
 
-- **poststruct/monoforge integration survey (2026-10-27).** Read both PRD
-  seeds end to end against what eyestruct ships. Verdicts: nothing in-tree
-  is owed to either spec (pack layout conforms — packstruct audit-conformance
-  8/8; text-gates-first already encoded as eye-text-leg; the receipt-hall
-  paper-lie classes the shapes would check are what the trifecta leg already
-  enforces); no new pack for eyestruct's own runner is warranted, because
-  eye-text-leg already IS the poststruct integration pack. Two third-instance
-  asks filed from the survey: `eyestruct-shapes` on poststruct's shapes
-  catalog (7 pure file-check ids; poststruct#19 — the catalog had rows for
-  wp/jekyll/gatsby/hugo/eleventy/nextjs/docs-suite/vant but none for the
-  .eyes canon family), and two monoforge template-block extractions (.eyes
-  visual canon block, committed pack-verdict lane — monoforge#12; the
-  og/card + trifecta-walk blocks deliberately withheld under monoforge's own
-  two-instance rule). Report hub: gistory#20. No code changed; filings only.
+- **poststruct/monoforge integration survey (2026-10-27).** Read both PRD seeds end to end against what eyestruct ships. Verdicts: nothing in-tree is owed to either spec (pack layout conforms — packstruct audit-conformance 8/8; text-gates-first already encoded as eye-text-leg; the receipt-hall paper-lie classes the shapes would check are what the trifecta leg already enforces); no new pack for eyestruct's own runner is warranted, because eye-text-leg already IS the poststruct integration pack. Two third-instance asks filed from the survey: `eyestruct-shapes` on poststruct's shapes catalog (7 pure file-check ids; poststruct#19 — the catalog had rows for wp/jekyll/gatsby/hugo/eleventy/nextjs/docs-suite/vant but none for the .eyes canon family), and two monoforge template-block extractions (.eyes visual canon block, committed pack-verdict lane — monoforge#12; the og/card + trifecta-walk blocks deliberately withheld under monoforge's own two-instance rule). Report hub: gistory#20. No code changed; filings only.
 
-- **Walk pass (2026-10-27, night) - the CI seam + the packledger write.**
-  Two fixes and one docket row from the bug/vuln walk: (1) all three
-  workflows pin their actions to commit SHAs resolved from source via
-  `git ls-remote` (checkout@11d5960a.../v4, setup-node@49933ea5.../v4,
-  cache@0057852b.../v4, upload-pages-artifact@fc324d35.../v5,
-  deploy-pages@d6db9016.../v4, setup-ruby@7f797815.../v1.335.0) - tag
-  pins were the one supply-chain class the house pulls convention
-  (pinned-SHA tools everywhere else) had not applied to its own CI;
-  version comments ride each pin so the next bump is a reviewed diff.
-  (2) `scripts/run-packs.cjs` writeLedger now writes the packledger
-  atomically (wx temp + rename, the lib/ledger.js appender recipe) - a
-  crash mid-adopt can no longer leave the committed verdict baseline
-  half-written. (3) Docket, named: bundle install's hash-then-extract is
-  a local TOCTOU (a tarball swapped between sha256File and tar would
-  earn a marker vouching for different bytes) - local-only, owned by
-  the same attacker-position argument as the decompression-bomb bound,
-  docket stays named. Family filing for the SHA-pin class rides the
-  next cross-file batch.
+- **Walk pass (2026-10-27, night) - the CI seam + the packledger write.** Two fixes and one docket row from the bug/vuln walk: (1) all three workflows pin their actions to commit SHAs resolved from source via `git ls-remote` (checkout@11d5960a.../v4, setup-node@49933ea5.../v4, cache@0057852b.../v4, upload-pages-artifact@fc324d35.../v5, deploy-pages@d6db9016.../v4, setup-ruby@7f797815.../v1.335.0) - tag pins were the one supply-chain class the house pulls convention (pinned-SHA tools everywhere else) had not applied to its own CI; version comments ride each pin so the next bump is a reviewed diff. (2) `scripts/run-packs.cjs` writeLedger now writes the packledger atomically (wx temp + rename, the lib/ledger.js appender recipe) - a crash mid-adopt can no longer leave the committed verdict baseline half-written. (3) Docket, named: bundle install's hash-then-extract is a local TOCTOU (a tarball swapped between sha256File and tar would earn a marker vouching for different bytes) - local-only, owned by the same attacker-position argument as the decompression-bomb bound, docket stays named. Family filing for the SHA-pin class rides the next cross-file batch.
 
-- **TOCTOU closure (2026-10-27, night) - the fd pin.** The named bundle
-  race is closed in code, quietly docketed no more: `bundle.install`
-  now opens the tarball ONCE, hashes that file description with
-  positioned reads (the shared offset never advances), and extracts
-  through the SAME fd (`tar -xzf /dev/fd/<n>`), so a directory-entry
-  swap between hash and extract feeds the unpack the hashed bytes, not
-  the swapped ones (rename-over class - deterministically receipted).
-  Defense-in-depth on the in-place writer: an extract is followed by a
-  re-hash of the same fd; a disagreement refuses
-  MISSING_PINNED_BROWSER by name ("a swap raced the extract") instead
-  of stamping the marker. Residual named in-text: an attacker who
-  restores the original bytes immediately before the re-hash (the
-  adversarial restore race) - the narrowest window left, and the docket
-  row stays honest about it. Platforms without /dev/fd degrade to the
-  raw-path extract, named in the code so the degraded case is never
-  silent. Two battery legs: the staged-swap leg (open A, rename B over
-  the path, install - extracted bytes must be A's) and the
-  offset-invariant leg (sha256Fd twice equal + equal to sha256File).
-  Docs/ci.md trust paragraph carries the fd pin. Battery: below.
-  with the fd pin. One runner lesson rode the closure: the parent's fd
-  NUMBER and the child's are not the same number - stdio entry index 3
-  hands the fd to tar AS fd 3 (/dev/fd/3), whatever the parent's
-  openSync returned; the first draft aimed tar at the parent's number
-  and five legs caught it loudly (the named refusal + tar's own stderr
-  in the repoproof). Battery: 49 tests / 41 pass / 0 fail (8 honest
-  skips), packs 30/30 honest, check green, conformance 8/8.
+- **TOCTOU closure (2026-10-27, night) - the fd pin.** The named bundle race is closed in code, quietly docketed no more: `bundle.install` now opens the tarball ONCE, hashes that file description with positioned reads (the shared offset never advances), and extracts through the SAME fd (`tar -xzf /dev/fd/<n>`), so a directory-entry swap between hash and extract feeds the unpack the hashed bytes, not the swapped ones (rename-over class - deterministically receipted). Defense-in-depth on the in-place writer: an extract is followed by a re-hash of the same fd; a disagreement refuses MISSING_PINNED_BROWSER by name ("a swap raced the extract") instead of stamping the marker. Residual named in-text: an attacker who restores the original bytes immediately before the re-hash (the adversarial restore race) - the narrowest window left, and the docket row stays honest about it. Platforms without /dev/fd degrade to the raw-path extract, named in the code so the degraded case is never silent. Two battery legs: the staged-swap leg (open A, rename B over the path, install - extracted bytes must be A's) and the offset-invariant leg (sha256Fd twice equal + equal to sha256File). Docs/ci.md trust paragraph carries the fd pin. Battery: below. with the fd pin. One runner lesson rode the closure: the parent's fd NUMBER and the child's are not the same number - stdio entry index 3 hands the fd to tar AS fd 3 (/dev/fd/3), whatever the parent's openSync returned; the first draft aimed tar at the parent's number and five legs caught it loudly (the named refusal + tar's own stderr in the repoproof). Battery: 49 tests / 41 pass / 0 fail (8 honest skips), packs 30/30 honest, check green, conformance 8/8.
 
-- **MCP walk (2026-10-27, night) - three handler fixes in lib/mcp.js.**
-  (1) toolLook's candidate naming used Date.now() % 100000 - one name
-  shared across a ~100s window, so two looks in the window silently
-  overwrote each other's candidate evidence; names are randomBytes
-  per-capture now (the ledger temp-writer recipe). (2) toolDiff judged
-  SAME/DIFFERS by byte LENGTH only (cap.png.length === baseBytes) while
-  its own doc line promises byte equality - two different pixel states
-  sharing a PNG length would read SAME; the verdict is a real
-  Buffer.equals read now. (3) toolDiff's `against` accepted any
-  client-supplied path and joined it under the eyes home with no
-  confinement - the CLI's own UNSAFE_PATH rule (same class, receipts in
-  the hardening round) now refuses absolute / ..-escaping baselines by
-  name instead of handing diff an arbitrary file on disk. Docket note
-  from the same walk: both ratify surfaces record pin['browser-image']
-  only, so a bundle-pinned repo rides FALSE pins in ratify rows (rows
-  would claim browser-image undefined) - one-line honest fix when the
-  bundle-pinned canon lane first runs. repoproof for (3): mcp surface
-  tests cover framing only, no behavior legs existed; the
-  UNSAFE_PATH-class battery legs already own the refusal contract the
-  tool now reuses. Battery: 49 tests / 41 pass / 0 fail (8 honest
-  skips), packs 30/30 honest, check green, conformance 8/8.
+- **MCP walk (2026-10-27, night) - three handler fixes in lib/mcp.js.** (1) toolLook's candidate naming used Date.now() % 100000 - one name shared across a ~100s window, so two looks in the window silently overwrote each other's candidate evidence; names are randomBytes per-capture now (the ledger temp-writer recipe). (2) toolDiff judged SAME/DIFFERS by byte LENGTH only (cap.png.length === baseBytes) while its own doc line promises byte equality - two different pixel states sharing a PNG length would read SAME; the verdict is a real Buffer.equals read now. (3) toolDiff's `against` accepted any client-supplied path and joined it under the eyes home with no confinement - the CLI's own UNSAFE_PATH rule (same class, receipts in the hardening round) now refuses absolute / ..-escaping baselines by name instead of handing diff an arbitrary file on disk. Docket note from the same walk: both ratify surfaces record pin['browser-image'] only, so a bundle-pinned repo rides FALSE pins in ratify rows (rows would claim browser-image undefined) - one-line honest fix when the bundle-pinned canon lane first runs. repoproof for (3): mcp surface tests cover framing only, no behavior legs existed; the UNSAFE_PATH-class battery legs already own the refusal contract the tool now reuses. Battery: 49 tests / 41 pass / 0 fail (8 honest skips), packs 30/30 honest, check green, conformance 8/8.
 
-- **Issue #6 closed (2026-10-27, night) - the freshness leg self-heals
-  shallow checkouts.** An external report weisync filed the live catch:
-  gistory's depth-1 consumer clone answered the trifecta's history
-  probes falsely (GHOST_COMMIT for e4a73ac, a real commit - gistory CI
-  run 367 is the receipt; their side took fetch-depth: 0, but the
-  battery's verdict must not depend on each consumer's clone depth).
-  Fix, their recommended shape: step 7 detects `.git/shallow`, deepens
-  ONCE via `git fetch --unshallow origin`, a refused deepen names
-  SHALLOW_CLONE and skips the per-hash probes (no noisy ghost rows
-  stacked under the one row that names the real cause); a non-shallow
-  repo's path is byte-identical in behavior and cost. Agents.md's
-  battery bullet carries the clone-depth contract for the next
-  consumer wiring. Receipts: full-clone check zero-drift + TRIFECTA
-  PASS; a real depth-1 clone of main reproduced the exact
-  GHOST_COMMIT FAIL pre-fix, and with the patched leg the SAME clone
-  self-deepened (.git/shallow gone), verified the hash, PASS exit 0.
-  Battery: check green end to end.
+- **Issue #6 closed (2026-10-27, night) - the freshness leg self-heals shallow checkouts.** An external report weisync filed the live catch: gistory's depth-1 consumer clone answered the trifecta's history probes falsely (GHOST_COMMIT for e4a73ac, a real commit - gistory CI run 367 is the receipt; their side took fetch-depth: 0, but the battery's verdict must not depend on each consumer's clone depth). Fix, their recommended shape: step 7 detects `.git/shallow`, deepens ONCE via `git fetch --unshallow origin`, a refused deepen names SHALLOW_CLONE and skips the per-hash probes (no noisy ghost rows stacked under the one row that names the real cause); a non-shallow repo's path is byte-identical in behavior and cost. Agents.md's battery bullet carries the clone-depth contract for the next consumer wiring. Receipts: full-clone check zero-drift + TRIFECTA PASS; a real depth-1 clone of main reproduced the exact GHOST_COMMIT FAIL pre-fix, and with the patched leg the SAME clone self-deepened (.git/shallow gone), verified the hash, PASS exit 0. Battery: check green end to end.
 
-- **Release dry-run + walk (2026-10-27, night) - the tars walked, two
-  catches fixed.** The npm tarball and the GitHub source archive were
-  produced and INSPECTED, not trusted: `npm pack` = 21 files (bin + 16
-  lib + LICENSE/README/CHANGELOG/package.json), bin committed mode
-  755, secret scan over the unpacked tree turns up only named-refusal
-  prose (zero keys, zero tokens, zero private/models content), and
-  `node bin/eyestruct.js` runs from the unpacked package (named
-  MISSING_MANIFEST on an empty tree). The GH source-archive simulation
-  (`git archive HEAD`) carries 174 entries, zero junk (no
-  logs/artifacts/node_modules/tarballs - the untracked scratch never
-  rides), manifestnof .gitattributes required; eyestruct-0.9.0.tgz
-  itself was deleted after inspection. Two catches from the same
-  walk: (1) the CLI had no `--version` - a package CLI every consumer
-  probes, refusing as UNKNOWN_COMMAND while package.json is already
-  the version truth; `--version` is now a leading global (leading
-  window = --ledger/--manifest/--json/--version, package.json printed
-  and exit 0, trailing verb tolerated like --help passthrough), usage
-  fence + docs/cli.md flag table + a battery leg (bare, exact
-  package.json equality, trailing verb, hostile-window still
-  refuses). (2) The staged release post
-  docs/discussions/announcing-v0.9.0.md cited stale pre-bundle-lane
-  counts (25 reason-codes / 26 pack verdicts) against a tree that
-  ships 28 / 30 across 4 packs - the paper-lie class the trifecta
-  guards everywhere else, caught here by the release dry-run reading
-  the post against the tree; counts corrected. One honest correction
-  rode the edit pass: the first --version ordering draft swallowed a
-  guard line and closed brace, and the full battery named it loudly
-  (31 stale-red) - the cause was found and the leg order restored
-  before the rerun. Battery: 50 tests / 42 pass / 0 fail, packs 30/30
-  honest, check green, conformance 8/8, lint:docs PASS.
+- **Release dry-run + walk (2026-10-27, night) - the tars walked, two catches fixed.** The npm tarball and the GitHub source archive were produced and INSPECTED, not trusted: `npm pack` = 21 files (bin + 16 lib + LICENSE/README/CHANGELOG/package.json), bin committed mode 755, secret scan over the unpacked tree turns up only named-refusal prose (zero keys, zero tokens, zero private/models content), and `node bin/eyestruct.js` runs from the unpacked package (named MISSING_MANIFEST on an empty tree). The GH source-archive simulation (`git archive HEAD`) carries 174 entries, zero junk (no logs/artifacts/node_modules/tarballs - the untracked scratch never rides), manifestnof .gitattributes required; eyestruct-0.9.0.tgz itself was deleted after inspection. Two catches from the same walk: (1) the CLI had no `--version` - a package CLI every consumer probes, refusing as UNKNOWN_COMMAND while package.json is already the version truth; `--version` is now a leading global (leading window = --ledger/--manifest/--json/--version, package.json printed and exit 0, trailing verb tolerated like --help passthrough), usage fence + docs/cli.md flag table + a battery leg (bare, exact package.json equality, trailing verb, hostile-window still refuses). (2) The staged release post docs/discussions/announcing-v0.9.0.md cited stale pre-bundle-lane counts (25 reason-codes / 26 pack verdicts) against a tree that ships 28 / 30 across 4 packs - the paper-lie class the trifecta guards everywhere else, caught here by the release dry-run reading the post against the tree; counts corrected. One honest correction rode the edit pass: the first --version ordering draft swallowed a guard line and closed brace, and the full battery named it loudly (31 stale-red) - the cause was found and the leg order restored before the rerun. Battery: 50 tests / 42 pass / 0 fail, packs 30/30 honest, check green, conformance 8/8, lint:docs PASS.
 
-- **0.9.0 release staging (2026-10-27, night) - the changelog folded, the
-  release shape trimmed.** Per the publish ruling: the Unreleased block
-  folded into `## [0.9.0] - 2026-10-27` (the npm publish lands this tree
-  as-is; nothing between the dated halves published), catching up the
-  2026-10-27 Added/Changed/Hardened rows verbatim plus the
-  staging-era spine as a verbatim history subsection; warts cleaned
-  while folding (the duplicate `### Changed` heading, two orphaned
-  receipt fragments); `Planned` became `Still ahead` (the canon
-  dispatch + the 1.0.0 trusted-publishing flip - the bootstrap-publish
-  row is now). Version truth checked everywhere: package.json 0.9.0,
-  zero 0.8 residue, zero staging hedges in README/start/Home; the
-  release post gained the bundle-lane bullet and its Honest seams
-  bullet now describes the LIVE engine seam. The fold exposed two
-  real trifecta bugs, both fixed: (1) unreleasedSlice returned the
-  WHOLE changelog when no `## [Unreleased]` header existed, auditing
-  every historical path citation as a fresh claim (the GHOST_PATH
-  false row) - absent header now means an EMPTY unreleased slice; (2)
-  step 6 demanded the dated Added heading even when the header was
-  legitimately gone - absent header is now its own named PASS row
-  ("the release-cut shape"). Battery: 50 tests / 42 pass / 0 fail,
-  packs 30/30 honest, TRIFECTA: PASS with the release-cut row,
-  conformance 8/8, lint:docs PASS. npm tarball dry-run re-verified:
-  package 0.9.0, prepublishOnly = the full battery, 21 files.
+- **0.9.0 release staging (2026-10-27, night) - the changelog folded, the release shape trimmed.** Per the publish ruling: the Unreleased block folded into `## [0.9.0] - 2026-10-27` (the npm publish lands this tree as-is; nothing between the dated halves published), catching up the 2026-10-27 Added/Changed/Hardened rows verbatim plus the staging-era spine as a verbatim history subsection; warts cleaned while folding (the duplicate `### Changed` heading, two orphaned receipt fragments); `Planned` became `Still ahead` (the canon dispatch + the 1.0.0 trusted-publishing flip - the bootstrap-publish row is now). Version truth checked everywhere: package.json 0.9.0, zero 0.8 residue, zero staging hedges in README/start/Home; the release post gained the bundle-lane bullet and its Honest seams bullet now describes the LIVE engine seam. The fold exposed two real trifecta bugs, both fixed: (1) unreleasedSlice returned the WHOLE changelog when no `## [Unreleased]` header existed, auditing every historical path citation as a fresh claim (the GHOST_PATH false row) - absent header now means an EMPTY unreleased slice; (2) step 6 demanded the dated Added heading even when the header was legitimately gone - absent header is now its own named PASS row ("the release-cut shape"). Battery: 50 tests / 42 pass / 0 fail, packs 30/30 honest, TRIFECTA: PASS with the release-cut row, conformance 8/8, lint:docs PASS. npm tarball dry-run re-verified: package 0.9.0, prepublishOnly = the full battery, 21 files.
 
-- **First publish attempt (2026-10-27, night) - the gate held, and it
-  caught a real battery bug.** The pip publish from a renderer-less
-  pocket terminal (Termux, optional native @resvg/resvg-js absent -
-  no prebuild for that platform) tripped `prepublishOnly` exactly as
-  designed: the working gate refused to publish from an environment
-  the battery cannot prove. The catch underneath: `raster` resolved
-  the renderer BEFORE reading the inputs, so on machines without the
-  optional renderer every stated-input refusal (missing file,
-  directory-as-input) answered MISSING_RENDER instead of
-  MISSING_INPUT - input refusals were machine-dependent, which no
-  hostile-input leg and no pack verdict may ever be. Fix is
-  product-order, not test-skips: raster reads/validates all stated
-  inputs FIRST (MISSING_INPUT), THEN judges renderer capability
-  (MISSING_RENDER - unchanged for valid inputs), THEN renders
-  (RASTER_BAD_XML). Verdicts are now deterministic across
-  environments; the battery leg expectations hold unchanged (50/42/0
-  here, renderer present). Receipts: npm test 50 tests / 42 pass / 0
-  fail, packs 30/30 honest, TRIFECTA: PASS, lint:docs PASS. Publish
-  guidance rides the reply: environments the battery cannot prove
-  (no optional native renderer) stay refused at publish - from a
-  machine with the devDeps installable (Linux/mac x64+arm64
-  prebuilds), or after npm test reports only the honest
-  browser-class skips here.
+- **First publish attempt (2026-10-27, night) - the gate held, and it caught a real battery bug.** The pip publish from a renderer-less pocket terminal (Termux, optional native @resvg/resvg-js absent - no prebuild for that platform) tripped `prepublishOnly` exactly as designed: the working gate refused to publish from an environment the battery cannot prove. The catch underneath: `raster` resolved the renderer BEFORE reading the inputs, so on machines without the optional renderer every stated-input refusal (missing file, directory-as-input) answered MISSING_RENDER instead of MISSING_INPUT - input refusals were machine-dependent, which no hostile-input leg and no pack verdict may ever be. Fix is product-order, not test-skips: raster reads/validates all stated inputs FIRST (MISSING_INPUT), THEN judges renderer capability (MISSING_RENDER - unchanged for valid inputs), THEN renders (RASTER_BAD_XML). Verdicts are now deterministic across environments; the battery leg expectations hold unchanged (50/42/0 here, renderer present). Receipts: npm test 50 tests / 42 pass / 0 fail, packs 30/30 honest, TRIFECTA: PASS, lint:docs PASS. Publish guidance rides the reply: environments the battery cannot prove (no optional native renderer) stay refused at publish - from a machine with the devDeps installable (Linux/mac x64+arm64 prebuilds), or after npm test reports only the honest browser-class skips here.
 
-- **Second publish attempt (2026-10-27, night) - the last renderer-bound
-  verdict made honest.** The Termux rerun proved the order fix (all three
-  MISSING_INPUT legs + the bundle lane green on a renderer-less machine)
-  and exposed the final machine-dependence: RASTER_BAD_XML is detected by
-  the render attempt itself, so without a renderer an invalid-XML input
-  can only refuse MISSING_RENDER - asserting exit 1 there would be a
-  guessed verdict. The invalid-XML leg now rides the honest-skip doctrine
-  beside the browser-class skips (maybeRenderer; the guard is the same
-  require.resolve probe raster uses) - a renderer-less battery reports it
-  SKIP by name instead of failing; a renderer-present battery keeps
-  running it (this tree: 50 tests / 42 pass / 8 honest skips / 0 fail,
-  TRIFECTA: PASS). No pack case leans on the raster verdicts (grep
-  receipts: zero raster/RASTER hits under packs/public), so the campaign
-  is renderer-independent by construction. Why the siblings never hit
-  this: eyestruct's publish gate is the FULL battery by the npm-publish
-  ruling (prepublishOnly = npm test && npm run check); its battery carries
-  capture/raster legs the sibling repos' batteries do not, so a
-  capability-limited publish machine trips here first - the gate is doing
-  the guarding, and each trip so far has ended in a real
-  machine-dependence bug found.
+- **Second publish attempt (2026-10-27, night) - the last renderer-bound verdict made honest.** The Termux rerun proved the order fix (all three MISSING_INPUT legs + the bundle lane green on a renderer-less machine) and exposed the final machine-dependence: RASTER_BAD_XML is detected by the render attempt itself, so without a renderer an invalid-XML input can only refuse MISSING_RENDER - asserting exit 1 there would be a guessed verdict. The invalid-XML leg now rides the honest-skip doctrine beside the browser-class skips (maybeRenderer; the guard is the same require.resolve probe raster uses) - a renderer-less battery reports it SKIP by name instead of failing; a renderer-present battery keeps running it (this tree: 50 tests / 42 pass / 8 honest skips / 0 fail, TRIFECTA: PASS). No pack case leans on the raster verdicts (grep receipts: zero raster/RASTER hits under packs/public), so the campaign is renderer-independent by construction. Why the siblings never hit this: eyestruct's publish gate is the FULL battery by the npm-publish ruling (prepublishOnly = npm test && npm run check); its battery carries capture/raster legs the sibling repos' batteries do not, so a capability-limited publish machine trips here first - the gate is doing the guarding, and each trip so far has ended in a real machine-dependence bug found.
 
 ## Phone publish lane (2026-10-27, the ship script)
 
-- The Termux publish attempts earned a third real world surface receipt:
-  a GitHub zip has no .git and no node_modules, and /storage/emulated is
-  a symlinkless FUSE mount (npm install dies EACCES on the
-  node_modules/.bin/puppeteer link, errno -13). Installs and publishes
-  must happen inside the Termux home - the ship lane scripts that move:
-  scripts/ship-from-download.cjs (stage zip tree -> ~/web/... -> npm ci
-  -> npm publish, gate riding prepublishOnly unchanged).
-- Trust receipts built in: the token rides EYESTRUCT_NPM_TOKEN (env) or
-  --token-file, expands from env into a staged one-line .npmrc, and never
-  lands in argv (ps-safe), on disk, or in the log; the staged file is
-  unlinked in a finally, publish failing or not. Refusals named: WRONG_
-  TREE (wrong zip staged), SHARED_STORAGE_ROOT (the FUSE class),
-  ROOT_OCCUPIED (the rm line is advice, never action), BAD_TOKEN (a
-  non-npm_ token refuses, never guesses), NPMRC_EXISTS (never clobbers a
-  tree's own .npmrc). Exit contract 0 ok / 1 child failure / 2 refusal.
-- Proven on the machine before landing (the receipts rule even for the
-  lane that ships the receipts): node v26.3.1 + npm 12.2.1 (the user's
-  exact Termux stack) publish --dry-run exit 0 in a git-less zip tree,
-  tarball byte-identical to the clean-tree build (shasum
-  c0a2aae0c0691e6a24fe940fcbacd842713b6dfb, 21 files, 36.8 kB).
-- Behavior tests ride the battery: tests/ship-from-download.test.js
-  (temp dirs, fake runner seam, no network; 57 pass / 8 honest skips /
-  0 fail as landed).
-- Generalization pass (2026-10-27, same day): the lane went family-reusable -
-  no repo imports, ANY named npm tree ships (the wrong-package refusal
-  retired in favor of BAD_PACKAGE_NAME, the proof is a foreign-name fixture),
-  and the token var is the npm-standard NPM_TOKEN with NPM_SHIP_TOKEN as the
-  generic fallback alias. Copy scripts/ship-from-download.cjs across the
-  family unchanged.
-- The optional rm landed (2026-10-27): --clean removes the staged root on
-  every exit after staging (success, publish failure, install failure,
-  refusals) so the retry loop closes; the target survives; without the flag
-  the lane still never deletes. Two real bugs caught mid-structure by the
-  battery: a try-scoped npmrcPath whose finally-reference was silently
-  swallowed (the staged secret file would have survived) and an out-snapshot
-  copy that lost the clean receipt - both are now tests in the ship file.
-- Legal-page convergence (2026-10-28): Terms + Privacy landed on the family
-  canonical form per eyestruct#7's written five-point structure; prerender
-  5/5 (one non-empty h1 per legal page, dated web-version line). Before
-  building, the issue's cited reference surfaces were verified ABSENT -
-  poststruct@main carries no web/ tree (LICENSE + stub README + horcrux +
-  labs only, main is the sole branch, the claimed
-  web/src/pages/Terms.jsx+Privacy.jsx 404, and poststruct.creadev.org does
-  not even resolve, 000 on all three probes) - so the pages were built
-  from the issue body's own spec text, with eyestruct's own true facts
-  (status-page GitHub fetch, npm-registry install fetch, three named third
-  parties). Receipt comment filed on the issue; the canonical reference
-  still owes a real published surface before other repos should copy IT.
-- Post-0.9.0 truthfulness walk (2026-10-28, f340257 base): three live-surface
-  stale-claims caught - the "26 pack cases" figure in web/ssr.config.js's
-  /packs SEO meta, docs/ci.md, and docs/discussions/index.md all lagged the
-  committed 30-case ledger (the Home/Packs pages and AGENTS were re-counted
-  honestly in the earlier sweep; these three were the missed copy). Fixed to
-  30; prerender verified the corrected meta lands in dist HTML. Full CI
-  battery green on the same pass: raster:gate exit 0, crashtest 52/52
-  REFUSED / 0 EXPLOITED (baseline clean), npm test 63 pass / 8 skips,
-  npm run check exit 0 + TRIFECTA PASS. Clean elsewhere: secrets scan empty
-  (token/private-key patterns across bin/lib/scripts/tests/docs/web/packs/
-  .github), all workflow pins SHA-pinned with version comments, docs/cli.md
-  mirrors all 11 dispatch verbs, docs/mcp.md mirrors the full 10-tool
-  registry. Non-findings recorded honestly: cli.md's "--version/--help/
-  command" matches are prose phrasing, not fence citations (the trifecta's
-  fence parser is the receipt); artifacts/, vite-dev.log and the
-  self-declared VM-local web/vite-dev.config.mjs wrapper are preview strays,
-  now gitignored at their own request lines.
-- Runtime floors pinned with receipts (2026-10-28, e8a9649 base): the walk
-  asked whether the engines >=18 claim is defensible and got a measured
-  answer. The full test spine ran on v18.20.8 (63 pass / 8 skips / 0 fail -
-  the smoke legs drive the real bin, so the consumer CLI surface is proven
-  at 18); the dev battery is NOT 18-fine: v18.20.8 lacks unflagged
-  require(esm), the ESM conformance fixture refuses to load, the loader
-  exits 2, and packstruct's audit names it ("AUDIT clean [audit-accept]:
-  loader exit 2 on case clean") - the gate refusing rather than
-  fake-passing, exactly per contract. Floors now documented in docs/ci.md
-  (consumer >=18, battery >=20.19 for the conform loader, CI's node 20
-  floats to latest and satisfies it) with a dated receipt table. The 0.9.0
-  registry metadata keeps engines >=18 until the next release carries the
-  unchanged field (it stays truthful for the runtime). CHANGELOG row rides;
-  the node-18 CI runtime leg (keep the consumer claim continuously
-  defended instead of by one local receipt) goes on the 1.0.0 worklist.
+- The Termux publish attempts earned a third real world surface receipt: a GitHub zip has no .git and no node_modules, and /storage/emulated is a symlinkless FUSE mount (npm install dies EACCES on the node_modules/.bin/puppeteer link, errno -13). Installs and publishes must happen inside the Termux home - the ship lane scripts that move: scripts/ship-from-download.cjs (stage zip tree -> ~/web/... -> npm ci -> npm publish, gate riding prepublishOnly unchanged).
+- Trust receipts built in: the token rides EYESTRUCT_NPM_TOKEN (env) or --token-file, expands from env into a staged one-line .npmrc, and never lands in argv (ps-safe), on disk, or in the log; the staged file is unlinked in a finally, publish failing or not. Refusals named: WRONG_ TREE (wrong zip staged), SHARED_STORAGE_ROOT (the FUSE class), ROOT_OCCUPIED (the rm line is advice, never action), BAD_TOKEN (a non-npm_ token refuses, never guesses), NPMRC_EXISTS (never clobbers a tree's own .npmrc). Exit contract 0 ok / 1 child failure / 2 refusal.
+- Proven on the machine before landing (the receipts rule even for the lane that ships the receipts): node v26.3.1 + npm 12.2.1 (the user's exact Termux stack) publish --dry-run exit 0 in a git-less zip tree, tarball byte-identical to the clean-tree build (shasum c0a2aae0c0691e6a24fe940fcbacd842713b6dfb, 21 files, 36.8 kB).
+- Behavior tests ride the battery: tests/ship-from-download.test.js (temp dirs, fake runner seam, no network; 57 pass / 8 honest skips / 0 fail as landed).
+- Generalization pass (2026-10-27, same day): the lane went family-reusable - no repo imports, ANY named npm tree ships (the wrong-package refusal retired in favor of BAD_PACKAGE_NAME, the proof is a foreign-name fixture), and the token var is the npm-standard NPM_TOKEN with NPM_SHIP_TOKEN as the generic fallback alias. Copy scripts/ship-from-download.cjs across the family unchanged.
+- The optional rm landed (2026-10-27): --clean removes the staged root on every exit after staging (success, publish failure, install failure, refusals) so the retry loop closes; the target survives; without the flag the lane still never deletes. Two real bugs caught mid-structure by the battery: a try-scoped npmrcPath whose finally-reference was silently swallowed (the staged secret file would have survived) and an out-snapshot copy that lost the clean receipt - both are now tests in the ship file.
+- Legal-page convergence (2026-10-28): Terms + Privacy landed on the family canonical form per eyestruct#7's written five-point structure; prerender 5/5 (one non-empty h1 per legal page, dated web-version line). Before building, the issue's cited reference surfaces were verified ABSENT - poststruct@main carries no web/ tree (LICENSE + stub README + horcrux + labs only, main is the sole branch, the claimed web/src/pages/Terms.jsx+Privacy.jsx 404, and poststruct.creadev.org does not even resolve, 000 on all three probes) - so the pages were built from the issue body's own spec text, with eyestruct's own true facts (status-page GitHub fetch, npm-registry install fetch, three named third parties). Receipt comment filed on the issue; the canonical reference still owes a real published surface before other repos should copy IT.
+- Post-0.9.0 truthfulness walk (2026-10-28, f340257 base): three live-surface stale-claims caught - the "26 pack cases" figure in web/ssr.config.js's /packs SEO meta, docs/ci.md, and docs/discussions/index.md all lagged the committed 30-case ledger (the Home/Packs pages and AGENTS were re-counted honestly in the earlier sweep; these three were the missed copy). Fixed to 30; prerender verified the corrected meta lands in dist HTML. Full CI battery green on the same pass: raster:gate exit 0, crashtest 52/52 REFUSED / 0 EXPLOITED (baseline clean), npm test 63 pass / 8 skips, npm run check exit 0 + TRIFECTA PASS. Clean elsewhere: secrets scan empty (token/private-key patterns across bin/lib/scripts/tests/docs/web/packs/ .github), all workflow pins SHA-pinned with version comments, docs/cli.md mirrors all 11 dispatch verbs, docs/mcp.md mirrors the full 10-tool registry. Non-findings recorded honestly: cli.md's "--version/--help/ command" matches are prose phrasing, not fence citations (the trifecta's fence parser is the receipt); artifacts/, vite-dev.log and the self-declared VM-local web/vite-dev.config.mjs wrapper are preview strays, now gitignored at their own request lines.
+- Runtime floors pinned with receipts (2026-10-28, e8a9649 base): the walk asked whether the engines >=18 claim is defensible and got a measured answer. The full test spine ran on v18.20.8 (63 pass / 8 skips / 0 fail - the smoke legs drive the real bin, so the consumer CLI surface is proven at 18); the dev battery is NOT 18-fine: v18.20.8 lacks unflagged require(esm), the ESM conformance fixture refuses to load, the loader exits 2, and packstruct's audit names it ("AUDIT clean [audit-accept]: loader exit 2 on case clean") - the gate refusing rather than fake-passing, exactly per contract. Floors now documented in docs/ci.md (consumer >=18, battery >=20.19 for the conform loader, CI's node 20 floats to latest and satisfies it) with a dated receipt table. The 0.9.0 registry metadata keeps engines >=18 until the next release carries the unchanged field (it stays truthful for the runtime). CHANGELOG row rides; the node-18 CI runtime leg (keep the consumer claim continuously defended instead of by one local receipt) goes on the 1.0.0 worklist.
 
 ## 2026-10-28 - the 1.0.0 solidity batch (eyestruct#10 items 1, 3, 4, 5)
 
-- Stability contract landed (item 1): the freeze-until-2.x law is written
-  at the three mirrored surfaces (docs/cli.md, docs/mcp.md, docs/reasons.md)
-  plus AGENTS.md - verbs (11, the COMMANDS table), reason codes (28 +
-  0-1-2), MCP tools (9 + inputSchemas), manifest-pin schema, packstruct@1
-  grammar; additions are minor bumps with the mirror updated in the same
-  commit, removals ride 2.0 only.
-- Count census landed (item 3): tests/census.test.js derives every truth
-  from the living sources (CODES keys, eye-ledger rows, crashledger
-  findings, TOOLS registry, COMMANDS table) and scans the audited
-  hand-copy surfaces (docs/ci.md, docs/discussions/index.md,
-  web/ssr.config.js). First run caught a live stale claim before any
-  release rode it: docs/discussions/index.md carried "25 reason-codes",
-  truth 28 - fixed in the same commit. The census also settled a walk-row
-  dispute: the 2026-10-28 truthfulness walk said "docs/mcp.md mirrors the
-  full 10-tool registry" - the registry is 9 tools and mcp.md always said
-  nine; the 10 was the walk row's own typo, now receipted (AGENTS row
-  corrected). Census governs only derivable claims; unknown prose numbers
-  still need the walk.
-- Stage registry ruling (item 5): eyestruct on npm has TWO
-  versions, latest=0.9.0 and 0.0.0-stage (a 2-file, 331-byte
-  "Temporary package placeholder for staged publishing" stub, stub:true).
-  Registry ruling (item 5): UNPUBLISH - the 0.9.0 publish permanently
-  holds the name, so the stub carries no name-reservation value; its only
-  live effect is a confusing version row in the registry dropdown. Carry
-  it out (needs the 2FA holder):
-  `npm unpublish eyestruct@0.0.0-stage`
-  After it lands, re-read registry dist-tags (expect latest=0.9.0 only)
-  and tick this row. If npm refuses unpublish, adopted ruling: KEEP and
-  re-receipt as intentionally carried with the dropdown note.
+- Stability contract landed (item 1): the freeze-until-2.x law is written at the three mirrored surfaces (docs/cli.md, docs/mcp.md, docs/reasons.md) plus AGENTS.md - verbs (11, the COMMANDS table), reason codes (28 + 0-1-2), MCP tools (9 + inputSchemas), manifest-pin schema, packstruct@1 grammar; additions are minor bumps with the mirror updated in the same commit, removals ride 2.0 only.
+- Count census landed (item 3): tests/census.test.js derives every truth from the living sources (CODES keys, eye-ledger rows, crashledger findings, TOOLS registry, COMMANDS table) and scans the audited hand-copy surfaces (docs/ci.md, docs/discussions/index.md, web/ssr.config.js). First run caught a live stale claim before any release rode it: docs/discussions/index.md carried "25 reason-codes", truth 28 - fixed in the same commit. The census also settled a walk-row dispute: the 2026-10-28 truthfulness walk said "docs/mcp.md mirrors the full 10-tool registry" - the registry is 9 tools and mcp.md always said nine; the 10 was the walk row's own typo, now receipted (AGENTS row corrected). Census governs only derivable claims; unknown prose numbers still need the walk.
+- Stage registry ruling (item 5): eyestruct on npm has TWO versions, latest=0.9.0 and 0.0.0-stage (a 2-file, 331-byte "Temporary package placeholder for staged publishing" stub, stub:true). Registry ruling (item 5): UNPUBLISH - the 0.9.0 publish permanently holds the name, so the stub carries no name-reservation value; its only live effect is a confusing version row in the registry dropdown. Carry it out (needs the 2FA holder): `npm unpublish eyestruct@0.0.0-stage` After it lands, re-read registry dist-tags (expect latest=0.9.0 only) and tick this row. If npm refuses unpublish, adopted ruling: KEEP and re-receipt as intentionally carried with the dropdown note.
 
 ## 2026-10-28 - the family status dialect (cross-repo contract groundwork)
 
-- Formalized the four-repo status read into one dialect (family-status@1,
-  docs/status.md): every member serves status.json at the fixed path
-  /status.json on its site, generated (never hand-edited) from its own
-  committed ledgers; every member's status page reads the others with
-  per-sibling graceful failure. eyestruct side landed fully: emitter
-  (web/scripts/build-status.mjs, zero-dep, reads packs/eye-ledger.json +
-  labs/crashledger.json + all packs/public/*/pack.json; refuses a
-  manifest with zero ledger rows and ledger rows for unknown packs),
-  wired first in web build (output gitignored - never committed, the
-  stale-copy class dies by regeneration), family island on /status,
-  battery leg tests/status.test.js (5 tests: verdict derivation incl.
-  RED degradation, the two intersection refusals, write receipt,
-  real-tree counts re-derived against live ledgers).
-- Live probe receipt: eyestruct.creadev.org 200, crashtest.creadev.org
-  200, packstruct.creadev.org 200, poststruct.creadev.org 000 (the M0
-  cut is not served yet). The island renders a not-yet row - never a
-  guessed PASS - until each sibling serves the dialect.
-- Sibling adoptions filed as issues (poststruct, packstruct, crashtest)
-  with this commit as the worked example.
+- Formalized the four-repo status read into one dialect (family-status@1, docs/status.md): every member serves status.json at the fixed path /status.json on its site, generated (never hand-edited) from its own committed ledgers; every member's status page reads the others with per-sibling graceful failure. eyestruct side landed fully: emitter (web/scripts/build-status.mjs, zero-dep, reads packs/eye-ledger.json + labs/crashledger.json + all packs/public/*/pack.json; refuses a manifest with zero ledger rows and ledger rows for unknown packs), wired first in web build (output gitignored - never committed, the stale-copy class dies by regeneration), family island on /status, battery leg tests/status.test.js (5 tests: verdict derivation incl. RED degradation, the two intersection refusals, write receipt, real-tree counts re-derived against live ledgers).
+- Live probe receipt: eyestruct.creadev.org 200, crashtest.creadev.org 200, packstruct.creadev.org 200, poststruct.creadev.org 000 (the M0 cut is not served yet). The island renders a not-yet row - never a guessed PASS - until each sibling serves the dialect.
+- Sibling adoptions filed as issues (poststruct, packstruct, crashtest) with this commit as the worked example.
 
 ## 2026-10-28 - two cheap verification hardenings (the status dialect gets teeth)
 
-- Served-contract leg in the battery (tests/dist-server.test.js + the
-  shared lib/serve-dist.js server): one implementation of what the host
-  serves, used by both the battery leg and the chromium lane. The
-  _headers dialect clauses always run; the localhost serve of web/dist
-  honest-skips on CI naming the build command. First-run receipt: the
-  leg caught a stale dist on its very first execution (served asOf
-  516f72a vs generator reading c25175a) - the exact drift the leg
-  exists to kill, caught before any browser could.
-- Opt-in chromium lane (scripts/check-browser.mjs, npm run
-  check:browser): four dialect states rendered in a real browser -
-  PASS fixture row (the fixture carrys the deliberately foreign 14
-  count, proving rows come from served files not local ledgers), RED
-  degradation from an EXPLOITED leg, the clean 404 wording (ACAO on the
-  miss path - the CORS clause in action), and the schema-2 refusal on
-  pass two. Own row asserted against the served file's truth; fully
-  offline via request interception. Zero new runtime deps
-  (puppeteer-core was already there); no chromium resolvable ->
-  MISSING_PINNED_BROWSER exit 2 with the fix named. In-VM receipt: the
-  refusal path verified live (exit 2); the full 4-state pass needs a
-  machine with chrome (EYESTRUCT_BROWSER=/path/to/chrome).
+- Served-contract leg in the battery (tests/dist-server.test.js + the shared lib/serve-dist.js server): one implementation of what the host serves, used by both the battery leg and the chromium lane. The _headers dialect clauses always run; the localhost serve of web/dist honest-skips on CI naming the build command. First-run receipt: the leg caught a stale dist on its very first execution (served asOf 516f72a vs generator reading c25175a) - the exact drift the leg exists to kill, caught before any browser could.
+- Opt-in chromium lane (scripts/check-browser.mjs, npm run check:browser): four dialect states rendered in a real browser - PASS fixture row (the fixture carrys the deliberately foreign 14 count, proving rows come from served files not local ledgers), RED degradation from an EXPLOITED leg, the clean 404 wording (ACAO on the miss path - the CORS clause in action), and the schema-2 refusal on pass two. Own row asserted against the served file's truth; fully offline via request interception. Zero new runtime deps (puppeteer-core was already there); no chromium resolvable -> MISSING_PINNED_BROWSER exit 2 with the fix named. In-VM receipt: the refusal path verified live (exit 2); the full 4-state pass needs a machine with chrome (EYESTRUCT_BROWSER=/path/to/chrome).
 
 ## 2026-10-28 - the chromium lane's first real PASS (in a browserless VM)
 
-- Full 4-state pass achieved in-VM: chrome-headless-shell 156.0.8078.73
-  planted root-free (apt download refused - no root; the debs for libnss3,
-  libnspr4, the libX*, libasound2, libxkbcommon0, the atk family, and
-  libxrender/libxi/libxres were fetched straight from the Ubuntu pool and
-  extracted with dpkg -x into /tmp/spot/lroot, handed over via
-  LD_LIBRARY_PATH - zero system install). npm run check:browser exit 0:
-  pass 1 rendered the eyestruct served row from the live /status.json
-  truth, the crashtest PASS fixture (the foreign 14-count proving rows
-  come from served files), the packstruct RED fixture (EXPLOITED leg
-  degrades the row), and the poststruct clean HTTP 404 wording; pass 2
-  rendered the schema-2 refusal. The family table's browser behavior is
-  now machine-verified, not just eyeballed.
-- The served-contract leg also earned a second live catch this turn:
-  after the hardening push, the first spot run flagged the dist stale
-  (served asOf c25175a vs generator 0273c25), rebuild landed it green -
-  the spot check the whole workflow was built for, demonstrated on
-  request.
+- Full 4-state pass achieved in-VM: chrome-headless-shell 156.0.8078.73 planted root-free (apt download refused - no root; the debs for libnss3, libnspr4, the libX*, libasound2, libxkbcommon0, the atk family, and libxrender/libxi/libxres were fetched straight from the Ubuntu pool and extracted with dpkg -x into /tmp/spot/lroot, handed over via LD_LIBRARY_PATH - zero system install). npm run check:browser exit 0: pass 1 rendered the eyestruct served row from the live /status.json truth, the crashtest PASS fixture (the foreign 14-count proving rows come from served files), the packstruct RED fixture (EXPLOITED leg degrades the row), and the poststruct clean HTTP 404 wording; pass 2 rendered the schema-2 refusal. The family table's browser behavior is now machine-verified, not just eyeballed.
+- The served-contract leg also earned a second live catch this turn: after the hardening push, the first spot run flagged the dist stale (served asOf c25175a vs generator 0273c25), rebuild landed it green - the spot check the whole workflow was built for, demonstrated on request.
 
 ## 2026-10-28 - instances go native on the MCP leg (the tenth tool)
 
-- `spot` joined the MCP `TOOLS` registry: one capture, ALWAYS saved to
-  `labs/.eyes-candidates/` under a randomBytes name and returned as a
-  file path the agent re-opens with its own vision on a later turn - the
-  difference from `look` is the loop contract (a saved artifact to
-  re-open), not the pixels; the inline image rides only when
-  `include_image` is set (the core law holds at the MCP tool boundary
-  too: pay the pixels only when they are wanted).
-  The loop semantics carried in the tool note: serve -> spot -> read ->
-  act -> re-spot, candidate-only, the canon locked shut. `serve` stays
-  CLI-only by design: it owns a port for its lifetime, and the MCP
-  server already owns the stream.
-- Mirrors updated in the same change per the mirror rule: docs/mcp.md
-  (ten tools, the spot row, the 1.0.0 stability-contract wording, the
-  pointer to the agents-vision playbook), tests/census.test.js (the
-  TRUTHS['mcp tools'] pin 9 -> 10 with the dated note).
+- `spot` joined the MCP `TOOLS` registry: one capture, ALWAYS saved to `labs/.eyes-candidates/` under a randomBytes name and returned as a file path the agent re-opens with its own vision on a later turn - the difference from `look` is the loop contract (a saved artifact to re-open), not the pixels; the inline image rides only when `include_image` is set (the core law holds at the MCP tool boundary too: pay the pixels only when they are wanted). The loop semantics carried in the tool note: serve -> spot -> read -> act -> re-spot, candidate-only, the canon locked shut. `serve` stays CLI-only by design: it owns a port for its lifetime, and the MCP server already owns the stream.
+- Mirrors updated in the same change per the mirror rule: docs/mcp.md (ten tools, the spot row, the 1.0.0 stability-contract wording, the pointer to the agents-vision playbook), tests/census.test.js (the TRUTHS['mcp tools'] pin 9 -> 10 with the dated note).
 
 ## 2026-10-28 - the agents feature page (/agents), nav, and marketing
 
-- The website carries the agents-vision feature as a first-class route:
-  web/src/pages/Agents.jsx (hero + the five-step loop pipeline + CLI and
-  MCP code blocks + the "built for unattended builds" cards + the
-  browser-resolution order + the visual-memory split cards), registered
-  in AppLayout.jsx and the ssr.config route map (0.9/monthly, sitemap
-  regenerated), and pinned into navItems.js as the 'Agents' site group
-  entry - header links, footer, and the slide-out sidebar all inherit it.
-- Honest-marketing discipline held: every capability named on the page
-  points at a shipped surface (docs/cli.md, docs/mcp.md, the playbook),
-  and the canon claims defer to the two-dispatch docs, not to the
-  marketing page itself. Canon is CI-cut even in the copy.
--  Receipt: `npm run build --prefix web` renders 6/6 pages (the route
-  added a page + agents title correct), nav and sitemap verified carrying
-  /agents, npm test 82 tests / 74 pass / 8 honest skips / 0 fail.
-  Build itself caught two JSX wrecks before anything served (the entity
-  quoting and a lost wrap close) - esbuild refused, not guessed.
+- The website carries the agents-vision feature as a first-class route: web/src/pages/Agents.jsx (hero + the five-step loop pipeline + CLI and MCP code blocks + the "built for unattended builds" cards + the browser-resolution order + the visual-memory split cards), registered in AppLayout.jsx and the ssr.config route map (0.9/monthly, sitemap regenerated), and pinned into navItems.js as the 'Agents' site group entry - header links, footer, and the slide-out sidebar all inherit it.
+- Honest-marketing discipline held: every capability named on the page points at a shipped surface (docs/cli.md, docs/mcp.md, the playbook), and the canon claims defer to the two-dispatch docs, not to the marketing page itself. Canon is CI-cut even in the copy.
+-  Receipt: `npm run build --prefix web` renders 6/6 pages (the route added a page + agents title correct), nav and sitemap verified carrying /agents, npm test 82 tests / 74 pass / 8 honest skips / 0 fail. Build itself caught two JSX wrecks before anything served (the entity quoting and a lost wrap close) - esbuild refused, not guessed.
 
 ## 2026-10-28 - "CI OR instance" gap walk (the world-facing claim surfaces)
 
-- The question: does everything the WORLD reads tell the two-lane story
-  (CI canon lane + instance sight lane)? The walk found the instance lane
-  missing at every first-touch surface even though the tooling was fully
-  shipped. Fixes, claim surface by claim surface:
-  - README: the verb block gains serve + spot lines; a new "Two lanes,
-    one eye" section names CI-canon vs instance-sight with the playbook
-    + feature page; the docs link row gains the playbook; the Status
-    verb-line gains serve/spot; the spine's stale "3 adversarial packs"
-    recount to 4 (eye-bundle was never rippled here).
-  - docs/start.md: "See while you build (the instance lane)" section -
-    the two-command loop, the candidate-only rule, playbook pointer -
-    sitting beside the CI cycle it was missing across from.
-  - docs/index.md: the key-facts table gains the two-lanes row; the
-    Where-to-go-next list gains getting-started.
-  - docs/ci.md: intro pointer "instance mode runs outside this battery"
-    (the loop is local/opt-in; check:browser borrows it) + the
-    pre-existing garbled word "its tweed" -> "its gates".
-  - web Home: the hero code block now shows BOTH lanes (look/diff/gate
-    + serve + spot), an "Agent mode" CTA joins the hero buttons, and the
-    "One contract, three verbs" heading recount to four (the instance
-    card landed last round without rippling the heading).
-- Receipt: web rebuilt 6/6 (dist carries 'instance lane' + 'Agent
-  mode'), npm test 74 pass / 8 honest skips / 0 fail, npm run check all
-  gates PASS (trifecta, frontmatter, links, style, fiction signatures).
+- The question: does everything the WORLD reads tell the two-lane story (CI canon lane + instance sight lane)? The walk found the instance lane missing at every first-touch surface even though the tooling was fully shipped. Fixes, claim surface by claim surface: - README: the verb block gains serve + spot lines; a new "Two lanes, one eye" section names CI-canon vs instance-sight with the playbook + feature page; the docs link row gains the playbook; the Status verb-line gains serve/spot; the spine's stale "3 adversarial packs" recount to 4 (eye-bundle was never rippled here). - docs/start.md: "See while you build (the instance lane)" section - the two-command loop, the candidate-only rule, playbook pointer - sitting beside the CI cycle it was missing across from. - docs/index.md: the key-facts table gains the two-lanes row; the Where-to-go-next list gains getting-started. - docs/ci.md: intro pointer "instance mode runs outside this battery" (the loop is local/opt-in; check:browser borrows it) + the pre-existing garbled word "its tweed" -> "its gates". - web Home: the hero code block now shows BOTH lanes (look/diff/gate + serve + spot), an "Agent mode" CTA joins the hero buttons, and the "One contract, three verbs" heading recount to four (the instance card landed last round without rippling the heading).
+- Receipt: web rebuilt 6/6 (dist carries 'instance lane' + 'Agent mode'), npm test 74 pass / 8 honest skips / 0 fail, npm run check all gates PASS (trifecta, frontmatter, links, style, fiction signatures).
 
 ## 2026-10-28 - the three altitudes (the product story, stated where the world reads)
 
-- The positioning is now a written ruling, not a chat-only idea: CI for
-  devs/enterprise (SHIPPING - the committed memory + named-code gates),
-  adapters for agent platforms/cloud builders (DESIGNED NEXT - the MCP
-  stdio surface is the first adapter; platform adapters ride the same
-  CLI contract), and real-time eyes inside the chat session via
-  bridges/connectors (the designed PINNACLE, explicitly not shipped).
-- Carried on three surfaces in one change: README ("The three
-  altitudes" section after the two-lanes section), /agents page (the
-  "Where this goes" card grid - Now/Next/Pinnacle, the unbuilt ones
-  carrying the <em>designed</em> disclaimer inline), AGENTS.md (the
-  story row, with the never-claim-it-works-today rule for the pinnacle).
-- Discipline note: the fiction-signature gate bans fabricated usage
-  stories; installed future lanes are the honest form - designed and
-  pointed at the PRD, labeled not-shipped, never past tense.
+- The positioning is now a written ruling, not a chat-only idea: CI for devs/enterprise (SHIPPING - the committed memory + named-code gates), adapters for agent platforms/cloud builders (DESIGNED NEXT - the MCP stdio surface is the first adapter; platform adapters ride the same CLI contract), and real-time eyes inside the chat session via bridges/connectors (the designed PINNACLE, explicitly not shipped).
+- Carried on three surfaces in one change: README ("The three altitudes" section after the two-lanes section), /agents page (the "Where this goes" card grid - Now/Next/Pinnacle, the unbuilt ones carrying the <em>designed</em> disclaimer inline), AGENTS.md (the story row, with the never-claim-it-works-today rule for the pinnacle).
+- Discipline note: the fiction-signature gate bans fabricated usage stories; installed future lanes are the honest form - designed and pointed at the PRD, labeled not-shipped, never past tense.
 
 ## 2026-10-28 - the adapters altitude becomes importable (eyestruct-adapter@1)
 
-- The claim-surface walk (user ask: "build whatever is claimed in
-  web/docs not built yet") found exactly one first-layer claim that was
-  buildable today: the adapter surface as a real importable module. The
-  stale-check other finds: --wave already shipped (the PRD's remaining
-  list was outdated on it), the capture-correctness pack stays honestly
-  queued (docs/packs.md), video/TUI columns and the event-driven
-  pinnacle stay designed.
-- SHIPPED: lib/index.js (`eyestruct-adapter@1`) - the adapter API - the
-  same library modules the CLI dispatches, behind one frozen contract:
-  dispatch (six browserless verbs, CLI-verbatim ctx), FailError + the
-  28-code reason surface, manifest/ledger stores (one writer of truth
-  per store), bundle/engine/serveDist. dispatch returns the exit code
-  and never process.exit-entry-nothing in a hosted builder. Canon stays
-  CI-cut from the adapter side by construction - the API cannot cut
-  canon, that is a feature.
-- Battery leg: tests/adapter-api.test.js (5 cases - contract marker,
-  CLI-verbatim gate dispatch, FailError refusals carrying
-  eyestruct[CODE] text, ADOPT_NOTE_REQUIRED via the dispatch, unknown
-  verb refusal naming the available set).
-- Mirrors: docs/adapters.md (the reference page, nav row added),
-  README altitude 2 now "shipping in layers" (MCP first, lib second,
-  platform adapters consume), /agents "Next: adapters" card now "Now:
-  adapters" (hosted-builder ones still designed), AGENTS story row
-  updated, docs/start + docs/index pointer rows.
-- PRD refreshed under its own voice: the stale 2026-10-27 build-state
-  cut replaced with the 2026-10-28 truth (raster gate rides test.yml,
-  bootstrap publish landed, wave row type exists, 10 tools/30
-  verdicts/4 packs) + new Goals (the three altitudes) and Requirements
-  sections: the adapter contract (R-A1..R-A6), the event-driven lane
-  (R-R1..R-R5, the pinnacle spec - especially R-R5: receipts before any
-  past-tense claim), and the video/TUI column requirements.
+- The claim-surface walk (user ask: "build whatever is claimed in web/docs not built yet") found exactly one first-layer claim that was buildable today: the adapter surface as a real importable module. The stale-check other finds: --wave already shipped (the PRD's remaining list was outdated on it), the capture-correctness pack stays honestly queued (docs/packs.md), video/TUI columns and the event-driven pinnacle stay designed.
+- SHIPPED: lib/index.js (`eyestruct-adapter@1`) - the adapter API - the same library modules the CLI dispatches, behind one frozen contract: dispatch (six browserless verbs, CLI-verbatim ctx), FailError + the 28-code reason surface, manifest/ledger stores (one writer of truth per store), bundle/engine/serveDist. dispatch returns the exit code and never process.exit-entry-nothing in a hosted builder. Canon stays CI-cut from the adapter side by construction - the API cannot cut canon, that is a feature.
+- Battery leg: tests/adapter-api.test.js (5 cases - contract marker, CLI-verbatim gate dispatch, FailError refusals carrying eyestruct[CODE] text, ADOPT_NOTE_REQUIRED via the dispatch, unknown verb refusal naming the available set).
+- Mirrors: docs/adapters.md (the reference page, nav row added), README altitude 2 now "shipping in layers" (MCP first, lib second, platform adapters consume), /agents "Next: adapters" card now "Now: adapters" (hosted-builder ones still designed), AGENTS story row updated, docs/start + docs/index pointer rows.
+- PRD refreshed under its own voice: the stale 2026-10-27 build-state cut replaced with the 2026-10-28 truth (raster gate rides test.yml, bootstrap publish landed, wave row type exists, 10 tools/30 verdicts/4 packs) + new Goals (the three altitudes) and Requirements sections: the adapter contract (R-A1..R-A6), the event-driven lane (R-R1..R-R5, the pinnacle spec - especially R-R5: receipts before any past-tense claim), and the video/TUI column requirements.
 
 ## 2026-10-28 - the bridge/carrier ruling lands in packs (eye-adapter)
 
-- dhaupin's ruling: adapters and connectors are STRICTLY bridges - they
-  move calls/events/artifacts between surfaces and never define, author,
-  or evolve schema. Anything that touches schema needs a CARRIER in
-  packs/public/ under the packstruct@1 grammar; an adapter that defines
-  rules outside the campaign is doing it from outside the receipts.
-- The adapter surface now names its carrier: lib/index.js exports
-  SCHEMA_CARRIER = packs/public/eye-adapter, and the ruling text lives
-  in the module header (dispatch, refusal sharing, never-exits,
-  proposal-only canon are campaign-gated, not import-gated).
-- SHIPPED: packs/public/eye-adapter (5th pack, packjson 0.1.0, 4 cases
-  committed in eye-ledger.json, re-baselined --adopt; campaign counts
-  now 34 verdicts / 5 packs, 0 exploited):
-  - adapter-surface-is-bridge-only: the bridge marker + SCHEMA_CARRIER
-    naming THIS pack + the closed dispatch list (schema-defining verbs
-    must land here first) + the shared-refusal contract (FailError is
-    the CLI's module, never a copy);
-  - adapter-refusals-speak-the-family-grammar: eyestruct[CODE] text on
-    a refused verb (also fixed a doubled lead-in lib/index.js carried in
-    its UNKNOWN_COMMAND message - reasons.js already prints it);
-  - adapter-never-exits-its-caller: a refusal throws FailError, the
-    process stays alive (the hosted-caller law);
-  - adapter-canon-is-proposal-only: an adapter-side adopt writes
-    ratified:false and the surface does NOT dispatch ratify - the bridge
-    cannot cut canon even with the stores in hand.
-- Runner vocabulary: scripts/run-packs.cjs armModuleCtx grew api() (the
-  real lib/index.js loader), so the pack tests exactly the module the
-  consumers import - a private require path in the pack would test a
-  copy, not the truth.
-- Count census ripple (34 / 5 packs): census TRUTHS pin, AGENTS (where-
-  things-live 5 packs + receipts row), README spine + altitude 2,
-  docs/packs.md (five packs + the eye-adapter row), docs/ci.md, docs/
-  discussions/index.md (both census surfaces), web Home + Packs +
-  ssr.config + FamilyStatusIsland comment, og-image card text
-  REGENERATED (66732 bytes), PRD counts.
-- Receipts: npm run packs 34 GREEN 0 exploited; packstruct lint --deep
-  5 packs checked; conform:packs 8/8; battery 79 pass / 0 fail; trifecta
-  PASS after the AGENTS recount ripple (the STALE RECEIPT_DRIFT catch
-  proving the count census still bites).
+- dhaupin's ruling: adapters and connectors are STRICTLY bridges - they move calls/events/artifacts between surfaces and never define, author, or evolve schema. Anything that touches schema needs a CARRIER in packs/public/ under the packstruct@1 grammar; an adapter that defines rules outside the campaign is doing it from outside the receipts.
+- The adapter surface now names its carrier: lib/index.js exports SCHEMA_CARRIER = packs/public/eye-adapter, and the ruling text lives in the module header (dispatch, refusal sharing, never-exits, proposal-only canon are campaign-gated, not import-gated).
+- SHIPPED: packs/public/eye-adapter (5th pack, packjson 0.1.0, 4 cases committed in eye-ledger.json, re-baselined --adopt; campaign counts now 34 verdicts / 5 packs, 0 exploited): - adapter-surface-is-bridge-only: the bridge marker + SCHEMA_CARRIER naming THIS pack + the closed dispatch list (schema-defining verbs must land here first) + the shared-refusal contract (FailError is the CLI's module, never a copy); - adapter-refusals-speak-the-family-grammar: eyestruct[CODE] text on a refused verb (also fixed a doubled lead-in lib/index.js carried in its UNKNOWN_COMMAND message - reasons.js already prints it); - adapter-never-exits-its-caller: a refusal throws FailError, the process stays alive (the hosted-caller law); - adapter-canon-is-proposal-only: an adapter-side adopt writes ratified:false and the surface does NOT dispatch ratify - the bridge cannot cut canon even with the stores in hand.
+- Runner vocabulary: scripts/run-packs.cjs armModuleCtx grew api() (the real lib/index.js loader), so the pack tests exactly the module the consumers import - a private require path in the pack would test a copy, not the truth.
+- Count census ripple (34 / 5 packs): census TRUTHS pin, AGENTS (where- things-live 5 packs + receipts row), README spine + altitude 2, docs/packs.md (five packs + the eye-adapter row), docs/ci.md, docs/ discussions/index.md (both census surfaces), web Home + Packs + ssr.config + FamilyStatusIsland comment, og-image card text REGENERATED (66732 bytes), PRD counts.
+- Receipts: npm run packs 34 GREEN 0 exploited; packstruct lint --deep 5 packs checked; conform:packs 8/8; battery 79 pass / 0 fail; trifecta PASS after the AGENTS recount ripple (the STALE RECEIPT_DRIFT catch proving the count census still bites).

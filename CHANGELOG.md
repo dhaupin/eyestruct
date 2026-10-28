@@ -2,439 +2,113 @@
 
 All notable changes to eyestruct will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2026-10-28
 
 ### Added (2026-10-28, the consumer-contract round)
 
-- docs/ci.md states the two capture contracts the first real consumer
-  filing asked for by name: captures are viewport-only (a `#fragment`
-  navigation or a below-the-fold edit reads `SAME` by design, full-page
-  capture stays a designed affordance, not shipped), and the canon cut
-  is byte equality - stricter than pixel vision, and real Chrome paint
-  over photographic textures is not byte-stable, so textured surfaces
-  cut canon by reviewed adopt, with the pixel-tolerance lane named as
-  designed, never shipped (khf-wp's filings, eyestruct#11 + #12).
-  A consumer-recipes table landed beside it: which verbs fit CI
-  (`gate`, browserless), which are environment-local, and the CMS
-  target shape the khf-wp `qa/eyes/` run root settled on.
-- `WALK_EMPTY`'s message now carries the actual cause for the freshest
-  consumer: a comment-only manifest parses as zero routes (the literal
-  `routes:` header row is required) - message-level clarity only, same
-  code, same exit (docs/reasons.md mirror moved in the same change).
-- The count census widened: `docs/packs.md`, `docs/mcp.md`, and
-  `docs/cli.md` joined the audited surfaces, and the claim token is now
-  the WORD map's own vocabulary instead of a bare letter run, so prose
-  articles before a noun ("the tools", "named reason-codes") no longer
-  assert the runner - zero stale findings on the widened surfaces.
+- docs/ci.md states the two capture contracts the first real consumer filing asked for by name: captures are viewport-only (a `#fragment` navigation or a below-the-fold edit reads `SAME` by design, full-page capture stays a designed affordance, not shipped), and the canon cut is byte equality - stricter than pixel vision, and real Chrome paint over photographic textures is not byte-stable, so textured surfaces cut canon by reviewed adopt, with the pixel-tolerance lane named as designed, never shipped (khf-wp's filings, eyestruct#11 + #12). A consumer-recipes table landed beside it: which verbs fit CI (`gate`, browserless), which are environment-local, and the CMS target shape the khf-wp `qa/eyes/` run root settled on.
+- `WALK_EMPTY`'s message now carries the actual cause for the freshest consumer: a comment-only manifest parses as zero routes (the literal `routes:` header row is required) - message-level clarity only, same code, same exit (docs/reasons.md mirror moved in the same change).
+- The count census widened: `docs/packs.md`, `docs/mcp.md`, and `docs/cli.md` joined the audited surfaces, and the claim token is now the WORD map's own vocabulary instead of a bare letter run, so prose articles before a noun ("the tools", "named reason-codes") no longer assert the runner - zero stale findings on the widened surfaces.
 
 ### Added (2026-10-28, the slot-name rule)
 
-- A manifest route row may carry `slot:` to name the walk candidate
-  slot explicitly (`- path: /  slot: home` lands candidates as
-  `walk__home_view_theme.png`); the path-slug default (`/` reads
-  `root`) is unchanged for rows without the field, and
-  `candidateName` stays the only reader - one truth, stated once.
-  The field rides the parser untouched (khf-wp's ask, eyestruct#12:
-  a canon named for the pages needed a root -> home rename seed step;
-  now the manifest says so and the step dies). Mirrors moved in the
-  same change: docs/cli.md walk bullet, the AGENTS stability-law
-  manifest row, and a contract-leg acceptance case (the override
-  through the real parser + the default naming pinned).
+- A manifest route row may carry `slot:` to name the walk candidate slot explicitly (`- path: /  slot: home` lands candidates as `walk__home_view_theme.png`); the path-slug default (`/` reads `root`) is unchanged for rows without the field, and `candidateName` stays the only reader - one truth, stated once. The field rides the parser untouched (khf-wp's ask, eyestruct#12: a canon named for the pages needed a root -> home rename seed step; now the manifest says so and the step dies). Mirrors moved in the same change: docs/cli.md walk bullet, the AGENTS stability-law manifest row, and a contract-leg acceptance case (the override through the real parser + the default naming pinned).
 
 ### Added (2026-10-28, the 1.0.0 contract clamp)
 
-- Four de-facto surfaces joined the freeze, closing the audit's gap
-  list before the tag: **the package exports map** (exactly `eyestruct`,
-  `eyestruct/lib/index.js` as the documented adapter mirror, and
-  `eyestruct/package.json` resolve; every other deep path refuses at
-  the package level - `ERR_PACKAGE_PATH_NOT_EXPORTED`), **the env-var
-  inventory** (new reference page [environment reference](/eyestruct/env):
-  `EYESTRUCT_BROWSER`, `EYESTRUCT_BUNDLE_CACHE`, `EYESTRUCT_AGENT`,
-  `EYESTRUCT_COMMIT`, with stated precedence; the battery derives the
-  live set from source and pins it in `tests/contract.test.js`, and
-  every pinned name must have its row), **the `--json` machine-output
-  shapes** (key snapshots for the browserless verbs in the same file -
-  `ledger list`, `gate`, `adopt`; refusals stay on stderr by design so
-  json rides success shapes only), and **the manifest + ledger schema
-  jails** (real corruption variants - a pin row off-shape, a missing
-  `pin.renderer`, a route row missing a field, unreadable/non-array
-  ledgers, missing required fields, an empty-wave artifacts array, a
-  hand-edited absolute artifact path - all refuse their named codes:
-  `MANIFEST_CORRUPT` exit 2, `LEDGER_CORRUPT` exit 2, `UNSAFE_PATH`
-  exit 1). The stability-law row in AGENTS.md and this page's
-  [CLI reference](/eyestruct/cli) section name the four surfaces in the
-  same commit. Additive-only: no verb, code, tool, or counted noun
-  moved - the census pins hold at 13 verbs / 29 codes / 10 tools /
-  35 verdicts / 4 pack-census surfaces as-is.
+- Four de-facto surfaces joined the freeze, closing the audit's gap list before the tag: **the package exports map** (exactly `eyestruct`, `eyestruct/lib/index.js` as the documented adapter mirror, and `eyestruct/package.json` resolve; every other deep path refuses at the package level - `ERR_PACKAGE_PATH_NOT_EXPORTED`), **the env-var inventory** (new reference page [environment reference](/eyestruct/env): `EYESTRUCT_BROWSER`, `EYESTRUCT_BUNDLE_CACHE`, `EYESTRUCT_AGENT`, `EYESTRUCT_COMMIT`, with stated precedence; the battery derives the live set from source and pins it in `tests/contract.test.js`, and every pinned name must have its row), **the `--json` machine-output shapes** (key snapshots for the browserless verbs in the same file - `ledger list`, `gate`, `adopt`; refusals stay on stderr by design so json rides success shapes only), and **the manifest + ledger schema jails** (real corruption variants - a pin row off-shape, a missing `pin.renderer`, a route row missing a field, unreadable/non-array ledgers, missing required fields, an empty-wave artifacts array, a hand-edited absolute artifact path - all refuse their named codes: `MANIFEST_CORRUPT` exit 2, `LEDGER_CORRUPT` exit 2, `UNSAFE_PATH` exit 1). The stability-law row in AGENTS.md and this page's [CLI reference](/eyestruct/cli) section name the four surfaces in the same commit. Additive-only: no verb, code, tool, or counted noun moved - the census pins hold at 13 verbs / 29 codes / 10 tools / 35 verdicts / 4 pack-census surfaces as-is.
 
 ### Added (2026-10-28, interface honesty - the counted change)
 
-- The flag gate: trailing unknown flags refuse by name - the 29th reason
-  code, `UNKNOWN_FLAG` (exit 1) - instead of silently exiting 0 without
-  the typo'd flag (`gate --freeze` used to run as if the flag never
-  existed; a flag that does nothing is a lie, never a silent no-op).
-  Trailing `--help`/`--version` now DO their job after any verb, joined
-  bool forms (`--json=x`) refuse `BAD_FLAG_VALUE`, and any flag stated
-  more than once refuses the same way - say it once. The counted change
-  moved in one commit: `lib/reasons.js` (CODES + REASONS), the
-  eye-adapter carrier case that receipts the refusal-grammar addition
-  (35 pack verdicts / 5 packs, 0 exploited), the census pins (29 codes,
-  35 rows), AGENTS.md, docs/cli.md + docs/reasons.md mirrors, the web
-  og-image card, and the battery legs. Found by the walk round (the
-  gate `--freeze` probe), commissioned same-session per the walk-exit
-  rule; the card generator's undeclared `dejavu-fonts-ttf` dependency
-  (a one-mortem the runner restart exposed - it resolved only from a
-  prior machine's hoist) is now a declared web devDependency in the
-  same change.
+- The flag gate: trailing unknown flags refuse by name - the 29th reason code, `UNKNOWN_FLAG` (exit 1) - instead of silently exiting 0 without the typo'd flag (`gate --freeze` used to run as if the flag never existed; a flag that does nothing is a lie, never a silent no-op). Trailing `--help`/`--version` now DO their job after any verb, joined bool forms (`--json=x`) refuse `BAD_FLAG_VALUE`, and any flag stated more than once refuses the same way - say it once. The counted change moved in one commit: `lib/reasons.js` (CODES + REASONS), the eye-adapter carrier case that receipts the refusal-grammar addition (35 pack verdicts / 5 packs, 0 exploited), the census pins (29 codes, 35 rows), AGENTS.md, docs/cli.md + docs/reasons.md mirrors, the web og-image card, and the battery legs. Found by the walk round (the gate `--freeze` probe), commissioned same-session per the walk-exit rule; the card generator's undeclared `dejavu-fonts-ttf` dependency (a one-mortem the runner restart exposed - it resolved only from a prior machine's hoist) is now a declared web devDependency in the same change.
 
 ### Fixed (2026-10-28, the walk)
 
-- `lib/serve-dist.js` served the brand jpgs as `application/octet-stream`
-  - the content-type table had no `.jpg`/`.jpeg`/`.webp` cases, so every
-  `<img>` target under `/brand/` lied about its type through the local
-  `serve` loop (the host serves them `image/jpeg` natively). Now the
-  served shape matches the hosted shape, and a served-contract leg pins
-  the content-type with a real HTTP request (`tests/dist-server.test.js`,
-  the battery's jpg-bridge now 5/5).
+- `lib/serve-dist.js` served the brand jpgs as `application/octet-stream` - the content-type table had no `.jpg`/`.jpeg`/`.webp` cases, so every `<img>` target under `/brand/` lied about its type through the local `serve` loop (the host serves them `image/jpeg` natively). Now the served shape matches the hosted shape, and a served-contract leg pins the content-type with a real HTTP request (`tests/dist-server.test.js`, the battery's jpg-bridge now 5/5).
 
 ### Added (2026-10-28, agents-vision)
 
-- `spot` is the tenth MCP tool: one capture, always saved into the
-  gitignored candidates tree and returned as a file path the coding agent
-  re-opens with its own vision on a later turn - the MCP leg of the
-  agents-vision loop (`serve` stays CLI-only; it owns a port for its
-  lifetime, while the MCP server owns the stream). Mirrors updated in
-  the same change: docs/mcp.md (ten tools) and the count census pin
-  (`TRUTHS['mcp tools']` 9 -> 10).
-- The agents-vision playbook (`docs/playbooks/agents-vision.md`):
-  the mechanical recipe for a coding agent seeing its own work - serve
-  the baked tree, spot it, read the pixels with its own vision, act,
-  re-spot - with the five loop rules and the browser-resolution order.
-- The web surfaces carry the feature: a `/` feature card for the
-  instance loop and a header/footer Playbooks link into the docs
-  playbook tree, plus the dedicated `/agents` route - hero, the
-  five-step loop pipeline, CLI + MCP call examples, the served-tree
-  guarantees, the browser-resolution order, and the visual-memory pitch
-  - registered in AppLayout.jsx and ssr.config.js (sitemap + nav all
-  carry it; the header/footer/sidebar render 'Agents' from ONE list).
-- The world-facing claim surfaces now tell the two-lane story (CI canon
-  + instance sight) everywhere first-touch readers land: README (verb
-  block + "Two lanes, one eye" + playbook link + the stale 3-packs
-  recount), docs start (an instance-lane section beside the CI cycle),
-  docs home (key-facts row), CI guide ("instance mode runs outside this
-  battery" pointer), and the landing (both-lane hero code block, an
-  Agent-mode CTA, the four-verbs heading recount).
-- The three-altitude product story, written on the claim surfaces:
-  CI for devs/enterprise (shipping), adapters for agent platforms and
-  cloud builders (designed next; the MCP stdio surface is the first
-  adapter), and real-time eyes inside the chat session via
-  bridges/connectors (the designed pinnacle, labeled NOT shipped)
-  - README's "The three altitudes", the /agents "Where this goes" grid
-  (Now/Next/pinnacle with built/designed disclaimers), and an AGENTS.md
-  story row that bars past-tense claims for the unbuilt lanes.
-- The adapter API (`lib/index.js`, `eyestruct-adapter@1`): the
-  programmatic surface the adapters altitude rides - the same library
-  modules the CLI dispatches behind one frozen contract (six browserless
-  verbs via `dispatch`, the shared `FailError` + 28-code refusal
-  surface, the manifest/ledger stores, bundle/engine/serveDist).
-  `dispatch` returns the exit code and never exits a hosted caller;
-  canon stays CI-cut from the adapter side by construction. Battery leg
-  `tests/adapter-api.test.js` pins the contract's shape; the reference
-  page is docs/adapters.md (nav-row added).
-- The bridge/carrier ruling, shipped as the fifth pack
-  (`packs/public/eye-adapter`): adapters and connectors are strictly
-  bridges - they never define, author, or evolve schema; anything
-  schema-touching lands as a pack carrier under the packstruct@1
-  grammar FIRST. The adapter surface names its carrier
-  (`SCHEMA_CARRIER`), and the carrier's four campaign cases gate the
-  bridge-only dispatch list, the shared refusal grammar, the
-  never-exits law, and the proposal-only canon rule (no `ratify`
-  through a bridge). Pack campaign now 34 verdicts / 5 packs, 0
-  exploited (re-baselined `--adopt`); all count claims rippled (census,
-  AGENTS, README, docs, web, og-image regenerated) and
-  scripts/run-packs.cjs arms `api()` so the carrier tests the real
-  import, never a private copy.
-- The PRD's build-state ledger refreshed to the 2026-10-28 truth, plus
-  the Goals and Requirements sections for the three altitudes: the
-  adapter contract (R-A1..R-A6), the event-driven lane (R-R1..R-R5 -
-  receipts before any past-tense claim for the pinnacle), and the
-  video/TUI column requirements.
+- `spot` is the tenth MCP tool: one capture, always saved into the gitignored candidates tree and returned as a file path the coding agent re-opens with its own vision on a later turn - the MCP leg of the agents-vision loop (`serve` stays CLI-only; it owns a port for its lifetime, while the MCP server owns the stream). Mirrors updated in the same change: docs/mcp.md (ten tools) and the count census pin (`TRUTHS['mcp tools']` 9 -> 10).
+- The agents-vision playbook (`docs/playbooks/agents-vision.md`): the mechanical recipe for a coding agent seeing its own work - serve the baked tree, spot it, read the pixels with its own vision, act, re-spot - with the five loop rules and the browser-resolution order.
+- The web surfaces carry the feature: a `/` feature card for the instance loop and a header/footer Playbooks link into the docs playbook tree, plus the dedicated `/agents` route - hero, the five-step loop pipeline, CLI + MCP call examples, the served-tree guarantees, the browser-resolution order, and the visual-memory pitch - registered in AppLayout.jsx and ssr.config.js (sitemap + nav all carry it; the header/footer/sidebar render 'Agents' from ONE list).
+- The world-facing claim surfaces now tell the two-lane story (CI canon + instance sight) everywhere first-touch readers land: README (verb block + "Two lanes, one eye" + playbook link + the stale 3-packs recount), docs start (an instance-lane section beside the CI cycle), docs home (key-facts row), CI guide ("instance mode runs outside this battery" pointer), and the landing (both-lane hero code block, an Agent-mode CTA, the four-verbs heading recount).
+- The three-altitude product story, written on the claim surfaces: CI for devs/enterprise (shipping), adapters for agent platforms and cloud builders (designed next; the MCP stdio surface is the first adapter), and real-time eyes inside the chat session via bridges/connectors (the designed pinnacle, labeled NOT shipped) - README's "The three altitudes", the /agents "Where this goes" grid (Now/Next/pinnacle with built/designed disclaimers), and an AGENTS.md story row that bars past-tense claims for the unbuilt lanes.
+- The adapter API (`lib/index.js`, `eyestruct-adapter@1`): the programmatic surface the adapters altitude rides - the same library modules the CLI dispatches behind one frozen contract (six browserless verbs via `dispatch`, the shared `FailError` + 28-code refusal surface, the manifest/ledger stores, bundle/engine/serveDist). `dispatch` returns the exit code and never exits a hosted caller; canon stays CI-cut from the adapter side by construction. Battery leg `tests/adapter-api.test.js` pins the contract's shape; the reference page is docs/adapters.md (nav-row added).
+- The bridge/carrier ruling, shipped as the fifth pack (`packs/public/eye-adapter`): adapters and connectors are strictly bridges - they never define, author, or evolve schema; anything schema-touching lands as a pack carrier under the packstruct@1 grammar FIRST. The adapter surface names its carrier (`SCHEMA_CARRIER`), and the carrier's four campaign cases gate the bridge-only dispatch list, the shared refusal grammar, the never-exits law, and the proposal-only canon rule (no `ratify` through a bridge). Pack campaign now 34 verdicts / 5 packs, 0 exploited (re-baselined `--adopt`); all count claims rippled (census, AGENTS, README, docs, web, og-image regenerated) and scripts/run-packs.cjs arms `api()` so the carrier tests the real import, never a private copy.
+- The PRD's build-state ledger refreshed to the 2026-10-28 truth, plus the Goals and Requirements sections for the three altitudes: the adapter contract (R-A1..R-A6), the event-driven lane (R-R1..R-R5 - receipts before any past-tense claim for the pinnacle), and the video/TUI column requirements.
 
 ### Added (2026-10-28, hardening)
 
-- The served-contract leg (`tests/dist-server.test.js`, part of `npm
-  test`): a real HTTP client against a real server (`lib/serve-dist.js`,
-  the shared zero-dep implementation of "what the host serves") verifies
-  the build output serves the status dialect byte-for-byte from the
-  committed ledgers, the prerendered status page carries the island
-  hooks, and the deployed assets carry the reader. The `_headers`
-  dialect clauses always run; the dist half honest-skips on CI (no web
-  build in the battery) naming the exact build command. First run
-  receipt: caught a genuinely stale dist (`asOf 516f72a` served while
-  the generator read `c25175a`) before any browser could.
-- The opt-in chromium lane (`npm run check:browser`, zero new deps):
-  renders all four dialect states in a real browser against
-  fixture-served sibling responses - PASS row, RED degradation, the
-  clean 404 wording, and the schema-2 refusal; the own row is asserted
-  against the served file's truth (no hand-copied counts), fully
-  offline and deterministic. No chromium resolves ->
-  `MISSING_PINNED_BROWSER` exit 2 with the fix named.
+- The served-contract leg (`tests/dist-server.test.js`, part of `npm test`): a real HTTP client against a real server (`lib/serve-dist.js`, the shared zero-dep implementation of "what the host serves") verifies the build output serves the status dialect byte-for-byte from the committed ledgers, the prerendered status page carries the island hooks, and the deployed assets carry the reader. The `_headers` dialect clauses always run; the dist half honest-skips on CI (no web build in the battery) naming the exact build command. First run receipt: caught a genuinely stale dist (`asOf 516f72a` served while the generator read `c25175a`) before any browser could.
+- The opt-in chromium lane (`npm run check:browser`, zero new deps): renders all four dialect states in a real browser against fixture-served sibling responses - PASS row, RED degradation, the clean 404 wording, and the schema-2 refusal; the own row is asserted against the served file's truth (no hand-copied counts), fully offline and deterministic. No chromium resolves -> `MISSING_PINNED_BROWSER` exit 2 with the fix named.
 
 ### Added (2026-10-28)
 
-- The family status dialect (`family-status@1`, docs/status.md): a
-  machine-readable `status.json` served at the fixed path `/status.json`
-  on all four family sites (eyestruct, crashtest, poststruct,
-  packstruct), generated by `web/scripts/build-status.mjs` straight from
-  the committed ledgers on every web build (gitignored output; the
-  emitter refuses a manifest without ledger rows and rows for unknown
-  packs, never guesses). The `/status` page now renders the family rows
-  via a `family-status` island that reads the siblings' served files
-  with per-sibling graceful failure, plus the battery test
-  `tests/status.test.js` pinning the emitter's verdict rules and
-  re-deriving the real tree's counts against the live ledgers.
+- The family status dialect (`family-status@1`, docs/status.md): a machine-readable `status.json` served at the fixed path `/status.json` on all four family sites (eyestruct, crashtest, poststruct, packstruct), generated by `web/scripts/build-status.mjs` straight from the committed ledgers on every web build (gitignored output; the emitter refuses a manifest without ledger rows and rows for unknown packs, never guesses). The `/status` page now renders the family rows via a `family-status` island that reads the siblings' served files with per-sibling graceful failure, plus the battery test `tests/status.test.js` pinning the emitter's verdict rules and re-deriving the real tree's counts against the live ledgers.
 
 ### Changed (2026-10-28)
 
-- Runtime floors documented with receipts (docs/ci.md): the consumer
-  runtime floor is node `>=18` (the `engines` field; `npm test` ran green
-  end-to-end on `v18.20.8`) while the dev battery floor is node `>=20.19`
-  (the `conform:packs` leg loads ESM conformance fixtures through
-  `require(esm)`, which 18 LACKS - under 18.20.8 the audit refused loudly:
-  "AUDIT clean [audit-accept]: loader exit 2", no fake pass). CI's node 20
-  floats to latest 20.x and satisfies the floor (run #58 green on
-  e8a9649); a pinned 20.0 would not, so the floor phrase rides every
-  future matrix pin. Receipt table lives in docs/ci.md.
-- Terms + Privacy converged on the family canonical legal-page form per
-  eyestruct#7's written structure (eyebrow line, dated `Web version
-  2026-10-28` line with the long-form pointer at the repo, the section
-  skeletons - use/purpose/ownership/fair-use/changes for Terms,
-  short-version-first/tool/website/named-third-parties/retention/questions
-  for Privacy, one non-empty h1 per page). Facts are eyestruct's own: the
-  status page's GitHub fetch, the npm-registry install fetch, and the
-  three named third parties (Cloudflare Pages hosting, npmjs registry,
-  GitHub). Prerender-verified (`prestruct build`, 5/5 pages, REPAIR-404
-  PASS). The reference implementation the issue pointed at was verified
-  ABSENT on its claimed surface (receipt comment on the issue), so the
-  pages were built from the issue body's own spec text.
+- Runtime floors documented with receipts (docs/ci.md): the consumer runtime floor is node `>=18` (the `engines` field; `npm test` ran green end-to-end on `v18.20.8`) while the dev battery floor is node `>=20.19` (the `conform:packs` leg loads ESM conformance fixtures through `require(esm)`, which 18 LACKS - under 18.20.8 the audit refused loudly: "AUDIT clean [audit-accept]: loader exit 2", no fake pass). CI's node 20 floats to latest 20.x and satisfies the floor (run #58 green on e8a9649); a pinned 20.0 would not, so the floor phrase rides every future matrix pin. Receipt table lives in docs/ci.md.
+- Terms + Privacy converged on the family canonical legal-page form per eyestruct#7's written structure (eyebrow line, dated `Web version 2026-10-28` line with the long-form pointer at the repo, the section skeletons - use/purpose/ownership/fair-use/changes for Terms, short-version-first/tool/website/named-third-parties/retention/questions for Privacy, one non-empty h1 per page). Facts are eyestruct's own: the status page's GitHub fetch, the npm-registry install fetch, and the three named third parties (Cloudflare Pages hosting, npmjs registry, GitHub). Prerender-verified (`prestruct build`, 5/5 pages, REPAIR-404 PASS). The reference implementation the issue pointed at was verified ABSENT on its claimed surface (receipt comment on the issue), so the pages were built from the issue body's own spec text.
 
 ### Added (2026-10-27)
 
-- The phone publish lane, GENERIC (family-reusable): `scripts/ship-from-download.cjs`
-  stages a zip-extracted npm tree into a Termux home folder (installs never
-  survive `/storage/emulated` - its FUSE mount refuses the `node_modules/.bin`
-  symlinks, EACCES), runs `npm ci`/`npm install`, then publishes through the
-  repo's own `prepublishOnly` gate. No repo imports - copy the file as-is into
-  any family repo and it ships that repo's tree. The token rides `NPM_TOKEN`
-  (the npm-standard env name; `NPM_SHIP_TOKEN` is the generic fallback), is
-  expanded from env into a staged one-line `.npmrc`, and never lands in argv,
-  on disk, or in the log; the staged file is unlinked in a finally, publish
-  failing or not. Named refusals only: wrong/unnamed tree, shared-storage
-  roots, occupied roots (advice, never deletion), non-npm_ tokens,
-  pre-existing `.npmrc`. `--clean` (never on by default) removes the staged
-  root after the run - on EVERY exit after staging, success or failure - so a
-  failed attempt cannot block the retry with `ROOT_OCCUPIED`; it never touches
-  the `--target`. Behavior tests: `tests/ship-from-download.test.js`
-  (temp dirs, fake runner seam, no network, foreign-name fixture proves the
-  product-agnostic contract).
+- The phone publish lane, GENERIC (family-reusable): `scripts/ship-from-download.cjs` stages a zip-extracted npm tree into a Termux home folder (installs never survive `/storage/emulated` - its FUSE mount refuses the `node_modules/.bin` symlinks, EACCES), runs `npm ci`/`npm install`, then publishes through the repo's own `prepublishOnly` gate. No repo imports - copy the file as-is into any family repo and it ships that repo's tree. The token rides `NPM_TOKEN` (the npm-standard env name; `NPM_SHIP_TOKEN` is the generic fallback), is expanded from env into a staged one-line `.npmrc`, and never lands in argv, on disk, or in the log; the staged file is unlinked in a finally, publish failing or not. Named refusals only: wrong/unnamed tree, shared-storage roots, occupied roots (advice, never deletion), non-npm_ tokens, pre-existing `.npmrc`. `--clean` (never on by default) removes the staged root after the run - on EVERY exit after staging, success or failure - so a failed attempt cannot block the retry with `ROOT_OCCUPIED`; it never touches the `--target`. Behavior tests: `tests/ship-from-download.test.js` (temp dirs, fake runner seam, no network, foreign-name fixture proves the product-agnostic contract).
 
 ## [0.9.0] - 2026-10-27
 
 The release cut: the npm tarball lands this tree exactly as shown. Below, two dated halves that ride the same version because nothing between them published - the catch-up rows (folded pre-publish from the Unreleased block) and the staging-era spine. The gistory staging ecosystem is cited history (the STANDING AMENDMENT, 2026-10-27): eyestruct follows no other repo from here.
 
 ### Added (2026-10-27, the catch-up)
-- The capture seam is live: `lib/engine.js` drives the PINNED chrome through
-  puppeteer-core (`--browser-exec` / `EYESTRUCT_BROWSER` / manifest pin /
-  puppeteer-cache discovery, in that order) - `look`, `diff`, `walk`, and
-  `ratify` capture for real; `MISSING_PINNED_BROWSER` names all four paths.
-- Both PRD ship receipts ran first-person (the founding og-image-class catch:
-  a pixels-broken/DOM-clean edit returns `DIFFERS` + exit 1, named; and the
-  memory receipt: a surface described from `labs/.eyes/` with no browser).
-  Evidence follicles + ledger trail live at `labs/.eyes-receipt/`, the run
-  log in `labs/TASKS.md`.
-- `adopt --wave`: the churn-wave ruling ships - N changed slots collapse into
-  ONE wave row (`artifacts: [...]`, one note explains N image changes), with
-  gate/list handling, the `eyestruct[UNRECORDED]`/`DANGLING_ROW` refusals
-  carrying the wave shape, and smoke coverage (25/25 with a browser exported).
-- `lint-packs` verb: the packstruct lint lane as a discoverable CLI verb
-  (`--deep/--json/--against`), running over the repo's own install.
-- MCP stdio surface is live (no longer a post-MVP stub): nine tools decoding
-  the CLI verbs (look, diff, adopt, ratify, ledger_list, ledger_show, gate,
-  raster, walk) with structured errors - probed via `tools/list`.
-- Raster gate rides CI: `npm run raster:gate` over `docs/icon.svg` +
-  `web/public/icon.svg` (re-pointed after the horcrux stones left the tree).
-- The three-pack campaign ships complete: `eye-shapes`, `eye-ci-gate`,
-  `eye-text-leg`, 26 committed verdicts in `packs/eye-ledger.json`.
-- The crashtest adversarial leg rides CI: 52 hostile attacks
-  (argv batches, MCP stdio frames, 6 ledger variants, seed 0xE1E5), 52/52
-  REFUSED, 0 exploited.
-- Docs grew the full scaffold: start / cli / mcp / reasons / packs / ci /
-  playbooks (7 recipes) / discussions (release-post system + the
-  announcing-v0.9.0 post) - 18 lint-gated pages, with `cli.md` and
-  `mcp.md` mirroring the real dispatch and the tools registry.
-- Web: the landing wears the real brand + its theme token pair, and
-  `/packs` + `/status` ship as standalone routes reading the same committed
-  ledgers a fresh session reads.
+- The capture seam is live: `lib/engine.js` drives the PINNED chrome through puppeteer-core (`--browser-exec` / `EYESTRUCT_BROWSER` / manifest pin / puppeteer-cache discovery, in that order) - `look`, `diff`, `walk`, and `ratify` capture for real; `MISSING_PINNED_BROWSER` names all four paths.
+- Both PRD ship receipts ran first-person (the founding og-image-class catch: a pixels-broken/DOM-clean edit returns `DIFFERS` + exit 1, named; and the memory receipt: a surface described from `labs/.eyes/` with no browser). Evidence follicles + ledger trail live at `labs/.eyes-receipt/`, the run log in `labs/TASKS.md`.
+- `adopt --wave`: the churn-wave ruling ships - N changed slots collapse into ONE wave row (`artifacts: [...]`, one note explains N image changes), with gate/list handling, the `eyestruct[UNRECORDED]`/`DANGLING_ROW` refusals carrying the wave shape, and smoke coverage (25/25 with a browser exported).
+- `lint-packs` verb: the packstruct lint lane as a discoverable CLI verb (`--deep/--json/--against`), running over the repo's own install.
+- MCP stdio surface is live (no longer a post-MVP stub): nine tools decoding the CLI verbs (look, diff, adopt, ratify, ledger_list, ledger_show, gate, raster, walk) with structured errors - probed via `tools/list`.
+- Raster gate rides CI: `npm run raster:gate` over `docs/icon.svg` + `web/public/icon.svg` (re-pointed after the horcrux stones left the tree).
+- The three-pack campaign ships complete: `eye-shapes`, `eye-ci-gate`, `eye-text-leg`, 26 committed verdicts in `packs/eye-ledger.json`.
+- The crashtest adversarial leg rides CI: 52 hostile attacks (argv batches, MCP stdio frames, 6 ledger variants, seed 0xE1E5), 52/52 REFUSED, 0 exploited.
+- Docs grew the full scaffold: start / cli / mcp / reasons / packs / ci / playbooks (7 recipes) / discussions (release-post system + the announcing-v0.9.0 post) - 18 lint-gated pages, with `cli.md` and `mcp.md` mirroring the real dispatch and the tools registry.
+- Web: the landing wears the real brand + its theme token pair, and `/packs` + `/status` ship as standalone routes reading the same committed ledgers a fresh session reads.
 
-- The vendored checksummed browser lane (issue #4): `init
-  --browser-bundle TARBALL` stays browserless (one sha256 pass + one tar
-  unpack), records `bundle@<sha16>` in the manifest pin, installs once
-  into the bundle cache with an integrity marker, and
-  `look`/`diff`/`walk`/`ratify` resolve that exec BEFORE the puppeteer
-  cache and the refusal - executor order: `--browser-exec` /
-  `EYESTRUCT_BROWSER` / `pin.browser-exec` / bundle / cache /
-  `MISSING_PINNED_BROWSER`. Trust is receipt-based, never
-  presence-based: a tampered or partially-unpacked cache refuses with
-  the same code until `init --browser-bundle` re-anchors it; a malformed
-  pin recording is `MANIFEST_CORRUPT`; a missing tarball is
-  `MISSING_INPUT`; a chrome-less archive is a named capability refusal.
-  Offline captures for CI mode; docs/ci.md carries the produce/consume
-  recipe; the issue's contract is a battery leg (fake tarballs in temp
-  homes - no network, no real chrome).
-- The bundle lane hardened + armed: `findChromeExec` accepts only
-  REGULAR files, so a chrome symlink in a supplied tarball is refused
-  (it can never aim the executor outside the bundle); `init` is
-  idempotent - a bundle-only re-seed on a living manifest preserves the
-  pin and route matrix byte-for-byte outside the bundle row (the old
-  wholesale rewrite was a route-matrix footgun); the fourth adversarial
-  pack `eye-bundle` rides the campaign (30 committed verdicts, 4 packs):
-  the two hostile archive shapes refuse, the install + idempotent
-  re-seed pass, and installs are checksum-isolated; the ratify lane
-  grows an optional `bundle-tarball` dispatch input that seeds the lane
-  through the repo's own init and skips the pinned fetch (offline CI
-  mode); the claim surfaces re-counted honestly (AGENTS, web Home +
-  Packs, docs/packs.md, og-image card regenerated at 30).
+- The vendored checksummed browser lane (issue #4): `init --browser-bundle TARBALL` stays browserless (one sha256 pass + one tar unpack), records `bundle@<sha16>` in the manifest pin, installs once into the bundle cache with an integrity marker, and `look`/`diff`/`walk`/`ratify` resolve that exec BEFORE the puppeteer cache and the refusal - executor order: `--browser-exec` / `EYESTRUCT_BROWSER` / `pin.browser-exec` / bundle / cache / `MISSING_PINNED_BROWSER`. Trust is receipt-based, never presence-based: a tampered or partially-unpacked cache refuses with the same code until `init --browser-bundle` re-anchors it; a malformed pin recording is `MANIFEST_CORRUPT`; a missing tarball is `MISSING_INPUT`; a chrome-less archive is a named capability refusal. Offline captures for CI mode; docs/ci.md carries the produce/consume recipe; the issue's contract is a battery leg (fake tarballs in temp homes - no network, no real chrome).
+- The bundle lane hardened + armed: `findChromeExec` accepts only REGULAR files, so a chrome symlink in a supplied tarball is refused (it can never aim the executor outside the bundle); `init` is idempotent - a bundle-only re-seed on a living manifest preserves the pin and route matrix byte-for-byte outside the bundle row (the old wholesale rewrite was a route-matrix footgun); the fourth adversarial pack `eye-bundle` rides the campaign (30 committed verdicts, 4 packs): the two hostile archive shapes refuse, the install + idempotent re-seed pass, and installs are checksum-isolated; the ratify lane grows an optional `bundle-tarball` dispatch input that seeds the lane through the repo's own init and skips the pinned fetch (offline CI mode); the claim surfaces re-counted honestly (AGENTS, web Home + Packs, docs/packs.md, og-image card regenerated at 30).
 
 ### Changed (2026-10-27)
-- The web + docs shell re-skinned off the template periwinkle, through
-  petrol-night/pale-sea (spec cross-filed to flowforge#18) to the shipped
-  pair, jade on graphite: warm graphite dark (#121011) + parchment light
-  (#f6f1e7), jade iris accent (dark #45cf83 / light #197a4c AA), with
-  sage-olive success and coral error deliberately kept distinct from jade
-  (the verdict-table ruling) - receipts: commit `e4a73ac`, live curls of
-  both sites carrying the token values, dark/light frames captured via
-  the repo's own `look` engine. Palette specs + a switchable-paint-scheme
-  request ride the family template (flowforge#19/#20/#21).
-- The brand mark re-wears the accent: icon set + docs tile regenerated
-  through `make-icons.mjs`, whose art path now points at
-  `web/public/brand/eyestruct-logo.jpg` (it had regressed to the repo
-  root after the packs move - caught while re-running the trace), and
-  `og-image.mjs` constants + card follow the palette.
-- Docs fix: the light token block now defines `--accent-deep`, so Rouge
-  number/scalar tokens stop silently inheriting the dark-theme value on
-  white pages.
-- The round-2 trifecta walk became a battery leg: `npm run check:trifecta`
-  opens the `check` chain and refuses (named STALE rows) when README's
-  usage fence departs from the real bin dispatch, a cited workflow lane,
-  npm script, or docs page doesn't exist, AGENTS receipt counts disagree
-  with the tree, or CHANGELOG's Unreleased block cites paths/commits not
-  on disk - while historical release sections stay honest as receipts of
-  their era (the 0.9.0-era verbs page was real then, folded into cli.md
-  later; the leg audits what is claimed true NOW, not honest history).
-  Behavior coverage rides `npm test` (temp-dir fixtures, no network). Docs visual verification also unblocked locally: the sandbox
-  runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12,
-  scratch Bundler path - no repo artifacts), so dark/light docs frames
-  are now captured via the repo's own `look` engine beside the landing
-  site's.
+- The web + docs shell re-skinned off the template periwinkle, through petrol-night/pale-sea (spec cross-filed to flowforge#18) to the shipped pair, jade on graphite: warm graphite dark (#121011) + parchment light (#f6f1e7), jade iris accent (dark #45cf83 / light #197a4c AA), with sage-olive success and coral error deliberately kept distinct from jade (the verdict-table ruling) - receipts: commit `e4a73ac`, live curls of both sites carrying the token values, dark/light frames captured via the repo's own `look` engine. Palette specs + a switchable-paint-scheme request ride the family template (flowforge#19/#20/#21).
+- The brand mark re-wears the accent: icon set + docs tile regenerated through `make-icons.mjs`, whose art path now points at `web/public/brand/eyestruct-logo.jpg` (it had regressed to the repo root after the packs move - caught while re-running the trace), and `og-image.mjs` constants + card follow the palette.
+- Docs fix: the light token block now defines `--accent-deep`, so Rouge number/scalar tokens stop silently inheriting the dark-theme value on white pages.
+- The round-2 trifecta walk became a battery leg: `npm run check:trifecta` opens the `check` chain and refuses (named STALE rows) when README's usage fence departs from the real bin dispatch, a cited workflow lane, npm script, or docs page doesn't exist, AGENTS receipt counts disagree with the tree, or CHANGELOG's Unreleased block cites paths/commits not on disk - while historical release sections stay honest as receipts of their era (the 0.9.0-era verbs page was real then, folded into cli.md later; the leg audits what is claimed true NOW, not honest history). Behavior coverage rides `npm test` (temp-dir fixtures, no network). Docs visual verification also unblocked locally: the sandbox runs the docs Jekyll build end to end (pinned user-dir Ruby 3.4.12, scratch Bundler path - no repo artifacts), so dark/light docs frames are now captured via the repo's own `look` engine beside the landing site's.
 
 ### Hardened (2026-10-27, the adversarial walk)
-- The first repo-wide adversarial sweep landed its fixes: the MCP stdio
-  transport no longer dies on a `null` frame (-32600 by name, server keeps
-  answering) or a `tools/call` without a params object (-32602); `lib/adopt.js`
-  lost the duplicated, divergent shadow helpers that hoisted over its real
-  argument parser; the capture engine keeps chrome's own sandbox for non-root
-  agents (root keeps `--no-sandbox`, with one named retry for containers
-  without namespaces - `engine.launchAttempts` is the testable policy); and
-  ledger artifact paths are eyes-relative by contract - a new reason-code
-  `UNSAFE_PATH` (now 26 codes) refuses absolute or `..`-escaping targets at
-  the adopt/wave write surface AND every ledger/gate read surface, so a
-  hand-edited row cannot aim gate or diff outside the eyes home; the ledger
-  temp-file write is created under `wx` with an unguessable suffix, closing
-  the preplaced-symlink redirect edge. Receipts: the sweep in
-  `labs/crashledger.json` stays 52/52 REFUSED (0 new, 0 regressed), pack
-  campaign 26/26, and 5 new behavior legs in `tests/smoke.test.js`
-  (temp dirs, no network).
-- Round two of the walk swept the seams round one did not: a stated
-  raster input that does not exist or is unreadable now refuses with the
-  named code `MISSING_INPUT` (27 codes, exit 2 - the `LEDGER_MISSING`
-  shape for artifact inputs) instead of falling out as the generic
-  internal-error fallback; the two ported docs linters stop wearing
-  crashtest's labels, and the link checker's doubled-site-prefix rule is
-  now real for this repo (`/eyestruct/eyestruct/...` refused by name)
-  and runs before the broad permalink check. Two new behavior legs
-  (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
-- Round three cleared the docket: a flag can no longer occupy another
-  flag's value slot (`init --browser-image --renderer r:1` used to write
-  the pin as "--renderer" - BAD_FLAG_VALUE now, nothing written); a flag
-  in the `--note` slot refuses as ADOPT_NOTE_REQUIRED instead of landing
-  "--wave" inside the note; `ledger show` splits its misses honestly -
-  no id is UNKNOWN_COMMAND, a wrong id is the new `ROW_MISSING` code (28
-  codes, exit 1) instead of borrowing DANGLING_ROW's name; the bin's
-  dead posArg is gone; and the docs search overlay's innerHTML sink
-  escapes the user query (self-XSS class, the q-interpolation catch).
-  Receipts: 42 tests / 34 pass / 0 fail, battery + docs gates + hostile
-  leg 52/52 all green.
-- The npm-publish pass (pre-0.9.0): `private` lifted so the package can
-  actually publish, `prepublishOnly` runs the battery (npm test &&
-  npm run check) before any tarball leaves, `bin/eyestruct.js` rides git
-  mode 100755, README carries the install section the docs ruling
-  promised (npm assumed live, not "coming soon"), `bugs` points at the
-  issue lane, and both version surfaces (`bin` usage line, MCP
-  SERVER_INFO) read from package.json instead of hardcoded strings.
-  Receipts: `npm pack --dry-run` = 20 files / 30.1 kB, exactly bin + lib
-  + LICENSE + README + CHANGELOG + manifest - the brain at
-  models/private/magpie, labs/, horcrux/, docs/, web/, packs/ all
-  excluded; npm test 42 tests / 34 pass / 0 fail; TRIFECTA: PASS.
+- The first repo-wide adversarial sweep landed its fixes: the MCP stdio transport no longer dies on a `null` frame (-32600 by name, server keeps answering) or a `tools/call` without a params object (-32602); `lib/adopt.js` lost the duplicated, divergent shadow helpers that hoisted over its real argument parser; the capture engine keeps chrome's own sandbox for non-root agents (root keeps `--no-sandbox`, with one named retry for containers without namespaces - `engine.launchAttempts` is the testable policy); and ledger artifact paths are eyes-relative by contract - a new reason-code `UNSAFE_PATH` (now 26 codes) refuses absolute or `..`-escaping targets at the adopt/wave write surface AND every ledger/gate read surface, so a hand-edited row cannot aim gate or diff outside the eyes home; the ledger temp-file write is created under `wx` with an unguessable suffix, closing the preplaced-symlink redirect edge. Receipts: the sweep in `labs/crashledger.json` stays 52/52 REFUSED (0 new, 0 regressed), pack campaign 26/26, and 5 new behavior legs in `tests/smoke.test.js` (temp dirs, no network).
+- Round two of the walk swept the seams round one did not: a stated raster input that does not exist or is unreadable now refuses with the named code `MISSING_INPUT` (27 codes, exit 2 - the `LEDGER_MISSING` shape for artifact inputs) instead of falling out as the generic internal-error fallback; the two ported docs linters stop wearing crashtest's labels, and the link checker's doubled-site-prefix rule is now real for this repo (`/eyestruct/eyestruct/...` refused by name) and runs before the broad permalink check. Two new behavior legs (missing file, directory-as-input), 39 tests / 31 pass / 0 fail.
+- Round three cleared the docket: a flag can no longer occupy another flag's value slot (`init --browser-image --renderer r:1` used to write the pin as "--renderer" - BAD_FLAG_VALUE now, nothing written); a flag in the `--note` slot refuses as ADOPT_NOTE_REQUIRED instead of landing "--wave" inside the note; `ledger show` splits its misses honestly - no id is UNKNOWN_COMMAND, a wrong id is the new `ROW_MISSING` code (28 codes, exit 1) instead of borrowing DANGLING_ROW's name; the bin's dead posArg is gone; and the docs search overlay's innerHTML sink escapes the user query (self-XSS class, the q-interpolation catch). Receipts: 42 tests / 34 pass / 0 fail, battery + docs gates + hostile leg 52/52 all green.
+- The npm-publish pass (pre-0.9.0): `private` lifted so the package can actually publish, `prepublishOnly` runs the battery (npm test && npm run check) before any tarball leaves, `bin/eyestruct.js` rides git mode 100755, README carries the install section the docs ruling promised (npm assumed live, not "coming soon"), `bugs` points at the issue lane, and both version surfaces (`bin` usage line, MCP SERVER_INFO) read from package.json instead of hardcoded strings. Receipts: `npm pack --dry-run` = 20 files / 30.1 kB, exactly bin + lib + LICENSE + README + CHANGELOG + manifest - the brain at models/private/magpie, labs/, horcrux/, docs/, web/, packs/ all excluded; npm test 42 tests / 34 pass / 0 fail; TRIFECTA: PASS.
 
 ### Still ahead
-- The first canon dispatch (`eyes-ratify`): the proposals already ride
-  `ratified:false`, and the pinned-image dispatch is its own event (the
-  issue-triage rider).
-- Trusted publishing from the 1.0.0 tag onward (the manual ladder covers
-  the 0.x line only).
+- The first canon dispatch (`eyes-ratify`): the proposals already ride `ratified:false`, and the pinned-image dispatch is its own event (the issue-triage rider).
+- Trusted publishing from the 1.0.0 tag onward (the manual ladder covers the 0.x line only).
 
 ### The spine (2026-10-26, the staging-era cut)
 
-The first cut, grown in the gistory staging ecosystem end to end
-(eyestruct-staging mount, its own nested git history, tar-ferry
-provenance). Receipts: `labs/TASKS.md` in-repo; the vaulted PRD rides
-the family horcrux. Folded verbatim as history - the release-date row above carries the publish moment.
+The first cut, grown in the gistory staging ecosystem end to end (eyestruct-staging mount, its own nested git history, tar-ferry provenance). Receipts: `labs/TASKS.md` in-repo; the vaulted PRD rides the family horcrux. Folded verbatim as history - the release-date row above carries the publish moment.
 
 #### Added
-- CLI spine per the PRD (`labs/prd-eyes.md`): `bin/eyestruct.js` dispatch
-  over `lib/` with the exit contract 0-1-2 and a named code on every
-  refusal - diagnostics carry reasons, never bare crashes ("NO
-  bare/errors").
-- `manifest`: pin + route matrix via the strict hand-editable subset
-  parser; `ledger`: append-only and atomic, corruption refuses loudly;
-  `gate`: crashledger semantics (unexplained drift exits 1, capability
-  trouble exits 2).
-- `adopt`: note required at write time; a local adopt is an unratified
-  proposal - canon is CI-cut.
-- `look`, `diff`, `walk`: engine seam declared; refuses honestly until
-  the pinned browser image exists (never fake-passes).
+- CLI spine per the PRD (`labs/prd-eyes.md`): `bin/eyestruct.js` dispatch over `lib/` with the exit contract 0-1-2 and a named code on every refusal - diagnostics carry reasons, never bare crashes ("NO bare/errors").
+- `manifest`: pin + route matrix via the strict hand-editable subset parser; `ledger`: append-only and atomic, corruption refuses loudly; `gate`: crashledger semantics (unexplained drift exits 1, capability trouble exits 2).
+- `adopt`: note required at write time; a local adopt is an unratified proposal - canon is CI-cut.
+- `look`, `diff`, `walk`: engine seam declared; refuses honestly until the pinned browser image exists (never fake-passes).
 - `raster`: strict parse + render + byte sanity.
 - `mcp`: post-MVP surface; honest refusal until it lands.
 - 13/13 smoke tests; `lint:docs` 5/5 gates.
-- Web landing rebrand (12 fields: ssr identity block, Home copy + CTAs,
-  nav brand/links/badge, footer, manifest, theme key both ends, package
-  name) - `prestruct build` green with zero flowforge strings in dist,
-  `inject-brand` populating the eyestruct identity.
-- Own CI: `.github/workflows/test.yml` (node 20, `npm ci` hermetic,
-  `npm test` + `npm run check`) - the first standalone push after the
-  move is gated by this repo's own battery.
-- docs/ on the family Jekyll + Freestruct rig: identity pages in hyphen
-  voice (the PRD keeps em-dash voice at `labs/`), `docs/verbs.md` usage
-  lines matching bin dispatch exactly, plus the frontmatter/style/language
-  gates.
-- `package.json` + `package-lock.json` agree on the eyestruct name; the
-  lock landed byte-exact (origin blob 3518984fe... == disk).
+- Web landing rebrand (12 fields: ssr identity block, Home copy + CTAs, nav brand/links/badge, footer, manifest, theme key both ends, package name) - `prestruct build` green with zero flowforge strings in dist, `inject-brand` populating the eyestruct identity.
+- Own CI: `.github/workflows/test.yml` (node 20, `npm ci` hermetic, `npm test` + `npm run check`) - the first standalone push after the move is gated by this repo's own battery.
+- docs/ on the family Jekyll + Freestruct rig: identity pages in hyphen voice (the PRD keeps em-dash voice at `labs/`), `docs/verbs.md` usage lines matching bin dispatch exactly, plus the frontmatter/style/language gates.
+- `package.json` + `package-lock.json` agree on the eyestruct name; the lock landed byte-exact (origin blob 3518984fe... == disk).
 
 #### Notes
-- 0.9.x is the manual release ladder at move time; the family publish
-  workflow refuses 0.x tags, and 1.0.0 flips trusted publishing.
-- docs voice law survived the write: locations and surfaces state facts
-  in one voice per surface (em-dash PRD, hyphen docs).
+- 0.9.x is the manual release ladder at move time; the family publish workflow refuses 0.x tags, and 1.0.0 flips trusted publishing.
+- docs voice law survived the write: locations and surfaces state facts in one voice per surface (em-dash PRD, hyphen docs).
