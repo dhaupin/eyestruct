@@ -180,6 +180,20 @@ test('manifest jail: a pin row / route row that breaks the subset refuses MANIFE
   // The default path-slug naming, unchanged for rows without slot:
   assert.equal(candidateName({ path: '/settings', view: 'desktop-1280', theme: 'dark' }), 'walk__settings_desktop-1280_dark.png')
   assert.equal(candidateName({ path: '/', view: 'desktop-1280', theme: 'dark' }), 'walk__root_desktop-1280_dark.png', 'the root default survives (khf-wp run roots that seeded the old name keep reading)')
+
+  // The slot jail (2026-11-01): a slot: value becomes part of a file name
+  // and a canon slot key, so pathometas (/, ..) are a corruption shape, not
+  // a name - the parser refuses through the REAL parse path, before any
+  // writer acts on it (the candidate writer never sees an unsafe name).
+  fs.writeFileSync(mfile, original.replace('- path: /  ', '- path: /  slot: ../../evil  '))
+  const escape = run(['gate'], dir)
+  assert.strictEqual(escape.code, 2)
+  assert.match(escape.stderr, /slot must be a page name/)
+  fs.writeFileSync(mfile, original.replace('- path: /  ', '- path: /  slot: pages/home  '))
+  const slash = run(['gate'], dir)
+  assert.strictEqual(slash.code, 2)
+  assert.match(slash.stderr, /slot must be a page name/)
+
   fs.rmSync(dir, { recursive: true, force: true })
 })
 

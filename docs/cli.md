@@ -70,7 +70,12 @@ interchangeable:
   `- path: /  slot: home` makes the candidates land as `home`, so a
   canon that names its slots for the pages never needs a rename step
   between a walk and its manifest (`walk`'s `candidateName` is the only
-  reader of the field).
+  reader of the field). The override names PAGES, not paths: a `slot:`
+  value carries word characters and dashes only - anything with path
+  shapes (`/`, `..`, separators) refuses `MANIFEST_CORRUPT` at the
+  manifest read, before any writer can act on it. A route row whose path
+  is already absolute is captured as stated (the base URL is not joined
+  onto it).
 - `ratify <base-url>` re-captures every manifest route **in the pinned
   environment** and cuts byte-identical slots as append-only ratify rows -
   it is the canon verb, and it belongs to the pinned-image lane, never to
