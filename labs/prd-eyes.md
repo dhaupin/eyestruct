@@ -517,6 +517,30 @@ column, the same candidate→adopt→canon ladder, the same named
 refusals. A column lands when its determinism receipt can pass the
 battery in the CI VM, not before.
 
+## Requirements — the capture-surface affordances (designed, not shipped)
+
+Two affordances from the first real consumer's filings (khf-wp,
+eyestruct#11 + #12) are named DESIGNED on the docs surface; they hold
+requirements rows here so the claim has a home, not a rumor:
+
+- **R-C1 — full-page capture is an opt-in column extension, never a
+  silent default.** A manifest-level or flag-level full-page mode
+  captures beyond the viewport; the slot receipts the mode it used
+  (the ledger row names it), so a canon that mixed viewport and
+  full-page slots never silently compares apples to oranges.
+- **R-C2 — a pixel-tolerance lane widens the COMPARISON, never the
+  canon cut's honesty.** Per-slot or manifest-level tolerance (an
+  abs-diff threshold + a bbox shape/size cap) relaxes what `diff`
+  reports; the canon side stays byte-strict or receipts a tolerance
+  value in the row whichever the design settles. A tolerance gate
+  MUST reopen khf-wp#11's texture receipts first: CDP paint
+  nondeterminism means a tolerance lane shopped without those
+  receipts would guess in production.
+- **R-C3 — both land through the counted-change rules.** Each named
+  surface change rides its own minor bump, its pack/carrier case if
+  it touches schema (manifest mode fields would ride eye-adapter or
+  a pack of their own), and mirrors in the same commit.
+
 
 - New repo, own brain (identity/goals/lessons/structure), horcrux at v0.
 - Branch: the posse pattern — dhaupin creates repo, agent builds on agent
