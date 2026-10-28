@@ -765,3 +765,26 @@
   guessed PASS - until each sibling serves the dialect.
 - Sibling adoptions filed as issues (poststruct, packstruct, crashtest)
   with this commit as the worked example.
+
+## 2026-10-28 - two cheap verification hardenings (the status dialect gets teeth)
+
+- Served-contract leg in the battery (tests/dist-server.test.js + the
+  shared lib/serve-dist.js server): one implementation of what the host
+  serves, used by both the battery leg and the chromium lane. The
+  _headers dialect clauses always run; the localhost serve of web/dist
+  honest-skips on CI naming the build command. First-run receipt: the
+  leg caught a stale dist on its very first execution (served asOf
+  516f72a vs generator reading c25175a) - the exact drift the leg
+  exists to kill, caught before any browser could.
+- Opt-in chromium lane (scripts/check-browser.mjs, npm run
+  check:browser): four dialect states rendered in a real browser -
+  PASS fixture row (the fixture carrys the deliberately foreign 14
+  count, proving rows come from served files not local ledgers), RED
+  degradation from an EXPLOITED leg, the clean 404 wording (ACAO on the
+  miss path - the CORS clause in action), and the schema-2 refusal on
+  pass two. Own row asserted against the served file's truth; fully
+  offline via request interception. Zero new runtime deps
+  (puppeteer-core was already there); no chromium resolvable ->
+  MISSING_PINNED_BROWSER exit 2 with the fix named. In-VM receipt: the
+  refusal path verified live (exit 2); the full 4-state pass needs a
+  machine with chrome (EYESTRUCT_BROWSER=/path/to/chrome).

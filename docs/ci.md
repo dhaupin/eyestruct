@@ -63,6 +63,24 @@ stays a standing receipt instead of a one-mortem (eyestruct#10 item 4).
 the repo's own install, never downloads one, and refuses `PACKSTRUCT_MISSING`
 exit 2 when the devDep is absent.
 
+### Inside `npm test`, two wallet-split hardening legs
+
+The count census (above, eyestruct#10) plus the served-contract leg
+(`tests/dist-server.test.js`): the committed `_headers` clauses for
+`/status.json` always run, and a localhost serve of `web/dist` with a real
+HTTP client runs whenever a build exists - served output must equal the
+committed ledgers' generator output, so a lagging dist fails the leg, not
+a browser finding it later. On CI the served half honest-skips (the web
+build belongs to the web lane); run it locally with
+`npm run build --prefix web` first.
+
+The rendered-table spot check is opt-in tooling, never battery:
+`npm run check:browser` loads the served dist in headless chromium
+(`EYESTRUCT_BROWSER=/path/to/chrome`, the same env the capture lane
+honors; never downloaded or vendored by the script) and renders all four
+dialect states - PASS row, RED degradation, the clean 404 wording, and
+the schema-2 refusal. No chromium names `MISSING_PINNED_BROWSER` exit 2.
+
 ### The crashtest leg
 
 `crashtest run` attacks the CLI as subprocesses: 14 hostile argv batches,

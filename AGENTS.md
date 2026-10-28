@@ -59,4 +59,9 @@ Working policies (seed; the brain grows these by working):
   site) is GENERATED on every web build by web/scripts/build-status.mjs
   from the committed ledgers - never hand-edit it, never commit it
   (gitignored). The /status page reads the four family sites' files
-  (FamilyStatusIsland); behavior pinned by tests/status.test.js.
+  (FamilyStatusIsland); behavior pinned by tests/status.test.js. The
+  served-contract leg (tests/dist-server.test.js + lib/serve-dist.js)
+  serves web/dist locally with a real HTTP client when a build exists
+  (honest skip on CI without one); the rendered-table spot check is
+  opt-in tooling, never battery: `npm run check:browser` (needs
+  EYESTRUCT_BROWSER, the same env the capture lane honors).

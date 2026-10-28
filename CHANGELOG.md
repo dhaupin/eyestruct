@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (2026-10-28, hardening)
+
+- The served-contract leg (`tests/dist-server.test.js`, part of `npm
+  test`): a real HTTP client against a real server (`lib/serve-dist.js`,
+  the shared zero-dep implementation of "what the host serves") verifies
+  the build output serves the status dialect byte-for-byte from the
+  committed ledgers, the prerendered status page carries the island
+  hooks, and the deployed assets carry the reader. The `_headers`
+  dialect clauses always run; the dist half honest-skips on CI (no web
+  build in the battery) naming the exact build command. First run
+  receipt: caught a genuinely stale dist (`asOf 516f72a` served while
+  the generator read `c25175a`) before any browser could.
+- The opt-in chromium lane (`npm run check:browser`, zero new deps):
+  renders all four dialect states in a real browser against
+  fixture-served sibling responses - PASS row, RED degradation, the
+  clean 404 wording, and the schema-2 refusal; the own row is asserted
+  against the served file's truth (no hand-copied counts), fully
+  offline and deterministic. No chromium resolves ->
+  `MISSING_PINNED_BROWSER` exit 2 with the fix named.
+
 ### Added (2026-10-28)
 
 - The family status dialect (`family-status@1`, docs/status.md): a
