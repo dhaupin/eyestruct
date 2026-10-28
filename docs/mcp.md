@@ -45,16 +45,16 @@ the shell arrives as a tool error carrying the same
 
 | tool | arguments | notes |
 |------|-----------|-------|
-| `look` | `url`, `viewport`, `theme`, `region`, `include_image` | one capture pass yields the element map plus meta with the image attached only when asked - the core law: smallest artifact that answers the question |
-| `diff` | `url`, `against`, `viewport`, `theme` | fresh capture vs committed baseline; verdict `SAME`/`DIFFERS` by byte equality inside the pin |
+| `look` | `url`, `viewport`, `theme`, `region`, `include_image` | one capture pass yields the element map plus meta with the image attached only when asked - the core law: smallest artifact that answers the question; plain-capture defaults: `url` `http://localhost:5178/`, `viewport` 1280x800 |
+| `diff` | `url`, `against`, `viewport`, `theme` | fresh capture vs committed baseline; verdict `SAME`/`DIFFERS` by byte equality inside the pin; `url` defaults to `http://localhost:5178/` |
 | `adopt` | `artifact`, `note` | unratified proposal (`ratified:false`); canon stays CI-cut, exactly like the CLI |
-| `ratify` | `base_url` | re-captures every manifested route in the pinned env; byte-identical slots ride append-only ratify rows |
+| `ratify` | `base_url` | re-captures every manifested route in the pinned env; byte-identical slots ride append-only ratify rows. `walk` and `ratify` without `base_url` target `http://localhost:5178` (the app-side dev-server default) - state a `base_url` for anything else |
 | `ledger_list` | `route` | the committed memory, optional artifact filter |
 | `ledger_show` | `id` | one ledger row, complete |
 | `gate` | none | the CI pass: exit-contract verdict on unexplained drift, returned as machine JSON with the exit code |
 | `raster` | `files` | strict parse + render + byte sanity for committed renderables |
 | `walk` | `base_url` | every route x viewport x theme, one pass; candidates land in `labs/.eyes-candidates/` |
-| `spot` | `url`, `viewport`, `theme`, `region`, `include_image` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked. `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
+| `spot` | `url`, `viewport`, `theme`, `region`, `include_image` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked; same capture defaults as `look` (`url` `http://localhost:5178/`, `viewport` 1280x800). `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
 
 ## The core law at the tool surface
 

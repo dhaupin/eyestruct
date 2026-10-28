@@ -197,6 +197,21 @@ test('manifest jail: a pin row / route row that breaks the subset refuses MANIFE
   fs.rmSync(dir, { recursive: true, force: true })
 })
 
+test('canon-slot naming: ratify.slotDir is THE one reader (the walk-lap drift round)', () => {
+  // Three hand-copies of this derivation used to live in look.js (routeSlot),
+  // mcp.js (slotOfFirst), and ratify.js (slotDir) - one truth, three owners,
+  // so a future canon-slot naming change moved silently in one lane. The
+  // copies are gone; the named reader's exact outputs are pinned here so the
+  // shape has a permanent receipt:
+  const { slotDir } = require('../lib/ratify.js')
+  assert.equal(slotDir({ path: '/', view: 'desktop-1280' }), 'home/desktop-1280')
+  assert.equal(slotDir({ path: '/settings', view: 'mobile-390' }), 'settings/mobile-390')
+  assert.equal(slotDir({ path: '/a/b!', view: 'desktop-1440' }), 'a-b/desktop-1440', 'pathmetas dissolve into the slug')
+  assert.equal(slotDir({ path: '/!', view: 'tab-1024' }), 'page/tab-1024', 'a fully-dissolved path falls back to page')
+  // slot: is a walk-candidate concern (walk.candidateName), NOT a canon-slot
+  // one - the canon slot dir is named by the path slug + view, stated here.
+})
+
 test('ledger jail: unreadable / non-array / missing-field / wave-shape / path-escape rows all refuse by name', () => {
   const dir = tmpdir()
   run(['init', '--browser-image', 'jail:1', '--renderer', 'resvg@2.6.2'], dir)

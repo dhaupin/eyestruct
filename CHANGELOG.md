@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed (2026-11-01, the cross-surface drift round)
+
+- The canon-slot naming truth existed in triplicate: the exact same derivation (`/` -> `home`, path slug -> `${slug}/${view}`) was hand-copied in look.js (`routeSlot`), ratify.js (`slotDir`), and mcp.js (`slotOfFirst`) - three owners of one truth, so a future canon-naming change moved silently in one lane and not the others. ONE reader remains (ratify.slotDir - the eyes-ratify bootstrap already treats it as the named source); look's diff default and mcp's diff default now arrive at their baselines THROUGH it, with the MCP lane keeping its named `NO_BASELINE` empty-manifest refusal. A contract leg pins the reader's exact outputs (`home/desktop-1280`, slug dissolving, the `page` fallback) so the shape has a permanent receipt. Deliberately untouched: walk.candidateName is a DIFFERENT naming with a different default (`root` for `/` by the khf-wp contract) - candidates name paths, canon slots name pages, stated in both code and leg.
+- The MCP tool defaults were undocumented on their frozen mirror: `DEFAULT_BASE_URL` (`http://localhost:5178`) and `DEFAULT_VIEWPORT` (`1280x800`) existed only in lib/mcp.js, and the `viewport` default was unstated in docs/cli.md too - an MCP client calling look/diff/ratify/walk/spot without arguments silently targeted an undiscoverable URL. docs/mcp.md now states the defaults on the affected tool rows and docs/cli.md on the look row; the bundle-cache default wording (docs/env.md vs lib/bundle.js) probed CONCORD - one statement, nothing to move.
+
 ### Fixed (2026-11-01, the walk-lap drift round)
 
 - The MCP walk tool re-derived the candidate-name slug inline and was BLIND to the manifest's `slot:` override - the CLI and MCP lanes named the same routes differently, which is exactly the drift the one-reader rule (`walk.candidateName` is the only reader) exists to kill. The tool now rides the named reader, so an MCP walk and a CLI walk on the same manifest land byte-identical candidate names.
