@@ -93,7 +93,7 @@ test('env inventory: the live EYESTRUCT_* set is derived from source and pinned'
 
 // ---- 3. the --json machine-output shapes ----------------------------------
 
-test('json shapes: every browserless verb emits exactly the documented key set', () => {
+test('json shapes: every browserless verb emits exactly the documented key set', { concurrency: false }, async () => {
   // Seeded eye home through the real init verb; each shape is snapshot as
   // a SORTED KEY LIST (shape, never values) - a field rename is a named
   // failure here, not a silent consumer break.
@@ -119,6 +119,25 @@ test('json shapes: every browserless verb emits exactly the documented key set',
   // artifact, note, ratified) - the writer's row IS the machine answer.
   const row = JSON.parse(run(['adopt', 'home/current.png', '--note', 'shape leg', '--json'], dir).stdout)
   assert.deepEqual(Object.keys(row).sort(), ['agent', 'artifact', 'commit', 'id', 'note', 'ratified', 'ts', 'type'].sort())
+  // init + ledger show + raster: the writer verbs' full ok-shape set.
+  assert.deepEqual(Object.keys(JSON.parse(run(['init', '--json'], dir).stdout)).sort(), ['ledger', 'manifest', 'ok'])
+  const shown = JSON.parse(run(['ledger', 'show', row.id, '--json'], dir).stdout)
+  assert.deepEqual(Object.keys(shown).sort(), Object.keys(row).sort())
+  fs.writeFileSync(
+    path.join(dir, 'big.svg'),
+    '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><defs><pattern id="p" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#111"/><rect x="10" y="10" width="10" height="10" fill="#eee"/></pattern></defs><rect width="600" height="600" fill="url(#p)"/></svg>'
+  )
+  const rt = JSON.parse(run(['raster', 'big.svg', '--json'], dir).stdout)
+  assert.deepEqual(Object.keys(rt).sort(), ['ok', 'results'])
+  // serve --json (the starter's own ok-shape): spawn, read, kill. The
+  // leg never holds the port for its lifetime.
+  const srv = cp.spawn(process.execPath, [BIN, 'serve', dir, '--json'], { cwd: dir, stdio: ['ignore', 'pipe', 'ignore'] })
+  let buf = ''
+  srv.stdout.on('data', (c) => (buf += c))
+  await new Promise((res) => srv.stdout.on('data', res))
+  const view = JSON.parse(buf.slice(0, buf.lastIndexOf('}') + 1))
+  assert.deepEqual(Object.keys(view).sort(), ['headers', 'note', 'root', 'serving'])
+  srv.kill('SIGINT')
   fs.rmSync(dir, { recursive: true, force: true })
 })
 

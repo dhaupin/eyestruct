@@ -120,9 +120,12 @@ Within 1.x:
   resolve; every other deep path refuses at the package level), the
   env-var inventory ([environment reference](/eyestruct/env), derived
   from source and pinned by the battery), the `--json` machine-output
-  shapes of every browserless verb (key snapshots in
-  `tests/contract.test.js` - a field rename is a named failure, never a
-  silent consumer break), and the manifest + ledger schema jails
+  shapes of the ok-writing verbs (key snapshots in
+  `tests/contract.test.js`: `init`, `ledger list`/`show`, `gate`,
+  `adopt`, `raster`, and the `serve` starter's view - `lint-packs`
+  passes `--json` through to packstruct's own shape, and a field rename
+  is a named failure, never a silent consumer break), and the manifest
+  + ledger schema jails
   (corruption variants refuse by name - `MANIFEST_CORRUPT`,
   `LEDGER_CORRUPT`, `UNSAFE_PATH` - so the schemas hold a test, not
   just prose).
