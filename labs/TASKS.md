@@ -1,5 +1,21 @@
 # eyestruct - rolling work log
 
+- **The slot-name rule commissioned (2026-10-28, walk round).**
+  khf-wp's #12 friction landed as a one-field affordance: a manifest
+  route row may carry `slot:` to name the walk candidate explicitly
+  (`- path: /  slot: home` -> `walk__home_view_theme.png`), killing the
+  root -> home rename seed step their run root carries. Implementation
+  was deliberately minimal: the parser already passes unknown
+  `key: value` pairs through untouched, so the change is exactly
+  candidateName honoring the field (the only reader), a docs/cli.md
+  walk-bullet rule row, the AGENTS manifest-schema enumeration, the
+  CHANGELOG section, and a contract-leg acceptance case proving the
+  override through the REAL parser plus pinning both defaults (root
+  survives for khf-wp's existing seeding; path-slug naming unchanged).
+  Battery at the tip: 94 pass / 0 fail / 8 honest skips, all 6 check
+  gates PASS; the freshness leg tripped once on the rebuilt dist and
+  was satisfied by rebuilding, never weakening.
+
 - **The 1.0.0 contract clamp (2026-10-28).** The pre-tag interface audit
   got wired: four de-facto surfaces joined the freeze, each named,
   documented, and leg-held. (1) the package exports map (.]lib/index.js +

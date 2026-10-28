@@ -167,6 +167,19 @@ test('manifest jail: a pin row / route row that breaks the subset refuses MANIFE
   r = run(['gate'], dir)
   assert.strictEqual(r.code, 2)
   assert.match(r.stderr, /route row needs path\/view\/theme\/viewport/)
+
+  // The optional slot: field rides the row untouched (the khf-wp rule:
+  // canon slots named for the page, candidates name the path by default
+  // - the override kills the rename step between them).
+  fs.writeFileSync(mfile, original.replace('- path: /  ', '- path: /  slot: home  '))
+  const { candidateName } = require('../lib/walk.js')
+  const manifest = require('../lib/manifest.js')
+  const m2 = manifest.read(dir, {})
+  assert.equal(m2.routes[0].slot, 'home')
+  assert.equal(candidateName(m2.routes[0]), 'walk__home_desktop-1280_dark.png')
+  // The default path-slug naming, unchanged for rows without slot:
+  assert.equal(candidateName({ path: '/settings', view: 'desktop-1280', theme: 'dark' }), 'walk__settings_desktop-1280_dark.png')
+  assert.equal(candidateName({ path: '/', view: 'desktop-1280', theme: 'dark' }), 'walk__root_desktop-1280_dark.png', 'the root default survives (khf-wp run roots that seeded the old name keep reading)')
   fs.rmSync(dir, { recursive: true, force: true })
 })
 

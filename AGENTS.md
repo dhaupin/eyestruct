@@ -49,7 +49,9 @@ Working policies (seed; the brain grows these by working):
   the same change),
   the labs/.eyes/ manifest-pin schema (pin: browser-image + renderer
   required, browser-exec optional; route rows need path/view/theme/
-  viewport - the shape the parser names and the contract legs jail),
+  viewport, with optional slot: naming the walk candidate over the
+  path-slug default - `candidateName` is the only reader; the shape
+  the parser names and the contract legs jail),
   the ledger row schema (rows need id/ts/agent/commit/type/note, plus
   artifact or a non-empty artifacts wave array; paths are eyes-relative
   at write AND read - UNSAFE_PATH), the package exports map ( eyestruct,

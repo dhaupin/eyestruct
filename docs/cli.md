@@ -64,7 +64,13 @@ interchangeable:
 
 - `walk <base-url>` runs every route x viewport x theme in one pass and
   drops candidates - it is the coverage verb, for extending or auditing
-  the matrix.
+  the matrix. Candidate names follow the slot-name rule: the route's
+  path slug is the default (`/` reads `root`, `/settings` reads
+  `settings`), and a manifest route row may override it with `slot:` -
+  `- path: /  slot: home` makes the candidates land as `home`, so a
+  canon that names its slots for the pages never needs a rename step
+  between a walk and its manifest (`walk`'s `candidateName` is the only
+  reader of the field).
 - `ratify <base-url>` re-captures every manifest route **in the pinned
   environment** and cuts byte-identical slots as append-only ratify rows -
   it is the canon verb, and it belongs to the pinned-image lane, never to

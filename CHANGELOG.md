@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (2026-10-28, the slot-name rule)
+
+- A manifest route row may carry `slot:` to name the walk candidate
+  slot explicitly (`- path: /  slot: home` lands candidates as
+  `walk__home_view_theme.png`); the path-slug default (`/` reads
+  `root`) is unchanged for rows without the field, and
+  `candidateName` stays the only reader - one truth, stated once.
+  The field rides the parser untouched (khf-wp's ask, eyestruct#12:
+  a canon named for the pages needed a root -> home rename seed step;
+  now the manifest says so and the step dies). Mirrors moved in the
+  same change: docs/cli.md walk bullet, the AGENTS stability-law
+  manifest row, and a contract-leg acceptance case (the override
+  through the real parser + the default naming pinned).
+
 ### Added (2026-10-28, the 1.0.0 contract clamp)
 
 - Four de-facto surfaces joined the freeze, closing the audit's gap
