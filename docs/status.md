@@ -77,6 +77,13 @@ understanding - the same normalization packstruct itself enforces.
   generation; a sha means the generator read that commit's ledgers.
 - A missing sibling row means "not serving the dialect yet" - a reader
   renders the absence, never invents a PASS.
+- **The CORS clause:** the member serves `/status.json` with
+  `Access-Control-Allow-Origin: *` - on the miss path included, so a
+  not-yet member reads as an honest HTTP 404 at the reader instead of an
+  opaque network failure (eyestruct's `_headers` entry is the worked
+  example). A reader that still gets an opaque cross-origin error names
+  it and the family fixes the serving side; the reader never works around
+  it with a proxy.
 - Numbers are only as fresh as the member's last web deploy, which is
   bounded by their docs lane running `web build` on every push to main.
   The receipt-grade freshness always lives in the git ledger files

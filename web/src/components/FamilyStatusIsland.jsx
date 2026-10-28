@@ -71,7 +71,8 @@ export default function FamilyStatusIsland() {
         below is that member's own file, fetched live - a red row means the
         member's own ledgers say RED, not that this page thinks so.
       </p>
-      <table className="family-status">
+      <div className="table-wrap">
+        <table className="family-status">
         <thead>
           <tr>
             <th>repo</th>
@@ -121,7 +122,8 @@ export default function FamilyStatusIsland() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </>
   )
 }

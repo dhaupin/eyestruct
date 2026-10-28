@@ -29,3 +29,12 @@
 
 /site.webmanifest
   Cache-Control: public, max-age=86400
+
+# the family status dialect (family-status@1, docs/status.md): the served
+# file is meant to be read CROSS-ORIGIN by every member's status page and
+# by any agent. ACAO on the miss path too - a not-yet member must read as
+# an honest HTTP 404 at the reader, never an opaque network failure.
+/status.json
+  Access-Control-Allow-Origin: *
+  Content-Type: application/json
+  Cache-Control: no-cache
