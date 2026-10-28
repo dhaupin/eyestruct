@@ -34,7 +34,7 @@ export default function Nav() {
           <Link to="/" className="brand" onClick={() => setOpen(false)}>
             <img src="/icon.svg" alt="" className="brand-logo" aria-hidden="true" />
             <span className="brand-accent">eye</span>struct
-            <span className="brand-badge">0.9</span>
+            <span className="brand-badge">1.0</span>
           </Link>
           <div className="nav-right">
             <a

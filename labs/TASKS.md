@@ -1,5 +1,28 @@
 # eyestruct - rolling work log
 
+- **The 1.0.0 discussions pause (2026-10-28).** Two commissions, one
+  commit: the wrap purge and the staged announcement. (1) The wrap
+  purge: discussion prose flows now - paragraphs keep their natural
+  length, the 72-column commit-time habit is dead at the only two
+  surfaces that carried it (announcing-v0.9.0 + the posts index;
+  tables exempt), and the rule lives in the index's conventions bullet
+  so it cannot come back quietly. Bonus receipt from the same read:
+  the index's frontmatter bullet was mangled into the voice bullet at
+  a merge site - found by the purge pass and fixed. (2) The 1.0.0 cut:
+  the Unreleased arc (agents-vision -> interface honesty -> contract
+  clamp -> slot-name rule) folded into `## [1.0.0] - 2026-10-28` (the
+  release-cut shape the trifecta accepts - receipts in dated sections),
+  versions moved everywhere the present tense lives (root + web
+  package.json, the brand badge; dated historical rows keep their era
+  numbers), and `docs/discussions/announcing-v1.0.0.md` drafted
+  STAGED PENDING NPM per the new timing rule (the index row says
+  staged; the draft marker comes off in the same commit that first
+  serves 1.0.0 on npm - never earlier). Every count in the post was
+  re-verified against the tree at HEAD (13 verbs / 29 codes / 10
+  tools / 35 verdicts / 52-refused hostile leg). Battery 94 pass / 0
+  fail; the trifecta's release-cut branch PASSes; lint:docs 23 pages
+  green. npm publish stays the operator's dispatch.
+
 - **The slot-name rule commissioned (2026-10-28, walk round).**
   khf-wp's #12 friction landed as a one-field affordance: a manifest
   route row may carry `slot:` to name the walk candidate explicitly
