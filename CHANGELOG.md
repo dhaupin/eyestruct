@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed (2026-10-28)
 
+- Runtime floors documented with receipts (docs/ci.md): the consumer
+  runtime floor is node `>=18` (the `engines` field; `npm test` ran green
+  end-to-end on `v18.20.8`) while the dev battery floor is node `>=20.19`
+  (the `conform:packs` leg loads ESM conformance fixtures through
+  `require(esm)`, which 18 LACKS - under 18.20.8 the audit refused loudly:
+  "AUDIT clean [audit-accept]: loader exit 2", no fake pass). CI's node 20
+  floats to latest 20.x and satisfies the floor (run #58 green on
+  e8a9649); a pinned 20.0 would not, so the floor phrase rides every
+  future matrix pin. Receipt table lives in docs/ci.md.
 - Terms + Privacy converged on the family canonical legal-page form per
   eyestruct#7's written structure (eyebrow line, dated `Web version
   2026-10-28` line with the long-form pointer at the repo, the section

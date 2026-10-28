@@ -696,3 +696,18 @@
   fence parser is the receipt); artifacts/, vite-dev.log and the
   self-declared VM-local web/vite-dev.config.mjs wrapper are preview strays,
   now gitignored at their own request lines.
+- Runtime floors pinned with receipts (2026-10-28, e8a9649 base): the walk
+  asked whether the engines >=18 claim is defensible and got a measured
+  answer. The full test spine ran on v18.20.8 (63 pass / 8 skips / 0 fail -
+  the smoke legs drive the real bin, so the consumer CLI surface is proven
+  at 18); the dev battery is NOT 18-fine: v18.20.8 lacks unflagged
+  require(esm), the ESM conformance fixture refuses to load, the loader
+  exits 2, and packstruct's audit names it ("AUDIT clean [audit-accept]:
+  loader exit 2 on case clean") - the gate refusing rather than
+  fake-passing, exactly per contract. Floors now documented in docs/ci.md
+  (consumer >=18, battery >=20.19 for the conform loader, CI's node 20
+  floats to latest and satisfies it) with a dated receipt table. The 0.9.0
+  registry metadata keeps engines >=18 until the next release carries the
+  unchanged field (it stays truthful for the runtime). CHANGELOG row rides;
+  the node-18 CI runtime leg (keep the consumer claim continuously
+  defended instead of by one local receipt) goes on the 1.0.0 worklist.

@@ -20,6 +20,32 @@ tweed, and where to look first when it goes red.
 | `npm run check` | four sub-gates: docs lint, pack campaign, `lint:packs`, conformance audit | see below |
 | `npx crashtest run` | adversarial leg over the real CLI | committed `labs/crashledger.json` baseline |
 
+### Runtime floors (receipts, not vibes)
+
+Two floors, both receipt-backed - do not blur them:
+
+- **Consumer runtime floor: node `>=18`** (the `engines` field). Receipt:
+  the whole `npm test` spine ran green on `v18.20.8` - the smoke legs drive
+  the real bin, so the runtime surface (dispatch, ledger, gate, raster +
+  honest skips) is proven there, once and continuously re-provable by the
+  node-test leg on any machine.
+- **Battery floor: node `>=20.19`** for the dev gate that loads ESM
+  conformance fixtures through `require(esm)`. Below that, the fixture
+  entry refuses to load and the loader exits 2 - the `conform:packs` audit
+  names the disagreement (`AUDIT clean [audit-accept]: loader exit 2`) and
+  the gate refuses rather than fake-passes (receipt: `v18.20.8`, 2026-10-28).
+  CI pins `node-version: 20`, which floats to latest 20.x and satisfies
+  the floor; a pinned 20.0 would not, so keep the floor phrase in any
+  future matrix pin.
+
+## Runtime receipts by node line (2026-10-28)
+
+| node | `npm test` | `npm run check` | notes |
+|-------|-------|-------|---------|
+| `v18.20.8` | 63 pass / 8 skips / 0 fail | refuses at `conform:packs` (see floors above) | consumer CLI surface proven; no fixtures loader |
+| node 20 (CI, run #58) | green | green | the battery floor line CI defends |
+| `v24.21.0` / `v26.3.1` | green | green | the Termux publish machine's line |
+
 ### Inside `npm run check`
 
 | gate | what it polices | adopt flow |
