@@ -153,6 +153,49 @@ test('capture output options refuse by name before any browser demand (creadev #
   assert.ok(!/UNKNOWN_FLAG/.test(ok.stderr), `the output flags refused at the lid:\n${ok.stderr}`)
 })
 
+test('joined flag spellings honor their values and stated-empties refuse (the shared flag reader, the one-writer kill of the silent-default lie)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // The gate ACCEPTS the joined spelling for every value flag; before the
+  // shared reader, the private hand-copied readers lost the value and
+  // silently answered the default - `--format=jpeg` captured PNG while
+  // claiming jpeg. Now the value reaches the engine jail by name.
+  const joinedBad = run(['look', 'file:///nonexistent.html', '--format=jpeg'], dir)
+  assert.strictEqual(joinedBad.code, 1)
+  assert.match(joinedBad.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(joinedBad.stderr, /output format must be png\|webp, got "jpeg"/)
+  const joinedQ = run(['look', 'file:///nonexistent.html', '--quality=82'], dir)
+  assert.strictEqual(joinedQ.code, 1)
+  assert.match(joinedQ.stderr, /quality only means something to webp/)
+  // Stated-empty both spellings refuse at the capture jail.
+  const themeEmpty = run(['look', 'file:///nonexistent.html', '--theme='], dir)
+  assert.strictEqual(themeEmpty.code, 1)
+  assert.match(themeEmpty.stderr, /theme is stated but carries an empty value/)
+  // Separated stated-blank (' ') is caught by the flag LID itself (the
+  // token '--region ' is not a known flag) - the joined empty spelling is
+  // the shape that used to bypass and needs the jail.
+  const regionEmpty = run(['look', 'file:///nonexistent.html', '--region='], dir)
+  assert.strictEqual(regionEmpty.code, 1)
+  assert.match(regionEmpty.stderr, /region is stated but carries an empty value/)
+  // A joined value that WORKS reaches the right refusal path too: the
+  // joined --against escape must refuse UNSAFE_PATH (not the old silent
+  // default, which answered NO_BASELINE against the manifest's first route).
+  const joinedEscape = run(['diff', 'file:///nonexistent.html', '--against=../evil.png'], dir)
+  assert.strictEqual(joinedEscape.code, 1)
+  assert.match(joinedEscape.stderr, /eyestruct\[UNSAFE_PATH\]/)
+  assert.match(joinedEscape.stderr, /evil\.png/)
+  // The bin-side GLOBAL value spellings ride the same reader (trailing,
+  // the documented form - the LEADING window still wants separated, its
+  // exact-match refusal is the anti-reorder lid). ledger is green on the
+  // empty seeded tree, so the joined override must land on the STATED path
+  // explicitly: LEDGER_MISSING carries the stated filename, proving the
+  // value crossed the shared reader into ctx.
+  const joinedLedger = run(['ledger', 'list', '--ledger=judge.json'], dir)
+  assert.strictEqual(joinedLedger.code, 2)
+  assert.match(joinedLedger.stderr, /eyestruct\[LEDGER_MISSING\]/)
+  assert.match(joinedLedger.stderr, /judge\.json/)
+})
+
 test('ledger show without an id is a shape refusal, and a wrong id is ROW_MISSING (not DANGLING_ROW)', () => {
   const dir = tmpdir()
   run(['init'], dir)

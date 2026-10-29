@@ -5,6 +5,7 @@
 
 'use strict'
 
+const { flagValue } = require('../lib/flags')
 const { fail, FailError } = require('../lib/reasons')
 const { version } = require('../package.json')
 
@@ -230,11 +231,6 @@ async function main() {
     ledger: flagValue(args, '--ledger'),
   })
   process.exit(code === true || code === undefined ? 0 : code)
-}
-
-function flagValue(argv, flag) {
-  const i = argv.indexOf(flag)
-  return i === -1 ? null : argv[i + 1]
 }
 
 main().catch((err) => {

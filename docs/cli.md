@@ -46,6 +46,14 @@ Both overrides accept the separated (`--ledger PATH`) and joined
 (`--ledger=PATH`) spellings - an empty value in either shape refuses
 `BAD_FLAG_VALUE`.
 
+The joined spelling works everywhere a value flag exists, on one shared
+reader: `--format=webp`, `--quality=82`, `--against=PATH`, `--note="x.y"`. A
+stated empty value (`--theme=`, `--region=`) refuses `BAD_FLAG_VALUE` at the
+owning surface - an accepted spelling never silently answers its default.
+(The leading global window before a verb still wants the separated
+`--ledger PATH` shape: its exact-match parser is what keeps a typo from
+reordering into a verb's positional.)
+
 ## The exit contract
 
 | exit | meaning |

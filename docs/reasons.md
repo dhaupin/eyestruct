@@ -56,7 +56,7 @@ error instead of killing the whole runner.
 | `UNSAFE_PATH` | a ledger artifact path escapes the eyes home - paths are eyes-relative, never absolute, never carrying `..` segments |
 | `NO_BASELINE` | no committed baseline to diff against - capture with `look` then `adopt` |
 | `ROW_MISSING` | no ledger row carries the stated id - a lookup miss, not a dangling artifact reference |
-| `BAD_FLAG_VALUE` | the flag is present but carries an empty value - give it a value or drop the flag |
+| `BAD_FLAG_VALUE` | the stated flag value is not one this verb takes - the detail names the shape it wants (an empty value, a non-enum format, a webp-only quality, an uncomposeable pair) |
 | `BAD_VIEWPORT` | viewport must be WxH within the sane range |
 | `BAD_THEME` | theme must be dark or light |
 | `CAPTURE_BLOCKED` | the pinned browser could not complete the capture |
