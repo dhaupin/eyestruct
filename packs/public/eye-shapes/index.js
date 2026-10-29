@@ -178,6 +178,76 @@ const CASES = [
   },
 ]
 
+// The tolerance-profile carrier cases (eyestruct#11's T-T5, filed 2026-10-29
+// ahead of the lib per the bridge/carrier ruling): the manifest-declared
+// per-slot profile grammar is a route-row shape, so its jail cases mount in
+// the pack that owns the manifest-corrupt class BEFORE the lib that
+// implements the lane refuses to land. The row shape (T-T1, labs/prd-eyes.md):
+// `tolerance:` takes `strict` (default) or ALL THREE bounds at once -
+// `channel:0-255, pixels:0-1, bbox:WxH` (khf-wp's measured receipts; a
+// half-named profile is a half-honesty and refuses).
+
+function rowManifest(tolerancePiece) {
+  return `pin:\n  browser-image: pack-fixture:1\n  renderer: resvg@2.6.2\nroutes:\n  - path: /  view: desktop-1280  theme: dark  viewport: 1280x800${tolerancePiece}\n`
+}
+
+const TOLERANCE_CASES = [
+  {
+    id: 'tolerance-unknown-token',
+    attack: 'a tolerance profile whose token names no grammar reads as a valid mode',
+    setup(ctx, dir) {
+      initRepo(ctx, dir)
+      ctx.writeFile(dir, 'labs/.eyes/manifest.yml', rowManifest('  tolerance: vibes'))
+    },
+    expect: { code: 2, reason: 'MANIFEST_CORRUPT' },
+    run(ctx, dir) {
+      return ctx.run(['gate'], cwd(dir))
+    },
+  },
+  {
+    id: 'tolerance-bound-out-of-range',
+    attack: 'a tolerance profile with an out-of-range bound parses as a mode (channel caps at 255)',
+    setup(ctx, dir) {
+      initRepo(ctx, dir)
+      ctx.writeFile(dir, 'labs/.eyes/manifest.yml', rowManifest('  tolerance: channel:999,pixels:1e-5,bbox:4x4'))
+    },
+    expect: { code: 2, reason: 'MANIFEST_CORRUPT' },
+    run(ctx, dir) {
+      return ctx.run(['gate'], cwd(dir))
+    },
+  },
+  {
+    id: 'tolerance-half-named',
+    attack: 'a tolerance profile that names some bounds and not others passes the jail (the half-honesty class)',
+    setup(ctx, dir) {
+      initRepo(ctx, dir)
+      ctx.writeFile(dir, 'labs/.eyes/manifest.yml', rowManifest('  tolerance: channel:4,pixels:1e-5'))
+    },
+    expect: { code: 2, reason: 'MANIFEST_CORRUPT' },
+    run(ctx, dir) {
+      return ctx.run(['gate'], cwd(dir))
+    },
+  },
+  {
+    id: 'tolerance-strict-parses-through',
+    attack: 'an explicit strict tolerance row trips the manifest jail (strict is a mode, not an unknown token)',
+    setup(ctx, dir) {
+      initRepo(ctx, dir)
+      ctx.writeFile(dir, 'labs/.eyes/manifest.yml', rowManifest('  tolerance: strict'))
+      // The route parsed and the gate reached its accounting: the artifact
+      // exists and no row explains it, so the jail held AND the run is
+      // behavior, not corruption.
+      ctx.writeFile(dir, 'labs/.eyes/home/current.png', 'pngish')
+    },
+    expect: { code: 1, reason: 'UNRECORDED' },
+    run(ctx, dir) {
+      return ctx.run(['gate'], cwd(dir))
+    },
+  },
+]
+
+CASES.push(...TOLERANCE_CASES)
+
 /**
  * Browser-class attacks: the pack runs browserless in CI to stay
  * deterministic (no pinned image in a plain job). The accepted-risk bound

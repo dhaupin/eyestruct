@@ -193,6 +193,30 @@
       "verdict": "BOUNDED"
     },
     {
+      "pack": "eye-shapes",
+      "id": "tolerance-unknown-token",
+      "verdict": "REFUSED",
+      "reason": "MANIFEST_CORRUPT"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "tolerance-bound-out-of-range",
+      "verdict": "REFUSED",
+      "reason": "MANIFEST_CORRUPT"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "tolerance-half-named",
+      "verdict": "REFUSED",
+      "reason": "MANIFEST_CORRUPT"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "tolerance-strict-parses-through",
+      "verdict": "REFUSED",
+      "reason": "UNRECORDED"
+    },
+    {
       "pack": "eye-text-leg",
       "id": "control-char-note-refused-at-write",
       "verdict": "REFUSED",
