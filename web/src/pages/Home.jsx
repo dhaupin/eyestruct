@@ -54,7 +54,7 @@ export default function Home() {
 
       <section className="section">
         <div className="wrap">
-          <h2>One contract, four verbs</h2>
+          <h2>One contract, two lanes</h2>
           <p className="sub">
             Every command is one short process - never a daemon. The only state
             that survives a look is labs/.eyes/, and it lives in git like
@@ -130,7 +130,7 @@ export default function Home() {
       <div className="section section-split">
         <div className="split-card">
           <h3>The eye polices itself</h3>
-          <p>34 adversarial pack cases over the real CLI, a second leg of 52
+          <p>35 adversarial pack cases over the real CLI, a second leg of 52
           hostile attacks (seeded, deterministic), and a committed verdict
           ledger: a NEW exploited case or any verdict regression fails CI.</p>
           <div className="cta-row">

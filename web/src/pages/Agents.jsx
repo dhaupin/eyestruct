@@ -95,7 +95,7 @@ export default function Agents() {
             Call it from a shell during a build, or from an MCP session. The
             pixels are identical; pick the handle your loop has.
           </p>
-          <pre className="code"><span className="cm"># the CLI: two verbs carry the whole loop</span>{'\n'}<span className="k">eyestruct</span> serve web/dist{'\n'}<span className="k">eyestruct</span> spot http://127.0.0.1:4173/status</pre>
+          <pre className="code"><span className="cm"># the CLI: two commands carry the whole loop</span>{'\n'}<span className="k">eyestruct</span> serve web/dist{'\n'}<span className="k">eyestruct</span> spot http://127.0.0.1:4173/status</pre>
           <pre className="code"><span className="cm"># the MCP stdio server - tools/call returns the file path + element map</span>{'\n'}{MCP_SPOT_CALL}</pre>
         </div>
       </section>
@@ -199,7 +199,7 @@ export default function Agents() {
         </div>
         <div className="split-card">
           <h3>Get it</h3>
-          <p><code>npm install --save-dev eyestruct</code> then the two verbs
+          <p><code>npm install --save-dev eyestruct</code> then the two commands
           above. 13 CLI verbs, 10 MCP tools, zero daemons - process-per-look
           all the way down.</p>
           <div className="cta-row"><Link className="btn btn-ghost" to="/status">Live status</Link></div>

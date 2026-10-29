@@ -100,6 +100,15 @@ const SURFACES = [
   'docs/packs.md',
   'docs/mcp.md',
   'docs/cli.md',
+  // The web pages joined after the nitpick round caught the stale count
+  // twice on unaudited surfaces (Home + Packs carried "34 pack cases" while
+  // the committed eye-ledger reads 35 - the page copy drifted, CI never
+  // could see it). The docs pages were already held; the landing pages
+  // carry the same claim classes, so they ride the same census now.
+  'web/src/pages/Home.jsx',
+  'web/src/pages/Packs.jsx',
+  'web/src/pages/Agents.jsx',
+  'web/src/pages/Status.jsx',
 ]
 
 // A claim spec: a global regex plus a claim(m) extraction. Every match of
