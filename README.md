@@ -8,7 +8,7 @@ Process-per-look: every command is one short invocation; the only state that sur
 eyestruct init                                       # labs/.eyes/manifest.yml + empty ledger
 eyestruct look <url> [--region SEL]                  # one crop + element-id map, candidate artifact
 eyestruct diff <url> [--against PATH]                # fresh capture vs committed baseline
-eyestruct adopt <path...> [--wave] --note "why"      # proposal (canon is CI-cut)
+eyestruct adopt <slot>/current.png [--wave] --note "why"  # proposal (canon is CI-cut); rows name captures, never slots
 eyestruct gate                                       # CI: exit 1 on unexplained labs/.eyes/ drift
 eyestruct serve <dir> [--port N]                     # the instance primitive: serve a baked tree, host-shaped headers
 eyestruct spot <url> [--viewport WxH] [--theme T]    # one capture to READ WITH YOUR OWN VISION (agent eyes)

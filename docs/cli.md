@@ -19,7 +19,7 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 | `init` | `eyestruct init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]` | writes `labs/.eyes/manifest.yml` + empty ledger | the pin + route matrix seed (the bundle flag adds the offline executor lane, see [ci](ci)) |
 | `look` | `eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/` + ledger row | needs the pinned browser; refusals are named; `--viewport` defaults 1280x800, `--theme` is unset (no emulation) |
 | `diff` | `eyestruct diff <url> [--against PATH]` | read-mostly; baseline via manifest routes | `--against` accepts eyes-relative or absolute paths |
-| `adopt` | `eyestruct adopt <path> [path...] [--wave] --note "why"` | ledger row(s) (unratified proposal) | `--note` mandatory; `--wave` collapses N targets into one wave row (one note explains N image changes in the same commit) |
+| `adopt` | `eyestruct adopt <capture> [capture...] [--wave] --note "why"` | ledger row(s) (unratified proposal) | targets are eyes-relative capture paths (`<slot>/current.png`), never slot names - a slot is a directory the gate can never match, refused `ADOPT_TARGET_NOT_ARTIFACT` at write; `--note` mandatory; `--wave` collapses N captures into one wave row (one note explains N image changes in the same commit) |
 | `ledger` | `eyestruct ledger list [ROUTE] \| show ID` | reads `labs/.eyes/ledger.json` | append-only memory; refuses corruption loudly |
 | `gate` | `eyestruct gate` | read-only over `labs/.eyes/` | the CI pass: exit 1 on unexplained drift |
 | `raster` | `eyestruct raster [file...]` | render + byte sanity per artifact | strict SVG/XML parse; never fake-passes |
@@ -114,7 +114,7 @@ Within 1.x:
 - **Additions are minors, loudly.** A new verb or flag lands as a minor
   bump with this page updated in the same commit; silence is never a
   release.
-- **The exit contract rides the same law.** The 0-1-2 contract and the 29
+- **The exit contract rides the same law.** The 0-1-2 contract and the
   named reason codes ([reason codes](/eyestruct/reasons), mirror of
   `lib/reasons.js`) are additive-first within 1.x; a removal can only ride
   2.0. The flag gate on this page is part of the honesty: unknown flags

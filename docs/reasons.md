@@ -48,7 +48,8 @@ error instead of killing the whole runner.
 | `UNKNOWN_COMMAND` | not an eyestruct command |
 | `UNKNOWN_FLAG` | not a flag this verb knows - a flag that does nothing is a lie, never a silent no-op |
 | `UNRECORDED` | a committed `labs/.eyes/` artifact has no ledger row explaining it |
-| `DANGLING_ROW` | a ledger row references an artifact that no longer exists |
+| `DANGLING_ROW` | a ledger row references an artifact that is missing or is not a file (a slot directory explains nothing) |
+| `ADOPT_TARGET_NOT_ARTIFACT` | adopt targets name captures, never slots - a route/slot name is a directory the gate can never match; the row must name the capture itself (`<slot>/current.png`) |
 | `PIN_MISMATCH` | capture ran on a pin other than the manifest baseline pin |
 | `ADOPT_NOTE_REQUIRED` | adopt requires `--note` explaining the change |
 | `UNSAFE_TEXT` | a text field carries a control character that would poison downstream readers |
@@ -72,6 +73,7 @@ error instead of killing the whole runner.
 | you saw | likely cause | next move |
 |-----------|----------------|---------------|
 | `UNRECORDED` | pixels changed without an `adopt` row | run `look` + `diff`, then `adopt --note` for the real change |
+| `ADOPT_TARGET_NOT_ARTIFACT` | adopt took the slot, not the capture | append `<slot>/current.png`; the slot alone is a directory no row can explain (creadev bootstrap receipt) |
 | `DANGLING_ROW` | the row explains a file git no longer has | restore the file or rewrite history through the ledger, never past it |
 | `LEDGER_CORRUPT` / `MANIFEST_CORRUPT` | truncation or a bad merge | fix the file from git; the reader never guesses past a bad row |
 | `UNSAFE_PATH` | a hand-edited or hostile ledger row aims gate/diff outside the eyes home | rewrite the artifact path eyes-relative; the reader refuses, it never resolves escapes |

@@ -185,6 +185,46 @@ test('adopt with --note writes an unratified proposal row', () => {
   assert.strictEqual(rows[0].type, 'adopt')
 })
 
+// The creadev bootstrap receipt (eyestruct#17): `adopt <route/view>` was
+// the form the OLD help taught, and it wrote rows naming slot DIRECTORIES -
+// fs.existsSync true, the gate satisfied while pointing at the wrong kind
+// of thing, the real capture UNRECORDED behind a row explaining nothing.
+// The write side refuses the shape; these legs hold the refusal, the dir-
+// with-a-png-name edge, and the gate's truthful dangling check forever.
+test('adopt refuses the slot form the old help taught (ADOPT_TARGET_NOT_ARTIFACT, no row)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  fs.mkdirSync(path.join(dir, 'labs/.eyes', 'home/desktop-1280-dark'), { recursive: true })
+  const r = run(['adopt', 'home/desktop-1280-dark', '--note', 'the form the old help taught'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /ADOPT_TARGET_NOT_ARTIFACT/)
+  assert.match(r.stderr, /current\.png/, 'the refusal names the fix, not just the crime')
+  const rows = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
+  assert.strictEqual(rows.length, 0, 'the refused write must not land a row')
+})
+
+test('adopt refuses a png-named directory too (lstat truth, not extension truth alone)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  fs.mkdirSync(path.join(dir, 'labs/.eyes', 'home/fake.png'), { recursive: true })
+  const r = run(['adopt', 'home/fake.png', '--note', 'a directory wearing a capture name'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /ADOPT_TARGET_NOT_ARTIFACT/)
+})
+
+test('gate refuses a legacy slot-directory row as DANGLING_ROW (a slot is not a live artifact)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  fs.mkdirSync(path.join(dir, 'labs/.eyes', 'home/desktop-1280-dark'), { recursive: true })
+  const ledger = [
+    { id: 'row-0001', ts: 1, agent: 'legacy', commit: 'x', artifact: 'home/desktop-1280-dark', type: 'adopt', note: 'hand-written before the write-time refusal', ratified: false },
+  ]
+  fs.writeFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), JSON.stringify(ledger, null, 2))
+  const r = run(['gate'], dir)
+  assert.strictEqual(r.code, 1)
+  assert.match(r.stderr, /DANGLING_ROW/)
+})
+
 test('adopt note content comes through in list', () => {
   const dir = tmpdir()
   run(['init'], dir)

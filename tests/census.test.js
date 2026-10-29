@@ -176,8 +176,8 @@ function census() {
 }
 
 test('census: the truths the leg derives are non-empty and agree with the receipted counts', () => {
-  assert.equal(TRUTHS['reason-codes'], 30, 'lib/reasons.js CODES census must stay 30 until a counted change lands (RASTER_CANVAS joined 2026-11-01 as the canvas-cap refusal, carrier receipted in eye-adapter)')
-  assert.equal(TRUTHS['pack cases'], 35, 'packs/eye-ledger.json rows census must stay 35 until a counted change lands (the refuse-grammar carrier case joined eye-adapter 2026-10-28, one counted change)')
+  assert.equal(TRUTHS['reason-codes'], 31, 'lib/reasons.js CODES census must stay 31 until a counted change lands (ADOPT_TARGET_NOT_ARTIFACT joined 2026-10-29 as the slot-vs-artifact refusal, carrier receipted in eye-adapter)')
+  assert.equal(TRUTHS['pack cases'], 36, 'packs/eye-ledger.json rows census must stay 36 until a counted change lands (the adopt-slot-directory-refused carrier case joined eye-adapter 2026-10-29, one counted change)')
   assert.equal(TRUTHS['hostile findings'], 52, 'labs/crashledger.json findings census must stay 52 until a counted change lands')
   assert.equal(TRUTHS['mcp tools'], 10, 'lib/mcp.js TOOLS census must stay 10 until a counted change lands (spot joined 2026-10-28 with the agents-vision loop, one minor bump)')
   assert.equal(TRUTHS['cli verbs'], 13, 'bin/eyestruct.js COMMANDS census must stay 13 until a counted change lands (serve + spot joined 2026-10-28, one minor bump)')

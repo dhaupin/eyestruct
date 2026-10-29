@@ -19,6 +19,12 @@
     },
     {
       "pack": "eye-adapter",
+      "id": "adopt-slot-directory-refused",
+      "verdict": "REFUSED",
+      "reason": "ADOPT_TARGET_NOT_ARTIFACT"
+    },
+    {
+      "pack": "eye-adapter",
       "id": "refusal-grammar-additions-land-in-the-carrier-first",
       "verdict": "PASSED"
     },

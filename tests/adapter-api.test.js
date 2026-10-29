@@ -40,7 +40,7 @@ test('adapter api: the contract marker + the named-refusal surface carry the tre
   assert.equal(api.version, require('../package.json').version)
   assert.equal(api.FailError, reasons.FailError)
   assert.deepEqual(api.reasonCodes, Object.keys(reasons.CODES))
-  assert.equal(api.reasonCodes.length, 30, 'the adapter surface exposes the same 30 codes the CLI does (UNKNOWN_FLAG joined 2026-10-28, RASTER_CANVAS joined 2026-11-01 - both carrier-receipted)')
+  assert.equal(api.reasonCodes.length, 31, 'the adapter surface exposes the same 31 codes the CLI does (UNKNOWN_FLAG joined 2026-10-28, RASTER_CANVAS joined 2026-11-01, ADOPT_TARGET_NOT_ARTIFACT joined 2026-10-29 - all carrier-receipted)')
   // One writer of truth per store: the exposed modules ARE the CLI's
   // modules, not copies.
   assert.equal(api.manifest, require('../lib/manifest.js'))

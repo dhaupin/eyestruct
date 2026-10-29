@@ -74,6 +74,23 @@ const CASES = [
     },
   },
   {
+    // ADOPT_TARGET_NOT_ARTIFACT rides the carrier (2026-10-29, the creadev
+    // consumer receipt): `adopt <route/view>` landed rows naming slot
+    // DIRECTORIES - fs.existsSync called them live, the real capture stayed
+    // UNRECORDED behind a row explaining nothing. The write side now
+    // refuses the slot shape; this case pins the refusal's speech and its
+    // exit class (drift/refusal = 1, the UNKNOWN_FLAG/RASTER_CANVAS shape).
+    id: 'adopt-slot-directory-refused',
+    claim: { verdict: 'REFUSED', reason: 'ADOPT_TARGET_NOT_ARTIFACT', code: 1 },
+    run(ctx, dir) {
+      const cli = take(ctx, 'run')
+      const seeded = cli(['init', '--browser-image', 'adapter-fixture:1', '--renderer', 'resvg@2.6.2'], { cwd: dir })
+      if (seeded.code !== 0) return { code: seeded.code || 1, stderr: `seed failed: ${String(seeded.stderr).slice(0, 160)}` }
+      // The documented-broken form (the old help line): a slot, no capture.
+      return cli(['adopt', 'home/desktop-1280-dark', '--note', 'the form the old help taught'], { cwd: dir })
+    },
+  },
+  {
     id: 'refusal-grammar-additions-land-in-the-carrier-first',
     claim: { verdict: 'PASSED' },
     checks(ctx, dir) {
@@ -90,6 +107,10 @@ const CASES = [
       // on committed SVGs is a drift/refusal, never a setup error.
       if (!reasons.CODES.RASTER_CANVAS) return 'RASTER_CANVAS landed in the raster gate without its carrier receipt - the case rides here first'
       if (reasons.CODES.RASTER_CANVAS !== 1) return 'RASTER_CANVAS must keep exit class 1 (drift/refusal)'
+      // ADOPT_TARGET_NOT_ARTIFACT joined 2026-10-29 (creadev receipt): a
+      // slot-vs-capture write-time refusal is drift/refusal, never setup.
+      if (!reasons.CODES.ADOPT_TARGET_NOT_ARTIFACT) return 'ADOPT_TARGET_NOT_ARTIFACT landed without its carrier receipt - the case rides here first'
+      if (reasons.CODES.ADOPT_TARGET_NOT_ARTIFACT !== 1) return 'ADOPT_TARGET_NOT_ARTIFACT must keep exit class 1 (drift/refusal)'
       return null
     },
   },

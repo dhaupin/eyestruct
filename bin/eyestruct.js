@@ -45,8 +45,8 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]  seed labs/.eyes/ + the checksummed browser bundle lane
   look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]
   diff <url> [--against PATH]         fresh capture vs committed baseline (candidity: look then adopt)
-  adopt <route/view> --note "..."    propose a baseline change (canon is CI-cut)
-  adopt <path...> --wave --note "and" one wave row over N changed slots (one note explains N image changes)
+  adopt <slot>/current.png --note "..."  propose a baseline change (canon is CI-cut; the row must name the capture, not the slot)
+  adopt <capture...> --wave --note "and" one wave row over N changed captures (one note explains N image changes)
   ledger list [ROUTE] | show ID      read the memory
   gate                               CI job: exit 1 on unexplained labs/.eyes/ drift
   lint-packs [--deep] [--json] [--against <lib>] [dir]  packstruct passthrough over the repo's own install

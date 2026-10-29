@@ -33,8 +33,8 @@ The release post carries the standing receipt inventory below - each claim verif
 
 | claim for the release posts | receipt on the tree |
 |----------------------------|-----------------------------|
-| The refusal surface is named, not guessed: 30 reason-codes across the 0-1-2 exit contract, no bare stack traces | `lib/reasons.js` (CODES + REASONS), mirrored live at [reason codes](/eyestruct/reasons) |
-| The eye gate attacks itself: 35 adversarial pack cases over the real CLI, judged with the packstruct grammar and a committed packledger | `packs/public/` + `packs/eye-ledger.json`, runner `scripts/run-packs.cjs`, docs at [packs](/eyestruct/packs) |
+| The refusal surface is named, not guessed: 31 reason-codes across the 0-1-2 exit contract, no bare stack traces | `lib/reasons.js` (CODES + REASONS), mirrored live at [reason codes](/eyestruct/reasons) |
+| The eye gate attacks itself: 36 adversarial pack cases over the real CLI, judged with the packstruct grammar and a committed packledger | `packs/public/` + `packs/eye-ledger.json`, runner `scripts/run-packs.cjs`, docs at [packs](/eyestruct/packs) |
 | A second adversarial leg rides CI: 14 hostile argv batches + hostile MCP stdio frames + 6 hostile ledger variants, seeded and deterministic | `labs/scenarios/eye-cli-contract.js`, baseline `labs/crashledger.json` + `labs/hardening.md` |
 | Canonical baselines are CI-cut, two-dispatch, never self-certified | `.github/workflows/eyes-ratify.yml` (proposal -> witness dispatch) |
 | The pack lint lane is a discoverable verb, never a download | `eyestruct lint-packs` (`lib/lint-packs.js`, wrapper policy) |
