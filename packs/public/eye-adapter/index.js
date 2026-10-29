@@ -142,6 +142,35 @@ const CASES = [
     },
   },
   {
+    // format / quality / full_page rode the carrier first (2026-10-29,
+    // creadev issues #19 + #20): the output-shape options on look/spot.
+    // The MCP inputSchemas are adapter-surface schema - this case receipts
+    // the batch the way it landed HERE first, then in lib/mcp.js: the enum
+    // format, the integer quality, and the boolean full_page must be
+    // declared by BOTH capture tools, and the CLI mirror carries the
+    // identical flags. One counted change, one case.
+    id: 'capture-output-options-ride-the-carrier',
+    claim: { verdict: 'PASSED' },
+    checks(ctx, dir) {
+      const src = require('fs').readFileSync(require('path').join(__dirname, '../../../lib/mcp.js'), 'utf8')
+      const registry = src.match(/const TOOLS = \[[\s\S]*?\n\]/)
+      if (!registry) return 'lib/mcp.js lost the TOOLS registry the carrier reads'
+      const lookBlock = registry[0].match(/name: 'look',[\s\S]*?\n  \},\n  \{\n    name: 'diff'/)
+      const spotBlock = registry[0].match(/name: 'spot',[\s\S]*?\n  \},\n\]/)
+      for (const [name, block] of [['look', lookBlock], ['spot', spotBlock]]) {
+        if (!block) return `the ${name} tool block moved - re-anchor this carrier case`
+        if (!/format: \{ type: 'string', enum: \['png', 'webp'\]/.test(block[0])) return `the ${name} tool gained format without riding its carrier - the enum lives here FIRST`
+        if (!/quality: \{ type: 'integer'/.test(block[0])) return `the ${name} tool gained quality without riding its carrier - the integer lives here FIRST`
+        if (!/full_page: \{ type: 'boolean'/.test(block[0])) return `the ${name} tool gained full_page without riding its carrier - the boolean lives here FIRST`
+      }
+      const engineSrc = require('fs').readFileSync(require('path').join(__dirname, '../../../lib/engine.js'), 'utf8')
+      for (const needle of ['validateCaptureOutput', "'webp'", 'shotOpts.fullPage = true']) {
+        if (!engineSrc.includes(needle)) return `engine.capture lost the output jail (${needle}) - the ONE implementation must still carry the refusal grammar`
+      }
+      return null
+    },
+  },
+  {
     id: 'adapter-canon-is-proposal-only',
     claim: { verdict: 'PASSED' },
     run(ctx, dir) {

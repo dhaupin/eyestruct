@@ -37,7 +37,7 @@ export default {
       changefreq: 'weekly',
       meta: {
         title: 'Packs | eyestruct',
-        description: 'The adversarial surface: 37 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+        description: 'The adversarial surface: 38 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
       },
     },
     {

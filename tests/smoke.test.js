@@ -121,6 +121,38 @@ test('--no-overlay is a known clean-capture flag (creadev #18): accepted at the 
   assert.ok(!/UNKNOWN_FLAG/.test(s.stderr), `the clean-capture flag refused at the lid on spot:\n${s.stderr}`)
 })
 
+test('capture output options refuse by name before any browser demand (creadev #19/#20, the shared jail)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // format is a closed enum - anything else says its name.
+  const f = run(['look', 'file:///nonexistent.html', '--format', 'jpeg'], dir)
+  assert.strictEqual(f.code, 1)
+  assert.match(f.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(f.stderr, /output format must be png\|webp, got "jpeg"/)
+  // quality is webp-only: PNG + quality refuses instead of silently ignoring.
+  const q = run(['look', 'file:///nonexistent.html', '--quality', '82'], dir)
+  assert.strictEqual(q.code, 1)
+  assert.match(q.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(q.stderr, /quality only means something to webp/)
+  // quality without 1..100 integer-ness refuses.
+  const qb = run(['look', 'file:///nonexistent.html', '--format', 'webp', '--quality', 'nah'], dir)
+  assert.strictEqual(qb.code, 1)
+  assert.match(qb.stderr, /quality must be an integer 1-100/)
+  // fullPage and region cannot compose - one refuses rather than ordering chaos.
+  const fr = run(['look', 'file:///nonexistent.html', '--full-page', '--region', '#x'], dir)
+  assert.strictEqual(fr.code, 1)
+  assert.match(fr.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(fr.stderr, /full-page and region cannot compose/)
+  // spot refuses by the same jail (shared engine, never a copy).
+  const sf = run(['spot', 'file:///nonexistent.html', '--format', 'jpeg'], dir)
+  assert.strictEqual(sf.code, 1)
+  assert.match(sf.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  // The valid shapes run PAST the lid to the engine's browser refusal.
+  const ok = run(['look', 'file:///nonexistent.html', '--full-page', '--format', 'webp', '--quality', '82', '--browser-exec', path.join(dir, 'no-chrome')], dir)
+  assert.match(ok.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+  assert.ok(!/UNKNOWN_FLAG/.test(ok.stderr), `the output flags refused at the lid:\n${ok.stderr}`)
+})
+
 test('ledger show without an id is a shape refusal, and a wrong id is ROW_MISSING (not DANGLING_ROW)', () => {
   const dir = tmpdir()
   run(['init'], dir)
@@ -554,6 +586,36 @@ maybeBrowser('noOverlay gives the clean frame: same map, zero overlay labels, pi
   const cleanRegion = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', region: '#search', noOverlay: true })
   assert.strictEqual(cleanRegion.overlayCount, 0)
   assert.strictEqual(cleanRegion.map.length, 1)
+})
+
+maybeBrowser('webp output: RIFF magic, quality honored, identical map (creadev #20)', async () => {
+  const pngCap = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600' })
+  const webpCap = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', format: 'webp', quality: 82 })
+  assert.strictEqual(webpCap.png.toString('latin1', 0, 4), 'RIFF', 'a webp capture must carry the RIFF container magic')
+  assert.strictEqual(pngCap.png.toString('ascii', 1, 4), 'PNG')
+  assert.deepStrictEqual(webpCap.map.map((e) => e.id).sort(), pngCap.map.map((e) => e.id).sort(), 'format is an output wheel, never a map branch')
+  // Quality is an encoder arg, not a silent no-op: the extreme values must
+  // move the bytes (lossless q=100 vs the sharpest lossy q=1).
+  const q100 = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', format: 'webp', quality: 100 })
+  const q1 = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', format: 'webp', quality: 1 })
+  assert.ok(!q100.png.equals(q1.png), 'quality was accepted but changed nothing')
+})
+
+maybeBrowser('full-page output: document taller than the viewport, map lifted past the fold (creadev #19)', async () => {
+  const flat = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600' })
+  const tall = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', fullPage: true })
+  const ihdrHeight = (buf) => buf.readUInt32BE(20) // PNG IHDR height, bytes 20-24
+  assert.strictEqual(ihdrHeight(flat.png), 600, 'the default frame is exactly the viewport')
+  assert.ok(ihdrHeight(tall.png) > 600, `full-page height should exceed the viewport (600), got ${ihdrHeight(tall.png)}`)
+  assert.strictEqual(tall.png.readUInt32BE(16), 800, 'width stays the viewport width')
+  // The in-view filter lifts: the full-page map covers at least everything
+  // the flat pass mapped, and includes the pixels below the fold.
+  assert.ok(tall.map.length >= flat.map.length, 'the map must not shrink on a taller frame')
+  assert.strictEqual(tall.map.length, flat.map.length, 'the fixture ids all sit above the fold, so both passes map the same set - the lift is proven by the pass never dropping one')
+  // fullPage + region composes refuse, even after the browser is live.
+  await assert.rejects(
+    () => engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', region: '#search', fullPage: true }),
+    /BAD_FLAG_VALUE/)
 })
 
 maybeBrowser('look verb writes a candidate and leaves the ledger untouched', async () => {

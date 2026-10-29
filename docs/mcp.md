@@ -45,7 +45,7 @@ the shell arrives as a tool error carrying the same
 
 | tool | arguments | notes |
 |------|-----------|-------|
-| `look` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay` | one capture pass yields the element map plus meta with the image attached only when asked - the core law: smallest artifact that answers the question; plain-capture defaults: `url` `http://localhost:5178/`, `viewport` 1280x800; `no_overlay` is the clean frame - the pixels never carry the element-id overlay, the map still computes (creadev #18) |
+| `look` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay`, `full_page`, `format`, `quality` | one capture pass yields the element map plus meta with the image attached only when asked - the core law: smallest artifact that answers the question; plain-capture defaults: `url` `http://localhost:5178/`, `viewport` 1280x800; `no_overlay` is the clean frame - the pixels never carry the element-id overlay, the map still computes (creadev #18); `full_page` grows the frame to the full document height at the viewport width, `format` picks `png|webp`, `quality` is the webp-only integer 1-100 (creadev #19/#20 - canon never rides these) |
 | `diff` | `url`, `against`, `viewport`, `theme` | fresh capture vs committed baseline; verdict `SAME`/`DIFFERS` by byte equality inside the pin; `url` defaults to `http://localhost:5178/` |
 | `adopt` | `artifact`, `note` | unratified proposal (`ratified:false`); canon stays CI-cut, exactly like the CLI |
 | `ratify` | `base_url` | re-captures every manifested route in the pinned env; byte-identical slots ride append-only ratify rows. `walk` and `ratify` without `base_url` target `http://localhost:5178` (the app-side dev-server default) - state a `base_url` for anything else |
@@ -54,7 +54,7 @@ the shell arrives as a tool error carrying the same
 | `gate` | none | the CI pass: exit-contract verdict on unexplained drift, returned as machine JSON with the exit code |
 | `raster` | `files` | strict parse + render + byte sanity for committed renderables |
 | `walk` | `base_url` | every route x viewport x theme, one pass; candidates land in `labs/.eyes-candidates/` |
-| `spot` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked; same capture defaults as `look` (`url` `http://localhost:5178/`, `viewport` 1280x800); `no_overlay` gives the agent the page itself, not the annotation layer (creadev #18). `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
+| `spot` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay`, `full_page`, `format`, `quality` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked; same capture defaults and output-shape options as `look` (`full_page`/`format`/`quality` ride the same shared engine jail, creadev #19/#20). `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
 
 ## The core law at the tool surface
 
