@@ -7,8 +7,16 @@ name: test
 # npm ci is hermetic against the shipped lockfile (packstruct@1.0.0 exact
 # pin inside). Docs gates fail loudly on voice/links/frontmatter drift.
 on:
-  push: { branches: [main] }
-  pull_request: { branches: [main] }
+  push: { branches: [main, staging] }
+  pull_request: { branches: [main, staging] }
+# The staging rule (poststruct#32's canon, adopted at eyestruct#21): staging
+# is the permanent integration branch - work branches off it, PRs target it,
+# promotion to main is the only way out. CI covers BOTH branches, and after
+# every promotion the sync is a required step (write it, never assume):
+#   git push origin origin/main:staging   # fast-forward, non-destructive
+# (Merge-commit promotions drift staging one behind main by construction,
+# even when the flow is followed exactly - that is WHY the sync is required
+# rather than a repair.)
 jobs:
   test:
     runs-on: ubuntu-latest

@@ -14,12 +14,17 @@ name: Deploy docs
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'docs/**'
       - '.github/workflows/docs.yml'
       - 'package-lock.json'
   workflow_dispatch:
+# The staging rule (poststruct#32's canon, adopted at eyestruct#21): staging
+# verifies here like main does, but the DOCS DEPLOY job is gated to main -
+# once staging is in the trigger list, the trigger no longer keeps its
+# content out of production; the deploy job's ref gate is that guard
+# (`if: github.ref == 'refs/heads/main'`).
 
 permissions:
   contents: read
@@ -96,6 +101,8 @@ jobs:
 
   deploy:
     needs: build
+    # The staging gate: build on main OR staging, deploy ONLY from main.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
