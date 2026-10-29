@@ -20,7 +20,12 @@ The two drift codes and their moves:
 
 Corruption codes (`LEDGER_CORRUPT`, `MANIFEST_CORRUPT`) mean truncation or
 a bad merge: restore from git, fix the merge. The reader never guesses
-past a bad row, so the fix is mechanical, not investigative. See
+past a bad row, so the fix is mechanical, not investigative. When the gate
+is red on a slot whose manifest row carries a `tolerance:` profile, read
+`spot`'s frame knowing the named bounds it is judged against - the profile
+sits in the same manifest row, so the frame plus the bounds is the whole
+triage picture (bounds themselves are measured by the consumer, never
+invented; see [ci](/eyestruct/ci)). See
 [reason codes](/eyestruct/reasons) for the full table.
 
 <div class="crosslinks">

@@ -176,14 +176,22 @@ Two properties every consumer needs before cutting canon on a real site:
   photographic textures is not byte-stable: a one-pixel drifter can move
   between runs even when the app itself is frozen (receipted by the first
   consumer wiring, dhaupin/khf-wp `qa/eyes/`, on a texture-heavy
-  WordPress install). The honest landing on such surfaces: freeze what
-  the freeze shim can, read `diff` output yourself, and adopt on purpose.
-  A pixel-tolerance lane is designed (khf-wp's filing, issue #11), not
-  shipped - the build shape now has a spec home (R-C2's T-T rows in
-  labs/prd-eyes.md: per-slot manifest-declared profiles, all-or-nothing
-  bounds, row-receipted cuts, a zero counted-change surface, ship gated
-  on the khf-wp run root's own three-run receipts) - never gate on it
-  before it lands.
+  WordPress install). For those surfaces there is now a named alternative:
+  a route row may carry a per-slot `tolerance:` profile (`strict` is the
+  default and means byte equality; the profile is one token naming all
+  three bounds - `channel:<0-255>,pixels:<0-1>,bbox:<WxH>`, or nothing).
+  A tolerant slot's `ratify` cut is a different, clearly-named pledge:
+  pixel-eq at bounded span, and the ledger row carries the profile
+  verbatim (grep `tolerance` in the ledger for every bounded-span pledge;
+  `gate` stays browserless ledger accounting and never learns tolerance).
+  The bounds are measured-then-quoted, never guessed: khf-wp's run root
+  measured the three paint-noise families this lane consumes, and their
+  capture-timing movers (a cover-crop alternation, a resize-settle race)
+  stay OUT of any profile by design - races owe a settle-then-shoot
+  contract, not bigger bounds (the exclusion ruling, T-T9). The shipped
+  shape: spec and build receipts in labs/prd-eyes.md (R-C2's T-T rows);
+  the ship gate on real textures stays the consumer's three consecutive
+  green canon cuts in their pinned environment.
 
 ## Consumer recipes: which verbs fit where
 

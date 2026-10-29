@@ -46,9 +46,9 @@ the shell arrives as a tool error carrying the same
 | tool | arguments | notes |
 |------|-----------|-------|
 | `look` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay`, `full_page`, `format`, `quality` | one capture pass yields the element map plus meta with the image attached only when asked - the core law: smallest artifact that answers the question; plain-capture defaults: `url` `http://localhost:5178/`, `viewport` 1280x800; `no_overlay` is the clean frame - the pixels never carry the element-id overlay, the map still computes (creadev #18); `full_page` grows the frame to the full document height at the viewport width, `format` picks `png|webp`, `quality` is the webp-only integer 1-100 (creadev #19/#20 - canon never rides these) |
-| `diff` | `url`, `against`, `viewport`, `theme` | fresh capture vs committed baseline; verdict `SAME`/`DIFFERS` by byte equality inside the pin; `url` defaults to `http://localhost:5178/` |
+| `diff` | `url`, `against`, `viewport`, `theme` | fresh capture vs committed baseline; verdict `SAME`/`DIFFERS` by byte equality inside the pin (a slot with a tolerance profile is judged at the pixel level under that profile, measured numbers attached); `url` defaults to `http://localhost:5178/` |
 | `adopt` | `artifact`, `note` | unratified proposal (`ratified:false`); canon stays CI-cut, exactly like the CLI |
-| `ratify` | `base_url` | re-captures every manifested route in the pinned env; byte-identical slots ride append-only ratify rows. `walk` and `ratify` without `base_url` target `http://localhost:5178` (the app-side dev-server default) - state a `base_url` for anything else |
+| `ratify` | `base_url` | re-captures every manifested route in the pinned env; byte-identical slots ride append-only ratify rows, and a slot with a tolerance profile rides a pixel-eq-at-bounded-span row that carries the profile verbatim. `walk` and `ratify` without `base_url` target `http://localhost:5178` (the app-side dev-server default) - state a `base_url` for anything else |
 | `ledger_list` | `route` | the committed memory, optional artifact filter |
 | `ledger_show` | `id` | one ledger row, complete |
 | `gate` | none | the CI pass: exit-contract verdict on unexplained drift, returned as machine JSON with the exit code |
