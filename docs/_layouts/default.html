@@ -24,28 +24,30 @@
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="{{ site.title }}">
     <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/icon.svg">
-    <meta name="color-scheme" content="dark light">
+    <meta name="color-scheme" content="light dark">
     <style>
         :root {
-            /* jade on graphite: warm surfaces, jade-green iris accent
-               (one token block re-themes this whole site - keep names). */
-            --paper: #121011; --surface: #0d0b0a; --raised: #211b19;
-            --ink: #ece6df; --ink-soft: #a89c92; --ink-light: #a89c92; /* tune BOTH toward AA on YOUR footer bg - crashtest ran 3.78:1 and it failed */
-            --accent: #45cf83; --accent-deep: #2fae68; --moss: #8fbe6f; --err: #e2665b;
-            --line: #2b2521; --code-bg: #0d0b0a;
-            --header-height: 54px; --sidebar-width: 240px;
-        }
-        /* Light mode: the same identity, ink on warm parchment (matches the
-           landing site's html[data-theme="light"] tokens). */
-        html[data-theme="light"] {
+            /* light is the default: ink on warm parchment, jade-green iris
+               accent (one token block re-themes this whole site - keep
+               names; the landing site's default tokens match). */
             --paper: #f6f1e7; --surface: #ffffff; --raised: #eae2d2;
-            --ink: #1c1712; --ink-soft: #6b6055; --ink-light: #6b6055;
+            --ink: #1c1712; --ink-soft: #6b6055; --ink-light: #6b6055; /* tune BOTH toward AA on YOUR footer bg - crashtest ran 3.78:1 and it failed */
             --accent: #197a4c; --accent-deep: #115c39; --moss: #567a26; --err: #b04a34;
             --line: #e0d6c3; --code-bg: #efe8d8;
+            --header-height: 54px; --sidebar-width: 240px;
+        }
+        /* Dark mode (opt-in via the persisted key - the head bootstrap flips
+           to it before first paint): the same identity on warm graphite,
+           matching the landing site's dark tokens. */
+        html[data-theme="dark"] {
+            --paper: #121011; --surface: #0d0b0a; --raised: #211b19;
+            --ink: #ece6df; --ink-soft: #a89c92; --ink-light: #a89c92;
+            --accent: #45cf83; --accent-deep: #2fae68; --moss: #8fbe6f; --err: #e2665b;
+            --line: #2b2521; --code-bg: #0d0b0a;
         }
         * { margin: 0; box-sizing: border-box; }
-        html { background: var(--paper); color-scheme: dark; }
-        html[data-theme="light"] { color-scheme: light; }
+        html { background: var(--paper); color-scheme: light; }
+        html[data-theme="dark"] { color-scheme: dark; }
         body { margin: 0; color: var(--ink); background: var(--paper);
             font-family: Inter, "SF Pro Text", system-ui, -apple-system, "Segoe UI", sans-serif;
             font-size: 15px; line-height: 1.65; }
@@ -72,13 +74,13 @@
         .search-key { border: 1px solid var(--line); border-radius: 4px;
             padding: 0 5px; font-size: 10.5px; line-height: 16px; }
         .theme-switch svg { width: 18px; height: 18px; display: block; }
-        /* Sun shows in dark mode (click = go light); moon in light mode
-           (click = go dark) - the icon is the ACTION, not the state (the
+        /* Moon shows in light mode (click = go dark); sun in dark mode
+           (click = go light) - the icon is the ACTION, not the state (the
            agreed struct-family convention, crashtest#26). Both icons always
            render - CSS decides, markup stays constant. */
-        .theme-switch .icon-moon { display: none; }
-        html[data-theme="light"] .theme-switch .icon-sun { display: none; }
-        html[data-theme="light"] .theme-switch .icon-moon { display: block; }
+        .theme-switch .icon-sun { display: none; }
+        html[data-theme="dark"] .theme-switch .icon-sun { display: block; }
+        html[data-theme="dark"] .theme-switch .icon-moon { display: none; }
         .hamburger { display: none; border: none; }
         .brand-logo { width: 22px; height: 22px; display: block; border-radius: 5px; }
 
@@ -178,12 +180,12 @@
         }
     </style>
     <script>
-        // Theme bootstrap (before first paint): the default tokens are dark,
-        // so only a persisted light theme needs flipping. Keep the key and
+        // Theme bootstrap (before first paint): the default tokens are light,
+        // so only a persisted dark theme needs flipping. Keep the key and
         // the palette in sync with the toggle handler below.
         try {
-            if (localStorage.getItem('eyestruct-theme') === 'light') {
-                document.documentElement.dataset.theme = 'light';
+            if (localStorage.getItem('eyestruct-theme') === 'dark') {
+                document.documentElement.dataset.theme = 'dark';
             }
         } catch (e) {}
     </script>
@@ -262,7 +264,7 @@
     // Theme switch (shared palette in both modes; see the CSS tokens).
     document.getElementById('themeSwitch').addEventListener('click', function () {
         var el = document.documentElement;
-        var next = el.dataset.theme === 'light' ? 'dark' : 'light';
+        var next = el.dataset.theme === 'dark' ? 'light' : 'dark';
         el.dataset.theme = next;
         try { localStorage.setItem('eyestruct-theme', next); } catch (e) {}
     });

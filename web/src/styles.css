@@ -10,6 +10,26 @@
    names. */
 
 :root {
+  /* light is the default: ink on warm parchment - golden hour paper,
+     before first paint and for no-JS visitors alike. */
+  --paper: #f6f1e7;       /* parchment paper */
+  --surface: #ffffff;     /* raised on paper */
+  --raised: #eae2d2;
+  --ink: #1c1712;         /* ink under the lamp */
+  --ink-soft: #6b6055;    /* warm stone-gray */
+  --accent: #197a4c;      /* jade weighted for pale paper (AA) */
+  --accent-deep: #115c39;
+  --moss: #567a26;        /* success, warm sage */
+  --err: #b04a34;         /* violation / negative coral */
+  --line: #e0d6c3;
+  --code-bg: #efe8d8;
+  --nav-bg: rgba(246, 241, 231, 0.88);
+  --accent-contrast: #ffffff;
+}
+
+/* Dark theme (opt-in via the persisted key - index.html's bootstrap applies
+   it before first paint): the same identity, warm graphite ink-black. */
+html[data-theme="dark"] {
   --paper: #121011;       /* warm graphite ink-black */
   --surface: #181515;
   --raised: #211b19;
@@ -25,33 +45,14 @@
   --accent-contrast: #101711;
 }
 
-/* Light theme: the same identity, ink on warm parchment - golden hour
-   reversed. Tokens only - the whole layout reads them, so one block
-   re-themes the site and no layout class ever branches on the theme. */
-html[data-theme="light"] {
-  --paper: #f6f1e7;       /* parchment paper */
-  --surface: #ffffff;
-  --raised: #eae2d2;
-  --ink: #1c1712;         /* ink under the lamp */
-  --ink-soft: #6b6055;
-  --accent: #197a4c;      /* jade weighted for pale paper (AA) */
-  --accent-deep: #115c39;
-  --moss: #567a26;
-  --err: #b04a34;
-  --line: #e0d6c3;
-  --code-bg: #efe8d8;
-  --nav-bg: rgba(246, 241, 231, 0.88);
-  --accent-contrast: #ffffff;
-}
-
 html {
   background: var(--paper);
-  /* Dark-page color-scheme: native controls (scroll bars, form UI, mobile
-     URL bar via theme-color meta) adopt the lab palette instead of fighting
-     it - and 'light initial painting then reskin' stays theme-coherent. */
-  color-scheme: dark;
+  /* Light-page color-scheme by default: native controls (scroll bars, form
+     UI, mobile URL bar via theme-color meta) adopt the parchment, never
+     fight it. The persisted dark opt-in swaps the scheme with the tokens. */
+  color-scheme: light;
 }
-html[data-theme="light"] { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
 body {
   margin: 0;
   background: var(--paper);
@@ -88,14 +89,14 @@ body {
 }
 .theme-switch:hover { color: var(--accent); }
 .theme-switch svg { width: 18px; height: 18px; display: block; }
-/* Sun shows in dark mode (click = go light); moon shows in light mode
-   (click = go dark) - the icon is the ACTION, not the state (the agreed
+/* Moon shows in light mode (click = go dark); sun shows in dark mode
+   (click = go light) - the icon is the ACTION, not the state (the agreed
    struct-family convention, crashtest#26). Both icons always render in
    the markup - CSS picks, which keeps the prerendered output and the
    hydrated output identical. */
-.theme-switch .icon-moon { display: none; }
-html[data-theme="light"] .theme-switch .icon-sun { display: none; }
-html[data-theme="light"] .theme-switch .icon-moon { display: block; }
+.theme-switch .icon-sun { display: none; }
+html[data-theme="dark"] .theme-switch .icon-sun { display: block; }
+html[data-theme="dark"] .theme-switch .icon-moon { display: none; }
 .nav-burger {
   display: none; background: none; border: 1px solid var(--line); border-radius: 6px;
   color: var(--ink); cursor: pointer; padding: 7px; align-items: center; justify-content: center;

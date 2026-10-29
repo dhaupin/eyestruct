@@ -5,7 +5,7 @@
  * a CSS rule per theme shows the relevant one - so the prerendered markup
  * and the hydrated markup agree (no hydration mismatch, no flash-of-wrong-icon)
  * and the prerendered HTML carries no JS-dependent first paint either way.
- * The inline bootstrap in index.html applies a persisted light theme before
+ * The inline bootstrap in index.html applies a persisted dark theme before
  * first paint; this component only flips it.
  */
 import { useEffect } from 'react'
@@ -14,7 +14,7 @@ const THEME_KEY = 'eyestruct-theme'
 
 function toggleTheme() {
   const el = document.documentElement
-  const next = el.dataset.theme === 'light' ? 'dark' : 'light'
+  const next = el.dataset.theme === 'dark' ? 'light' : 'dark'
   el.dataset.theme = next
   try { localStorage.setItem(THEME_KEY, next) } catch { /* private mode: live without persistence */ }
   const meta = document.querySelector('meta[name="theme-color"]')
@@ -23,10 +23,10 @@ function toggleTheme() {
 
 export default function ThemeSwitch() {
   useEffect(() => {
-    // Keep the meta theme-color honest if the bootstrap already flipped to light.
-    if (document.documentElement.dataset.theme === 'light') {
+    // Keep the meta theme-color honest if the bootstrap already flipped to dark.
+    if (document.documentElement.dataset.theme === 'dark') {
       const meta = document.querySelector('meta[name="theme-color"]')
-      if (meta) meta.setAttribute('content', '#f6f1e7')
+      if (meta) meta.setAttribute('content', '#121011')
     }
   }, [])
   return (
