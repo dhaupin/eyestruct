@@ -2,7 +2,7 @@
 permalink: start/
 layout: default
 title: Getting started
-description: Install eyestruct from npm, seed the eye home with init, run your first look-to-gate cycle, and wire the CI battery. Node 20, no daemons.
+description: Install eyestruct from npm, seed the eye home with init, run your first look-to-gate cycle, and wire the CI battery. Node 18+, no daemons.
 ---
 
 # Getting started

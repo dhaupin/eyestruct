@@ -152,7 +152,7 @@ export default function Home() {
         <div className="wrap">
           <h2>Install</h2>
           <p className="sub">
-            A Node 20 CLI, no daemons, no background services of any kind.
+            A Node 18+ CLI, no daemons, no background services of any kind.
           </p>
           <pre className="code"><span className="cm"># consumer path</span>{'\n'}<span className="k">npm</span> install --save-dev eyestruct{'\n'}{'\n'}<span className="cm"># contributor path (same install, from source)</span>{'\n'}<span className="k">git</span> clone https://github.com/dhaupin/eyestruct.git{'\n'}<span className="k">cd</span> eyestruct {'\n&&'} <span className="k">npm</span> ci --no-audit --no-fund</pre>
           <p className="field-report">

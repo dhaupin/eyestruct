@@ -10,7 +10,7 @@ description: Extending the manifest's route matrix by hand, then walk over the w
 Extending the manifest is hand-editing a strict subset (no fancy YAML):
 
 ```text
-edit labs/.eyes/manifest.yml -> routes: add path / settings.yaml-pro
+edit labs/.eyes/manifest.yml -> routes: add a row (path / view / theme / viewport)
 eyestruct walk http://localhost:4173/
 ```
 

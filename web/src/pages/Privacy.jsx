@@ -59,13 +59,17 @@ export default function Privacy() {
           browser.
         </p>
         <p>
-          The <Link to="/status">live status</Link> page adds one exception,
-          and this page says so plainly: after load, it fetches two
-          committed JSON files
+          The <Link to="/status">live status</Link> page adds the fetches
+          this site makes, named plainly: after load, its gate card fetches
+          two committed JSON files
           (<code>packs/eye-ledger.json</code>, <code>labs/crashledger.json</code>)
-          from <code>raw.githubusercontent.com</code>. That request goes to
-          GitHub like any file view; GitHub sees your IP address and
-          handles it under their privacy policy. No other page fetches
+          from <code>raw.githubusercontent.com</code>, and its family card
+          fetches each of the four family sites' served
+          <code> /status.json</code>. All of them are read-only loads after
+          page load. The two raw files go to GitHub like any file view
+          (GitHub sees your IP address and handles it under their privacy
+          policy); the four family requests go to the same creadev.org
+          rig hosting the sites themselves. No other page fetches
           anything, and no data leaves the browser on this site's behalf.
         </p>
 
