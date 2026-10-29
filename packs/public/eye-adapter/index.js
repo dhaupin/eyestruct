@@ -115,6 +115,33 @@ const CASES = [
     },
   },
   {
+    // no_overlay rode the carrier first (2026-10-29, creadev issue #18):
+    // clean capture - look/spot emit a plain annotation-free frame while
+    // the element map still computes. The MCP look/spot inputSchemas are
+    // adapter-surface schema, so the field is receipted HERE (the carrier
+    // case lands before the mirror could forget it) and the CLI mirror
+    // carries the identical flag.
+    id: 'clean-capture-flag-rides-the-carrier',
+    claim: { verdict: 'PASSED' },
+    checks(ctx, dir) {
+      const src = require('fs').readFileSync(require('path').join(__dirname, '../../../lib/mcp.js'), 'utf8')
+      const registry = src.match(/const TOOLS = \[[\s\S]*?\n\]/)
+      if (!registry) return 'lib/mcp.js lost the TOOLS registry the carrier reads'
+      const lookBlock = registry[0].match(/name: 'look',[\s\S]*?\n  \},\n  \{\n    name: 'diff'/)
+      if (!lookBlock) return 'the look tool block moved - re-anchor this carrier case'
+      else if (!/no_overlay: \{ type: 'boolean'/.test(lookBlock[0])) return 'the look tool gained no_overlay without riding its carrier - add the field here FIRST, then the schema'
+      const spotBlock = registry[0].match(/name: 'spot',[\s\S]*?\n  \},\n\]/)
+      if (!spotBlock) return 'the spot tool block moved - re-anchor this carrier case'
+      else if (!/no_overlay: \{ type: 'boolean'/.test(spotBlock[0])) return 'the spot tool gained no_overlay without riding its carrier - add the field here FIRST, then the schema'
+      const lookSrc = require('fs').readFileSync(require('path').join(__dirname, '../../../lib/look.js'), 'utf8')
+      const lookLook = lookSrc.match(/function runLook[\s\S]*?\n\}/)
+      const spotFn = lookSrc.match(/function runSpot[\s\S]*?\n\}\n\nfunction runDiff/)
+      if (!lookLook || !spotFn) return 'the look.js verb blocks moved - re-anchor this carrier case'
+      else if (!/includes\('--no-overlay'\)/.test(lookLook[0]) || !/includes\('--no-overlay'\)/.test(spotFn[0])) return 'the CLI verbs gained no_overlay without riding their carrier - the flag feeds runLook/runSpot, carried here first'
+      return null
+    },
+  },
+  {
     id: 'adapter-canon-is-proposal-only',
     claim: { verdict: 'PASSED' },
     run(ctx, dir) {

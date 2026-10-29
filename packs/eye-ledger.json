@@ -30,6 +30,11 @@
     },
     {
       "pack": "eye-adapter",
+      "id": "clean-capture-flag-rides-the-carrier",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-adapter",
       "id": "adapter-canon-is-proposal-only",
       "verdict": "PASSED"
     },

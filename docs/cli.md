@@ -17,7 +17,7 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 | command | signature | touches | notes |
 |-----------|-------------|-----------|---------|
 | `init` | `eyestruct init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]` | writes `labs/.eyes/manifest.yml` + empty ledger | the pin + route matrix seed (the bundle flag adds the offline executor lane, see [ci](ci)) |
-| `look` | `eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/` + ledger row | needs the pinned browser; refusals are named; `--viewport` defaults 1280x800, `--theme` is unset (no emulation) |
+| `look` | `eyestruct look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay]` | `labs/.eyes-candidates/` only | needs the pinned browser; refusals are named; `--viewport` defaults 1280x800, `--theme` is unset (no emulation); the ledger is never touched by look (candidates are proposals, adoption is the row writer); `--no-overlay` is the clean frame: the element-id overlay is never drawn into the pixels, while the element map still computes and returns (creadev #18 - product screenshots / card artwork ride this flag) |
 | `diff` | `eyestruct diff <url> [--against PATH]` | read-mostly; baseline via manifest routes | `--against` accepts eyes-relative or absolute paths |
 | `adopt` | `eyestruct adopt <capture> [capture...] [--wave] --note "why"` | ledger row(s) (unratified proposal) | targets are eyes-relative capture paths (`<slot>/current.png`), never slot names - a slot is a directory the gate can never match, refused `ADOPT_TARGET_NOT_ARTIFACT` at write; `--note` mandatory; `--wave` collapses N captures into one wave row (one note explains N image changes in the same commit) |
 | `ledger` | `eyestruct ledger list [ROUTE] \| show ID` | reads `labs/.eyes/ledger.json` | append-only memory; refuses corruption loudly |
@@ -26,7 +26,7 @@ reason-code (`eyestruct[CODE]: explanation`) - see
 | `walk` | `eyestruct walk <base-url>` | `labs/.eyes-candidates/` | every route x viewport x theme in one pass |
 | `ratify` | `eyestruct ratify <base-url>` | append-only ratify rows | canon cut: byte-identical slots only, in the pinned env |
 | `serve` | `eyestruct serve [dir] [--port N] [--headers FILE]` | serves a directory | the instance primitive: a starter verb (lives until stopped); defaults to `web/dist` beside `web/public/_headers`; host-shaped headers incl the miss path |
-| `spot` | `eyestruct spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P]` | `labs/.eyes-candidates/spot-*.png` | one capture to read with your own vision - the agent-eyes loop (serve -> spot -> read -> act -> re-spot); candidate-only, ledger untouched |
+| `spot` | `eyestruct spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay]` | `labs/.eyes-candidates/spot-*.png` | one capture to read with your own vision - the agent-eyes loop (serve -> spot -> read -> act -> re-spot); candidate-only, ledger untouched; `--no-overlay` gives the agent the page itself, not the annotation layer (creadev #18) |
 | `mcp` | `eyestruct mcp` | stdio JSON-RPC | same verbs as tools; JSON-lines out |
 | `lint-packs` | `eyestruct lint-packs [--deep] [--json] [--against <lib>] [dir]` | packstruct passthrough | repo's own install, never downloaded |
 

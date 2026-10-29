@@ -104,6 +104,23 @@ test('adopt refuses a flag occupying the --note slot (ADOPT_NOTE_REQUIRED, no ro
   assert.strictEqual(rows.length, 0, 'no row written with a flag as its note')
 })
 
+test('--no-overlay is a known clean-capture flag (creadev #18): accepted at the flag lid, fed to the engine', () => {
+  // Hermetic shape: with a pinned-browser path that cannot exist, the verb
+  // must run PAST the flag lid and refuse on engine grounds
+  // (MISSING_PINNED_BROWSER, exit 2) - never UNKNOWN_FLAG (exit 1), which
+  // doubled as proof that the flag rides the look/spot allowlists.
+  const dir = tmpdir()
+  run(['init'], dir)
+  const r = run(['look', 'file:///nonexistent.html', '--no-overlay', '--browser-exec', path.join(dir, 'no-chrome'), '--viewport', '800x600'], dir)
+  assert.match(r.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+  assert.match(r.stderr, /no-chrome/)
+  assert.ok(!/UNKNOWN_FLAG/.test(r.stderr), `the clean-capture flag refused at the lid:\n${r.stderr}`)
+  // spot carries the same flag through the same gate.
+  const s = run(['spot', 'file:///nonexistent.html', '--no-overlay', '--browser-exec', path.join(dir, 'no-chrome'), '--viewport', '800x600'], dir)
+  assert.match(s.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+  assert.ok(!/UNKNOWN_FLAG/.test(s.stderr), `the clean-capture flag refused at the lid on spot:\n${s.stderr}`)
+})
+
 test('ledger show without an id is a shape refusal, and a wrong id is ROW_MISSING (not DANGLING_ROW)', () => {
   const dir = tmpdir()
   run(['init'], dir)
@@ -517,6 +534,26 @@ maybeBrowser('region crop returns the cheap layer only', async () => {
   const ids = cap.map.map((e) => e.id)
   assert.ok(ids.includes('search'))
   assert.ok(!ids.includes('hero'), 'full-frame artifacts do not flood a region look')
+})
+
+maybeBrowser('noOverlay gives the clean frame: same map, zero overlay labels, pixels unannotated (creadev #18)', async () => {
+  const dirty = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600' })
+  const clean = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', noOverlay: true })
+  // The map still computes from the same measure - identical elements.
+  assert.deepStrictEqual(
+    clean.map.map((e) => e.id).sort(),
+    dirty.map.map((e) => e.id).sort(),
+    'the element map must not depend on the overlay being drawn')
+  // Honest counts: the clean pass draws zero overlay labels (in the dirty
+  // pass, count == mapped by construction).
+  assert.strictEqual(clean.overlayCount, 0, 'a clean frame draws no overlay labels')
+  assert.strictEqual(dirty.overlayCount, dirty.map.length)
+  // The pixels actually differ - the annotation layer was really out.
+  assert.ok(!clean.png.equals(dirty.png), 'the clean PNG must not be byte-identical to the overlaid one on this fixture')
+  // Region + clean compose (the cheap layer stays the cheap layer).
+  const cleanRegion = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', region: '#search', noOverlay: true })
+  assert.strictEqual(cleanRegion.overlayCount, 0)
+  assert.strictEqual(cleanRegion.map.length, 1)
 })
 
 maybeBrowser('look verb writes a candidate and leaves the ledger untouched', async () => {
