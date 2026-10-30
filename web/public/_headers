@@ -8,10 +8,18 @@
 
   # CSP notes:
   # - script-src: Cloudflare Insights (remove if not using)
-  # - connect-src: add your own domain and any third-party fetch targets
+  # - connect-src: 'self', Cloudflare Insights, raw.githubusercontent.com (the
+  #   gate-status island reads this repo's file over the GitHub raw host), and
+  #   the family member origins the family-status island fetches cross-origin
+  #   (docs/status.md, family-status@1). connect-src governs fetch() BEFORE any
+  #   CORS header matters: a missing sibling here is "Failed to fetch" with the
+  #   sibling's ACAO never consulted (eyestruct#25). Must be a superset of
+  #   FamilyStatusIsland's SIBLINGS minus self; monoforge is listed ahead of
+  #   joining the grid (crashtest already carries it), so the origin is already
+  #   reachable the day its row lands. tests/status.test.js pins the subset.
   # - style-src / font-src: includes Google Fonts (remove if not using)
   # - Tighten or expand each directive to match your actual asset sources.
-  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com https://raw.githubusercontent.com; manifest-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com https://raw.githubusercontent.com https://crashtest.creadev.org https://poststruct.creadev.org https://packstruct.creadev.org https://monoforge.creadev.org; manifest-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
