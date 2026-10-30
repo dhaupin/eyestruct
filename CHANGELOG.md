@@ -4,6 +4,12 @@ All notable changes to eyestruct will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added (2026-10-29, the unknown-tag leg)
+
+- `scripts/check-jekyll-filters.cjs` refuses a second class of source-level Liquid that only fails at Jekyll BUILD time (eyestruct#24): an UNKNOWN tag. The `{% seo %}` trap that killed poststruct's docs deploy - a literal tag in prose, in backticks, which are markdown, not Liquid escaping - is now named in `lint:docs` with a file:line instead of in Jekyll's stack trace. A `KNOWN_TAGS` set of the Jekyll 4.x core + Liquid tags is the allowlist; `{% raw %}...{% endraw %}` regions are exempt (the body is blanked while line count is preserved, so `file:line` stays honest). The pass grew the two-arg-filter rule's own class, one line of the same contract. `tests/jekyll-filters.test.js` pins all of it: the repo's own docs pass, an unknown tag refuses by name, a raw-wrapped literal is exempt, the two-arg filter rule still refuses, and a known tag is not over-refused.
+
 ## [1.1.0] - 2026-10-28
 
 ### Added (2026-10-29, the pixel-tolerance lane)
