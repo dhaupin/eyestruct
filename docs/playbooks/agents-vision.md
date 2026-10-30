@@ -35,6 +35,14 @@ Both refuse by name (the serve tree does not exist, the spot URL is absent,
 the pinned browser is unresolvable) - never a bare stack trace, always the
 0-1-2 contract.
 
+A capture is viewport-only and never scrolls, so a `loading="lazy"` image
+below the fold comes back blank at any extent. Add `--settle` when you are
+looking at something that lazy-loads (a footer map, a long gallery): the
+capture walks the document to the bottom, waits for the images to load,
+returns to the top, then shoots. A settled look that still finds unloaded
+images prints a NOTICE, so a blank plate is never mistaken for evidence
+(issue #27).
+
 ## The receipts behind the page
 
 The loop is not aspirational; the following were machine-run receipts from

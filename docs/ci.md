@@ -16,6 +16,11 @@ loop is a local/opt-in tooling lane ([seeing for
 yourself](/eyestruct/playbooks/agents-vision/)), and only
 `check:browser`'s rendered-table check borrows from it. Nothing here
 requires a running eyestruct process - process-per-look holds in CI too.
+The lane carries affordances the canon lane does not: `--no-overlay` (a
+clean frame), `--full-page`, `--format`/`--quality`, and `--settle`
+(walk the document and wait for below-fold lazy images before capturing,
+so a lazy image is never returned blank - issue #27). The canon lane is
+viewport-only by design and refuses them.
 
 ## The battery (test.yml, every push and PR to main)
 

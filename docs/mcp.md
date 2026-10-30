@@ -54,7 +54,7 @@ the shell arrives as a tool error carrying the same
 | `gate` | none | the CI pass: exit-contract verdict on unexplained drift, returned as machine JSON with the exit code |
 | `raster` | `files` | strict parse + render + byte sanity for committed renderables |
 | `walk` | `base_url` | every route x viewport x theme, one pass; candidates land in `labs/.eyes-candidates/` |
-| `spot` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay`, `full_page`, `format`, `quality` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked; same capture defaults and output-shape options as `look` (`full_page`/`format`/`quality` ride the same shared engine jail, creadev #19/#20). `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
+| `spot` | `url`, `viewport`, `theme`, `region`, `include_image`, `no_overlay`, `full_page`, `settle`, `format`, `quality` | the instance-loop step: one capture, ALWAYS saved as a file path the agent re-opens with its own vision on a later turn (`labs/.eyes-candidates/`); the image itself rides inline only when asked; same capture defaults and output-shape options as `look` (`full_page`/`settle`/`format`/`quality` ride the same shared engine jail, creadev #19/#20, issue #27 - `settle` walks the document and waits for below-fold lazy images so a lazy image is not returned blank). `serve` stays CLI-only - it owns a port for its lifetime, and the MCP server already owns the stream |
 
 ## The core law at the tool surface
 

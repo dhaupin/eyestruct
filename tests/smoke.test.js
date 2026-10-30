@@ -671,6 +671,68 @@ maybeBrowser('look verb writes a candidate and leaves the ledger untouched', asy
   assert.deepStrictEqual(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8').trim(), '[]')
 })
 
+// -- The lazy-load settle pass (issue #27). Instance-lane only: a page that
+// never scrolls never fetches its below-fold lazy images, so a capture comes
+// back blank at any extent. --settle walks the document, waits, returns to top.
+
+const LAZY_FIXTURE = 'file://' + path.join(__dirname, 'fixtures', 'lazy-fixture.html')
+const LAZY_BROKEN = 'file://' + path.join(__dirname, 'fixtures', 'lazy-broken.html')
+
+// Mean luminance of the whole frame, 0-255. A loaded #ff2f6d-on-#1b1b3a disc
+// in the capture drops the mean well below a blank #f5f1e8 plate. Uses the
+// repo's own zero-dep PNG decoder (the same one the tolerance lane compares
+// with) rather than adding a dependency.
+const { decodePng } = require('../lib/tolerance')
+
+function meanLuma(png) {
+  const p = decodePng(Buffer.from(png))
+  assert.ok(p, 'capture decodes as an RGBA8 PNG')
+  let sum = 0
+  for (let i = 0; i < p.data.length; i += 4) {
+    sum += 0.299 * p.data[i] + 0.587 * p.data[i + 1] + 0.114 * p.data[i + 2]
+  }
+  return sum / (p.data.length / 4)
+}
+
+maybeBrowser('--settle loads below-fold lazy content a non-scrolling capture misses (issue #27)', async () => {
+  const flat = await engine.capture({ url: LAZY_FIXTURE, argv: [], pin: {}, viewport: '800x600', fullPage: true })
+  const settled = await engine.capture({ url: LAZY_FIXTURE, argv: [], pin: {}, viewport: '800x600', fullPage: true, settle: true })
+  // Without settle the below-fold plate is blank: the flat frame is all
+  // background, so its mean luminance sits far above the settled frame that
+  // carries the loaded dark disc.
+  assert.strictEqual(settled.lazyPending, 0, 'after settle the lazy image has loaded')
+  assert.ok(meanLuma(settled.png) < meanLuma(flat.png) - 5, `settled frame carries the loaded disc's darker pixels (flat ${meanLuma(flat.png).toFixed(1)} vs settled ${meanLuma(settled.png).toFixed(1)})`)
+})
+
+maybeBrowser('--settle returns to the top so the region rect is measured from the scroll origin (issue #27)', async () => {
+  const cap = await engine.capture({ url: LAZY_FIXTURE, argv: [], pin: {}, viewport: '800x600', region: '#top', settle: true })
+  const ids = cap.map.map((e) => e.id)
+  assert.ok(ids.includes('top'), 'the top region still resolves after a settle pass')
+  // The clipped frame is the small #top box, not a scrolled-away slice: a
+  // never-returned scroll would have clipped a blank strip of the spacer.
+  const ihdrHeight = (buf) => buf.readUInt32BE(20)
+  assert.ok(ihdrHeight(cap.png) < 200, `#top clip stays small after settle, got ${ihdrHeight(cap.png)}`)
+})
+
+maybeBrowser('--settle names an unfetchable image instead of returning a silent blank (issue #27)', async () => {
+  const cap = await engine.capture({ url: LAZY_BROKEN, argv: [], pin: {}, viewport: '800x600', fullPage: true, settle: true })
+  assert.ok(cap.lazyPending >= 1, 'the broken image is reported as still unloaded after settle')
+})
+
+maybeBrowser('--settle is a known instance-lane flag: accepted at the lid, fed to the engine (issue #27)', () => {
+  const dir = tmpdir()
+  // Accepted at the flag lid (never UNKNOWN_FLAG); with no browser it fails
+  // later at MISSING_PINNED_BROWSER (exit 2) - the same honesty the clean-
+  // capture flag test pins.
+  const r = run(['look', 'file:///nonexistent.html', '--settle', '--browser-exec', path.join(dir, 'no-chrome'), '--viewport', '800x600'], dir)
+  assert.ok(!/UNKNOWN_FLAG/.test(r.stderr), `--settle refused at the lid on look:\n${r.stderr}`)
+  const s = run(['spot', 'file:///nonexistent.html', '--settle', '--browser-exec', path.join(dir, 'no-chrome'), '--viewport', '800x600'], dir)
+  assert.ok(!/UNKNOWN_FLAG/.test(s.stderr), `--settle refused at the lid on spot:\n${s.stderr}`)
+  // The canon lane never carries it: walk/ratify refuse it by name.
+  const w = run(['walk', 'http://localhost:1', '--settle'], dir)
+  assert.match(w.stderr, /eyestruct\[UNKNOWN_FLAG\]/, 'walk must refuse --settle (canon is viewport-only by design)')
+})
+
 maybeBrowser('diff without a baseline refuses with a named code (exit 1)', () => {
   const dir = tmpdir()
   run(['init'], dir)

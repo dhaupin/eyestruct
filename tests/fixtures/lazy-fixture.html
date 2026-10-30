@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>eyestruct lazy fixture</title>
+<style>
+  body { margin: 0; background: #f5f1e8; color: #1b1b3a; font-family: monospace; }
+  #top { margin: 20px; padding: 12px; border: 2px solid #1b1b3a; background: #fff; }
+  /* The tall tail pushes #lazy-shot well below the 600px capture viewport, so
+     nothing scrolls it into view unless the engine walks the document. */
+  #spacer { height: 1600px; margin-top: 20px;
+    background: repeating-linear-gradient(0deg, #f5f1e8 0 20px, #1b1b3a 20px 22px); }
+  #lazy-shot { margin: 20px; width: 320px; height: 240px; border: 2px solid #1b1b3a; background: #fff; }
+  #lazy-shot img { display: block; width: 320px; height: 240px; }
+</style>
+</head>
+<body>
+  <div id="top">above the fold - the only thing a non-scrolling capture sees</div>
+  <div id="spacer"></div>
+  <div id="lazy-shot"><img id="lazy-img" alt="below the fold, loaded only on scroll" width="320" height="240"></div>
+  <script>
+    // Issue #27's exact mechanism: below-fold content fetched only when it
+    // scrolls into view. An IntersectionObserver sets the real src on entry,
+    // so a capture that never scrolls gets a blank 320x240 plate.
+    var img = document.getElementById('lazy-img');
+    var SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240">' +
+      '<rect width="320" height="240" fill="#1b1b3a"/>' +
+      '<circle cx="160" cy="120" r="90" fill="#ff2f6d"/></svg>');
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) { img.src = SVG; io.disconnect(); }
+      }
+    }, { rootMargin: '0px' });
+    io.observe(img);
+  </script>
+</body>
+</html>
