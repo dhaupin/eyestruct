@@ -5,7 +5,11 @@
 # in docs/_config.yml (they cover the same values).
 site:
   name: eyestruct Docs
-  url: https://docs.creadev.org/eyestruct
+  # ORIGIN ONLY - no path. page paths carry /eyestruct via basePath (below);
+  # putting the path here too doubled every engine-computed URL
+  # (https://docs.creadev.org/eyestruct/eyestruct/... in sitemap.xml + feed.xml,
+  # both 404 live). freestruct joins site.url + basePath + slug.
+  url: https://docs.creadev.org
   description: "Eyes for production agents - deterministic look, committed labs/.eyes/ visual memory, CI gates on unexplained drift."
 
 # Author identity - ships as a schema.org Person under "founder" on the
@@ -27,9 +31,16 @@ jsonLd:
 
 twitter:
   card: summary_large_image
-# og.image deliberately omitted until the PNG set lands (og-image.png is
-# documented adopter homework in MANIFEST.md) - an og:image pointing at a
-# 404 is worse than none, and the pinned freestruct dropped the tag.
+# og.type keeps the family's docs convention (article). og.image stays absent
+# until the PNG set lands (og-image.png is documented adopter homework in
+# MANIFEST.md) - an og:image pointing at a 404 is worse than none, and the
+# engine drops an unset image cleanly. The layout no longer hand-writes the og
+# set (see docs/_layouts/default.html) and this template carries the engine's
+# FULL head set, so the day a value lands under og.image it reaches every page
+# instead of starving behind the missing-only gate (freestruct#46; crashtest#42
+# is the worked example). Add it as: image: https://eyestruct.creadev.org/og-image.png
+og:
+  type: article
 # Template consumed by the layer: docs/_freestruct/inject-brand.html.
 
 # The output tree is served under /eyestruct (Jekyll baseurl does the prefix;
