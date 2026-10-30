@@ -1,7 +1,7 @@
 /**
  * components/FamilyStatusIsland.jsx - the family status island.
  *
- * The four-repo status contract (family-status @1, docs/status.md): every
+ * The family status contract (family-status @1, docs/status.md): every
  * member of the struct family serves a status.json at the fixed path
  * /status.json on its site, generated from its own committed ledgers, and
  * every member's status page reads the others' files with the same schema.
@@ -16,9 +16,10 @@ import { useEffect, useState } from 'react'
 
 const SIBLINGS = [
   { name: 'eyestruct', origin: 'https://eyestruct.creadev.org', page: 'https://eyestruct.creadev.org/status' },
-  { name: 'crashtest', origin: 'https://crashtest.creadev.org', page: 'https://crashtest.creadev.org/dashboard' },
+  { name: 'crashtest', origin: 'https://crashtest.creadev.org', page: 'https://crashtest.creadev.org/status' },
   { name: 'poststruct', origin: 'https://poststruct.creadev.org', page: 'https://poststruct.creadev.org/status' },
   { name: 'packstruct', origin: 'https://packstruct.creadev.org', page: 'https://packstruct.creadev.org/status' },
+  { name: 'govstruct', origin: 'https://govstruct.creadev.org', page: 'https://govstruct.creadev.org/status' },
   { name: 'monoforge', origin: 'https://monoforge.creadev.org', page: 'https://monoforge.creadev.org/status' },
 ]
 
@@ -67,7 +68,7 @@ export default function FamilyStatusIsland() {
   return (
     <>
       <p className="sub">
-        Same dialect, four repos: every member serves its committed-ledger
+        Same dialect, every member: every member serves its committed-ledger
         verdicts at <code>/status.json</code> and reads the others. Each row
         below is that member's own file, fetched live - a red row means the
         member's own ledgers say RED, not that this page thinks so.

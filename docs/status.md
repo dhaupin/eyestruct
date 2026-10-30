@@ -2,18 +2,18 @@
 permalink: status
 layout: default
 title: Family status dialect
-description: The four-repo status contract - one schema served at /status.json on every family site, generated from each repo's committed ledgers, read by every member's status page. What a consumer (human or agent) can count on.
+description: The family status contract - one schema served at /status.json on every family site, generated from each repo's committed ledgers, read by every member's status page. What a consumer (human or agent) can count on.
 ---
 
 # Family status dialect
 
-Four repos in the struct family - eyestruct, crashtest, poststruct,
-packstruct - each carry adversarial legs whose verdicts live in
-**committed ledger files**, reconciled by CI on every push (the what and
-the why are in the [CI guide](/eyestruct/ci)). This page is the contract
-that makes those ledger files readable *across* the family, without a
-server, without a dashboard product, without any trust beyond "the
-committing repo's own CI ran its own battery":
+The members of the struct family - eyestruct, crashtest, poststruct,
+packstruct, govstruct, monoforge - each carry adversarial legs whose
+verdicts live in **committed ledger files**, reconciled by CI on every
+push (the what and the why are in the [CI guide](/eyestruct/ci)). This
+page is the contract that makes those ledger files readable *across* the
+family, without a server, without a dashboard product, without any trust
+beyond "the committing repo's own CI ran its own battery":
 
 1. every member serves a machine-readable status file at the fixed path
    `/status.json` on its site;
@@ -22,10 +22,9 @@ committing repo's own CI ran its own battery":
 3. every member's status page reads the others' files and renders their
    numbers (or their absence) honestly.
 
-Humans read `/status` (crashtest's page lives at `/dashboard`, and its
-`status.json` names that truth instead of pretending); agents and
-machines read `/status.json`. Both get the same numbers, because both
-read the same generated file.
+Humans read `/status` (each member's `status.json` names its own page);
+agents and machines read `/status.json`. Both get the same numbers,
+because both read the same generated file.
 
 ## The dialect: `family-status@1`
 
