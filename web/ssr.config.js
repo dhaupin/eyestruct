@@ -32,6 +32,33 @@ export default {
       },
     },
     {
+      path: '/why',
+      priority: '0.6',
+      changefreq: 'monthly',
+      meta: {
+        title: 'Why | eyestruct',
+        description: 'A UI change ships unchecked because nobody in the loop looked. Why production agents need eyes and a committed visual memory instead of a screenshot nobody diffs.',
+      },
+    },
+    {
+      path: '/what',
+      priority: '0.6',
+      changefreq: 'monthly',
+      meta: {
+        title: 'What | eyestruct',
+        description: 'One CLI: deterministic look, pixel-level diff, a committed visual memory, and a CI gate. Process-per-look - the only state that survives between looks is git state.',
+      },
+    },
+    {
+      path: '/about',
+      priority: '0.5',
+      changefreq: 'monthly',
+      meta: {
+        title: 'About | eyestruct',
+        description: 'Who builds eyestruct, the struct family it belongs to, and the MIT license and provenance terms.',
+      },
+    },
+    {
       path: '/packs',
       priority: '0.9',
       changefreq: 'weekly',

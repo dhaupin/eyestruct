@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-10-30, the release ladder gains --allowed)
+
+- `scripts/verify-release.cjs` gains an `--allowed p1/,p2/` flag (alias
+  `--allow`, the spelling the two forked copies shipped): prefixes
+  de-asserted from the forbidden scan for this invocation. A repo whose
+  runtime tarball legitimately carries a default-forbidden tree dir - vant
+  ships `web/` as product - can now state that as a flag instead of forking
+  the family-identical script (eyestruct#33). The exemption is
+  prefix-scoped: a repo that never passes the flag sees zero behavior
+  change, and a name under an allowed prefix skips the scan entirely (the
+  forked copies' semantics, adopted upstream so the file converges). The
+  same change folds in the forked copies' named SKIP when a package
+  declares no `main`/`exports`/`bin` (a factory/shell shape with no root
+  module to load), so the ladder is once again one identical file across
+  the family. Teeth: two new cases in `tests/release-verify.test.js`
+  (`--allowed` de-asserts a default prefix and is prefix-scoped; the
+  no-entry shape SKIPs by name).
+
+### Added (2026-10-29, the why / what / about pages, both surfaces)
+
+- The landing gains three routes (`/why`, `/what`, `/about`) in the nav
+  vocabulary and `web/ssr.config.js`, each a real page in the family voice: the
+  pixels-move-silently problem and the CI-cut canon thesis; the CLI verbs, the
+  spine, and the two lanes; who builds it and the MIT provenance. The docs tree
+  grows the matching `docs/why.md`, `docs/what.md`, `docs/about.md`, reachable
+  from the docs nav, and the docs layout gains the shared `.crosslinks` block
+  style. This closes the family-wide gap where no member carried a supporting
+  trio.
+
+### Added (2026-10-29, the docs legal crosslinks)
+
+- The docs footer now links this project's own terms + privacy surfaces
+  (`https://eyestruct.creadev.org/terms`, `/privacy`), matching the packstruct
+  docs rig. The landing's terms/privacy were filled in already; the docs side
+  had no pointer to them, so a reader in the docs could not reach the legal
+  pages the site serves. Docs-lint clean (24 pages).
+
 ### Added (2026-10-29, the unknown-tag leg)
 
 - `scripts/check-jekyll-filters.cjs` refuses a second class of source-level Liquid that only fails at Jekyll BUILD time (eyestruct#24): an UNKNOWN tag. The `{% seo %}` trap that killed poststruct's docs deploy - a literal tag in prose, in backticks, which are markdown, not Liquid escaping - is now named in `lint:docs` with a file:line instead of in Jekyll's stack trace. A `KNOWN_TAGS` set of the Jekyll 4.x core + Liquid tags is the allowlist; `{% raw %}...{% endraw %}` regions are exempt (the body is blanked while line count is preserved, so `file:line` stays honest). The pass grew the two-arg-filter rule's own class, one line of the same contract. `tests/jekyll-filters.test.js` pins all of it: the repo's own docs pass, an unknown tag refuses by name, a raw-wrapped literal is exempt, the two-arg filter rule still refuses, and a known tag is not over-refused.

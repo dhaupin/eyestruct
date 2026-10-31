@@ -83,7 +83,12 @@ path, and registry package are read from the caller's tree, and every
 repo-specific rule arrives as a flag: `--exports k1,k2,...` pins the
 frozen exports keys, `--probe "<js>"` adds a consumer probe against the
 installed package (eyestruct passes its adapter-contract assertion),
-`--forbidden p/,q/` extends the family-default forbidden list. An
+`--forbidden p/,q/` extends the family-default forbidden list, and
+`--allowed p/,q/` de-asserts a prefix from it for this invocation (a repo
+whose runtime tarball legitimately carries a default-forbidden tree dir -
+vant ships `web/` as product - states it here instead of forking this
+file; the exemption is prefix-scoped and a repo that passes no flag sees
+zero behavior change). An
 adopting repo copies one file and states its rules in its own workflow
 and battery - the script itself never moves. Offline, the consumer-
 install half prints a named SKIP; in CI with registry access it always
