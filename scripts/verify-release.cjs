@@ -57,6 +57,17 @@
 //                         dirs that simply should not ride a tarball:
 //                         labs/ docs/ web/ packs/ tests/ scripts/
 //                         models/ examples/ .github/ node_modules/)
+//   --allowed p1/,p2/     forbidden prefixes DE-ASSERTED for this
+//                         invocation (subtracted from the defaults + any
+//                         --forbidden additions). A repo whose runtime
+//                         tarball legitimately carries a default-forbidden
+//                         tree dir states it here instead of forking this
+//                         file (vant ships web/ as product). Subtraction
+//                         only: you can never re-assert something the scan
+//                         itself forbids. A repo that never passes the flag
+//                         sees zero behavior change. `--allow` is accepted
+//                         as the same flag (the two forked copies spelled
+//                         it that way before this landed upstream).
 //
 // What each repo passes lives in ITS OWN workflow/battery invocation - the
 // script stays identical across the family, so a fix here is one copy.
@@ -109,10 +120,20 @@ function tarList(file) {
   return r.stdout.trim().split('\n').filter(Boolean).map((n) => n.replace(/^\.{1,2}\//, '')).map((n) => n.replace(/^package\//, '').replace(/^package$/, ''))
 }
 
-function forbidden(scan, extraPrefixes) {
+function forbidden(scan, extraPrefixes, allowed) {
   const prefixes = [...FORBIDDEN_PREFIXES, ...extraPrefixes]
+  // --allowed names exemptions (--allow is the same flag - the spelling the
+  // two forked copies shipped before this landed upstream). A name under an
+  // allowed prefix skips the scan: a repo whose runtime tarball legitimately
+  // carries a default-forbidden tree dir (vant ships web/ as product) or
+  // ships template dotfiles on purpose (monoforge's templates/.github/)
+  // states it here instead of forking this file. Exemption only - you can
+  // never re-assert something the scan itself forbids, and a repo that
+  // passes no flag sees zero behavior change.
+  const exempt = (name) => allowed.some((p) => name === p || name.startsWith(p))
   const hits = []
   for (const name of scan) {
+    if (exempt(name)) continue
     for (const p of prefixes) {
       if (name.startsWith(p)) hits.push(`${name} (forbidden path prefix ${p})`)
     }
@@ -134,7 +155,7 @@ function packLadder(tgz, expectedVersion, cfg) {
   // refused BY NAME, fast (the doctored-tar battery case relies on this).
   const names = tarList(tgz)
   if (!names.length) fail('the tarball lists zero files')
-  const bad = forbidden(names, cfg.extraForbidden)
+  const bad = forbidden(names, cfg.extraForbidden, cfg.allowed)
   if (bad.length) fail(`FORBIDDEN contents in the tarball: ${bad.join('; ')}`)
   say(`[verify-release] PASS forbidden scan (${names.length} entries, 0 forbidden)`)
 
@@ -195,8 +216,17 @@ function packLadder(tgz, expectedVersion, cfg) {
   // step 4. Repos with a stricter surface pass it as --probe (eyestruct:
   // its adapter-contract marker).
   const installedPkg = JSON.parse(fs.readFileSync(path.join(home, 'node_modules', cfg.name, 'package.json'), 'utf8'))
+  // A package with no main/exports/bin legitimately has no root module to
+  // load (a factory that ships tool files + templates only). Requiring its
+  // own name then raises MODULE_NOT_FOUND for a shape, not a defect, so the
+  // default load probe is SKIPPED by name and the repo states its real
+  // surface as --probe. Named, never silent.
+  const hasEntry = Boolean(installedPkg.main || installedPkg.exports || installedPkg.bin)
   const defaultProbe = `require(${JSON.stringify(cfg.name)})`
-  const probes = [defaultProbe, ...cfg.probes]
+  const probes = hasEntry ? [defaultProbe, ...cfg.probes] : [...cfg.probes]
+  if (!hasEntry && !cfg.probes.length) {
+    say(`[verify-release] SKIP consumer load probe (${cfg.name} declares no main/exports/bin - nothing to load; pass --probe if it has a surface)`)
+  }
   for (let i = 0; i < probes.length; i++) {
     const probe = spawnSync('node', ['-e', probes[i]], { cwd: home, encoding: 'utf8' })
     if (probe.status !== 0) {
@@ -333,12 +363,19 @@ function main() {
   // Config: everything repo-specific arrives as flags; the script itself is
   // one identical file across the family.
   const checkout = readCheckout()
-  const cfg = { name: checkout.name, exports: null, probes: [], extraForbidden: [] }
+  const cfg = { name: checkout.name, exports: null, probes: [], extraForbidden: [], allowed: [] }
   const exportsIdx = a.indexOf('--exports')
   if (exportsIdx !== -1) cfg.exports = a[exportsIdx + 1]
   const forbiddenIdx = a.indexOf('--forbidden')
   if (forbiddenIdx !== -1) {
     if (a[forbiddenIdx + 1]) cfg.extraForbidden = String(a[forbiddenIdx + 1]).split(',').filter(Boolean)
+  }
+  // --allowed (alias --allow, the spelling the two forked copies shipped
+  // before this landed upstream): prefixes de-asserted from the forbidden
+  // scan for this invocation.
+  const allowedIdx = a.findIndex((v) => v === '--allowed' || v === '--allow')
+  if (allowedIdx !== -1) {
+    if (a[allowedIdx + 1]) cfg.allowed = String(a[allowedIdx + 1]).split(',').filter(Boolean)
   }
   for (let i = 0; i < a.length; i++) {
     if (a[i] === '--probe') {
@@ -350,7 +387,7 @@ function main() {
   const wantNpm = a.includes('--npm')
   const wantGh = a.includes('--gh')
   if (!wantPack && !wantNpm && !wantGh) {
-    say('usage: verify-release [--pack <tgz>] [--npm] [--gh --tag vX.Y.Z] [--version X.Y.Z] [--exports k1,k2,...] [--probe "<js>"] [--forbidden p1/,p2/]')
+    say('usage: verify-release [--pack <tgz>] [--npm] [--gh --tag vX.Y.Z] [--version X.Y.Z] [--exports k1,k2,...] [--probe "<js>"] [--forbidden p1/,p2/] [--allowed p1/,p2/]')
     process.exit(2)
   }
   const versionArgIdx = a.indexOf('--version')

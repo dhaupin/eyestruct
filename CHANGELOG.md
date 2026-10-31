@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-10-30, the release ladder gains --allowed)
+
+- `scripts/verify-release.cjs` gains an `--allowed p1/,p2/` flag (alias
+  `--allow`, the spelling the two forked copies shipped): prefixes
+  de-asserted from the forbidden scan for this invocation. A repo whose
+  runtime tarball legitimately carries a default-forbidden tree dir - vant
+  ships `web/` as product - can now state that as a flag instead of forking
+  the family-identical script (eyestruct#33). The exemption is
+  prefix-scoped: a repo that never passes the flag sees zero behavior
+  change, and a name under an allowed prefix skips the scan entirely (the
+  forked copies' semantics, adopted upstream so the file converges). The
+  same change folds in the forked copies' named SKIP when a package
+  declares no `main`/`exports`/`bin` (a factory/shell shape with no root
+  module to load), so the ladder is once again one identical file across
+  the family. Teeth: two new cases in `tests/release-verify.test.js`
+  (`--allowed` de-asserts a default prefix and is prefix-scoped; the
+  no-entry shape SKIPs by name).
+
 ### Added (2026-10-29, the why / what / about pages, both surfaces)
 
 - The landing gains three routes (`/why`, `/what`, `/about`) in the nav
