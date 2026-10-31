@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed (2026-10-29, the family-status CSP leg)
+
+- The family-status islands were CSP-blocked, not CORS-blocked (eyestruct#25): both boards' islands rendered every foreign row "Failed to fetch" while every server answered 200 with `Access-Control-Allow-Origin: *`. The mechanism is the *reading* page's own CSP - `connect-src` governs `fetch()` itself, before any CORS header is consulted, so a sibling origin absent from `connect-src` is refused before the request leaves the browser. `web/public/_headers` now lists the family member origins (`eyestruct`, `crashtest`, `poststruct`, `packstruct` - matching `web/src/components/FamilyStatusIsland.jsx`'s sibling table) alongside the existing `raw.githubusercontent.com` ledger source. The new leg in `tests/dist-server.test.js` derives the required origins from the island's own table and asserts each is present in `connect-src`, so adding a sibling without adding its origin fails the battery (verified failing on the pre-fix headers). `docs/status.md` gains the dialect's CSP clause - the reader half of the CORS clause - so the next member lands both halves from day one.
+
 ### Added (2026-10-29, the unknown-tag leg)
 
 - `scripts/check-jekyll-filters.cjs` refuses a second class of source-level Liquid that only fails at Jekyll BUILD time (eyestruct#24): an UNKNOWN tag. The `{% seo %}` trap that killed poststruct's docs deploy - a literal tag in prose, in backticks, which are markdown, not Liquid escaping - is now named in `lint:docs` with a file:line instead of in Jekyll's stack trace. A `KNOWN_TAGS` set of the Jekyll 4.x core + Liquid tags is the allowlist; `{% raw %}...{% endraw %}` regions are exempt (the body is blanked while line count is preserved, so `file:line` stays honest). The pass grew the two-arg-filter rule's own class, one line of the same contract. `tests/jekyll-filters.test.js` pins all of it: the repo's own docs pass, an unknown tag refuses by name, a raw-wrapped literal is exempt, the two-arg filter rule still refuses, and a known tag is not over-refused.

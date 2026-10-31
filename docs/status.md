@@ -84,6 +84,14 @@ understanding - the same normalization packstruct itself enforces.
   example). A reader that still gets an opaque cross-origin error names
   it and the family fixes the serving side; the reader never works around
   it with a proxy.
+- **The CSP clause (the reader half of CORS):** ACAO is necessary but not
+  sufficient - the browser consults the *reading page's* CSP
+  `connect-src` before any CORS header matters, so a member whose page CSP
+  omits a sibling origin renders "Failed to fetch" on that row no matter
+  what the sibling serves. Every member's page CSP must list every family
+  origin its status island fetches (eyestruct#25; `web/public/_headers`
+  here carries the four origins and `tests/dist-server.test.js` derives
+  them from the island's own sibling table so the two cannot drift).
 - Numbers are only as fresh as the member's last web deploy, which is
   bounded by their docs lane running `web build` on every push to main.
   The receipt-grade freshness always lives in the git ledger files

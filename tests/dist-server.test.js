@@ -90,6 +90,23 @@ test('dist: the committed _headers carries the family status dialect clauses', (
   assert.match(block, /content-type:\s*application\/json/i)
 })
 
+test('dist: connect-src carries every family origin the status island fetches', () => {
+  // The island fetches each sibling's served /status.json cross-origin, and
+  // CSP connect-src governs fetch() BEFORE any CORS header matters - so a
+  // sibling origin missing from connect-src renders "Failed to fetch" on that
+  // row regardless of what the sibling serves (the live receipt behind this
+  // clause). Derive the required set from the island's own SIBLINGS table so
+  // the two cannot drift: add a sibling, add its origin here.
+  const island = fs.readFileSync(path.join(repoRoot, 'web', 'src', 'components', 'FamilyStatusIsland.jsx'), 'utf8')
+  const origins = [...island.matchAll(/origin:\s*'([^']+)'/g)].map((m) => m[1])
+  assert.ok(origins.length >= 2, 'FamilyStatusIsland must name its sibling origins')
+  const clauses = fs.readFileSync(HEADERS_FILE, 'utf8')
+  const csp = clauses.split(/\r?\n/).find((l) => /content-security-policy:/i.test(l)) || ''
+  const connect = (csp.match(/connect-src([^;]*)/) || [])[1] || ''
+  const missing = origins.filter((o) => !connect.includes(o))
+  assert.deepEqual(missing, [], `connect-src must allow every sibling origin (missing: ${missing.join(', ')})`)
+})
+
 test('served dist: the served status.json equals the generator truth and satisfies the dialect', { skip: ifNoDist() }, async () => {
   const { createServer } = require('../lib/serve-dist')
   const build = await emitter()
