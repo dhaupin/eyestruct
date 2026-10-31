@@ -1,16 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { rrdomEsmRedirect } from './scripts/rrdom-esm-redirect.mjs'
 
-// The redirect plugin exists for the prestruct prerender pass. The engine loads
-// StaticRouter OUTSIDE Vite's SSR module registry (plain dynamic import), while
-// the app layout loads INSIDE it; react-router 7's real ESM means those are two
-// module instances with two React contexts unless the registry copy delegates to
-// the same Node ESM file URL. scripts/rrdom-esm-redirect.mjs does exactly that
-// (see its header for the full seam + why). Client build is untouched.
 export default defineConfig({
+  // The consumer-side rrdom shim is retired (eyestruct#14): prestruct 1.2.0's
+  // engine closes the react-router 7 seam itself. On this vite ^5.4.0 pin the
+  // engine's externalized default still splits the router into two module
+  // instances (useLocation() outside a <Router>); keeping the router in the
+  // SSR registry via noExternal is what makes the single instance hold here.
   ssr: { noExternal: ['react-router-dom', 'react-router'] },
-  plugins: [rrdomEsmRedirect(), react()],
+  plugins: [react()],
   build: {
     outDir: 'dist',
     // Performance optimizations
