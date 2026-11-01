@@ -116,6 +116,74 @@ test('a caller-stated --forbidden prefix refuses a smuggle the defaults miss', (
   fs.rmSync(toy, { recursive: true, force: true })
 })
 
+test('--allowed de-asserts a default-forbidden prefix (vant ships web/ as product)', () => {
+  const toy = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-toy3-'))
+  fs.writeFileSync(path.join(toy, 'package.json'), JSON.stringify({
+    name: 'toy-verify',
+    version: '4.2.0',
+    main: 'index.js',
+    files: ['index.js'],
+  }, null, 2))
+  fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = 1\n")
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
+  // Splice a file under web/ (a family default) into the tarball. This is
+  // the vant shape: web/ legitimately rides the runtime tarball there.
+  const ex = path.join(toy, 'extracted')
+  fs.mkdirSync(ex, { recursive: true })
+  const unt = spawnSync('tar', ['-xzf', path.join(toy, 'toy-verify-4.2.0.tgz'), '-C', ex], { encoding: 'utf8' })
+  assert.equal(unt.status, 0, `unpack failed: ${unt.stderr}`)
+  fs.mkdirSync(path.join(ex, 'package', 'web'), { recursive: true })
+  fs.writeFileSync(path.join(ex, 'package', 'web', 'app.js'), '// ships as product\n')
+  const doctored = path.join(toy, 'doctored.tgz')
+  const repack = spawnSync('tar', ['-czf', doctored, '-C', path.join(ex, 'package'), '.'], { encoding: 'utf8' })
+  assert.equal(repack.status, 0, `repack failed: ${repack.stderr}`)
+  // WITHOUT the flag, web/ is refused by name (the default still bites).
+  const without = spawnSync('node', [script, '--pack', doctored, '--version', '4.2.0'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const withoutOut = `${without.stdout}\n${without.stderr}`
+  assert.equal(without.status, 1, `web/ was not refused without the flag:\n${withoutOut}`)
+  assert.ok(withoutOut.includes('web/app.js') && withoutOut.includes('forbidden path prefix web/'), `the default refusal does not name web/:\n${withoutOut}`)
+  // WITH --allowed web/ the forbidden scan passes (the rest of the ladder
+  // then judges the served set, which is where this doctored tar fails).
+  const withFlag = spawnSync('node', [script, '--pack', doctored, '--version', '4.2.0', '--allowed', 'web/'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const withOut = `${withFlag.stdout}\n${withFlag.stderr}`
+  assert.ok(withOut.includes('PASS forbidden scan'), `--allowed did not clear the forbidden scan:\n${withOut}`)
+  assert.ok(!withOut.includes('forbidden path prefix web/'), `--allowed left web/ forbidden:\n${withOut}`)
+  // The `--allow` alias (the spelling the two forked copies shipped) works too.
+  const withAlias = spawnSync('node', [script, '--pack', doctored, '--version', '4.2.0', '--allow', 'web/'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  assert.ok(`${withAlias.stdout}\n${withAlias.stderr}`.includes('PASS forbidden scan'), 'the --allow alias did not clear the forbidden scan')
+  // The exemption is PREFIX-SCOPED: a default-forbidden dir the caller did
+  // NOT name is still refused by name (only web/ was de-asserted here).
+  fs.mkdirSync(path.join(ex, 'package', 'labs'), { recursive: true })
+  fs.writeFileSync(path.join(ex, 'package', 'labs', 'secret.json'), '{}')
+  const doctored2 = path.join(toy, 'doctored2.tgz')
+  spawnSync('tar', ['-czf', doctored2, '-C', path.join(ex, 'package'), '.'], { encoding: 'utf8' })
+  const labsRun = spawnSync('node', [script, '--pack', doctored2, '--version', '4.2.0', '--allowed', 'web/'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const labsOut = `${labsRun.stdout}\n${labsRun.stderr}`
+  assert.equal(labsRun.status, 1, `labs/ slipped through an unrelated --allowed web/:\n${labsOut}`)
+  assert.ok(labsOut.includes('forbidden path prefix labs/'), `the refusal does not name labs/:\n${labsOut}`)
+  fs.rmSync(toy, { recursive: true, force: true })
+})
+
+test('a package with no main/exports/bin SKIPs the load probe by name, never silently', () => {
+  const toy = fs.mkdtempSync(path.join(os.tmpdir(), 'verify-release-toy4-'))
+  // A shell/factory shape: tool files + templates, no root module to load.
+  fs.writeFileSync(path.join(toy, 'package.json'), JSON.stringify({
+    name: 'toy-shell',
+    version: '4.2.0',
+    files: ['tool.cjs'],
+  }, null, 2))
+  fs.writeFileSync(path.join(toy, 'tool.cjs'), 'module.exports = 1\n')
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
+  const tgz = path.join(toy, 'toy-shell-4.2.0.tgz')
+  const run = spawnSync('node', [script, '--pack', tgz, '--version', '4.2.0'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
+  const out = `${run.stdout}\n${run.stderr}`
+  assert.equal(run.status, 0, `the no-entry shape failed the ladder (${run.status}):\n${out}`)
+  assert.ok(out.includes('SKIP consumer load probe'), `the skip was not named:\n${out}`)
+  fs.rmSync(toy, { recursive: true, force: true })
+})
+
 test('the pack ladder verifies real npm pack output (contents + identity + consumer install)', () => {
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'release-verify-'))
   const tgz = packTree(work)
