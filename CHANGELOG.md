@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-10-29, the why / what / about pages, both surfaces)
+
+- The landing gains three routes (`/why`, `/what`, `/about`) in the nav
+  vocabulary and `web/ssr.config.js`, each a real page in the family voice: the
+  pixels-move-silently problem and the CI-cut canon thesis; the CLI verbs, the
+  spine, and the two lanes; who builds it and the MIT provenance. The docs tree
+  grows the matching `docs/why.md`, `docs/what.md`, `docs/about.md`, reachable
+  from the docs nav, and the docs layout gains the shared `.crosslinks` block
+  style. This closes the family-wide gap where no member carried a supporting
+  trio.
+
+### Added (2026-10-29, the docs legal crosslinks)
+
+- The docs footer now links this project's own terms + privacy surfaces
+  (`https://eyestruct.creadev.org/terms`, `/privacy`), matching the packstruct
+  docs rig. The landing's terms/privacy were filled in already; the docs side
+  had no pointer to them, so a reader in the docs could not reach the legal
+  pages the site serves. Docs-lint clean (24 pages).
+
 ### Fixed (2026-10-29, the docs head-seam leg)
 
 - The docs head had two owners: `docs/_layouts/default.html` hand-wrote canonical + the og set, and `docs/_freestruct/inject-brand.html` carried only "the layer the layout lacked". freestruct injects missing-only PER SET, so the layout's `og:title` made `hasOg` true and the engine skipped its whole og block - meaning the day an `og.image` landed in `docs/freestruct.config.yml` it would reach ZERO pages (eyestruct#23; freestruct#46; crashtest#42 is the worked example). Now there is one head owner: the layout keeps `<title>`/description/robots/icon and hands og/canonical/twitter/JSON-LD to the engine, and the template carries the engine's FULL head set. The same pass found and fixed a live bug - `site.url` carried the `/eyestruct` path AND `basePath: /eyestruct` prefixed it, so `sitemap.xml` + `feed.xml` shipped doubled URLs (`https://docs.creadev.org/eyestruct/eyestruct/...`, both 404 live); `site.url` is now origin-only, matching crashtest; `docs.yml`'s stale comment claiming a `pagesUrlFor` guard already de-duplicated this is corrected (the live sitemap proved there is no such guard). `og.type` moves to config (the layout's `article` default was lost with the hand-written block). `tests/docs-seo.test.js` runs the real pinned freestruct engine over a synthetic `_site` (no Ruby, no network) and pins both og.image states, the single-join URL shape, and the layout's source - so the seam can never quietly starve again. No counted surface moved.

@@ -8,6 +8,12 @@
       url: /eyestruct/
     - title: Getting started
       url: /eyestruct/start
+    - title: Why
+      url: /eyestruct/why
+    - title: What
+      url: /eyestruct/what
+    - title: About
+      url: /eyestruct/about
 - title: Reference
   items:
     - title: CLI reference

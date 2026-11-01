@@ -10,6 +10,9 @@
 export const NAV_ITEMS = [
   // primary app routes - drop in yours
   { label: 'Home', to: '/', end: true, group: 'site' },
+  { label: 'Why', to: '/why', group: 'site' },
+  { label: 'What', to: '/what', group: 'site' },
+  { label: 'About', to: '/about', group: 'site' },
   { label: 'Agents', to: '/agents', group: 'site' },
   { label: 'Packs', to: '/packs', group: 'site' },
   { label: 'Status', to: '/status', group: 'site' },
