@@ -2,18 +2,18 @@
 permalink: status
 layout: default
 title: Family status dialect
-description: The four-repo status contract - one schema served at /status.json on every family site, generated from each repo's committed ledgers, read by every member's status page. What a consumer (human or agent) can count on.
+description: The family status contract - one schema served at /status.json on every family site, generated from each repo's committed ledgers, read by every member's status page. What a consumer (human or agent) can count on.
 ---
 
 # Family status dialect
 
-Four repos in the struct family - eyestruct, crashtest, poststruct,
-packstruct - each carry adversarial legs whose verdicts live in
-**committed ledger files**, reconciled by CI on every push (the what and
-the why are in the [CI guide](/eyestruct/ci)). This page is the contract
-that makes those ledger files readable *across* the family, without a
-server, without a dashboard product, without any trust beyond "the
-committing repo's own CI ran its own battery":
+The members of the struct family - eyestruct, crashtest, poststruct,
+packstruct, govstruct, monoforge - each carry adversarial legs whose
+verdicts live in **committed ledger files**, reconciled by CI on every
+push (the what and the why are in the [CI guide](/eyestruct/ci)). This
+page is the contract that makes those ledger files readable *across* the
+family, without a server, without a dashboard product, without any trust
+beyond "the committing repo's own CI ran its own battery":
 
 1. every member serves a machine-readable status file at the fixed path
    `/status.json` on its site;
@@ -22,10 +22,9 @@ committing repo's own CI ran its own battery":
 3. every member's status page reads the others' files and renders their
    numbers (or their absence) honestly.
 
-Humans read `/status` (crashtest's page lives at `/dashboard`, and its
-`status.json` names that truth instead of pretending); agents and
-machines read `/status.json`. Both get the same numbers, because both
-read the same generated file.
+Humans read `/status` (each member's `status.json` names its own page);
+agents and machines read `/status.json`. Both get the same numbers,
+because both read the same generated file.
 
 ## The dialect: `family-status@1`
 
@@ -84,6 +83,18 @@ understanding - the same normalization packstruct itself enforces.
   example). A reader that still gets an opaque cross-origin error names
   it and the family fixes the serving side; the reader never works around
   it with a proxy.
+- **The reader clause (the other half):** a member's PAGE must also allow
+  connecting to every other member, because CSP `connect-src` governs
+  `fetch()` *before* any CORS header is consulted - a missing sibling in
+  `connect-src` is a "Failed to fetch" at the page, with the sibling's
+  `Access-Control-Allow-Origin: *` never reached (eyestruct#25: every
+  server was correct and every foreign row stayed dark). So the reader's
+  `_headers` `connect-src` lists the other members' origins, kept equal
+  to the page's own sibling table. ACAO and `connect-src` are the two
+  halves of the same read: a member is not serving the dialect to the
+  family until BOTH are in place, and a new member lands both from day
+  one (add your origin to each existing member's `connect-src` in the
+  same round that adds your row).
 - Numbers are only as fresh as the member's last web deploy, which is
   bounded by their docs lane running `web build` on every push to main.
   The receipt-grade freshness always lives in the git ledger files
