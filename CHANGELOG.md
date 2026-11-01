@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed (2026-11-01, the 404 home canonical stops drifting)
+
+- the pinned prestruct moves from the `github:dhaupin/prestruct#498ab5f`
+  git sha to the released `^1.2.0` range, which carries the prestruct#76
+  fix: the 404 was the lone surface emitting a trailing-slash
+  home canonical (`https://eyestruct.creadev.org/`) while index, its
+  og:url, and the sitemap home `<loc>` all carried the bare origin - one
+  home, two URLs, so the deployed 404 declared a different canonical than
+  every other surface. The bump also arms prestruct's SEO audit, which
+  surfaced a second defect the git pin never ran: the shell's own HTML
+  comment spelled `<title>` with angle brackets, and the audit's
+  duplicate-title scan counts it - the comment now names the tags bare,
+  matching the upstream scaffold (eyestruct#41).
+
 ### Added (2026-11-01, the bundle attack class joins the hostile vocabulary)
 
 - The crashtest leg grows the browser-bundle attack class (crashtest#43):
