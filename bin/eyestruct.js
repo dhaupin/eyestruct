@@ -44,7 +44,7 @@ function usage() {
 
 Commands (each is one short process; the only surviving state is labs/.eyes/):
   init [--browser-image TAG] [--renderer resvg@V] [--browser-bundle TARBALL]  seed labs/.eyes/ + the checksummed browser bundle lane
-  look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay] [--full-page] [--format png|webp] [--quality N]
+  look <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay] [--full-page] [--settle] [--format png|webp] [--quality N]
   diff <url> [--against PATH]         fresh capture vs committed baseline (candidity: look then adopt)
   adopt <slot>/current.png --note "..."  propose a baseline change (canon is CI-cut; the row must name the capture, not the slot)
   adopt <capture...> --wave --note "and" one wave row over N changed captures (one note explains N image changes)
@@ -54,7 +54,7 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   raster [file...]                   strict parse + render + byte-size sanity
   walk <base-url>                    every route x viewport x theme, one pass
   serve [dir] [--port N] [--headers FILE]  serve a baked tree with host-shaped _headers (the instance primitive)
-  spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay] [--full-page] [--format png|webp] [--quality N]  one capture saved to read with your own vision (labs/.eyes-candidates/spot-*.png)
+  spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay] [--full-page] [--settle] [--format png|webp] [--quality N]  one capture saved to read with your own vision (labs/.eyes-candidates/spot-*.png)
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
   mcp                                stdio MCP surface (same verbs as tools)
 
@@ -149,9 +149,9 @@ async function main() {
   const GLOBAL_FLAGS = ['--ledger', '--manifest', '--json', '--version', '--help', '-h']
   const VERB_FLAGS = {
     init: ['--browser-image', '--renderer', '--browser-bundle'],
-    look: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--format', '--quality'],
+    look: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--settle', '--format', '--quality'],
     diff: ['--viewport', '--theme', '--region', '--browser-exec', '--against'],
-    spot: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--format', '--quality'],
+    spot: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--settle', '--format', '--quality'],
     walk: ['--viewport', '--theme', '--region', '--browser-exec'],
     ratify: ['--viewport', '--theme', '--region', '--browser-exec'],
     adopt: ['--note', '--wave'],
