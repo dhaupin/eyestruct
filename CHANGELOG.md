@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   (`--allowed` de-asserts a default prefix and is prefix-scoped; the
   no-entry shape SKIPs by name).
 
+
 ### Added (2026-10-29, the why / what / about pages, both surfaces)
 
 - The landing gains three routes (`/why`, `/what`, `/about`) in the nav
