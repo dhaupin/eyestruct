@@ -68,9 +68,13 @@ jobs:
         run: npm run lint:docs
 
       # --strict: broken links and dangerous tags fail the build.
-      # freestruct >=1.0.0: the pagesUrlFor guard that keeps a single
-      # /eyestruct prefix in sitemap/canonical (the doubling bug gistory's
-      # docs caught on the pre-1.0.0 release).
+      # NOTE: there is NO engine guard that de-duplicates a site.url which
+      # already carries the path against basePath - the earlier claim here
+      # ("the pagesUrlFor guard that keeps a single /eyestruct prefix") was
+      # wrong: the live sitemap shipped doubled URLs
+      # (docs.creadev.org/eyestruct/eyestruct/..., 404). The fix is
+      # config-side - site.url MUST be origin-only (see
+      # docs/freestruct.config.yml), with basePath carrying the prefix.
       - name: Run freestruct strict
         run: node node_modules/freestruct/bin/freestruct.mjs --strict
 

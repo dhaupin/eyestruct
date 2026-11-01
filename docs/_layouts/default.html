@@ -14,15 +14,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title | default: site.title }} / {{ site.title }}</title>
+    <title>{{ page.title | default: site.title }} | {{ site.title }}</title>
     <meta name="description" content="{{ page.description | default: site.description }}">
-    <link rel="canonical" href="{{ page.url | absolute_url | replace: '.html', '' }}">
     {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
-    <meta property="og:title" content="{{ page.title | default: site.title }}">
-    <meta property="og:description" content="{{ page.description | default: site.description }}">
-    <meta property="og:url" content="{{ page.url | absolute_url | replace: '.html', '' }}">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="{{ site.title }}">
+    <!-- og/twitter/canonical are the freestruct engine's head seam (missing-only
+         per set). The layout used to hand-write the og set itself, which the
+         engine's hasOg rule then honored - and the config og.image
+         (freestruct.config.yml) never landed on ANY page (eyestruct#23). The
+         engine's injection is per-page (og:title/description/url off the page),
+         plus og:image/canonical/JSON-LD - one owner, no hand-synced second head.
+         <title> rides the ' | ' pipe: freestruct's extractTitle splits on
+         ' | ' ONLY, so a '<title>x / Site</title>' suffix doubles into og:title. -->
     <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/icon.svg">
     <meta name="color-scheme" content="light dark">
     <style>
