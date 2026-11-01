@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-11-01, the bundle attack class joins the hostile vocabulary)
+
+- The crashtest leg grows the browser-bundle attack class (crashtest#43):
+  `labs/scenarios/eye-cli-contract.js` gains `bundle-archive-contract`, 8
+  hostile shapes against the vendored checksummed lane (`init
+  --browser-bundle`). Every one must refuse BY NAME, never crash, never
+  print a stack frame, and never let an archive member escape the cache:
+  a symlink-named chrome, a chrome-less archive, a non-gzip file, a
+  truncated gzip, a missing tarball, hand-built path-traversal member names
+  (the tar binary strips leading `../` at compose time, so the fixture is a
+  hand-assembled USTAR), a forged `pin.browser-bundle` (`MANIFEST_CORRUPT`),
+  and a well-formed recording no cache matches (`MISSING_PINNED_BROWSER`) -
+  proving the integrity marker is re-checked on every resolution, never
+  trusted by existence. The leg is 53/53 REFUSED, 0 exploited; the count
+  census and every live claimant (AGENTS, web Home + Packs, `web/ssr.config.js`,
+  the og card) re-rippled in the same commit.
+
 ### Added (2026-10-30, the legal pages crosslink the family)
 
 - the Terms + Privacy pages carry a footer crosslink naming the sibling sites

@@ -47,6 +47,11 @@
       "detail": "6 hostile ledger variants: every one refused with a named eyestruct[REASON_CODE], zero stack frames, zero pollution"
     },
     {
+      "id": "eye-cli-contract/bundle-archive-contract",
+      "verdict": "REFUSED",
+      "detail": "8 hostile bundle shapes (symlink chrome, chrome-less, non-gzip, truncated, missing, traversal members, forged pin, no-cache pin): every refusal named an eyestruct[REASON_CODE], zero escapes, zero stack frames"
+    },
+    {
       "id": "governance/succession-trust-floor",
       "verdict": "REFUSED",
       "detail": "vocabulary knob(s) \"grantsRoute\", \"resolveRoute\" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)"
@@ -273,6 +278,7 @@
     "eye-cli-contract/hostile-argv-contract",
     "eye-cli-contract/mcp-stdio-flood",
     "eye-cli-contract/ledger-hostile-parse",
+    "eye-cli-contract/bundle-archive-contract",
     "governance/succession-trust-floor",
     "governance/succession-single-heir",
     "governance/succession-revocation-carry",

@@ -147,8 +147,11 @@ the schema-2 refusal. No chromium names `MISSING_PINNED_BROWSER` exit 2.
 
 `crashtest run` attacks the CLI as subprocesses: 14 hostile argv batches,
 hostile MCP stdio frames (garbage, proto-pollution, oversized, null
-methods), and 6 hostile ledger file variants - a fixed batch list and seed
-(`0xE1E5`), so the same commit always fires the same attacks. It bears a
+methods), 6 hostile ledger file variants, and 8 hostile browser-bundle
+archives (symlink-named chrome, chrome-less, non-gzip, truncated, missing,
+hand-built path-traversal members, and forged manifest pins) - a fixed
+batch list and seed (`0xE1E5`), so the same commit always fires the same
+attacks. It bears a
 committed baseline (`labs/crashledger.json` + `labs/hardening.md`) and
 fails only on a NEW EXPLOITED finding or a REFUSED -> EXPLOITED
 regression - refusals that improve never re-alarm. Rows adopted exactly
