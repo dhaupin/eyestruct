@@ -14,7 +14,7 @@ export default function Packs() {
     path: '/packs',
     title: 'Packs | eyestruct',
     description:
-      'The adversarial surface: 42 pack cases over the real CLI, a 52/52 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+      'The adversarial surface: 42 pack cases over the real CLI, a 53/53 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
   })
   return (
     <>
@@ -42,7 +42,7 @@ export default function Packs() {
         <div className="wrap">
           <h2>The attack surface, live</h2>
           <p className="sub">
-            42 adversarial pack cases over the real CLI, a second leg of 52
+            42 adversarial pack cases over the real CLI, a second leg of 53
             hostile attacks (seeded, deterministic), and a committed verdict
             ledger: a NEW exploited case or any verdict regression fails CI.
           </p>
@@ -83,7 +83,8 @@ export default function Packs() {
                 <tr>
                   <td className="mod">hostile archive bundles</td>
                   <td><span className="what">missing tarballs, chrome-less
-                  archives, tampered cache markers, checksum forgeries</span>
+                  archives, symlink-named chrome, non-gzip/truncated archives,
+                  path-traversal members, forged manifest pins</span>
                   <div className="why">the vendored browser lane verifies
                   its receipt (sha256 in the manifest + integrity marker)
                   before the exec is ever resolved</div></td>
@@ -96,7 +97,7 @@ export default function Packs() {
                   null-methoded; 6 hostile ledger file variants</span>
                   <div className="why">fixed batch list and seed (0xE1E5) -
                   the same commit always fires the same attacks</div></td>
-                  <td><span className="verdict-ok">52/52 REFUSED</span></td>
+                  <td><span className="verdict-ok">53/53 REFUSED</span></td>
                 </tr>
                 <tr>
                   <td className="mod">browser-class without a browser</td>

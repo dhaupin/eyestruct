@@ -6,7 +6,7 @@
 
 ## Findings
 
-### 🛡 REFUSED (52)
+### 🛡 REFUSED (53)
 - auth/identity-spoof-headers: route "admin" not declared on this target - spoof matrix skipped (declare it for coverage)
 - auth/secret-watermark: no fake secrets planted in env - declare CRASHTEST_SECRET to arm this probe
 - auth/privilege-escalation: route "device" not declared on this target - escalation skipped (declare it for coverage)
@@ -16,6 +16,7 @@
 - eye-cli-contract/hostile-argv-contract: 14 hostile argv batches: every nonzero exit carried a named eyestruct[REASON_CODE], zero stack frames
 - eye-cli-contract/mcp-stdio-flood: 8 responses to 8 frames: every stdout line was a JSON object, no stack frames, clean exit on hangup
 - eye-cli-contract/ledger-hostile-parse: 6 hostile ledger variants: every one refused with a named eyestruct[REASON_CODE], zero stack frames, zero pollution
+- eye-cli-contract/bundle-archive-contract: 8 hostile bundle shapes (symlink chrome, chrome-less, non-gzip, truncated, missing, traversal members, forged pin, no-cache pin): every refusal named an eyestruct[REASON_CODE], zero escapes, zero stack frames
 - governance/succession-trust-floor: vocabulary knob(s) "grantsRoute", "resolveRoute" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)
 - governance/succession-single-heir: vocabulary knob(s) "grantsRoute", "resolveRoute" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)
 - governance/succession-revocation-carry: vocabulary knob(s) "grantsRoute", "resolveRoute" not declared on this target - governance skipped (export moduleCtx['governance'].grantsRoute/resolveRoute for coverage)
@@ -65,7 +66,7 @@
 ### 🔒 BOUNDED (0)
 
 ## Cost economics
-- total: 0 backend ops across 0 in-process requests from 52 attacks
+- total: 0 backend ops across 0 in-process requests from 53 attacks
   - auth/identity-spoof-headers: 0 ops / 0 requests
   - auth/secret-watermark: 0 ops / 0 requests
   - auth/privilege-escalation: 0 ops / 0 requests
@@ -75,6 +76,7 @@
   - eye-cli-contract/hostile-argv-contract: 0 ops / 0 requests
   - eye-cli-contract/mcp-stdio-flood: 0 ops / 0 requests
   - eye-cli-contract/ledger-hostile-parse: 0 ops / 0 requests
+  - eye-cli-contract/bundle-archive-contract: 0 ops / 0 requests
   - governance/succession-trust-floor: 0 ops / 0 requests
   - governance/succession-single-heir: 0 ops / 0 requests
   - governance/succession-revocation-carry: 0 ops / 0 requests

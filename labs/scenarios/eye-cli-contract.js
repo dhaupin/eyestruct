@@ -16,15 +16,58 @@
 
 'use strict'
 
-const { spawn, execFileSync } = require('node:child_process')
+const { spawn, execFileSync, spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
+const zlib = require('node:zlib')
 
 const BIN = path.join(__dirname, '..', '..', 'bin', 'eyestruct.js')
 
 function tempRepo() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-crash-'))
+}
+
+/** The named reason code a refusal carried, or null if it carried none. */
+function reasonCode(stderr) {
+  const m = /eyestruct\[([A-Z_]+)\]/.exec(String(stderr || ''))
+  return m ? m[1] : null
+}
+
+/**
+ * Build a tar by hand (not via the tar binary) so hostile member names
+ * survive verbatim: GNU tar strips leading `../` at compose time, which
+ * would hide the traversal class from the fixture. USTAR header + 512-byte
+ * body blocks + the two zero blocks that close an archive.
+ */
+function tarHeader(name, size) {
+  const b = Buffer.alloc(512)
+  b.write(name, 0, 100)
+  b.write('0000644\0', 100, 8)
+  b.write('0000000\0', 108, 8)
+  b.write('0000000\0', 116, 8)
+  b.write(size.toString(8).padStart(11, '0') + '\0', 124, 12)
+  b.write('00000000000\0', 136, 12)
+  b.write('        ', 148, 8)
+  b.write('0', 156, 1)
+  b.write('ustar\0', 257, 6)
+  b.write('00', 263, 2)
+  let sum = 0
+  for (const byte of b) sum += byte
+  b.write(sum.toString(8).padStart(6, '0') + '\0 ', 148, 8)
+  return b
+}
+
+function buildTar(entries) {
+  const parts = []
+  for (const [name, body] of entries) {
+    const data = Buffer.from(body)
+    parts.push(tarHeader(name, data.length), data)
+    const pad = (512 - (data.length % 512)) % 512
+    if (pad) parts.push(Buffer.alloc(pad))
+  }
+  parts.push(Buffer.alloc(1024))
+  return Buffer.concat(parts)
 }
 
 function runCli(argv, cwd) {
@@ -217,6 +260,116 @@ module.exports = {
           return { verdict: 'EXPLOITED', detail: holes[0], attack: 'ledger-hostile-parse', tookRequests: took, evidence: { holes } }
         }
         return { verdict: 'REFUSED', detail: `${variants.length} hostile ledger variants: every one refused with a named eyestruct[REASON_CODE], zero stack frames, zero pollution`, attack: 'ledger-hostile-parse', tookRequests: took }
+      },
+    },
+    {
+      // The bundle attack class (crashtest#43): the vendored checksummed
+      // browser lane (`init --browser-bundle TARBALL`) opens a fresh surface
+      // the argv/stdio/ledger vocabulary does not cover. Every hostile
+      // archive must refuse BY NAME (MISSING_INPUT / MISSING_PINNED_BROWSER /
+      // MANIFEST_CORRUPT), never crash, never print a stack frame, and never
+      // let an archive member escape the cache dir. Trust is receipt-based
+      // (the sha anchor + integrity marker), never presence-based - the
+      // forgeries below prove the marker is re-checked on every resolution.
+      name: 'bundle-archive-contract',
+      async run() {
+        const cwd = tempRepo()
+        // The bundle cache is redirected into the disposable temp dir so the
+        // real ~/.cache/eyestruct is never touched and each run starts clean.
+        const env = { ...process.env, EYESTRUCT_BUNDLE_CACHE: path.join(cwd, 'bundle-cache') }
+        const runB = (argv, dir = cwd) => {
+          try {
+            return { code: 0, stdout: execFileSync(process.execPath, [BIN, ...argv], { cwd: dir, env, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }) }
+          } catch (err) {
+            return { code: err.status == null ? 2 : err.status, stdout: err.stdout || '', stderr: err.stderr || '' }
+          }
+        }
+        // tar composes the well-formed fixtures; without it the class cannot
+        // be staged, so skip honestly rather than fake a pass.
+        const tarProbe = spawnSync('tar', ['--version'], { encoding: 'utf8' })
+        if (tarProbe.error) {
+          fs.rmSync(cwd, { recursive: true, force: true })
+          return { verdict: 'REFUSED', detail: 'bundle archive class skipped: no tar on this host - no hostile fixture could be composed', attack: 'bundle-archive-contract', tookRequests: 0 }
+        }
+
+        const holes = []
+        let took = 0
+        // A healthy refusal names a code, carries no stack frame, and exits
+        // nonzero (2 by the exit contract). Anything else is a hole.
+        const judge = (label, out) => {
+          const stderr = String(out.stderr || '')
+          const code = reasonCode(stderr)
+          const bare = /(^|\n)\s*at /.test(stderr) || /eyestruct: internal error/.test(stderr)
+          if (out.code === 0) { holes.push(`${label}: exited 0 on a hostile bundle`); return }
+          if (!code) { holes.push(`${label}: refused with no named reason code${bare ? ' (bare stack trace)' : ''}`); return }
+          if (bare) holes.push(`${label}: printed a stack frame despite ${code}`)
+        }
+
+        // 1. symlink-named chrome: the executor may only be a REGULAR file, so
+        //    an archive whose chrome is a symlink can never aim it elsewhere.
+        const symDir = path.join(cwd, 'sym')
+        fs.mkdirSync(path.join(symDir, 'chrome-linux64'), { recursive: true })
+        fs.symlinkSync('/bin/true', path.join(symDir, 'chrome-linux64', 'chrome'), 'file')
+        fs.writeFileSync(path.join(symDir, 'chrome-linux64', 'wrapper.sh'), 'placeholder')
+        const symTar = path.join(cwd, 'sym.tgz')
+        spawnSync('tar', ['-czf', symTar, '-C', symDir, 'chrome-linux64'])
+        took++; judge('symlink-chrome', runB(['init', '--browser-bundle', symTar]))
+
+        // 2. chrome-less archive: valid tgz, no `chrome` regular file inside.
+        const noclDir = path.join(cwd, 'nocl')
+        fs.mkdirSync(path.join(noclDir, 'chrome-linux64'), { recursive: true })
+        fs.writeFileSync(path.join(noclDir, 'chrome-linux64', 'readme.txt'), 'no chrome here')
+        const noclTar = path.join(cwd, 'nocl.tgz')
+        spawnSync('tar', ['-czf', noclTar, '-C', noclDir, 'chrome-linux64'])
+        took++; judge('chrome-less', runB(['init', '--browser-bundle', noclTar]))
+
+        // 3. non-gzip + truncated gzip: both are MISSING_INPUT, never a crash.
+        fs.writeFileSync(path.join(cwd, 'plain.tgz'), 'not a gzip tarball at all')
+        took++; judge('non-gzip', runB(['init', '--browser-bundle', path.join(cwd, 'plain.tgz')]))
+        fs.writeFileSync(path.join(cwd, 'trunc.tgz'), fs.readFileSync(symTar).subarray(0, 40))
+        took++; judge('truncated-gzip', runB(['init', '--browser-bundle', path.join(cwd, 'trunc.tgz')]))
+
+        // 4. a stated tarball that is not there.
+        took++; judge('missing-tarball', runB(['init', '--browser-bundle', path.join(cwd, 'no-such.tgz')]))
+
+        // 5. path-traversal member names, hand-built so `..` survives to tar
+        //    (GNU tar strips leading `../` at compose time). The decisive
+        //    truth is the filesystem: nothing may land outside the cache dir.
+        const travTar = path.join(cwd, 'trav.tgz')
+        fs.writeFileSync(travTar, zlib.gzipSync(buildTar([
+          ['chrome-linux64/chrome', '#!/bin/sh\necho fake'],
+          ['chrome-linux64/../../escape.txt', 'EVIL'],
+          ['../../../escape-outer.txt', 'EVIL'],
+        ])))
+        took++; judge('traversal-members', runB(['init', '--browser-bundle', travTar]))
+        for (const escape of ['escape.txt', 'escape-outer.txt', path.join('bundle-cache', '..', 'escape.txt')]) {
+          if (fs.existsSync(path.join(cwd, escape))) holes.push(`traversal: a member escaped to ${escape}`)
+        }
+
+        // 6. manifest pin forgeries, driven through a real verb: a recording
+        //    that is not `bundle@<sha>` is MANIFEST_CORRUPT; a well-formed
+        //    recording no cache matches is MISSING_PINNED_BROWSER. Both must
+        //    refuse by name - the marker is re-checked, never trusted by
+        //    existence.
+        const lab = path.join(cwd, 'lab')
+        fs.mkdirSync(path.join(lab, 'labs', '.eyes', 'home'), { recursive: true })
+        const manifestPath = path.join(lab, 'labs', '.eyes', 'manifest.yml')
+        const target = 'file://' + path.join(lab, 'labs', '.eyes', 'home', 'current.png')
+        fs.writeFileSync(path.join(lab, 'labs', '.eyes', 'home', 'current.png'), 'pngish')
+        const baseManifest = (bundle) =>
+          `pin:\n  browser-image: crash-fixture:1\n  renderer: resvg@2.6.2\n` +
+          (bundle ? `  browser-bundle: ${bundle}\n` : '') +
+          `routes:\n  - path: /\n    name: home\n    view: desktop-1280\n`
+        fs.writeFileSync(manifestPath, baseManifest('nonsense'))
+        took++; judge('pin-nonsense', runB(['look', target, '--no-overlay'], lab))
+        fs.writeFileSync(manifestPath, baseManifest('bundle@deadbeefdeadbeef'))
+        took++; judge('pin-no-cache-match', runB(['look', target, '--no-overlay'], lab))
+
+        fs.rmSync(cwd, { recursive: true, force: true })
+        if (holes.length) {
+          return { verdict: 'EXPLOITED', detail: holes[0], attack: 'bundle-archive-contract', tookRequests: took, evidence: { holes } }
+        }
+        return { verdict: 'REFUSED', detail: `${took} hostile bundle shapes (symlink chrome, chrome-less, non-gzip, truncated, missing, traversal members, forged pin, no-cache pin): every refusal named an eyestruct[REASON_CODE], zero escapes, zero stack frames`, attack: 'bundle-archive-contract', tookRequests: took }
       },
     },
   ],

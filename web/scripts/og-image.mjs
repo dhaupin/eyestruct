@@ -3,7 +3,7 @@
  * scripts/og-image.mjs - regenerates web/public/og-image.png (1200x630).
  *
  * Receipts rule: the numbers baked into the card (42 pack verdicts,
- * 52/52 hostile attacks) are current-tree facts, re-checked with:
+ * 53/53 hostile attacks) are current-tree facts, re-checked with:
  *
  *   node -e "const p=require('./packs/eye-ledger.json');
  *            const c=require('./labs/crashledger.json');
@@ -46,7 +46,7 @@ const svg = `
   <text x="120" y="376" font-family="DejaVu Sans Mono" font-size="23" fill="${INK}">labs/.eyes/  -  committed baselines, append-only ledger</text>
   <text x="120" y="416" font-family="DejaVu Sans Mono" font-size="23" fill="${INK}">eyestruct <tspan fill="${A}">look</tspan> -&gt; <tspan fill="${A}">diff</tspan> -&gt; <tspan fill="${A}">gate</tspan>    (CI refuses what no note explains)</text>
   <text x="120" y="478" font-family="DejaVu Sans" font-size="20" fill="${MOSS}">42 pack verdicts - 0 exploited</text>
-  <text x="430" y="478" font-family="DejaVu Sans" font-size="20" fill="${MOSS}">52/52 hostile attacks refused</text>
+  <text x="430" y="478" font-family="DejaVu Sans" font-size="20" fill="${MOSS}">53/53 hostile attacks refused</text>
   <text x="742" y="478" font-family="DejaVu Sans" font-size="20" fill="${SOFT}">canon cut by CI, never by agents</text>
   <text x="120" y="516" font-family="DejaVu Sans" font-size="19" fill="${SOFT}">docs.creadev.org/eyestruct   github.com/dhaupin/eyestruct   Creadev.org</text>
 </svg>`
