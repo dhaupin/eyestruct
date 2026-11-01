@@ -6,7 +6,7 @@
   "description": "eyestruct site - the landing for eyes for production agents (prestruct prerender + static hosting)",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/build-status.mjs && prestruct build && node scripts/repair-404.cjs",
+    "build": "node scripts/build-status.mjs && prestruct build",
     "status:build": "node scripts/build-status.mjs",
     "preview": "vite preview"
   },
@@ -18,7 +18,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
     "dejavu-fonts-ttf": "^2.37.3",
-    "prestruct": "^1.0.0",
+    "prestruct": "github:dhaupin/prestruct#498ab5f",
     "vite": "^5.4.0"
   }
 }
