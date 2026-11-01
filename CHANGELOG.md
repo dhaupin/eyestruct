@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-10-30, the legal pages crosslink the family)
+
+- the Terms + Privacy pages carry a footer crosslink naming the sibling sites
+  that ship the same plain-language legal form (crashtest, monoforge,
+  poststruct, packstruct), so the family parity is visible to a reader who
+  arrives from any member (crashtest#45, the family tracking issue).
+
 ### Added (2026-10-30, the release ladder gains --allowed)
 
 - `scripts/verify-release.cjs` gains an `--allowed p1/,p2/` flag (alias
