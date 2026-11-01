@@ -1,14 +1,43 @@
-<!-- freestruct SEO template - flowforge shell edition.
-     The Jekyll layout (_layouts/default.html) already emits canonical,
-     og:title/description/url/type/site_name, so this template adds ONLY the
-     layer the layout lacks - keeping inject output dupe-free:
-       twitter card + title, an og:image, and one SoftwareApplication JSON-LD.
-     Placeholders honored: {{siteUrl}}, {{siteName}}, {{siteDescription}}. -->
+<!-- freestruct SEO template - eyestruct docs edition, now the ENGINE default
+     head set (eyestruct#23, following crashtest#42). This file REPLACES the
+     engine's built-in template outright, so it must carry the FULL head set -
+     og:title/description/url/type from the page, og:image from the config's
+     og.image, canonical, the twitter set, and the identity JSON-LD blocks.
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{siteName}} Docs">
-<meta name="twitter:description" content="{{siteDescription}}">
-<meta property="og:image" content="{{ogImage}}">
+     The earlier edition carried "ONLY the layer the Jekyll layout lacked"
+     (og:image + twitter + identity) while the layout hand-wrote the og set.
+     That split starves og:image: freestruct's injection is missing-only per
+     SET, and the layout's og:title/description made hasOg true, so the whole
+     injected og block - og:image included - was skipped on every page. The
+     config og.image would never have reached a single deployed page the day
+     the PNG set landed (freestruct#46). Now the layout owns no og/canonical
+     and this template owns the engine's full set - one head owner.
+
+     Placeholders honored: {{pageTitle}}, {{pageDescription}}, {{pageUrl}},
+     {{canonicalUrl}}, {{siteUrl}}, {{siteName}}, {{siteDescription}},
+     {{twitterUsername}}, {{twitterCard}}, {{ogImageFull}}, {{ogType}},
+     {{ogLocale}}, {{siteNameJson}}, {{siteUrlJson}}, {{siteDescriptionJson}},
+     {{authorJson}}, {{searchActionJson}}. -->
+
+<meta name="description" content="{{pageDescription}}">
+<link rel="canonical" href="{{canonicalUrl}}">
+
+<!-- Open Graph -->
+<meta property="og:title" content="{{pageTitle}}">
+<meta property="og:description" content="{{pageDescription}}">
+<meta property="og:url" content="{{pageUrl}}">
+<meta property="og:site_name" content="{{siteName}}">
+<meta property="og:type" content="{{ogType}}">
+<meta property="og:locale" content="{{ogLocale}}">
+<meta property="og:image" content="{{ogImageFull}}">
+
+<!-- Twitter (site/creator drop out when no handle is configured) -->
+<meta name="twitter:card" content="{{twitterCard}}">
+<meta name="twitter:title" content="{{pageTitle}}">
+<meta name="twitter:description" content="{{pageDescription}}">
+<meta name="twitter:site" content="{{twitterUsername}}">
+<meta name="twitter:creator" content="{{twitterUsername}}">
+<meta name="twitter:image" content="{{ogImageFull}}">
 
 <script type="application/ld+json">
 {
