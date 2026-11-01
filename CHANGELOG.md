@@ -43,6 +43,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   had no pointer to them, so a reader in the docs could not reach the legal
   pages the site serves. Docs-lint clean (24 pages).
 
+### Added (2026-10-29, the lazy-load settle leg)
+
+- `--settle` (issue #27): the instance-lane fix for a capture that comes back blank because the page was never given a chance to load what sits below the fold. `engine.capture` sets one viewport, waits a fixed 900ms, and screenshots - so a `loading="lazy"` image that never enters the viewport is never fetched, and its pixels are absent at ANY frame extent (`--full-page` grew the frame but the image inside was still unloaded). `--settle` walks the document to the bottom (triggering IntersectionObserver + lazy fetches), waits for the images to decode with a bounded ceiling, then returns to the top so region rects and the full-page frame are measured from the same scroll origin. It rides `look`/`spot` (CLI) and `spot` (MCP `settle`) - the instance loop where "look around on demand" is the point - and never the canon lane (`walk`/`ratify` refuse it `UNKNOWN_FLAG`: captures there are viewport-only by design). The capture result carries `lazyPending`, and the verbs name it: a settled look that still finds unloaded images prints a NOTICE (and the `--json` view carries `settled` + `lazyPending`), so a blank plate is never mistaken for evidence. `tests/smoke.test.js` pins all of it against real Chromium: a below-fold lazy image is blank without `--settle` and loaded with it (mean-luminance proof), a settled region clip still measures from the top, an unfetchable image is NAMED not silently blank, and the flag is accepted at the lid on look/spot while `walk` refuses it by name. No counted surface moved (no verb, no tool count, no reason code): the 10 TOOLS and 31 codes stand; the MCP `spot` schema gains one optional boolean property.
+
 ### Added (the /api/health canary)
 - **`web/functions/api/health.js` - the fleet CF canary.** `GET /api/health`
   returns honest JSON (`{ ok, name, service, ts }`), the same schema

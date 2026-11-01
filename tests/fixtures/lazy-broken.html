@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>eyestruct lazy-broken fixture</title>
+<style>
+  body { margin: 0; background: #f5f1e8; }
+  #spacer { height: 1600px; background: repeating-linear-gradient(0deg, #f5f1e8 0 20px, #1b1b3a 20px 22px); }
+  #broken-shot { margin: 20px; width: 320px; height: 240px; border: 2px solid #1b1b3a; }
+</style>
+</head>
+<body>
+  <div id="spacer"></div>
+  <!-- Below the fold AND unfetchable: the settle pass loads it, it fails, and
+       the engine must NAME it (never a silent blank plate). -->
+  <div id="broken-shot"><img id="broken-img" src="no-such-image-xyz.png" alt="broken" width="320" height="240"></div>
+</body>
+</html>
