@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed (2026-11-02, the release asset becomes the served tarball)
+
+- The `release` job attaches the **served** tarball (`npm pack
+  eyestruct@<version>`) to the GH release, and the `verify` job asserts its
+  sha512 equals the registry integrity metadata (`scripts/verify-release.cjs
+  --gh --asset`). The GH release and the npm artifact are now the SAME bytes,
+  so a consumer downloads one artifact either way - the drift the old
+  notes-only release left open. `scripts/verify-release.cjs` moves to the
+  family copy that carries the `--asset` leg.
+
 ### Added (2026-11-01, the family-shared canon audit replaces the in-tree leg)
 
 - The `check` chain gains `check:eyes-shapes`, driving poststruct's
