@@ -71,3 +71,11 @@ test('a version with no changelog section refuses the cut by name (exit 1)', () 
   assert.ok(r.stderr.includes('no "## [7.7.7]" section in CHANGELOG.md'), `refusal does not name the miss: ${r.stderr}`)
   assert.ok(r.stdout.trim() === '', 'a refused extraction still wrote a body')
 })
+
+test('no changelog subsection sits above the "## [Unreleased]" heading', () => {
+  // An entry above the first "## " heading lives outside every section and
+  // never ships. The intro may hold prose, never a "### " subsection.
+  const changelog = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8')
+  const before = changelog.slice(0, changelog.search(/^## \[Unreleased\]$/m))
+  assert.ok(!/^### /m.test(before), 'a changelog subsection sits above the "## [Unreleased]" heading')
+})
