@@ -34,8 +34,9 @@
     "test": "node --test tests/*.test.js",
     "prepublishOnly": "npm test && npm run check",
     "lint:docs": "node scripts/check-docs-frontmatter.cjs && node scripts/check-docs-links.cjs && node scripts/check-docs-style.cjs && node scripts/check-fiction-signatures.cjs && node scripts/check-jekyll-filters.cjs",
-    "check": "npm run check:trifecta && npm run lint:docs && npm run packs && npm run lint:packs && npm run conform:packs",
-    "check:trifecta": "node scripts/check-trifecta.cjs",
+    "check": "npm run check:freshness && npm run check:eyes-shapes && npm run lint:docs && npm run packs && npm run lint:packs && npm run conform:packs",
+    "check:freshness": "node scripts/check-freshness.cjs",
+    "check:eyes-shapes": "node scripts/check-eyes-shapes.cjs",
     "packs": "node scripts/run-packs.cjs",
     "lint:packs": "node bin/eyestruct.js lint-packs --deep",
     "conform:packs": "packstruct audit-conformance . --loader \"node scripts/run-packs.cjs {packs}\"",
@@ -50,7 +51,8 @@
   "devDependencies": {
     "crashtest": "^1.1.0",
     "freestruct": "^1.1.0",
-    "packstruct": "1.0.0"
+    "packstruct": "1.0.0",
+    "poststruct": "github:dhaupin/poststruct#cf25a917796f651d85ea5c29dc9a2b490423338a"
   },
   "dependencies": {
     "puppeteer-core": "25.16.0"

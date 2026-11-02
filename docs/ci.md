@@ -28,7 +28,7 @@ viewport-only by design and refuses them.
 |-------|-------|---------|
 | `npm ci` | hermetic install | exact-pinned devdeps only; the lockfile is law |
 | `npm test` | node:test spine (behavior-only, temp dirs, no network) + the count census | every hand-copied count-claim on the audited surfaces equals the live ledgers (eyestruct#10) |
-| `npm run check` | four sub-gates: docs lint, pack campaign, `lint:packs`, conformance audit | see below |
+| `npm run check` | six sub-gates: freshness, family-shared eyes-shapes canon audit, docs lint, pack campaign, `lint:packs`, conformance audit | see below |
 | `npx crashtest run` | adversarial leg over the real CLI | committed `labs/crashledger.json` baseline |
 | `floors-node18` (second job, same push) | node 18 receives `npm ci` + `npm test` only | the consumer `engines >=18` claim keeps a continuous CI receipt (see the floors table) |
 
@@ -116,10 +116,17 @@ stays a standing receipt instead of a one-mortem (eyestruct#10 item 4).
 
 | gate | what it polices | adopt flow |
 |-------|-------------------|--------------|
+| `check:freshness` | README/AGENTS/deploy-lane/CHANGELOG freshness: dispatch census, workflow + npm-script citations, the hostile-leg count, Unreleased path/commit claims | fix the doc |
+| `check:eyes-shapes` | poststruct's family-shared `eyestruct-shapes` pack over the canon tree (manifest pin drift, ledger schema, dangling canon, receipt provenance, verdict-count drift, reason-table drift, note unsafety) - one audit on the family, not a private copy per repo (eyestruct#5) | fix the canon tree |
 | `lint:docs` | 5 gates: frontmatter, links, style (hyphen-only voice), fiction signatures, jekyll filters | fix the page |
-| `npm run packs` | the eye pack campaign - 34 adversarial cases over the real CLI (five packs incl. eye-adapter, the adapter surface's schema carrier) | `npm run packs -- --adopt` re-baselines new refusals |
+| `npm run packs` | the eye pack campaign - 42 adversarial cases over the real CLI (five packs incl. eye-adapter, the adapter surface's schema carrier) | `npm run packs -- --adopt` re-baselines new refusals |
 | `npm run lint:packs` | packstruct `--deep` grammar over `packs/` | fix the pack |
 | `npm run conform:packs` | packstruct audit-conformance with the loader | loader stays the ground truth |
+
+`check:eyes-shapes` rides the EXACT poststruct devDependency pin
+(`node_modules/poststruct/packs/public/eyestruct-shapes`), never a private
+copy - the same lane every other family verdict rides. No install refuses
+`EYES-SHAPES` exit 2, never a fake pass.
 
 `lint:packs` rides the CLI verb (not a raw script): it runs packstruct over
 the repo's own install, never downloads one, and refuses `PACKSTRUCT_MISSING`

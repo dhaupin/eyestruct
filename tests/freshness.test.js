@@ -1,5 +1,5 @@
-// tests/trifecta.test.js - behavior coverage for the trifecta freshness leg
-// (scripts/check-trifecta.cjs). House style: node:test, behavior-only, temp
+// tests/freshness.test.js - behavior coverage for the freshness leg
+// (scripts/check-freshness.cjs). House style: node:test, behavior-only, temp
 // dirs, no network. The fixture is a miniature repo whose four artifacts
 // AGREE with its tree; each case then breaks exactly one claim and expects
 // exactly one named refusal - drift is refused, never guessed.
@@ -9,7 +9,7 @@ const assert = require('node:assert')
 const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')
-const { runTri } = require('../scripts/check-trifecta.cjs')
+const { runFreshness } = require('../scripts/check-freshness.cjs')
 
 const BIN = `#!/usr/bin/env node
 const COMMANDS = {
@@ -64,7 +64,7 @@ const CHANGELOG_NO_DATED = `# Changelog
 `
 
 function baseFixture() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'trifecta-'))
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'freshness-'))
   const w = (rel, body) => {
     const p = path.join(root, rel)
     fs.mkdirSync(path.dirname(p), { recursive: true })
@@ -93,7 +93,7 @@ const write = (root, rel, body) => fs.writeFileSync(path.join(root, rel), body)
 
 test('the agreeing fixture passes every leg of the walk', () => {
   const root = baseFixture()
-  const r = runTri({ root })
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, true, JSON.stringify(r.stale))
   assert.ok(r.lines.some((l) => l.includes('dispatch census')))
   assert.ok(r.lines.some((l) => l.includes('receipt inventory')))
@@ -107,7 +107,7 @@ test('the agreeing fixture passes every leg of the walk', () => {
 test('a phantom verb/flag in the README fence is refused by name', () => {
   const root = baseFixture()
   write(root, 'README.md', README.replace('eyestruct walk <base-url>', 'eyestruct flynn\n	eyestruct sync --route X'))
-  const r = runTri({ root })
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, false)
   assert.ok(r.stale.some((s) => s.includes('PHANTOM_VERB') && s.includes('flynn')))
   assert.ok(r.stale.some((s) => s.includes('PHANTOM_FLAG') && s.includes('--route')))
@@ -116,17 +116,17 @@ test('a phantom verb/flag in the README fence is refused by name', () => {
 
 test('a receipt count that disagrees with the tree lands RECEIPT_DRIFT', () => {
   const root = baseFixture()
-  write(root, 'AGENTS.md', AGENTS.replace('2 reason-codes', '7 reason-codes'))
-  const r = runTri({ root })
+  write(root, 'AGENTS.md', AGENTS.replace('2/2 hostile', '7/7 hostile'))
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, false)
-  assert.ok(r.stale.some((s) => s.includes('RECEIPT_DRIFT') && s.includes('reason-code')))
+  assert.ok(r.stale.some((s) => s.includes('RECEIPT_DRIFT') && s.includes('hostile')))
   fs.rmSync(root, { recursive: true, force: true })
 })
 
 test('an Unreleased-cited artifact missing from disk lands GHOST_PATH', () => {
   const root = baseFixture()
   write(root, 'CHANGELOG.md', CHANGELOG_OK.replace('`lib/engine.js`', '`lib/ghost.js`'))
-  const r = runTri({ root })
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, false)
   assert.ok(r.stale.some((s) => s.includes('GHOST_PATH') && s.includes('lib/ghost.js')))
   fs.rmSync(root, { recursive: true, force: true })
@@ -135,7 +135,7 @@ test('an Unreleased-cited artifact missing from disk lands GHOST_PATH', () => {
 test('losing the dated Added heading lands NO_DATED_ADDED', () => {
   const root = baseFixture()
   write(root, 'CHANGELOG.md', CHANGELOG_NO_DATED)
-  const r = runTri({ root })
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, false)
   assert.ok(r.stale.some((s) => s.includes('NO_DATED_ADDED')))
   fs.rmSync(root, { recursive: true, force: true })
@@ -144,7 +144,7 @@ test('losing the dated Added heading lands NO_DATED_ADDED', () => {
 test('without a .git dir the hash check skips instead of failing the walk', () => {
   const root = baseFixture()
   write(root, 'CHANGELOG.md', CHANGELOG_OK.replace('`lib/engine.js`', '`lib/engine.js` (receipts: `deadbeef`)'))
-  const r = runTri({ root })
+  const r = runFreshness({ root })
   assert.strictEqual(r.ok, true, JSON.stringify(r.stale))
   assert.ok(!r.stale.some((s) => s.includes('GHOST_COMMIT')), 'no .git -> no history to argue with')
   fs.rmSync(root, { recursive: true, force: true })
