@@ -32,8 +32,11 @@ test('the repo changelog extracts versions with subsection headings, never a dat
     assert.equal(r.status, 0, `extraction of ${v} failed: ${r.stderr}`)
     assert.ok(r.stdout.trim().length > 0, `${v} extracted an empty section`)
     const first = r.stdout.trim().split('\n')[0]
-    assert.match(first, /^###/, `${v} body opens with something other than a subsection heading: ${first}`)
     assert.ok(!first.trimStart().startsWith('-'), `${v} body opens with a stray bullet: ${first}`)
+    // A prose-led section is fine (the last section, `## [0.9.0]`, opens with
+    // a sentence); the leak this guards is the heading's own `- YYYY-MM-DD`
+    // riding into the body as its first line.
+    assert.ok(!/^-?\s*\d{4}-\d{2}-\d{2}\s*$/.test(first.trim()), `${v} body opens with the heading date: ${first}`)
   }
 })
 
