@@ -37,12 +37,21 @@ function packTree(dest) {
   // npm pack of the repo root: the same files npm publish will include
   // (prepublishOnly is NOT a pack hook - the pack list is judged as one).
   const r = spawnSync('npm', ['pack', '--pack-destination', dest], {
-    cwd: root, encoding: 'utf8', timeout: 120000,
+    cwd: root, encoding: 'utf8', timeout: 120000, env: packEnv(),
   })
   assert.equal(r.status, 0, `npm pack failed: ${r.stderr}`)
   const tgz = path.join(dest, `eyestruct-${pkg.version}.tgz`)
   assert.ok(fs.existsSync(tgz), `npm pack produced nothing at ${tgz}`)
   return tgz
+}
+
+// `npm publish --dry-run` exports npm_config_dry_run=true into the lifecycle
+// env; a nested `npm pack` would then write no tarball. Strip it so a
+// rehearsal verdict equals a real-publish verdict.
+function packEnv() {
+  const env = { ...process.env }
+  delete env.npm_config_dry_run
+  return env
 }
 
 function run(args) {
@@ -66,7 +75,7 @@ test('the generic core verifies a foreign repo with zero edits to the script', (
   }, null, 2))
   fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = { marker: 'toy-verify@1' }\n")
   fs.writeFileSync(path.join(toy, 'bin.js'), '#!/usr/bin/env node\nconsole.log(process.argv.includes(\'--version\') ? \'4.2.0\' : \'4.2.0\')\n')
-  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000, env: packEnv() })
   assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
   const tgz = path.join(toy, 'toy-verify-4.2.0.tgz')
   // cwd is the TOY repo: the caller's tree is the one judged.
@@ -91,7 +100,7 @@ test('a caller-stated --forbidden prefix refuses a smuggle the defaults miss', (
     files: ['index.js'],
   }, null, 2))
   fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = 1\n")
-  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000, env: packEnv() })
   assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
   fs.mkdirSync(path.join(toy, 'secrets'), { recursive: true })
   fs.writeFileSync(path.join(toy, 'secrets', 'private.txt'), 'must never ship\n')
@@ -125,7 +134,7 @@ test('--allowed de-asserts a default-forbidden prefix (vant ships web/ as produc
     files: ['index.js'],
   }, null, 2))
   fs.writeFileSync(path.join(toy, 'index.js'), "module.exports = 1\n")
-  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000, env: packEnv() })
   assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
   // Splice a file under web/ (a family default) into the tarball. This is
   // the vant shape: web/ legitimately rides the runtime tarball there.
@@ -174,7 +183,7 @@ test('a package with no main/exports/bin SKIPs the load probe by name, never sil
     files: ['tool.cjs'],
   }, null, 2))
   fs.writeFileSync(path.join(toy, 'tool.cjs'), 'module.exports = 1\n')
-  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000 })
+  const r = spawnSync('npm', ['pack', '--pack-destination', toy], { cwd: toy, encoding: 'utf8', timeout: 120000, env: packEnv() })
   assert.equal(r.status, 0, `toy npm pack failed: ${r.stderr}`)
   const tgz = path.join(toy, 'toy-shell-4.2.0.tgz')
   const run = spawnSync('node', [script, '--pack', tgz, '--version', '4.2.0'], { cwd: toy, encoding: 'utf8', timeout: 300000 })
@@ -281,3 +290,36 @@ test('the registry visibility check waits out propagation lag (the 1.2.0 cut bug
   assert.equal(r.status, 0, `registryHasVersion misjudged visibility: ${r.stderr}`);
   assert.ok(r.stdout.includes('ok'), 'registryHasVersion never ran');
 });
+
+// Some npm builds (the phone's) answer `npm pack --dry-run --json` with an
+// empty stdout - no JSON at all - and print a config warning besides. The
+// ladder must not read that as a capability failure: it derives the expected
+// set from a REAL `npm pack` (which the served-tarball forbidden scan already
+// proved works on this build) instead of parsing the --json probe.
+test('the pack ladder survives a phone npm whose --dry-run --json probe is empty', () => {
+  const work = fs.mkdtempSync(path.join(os.tmpdir(), 'release-verify-noisy-'))
+  const tgz = packTree(work)
+  const bin = path.join(work, 'bin')
+  fs.mkdirSync(bin)
+  const realNpm = spawnSync('which', ['npm'], { encoding: 'utf8' }).stdout.trim()
+  const shim = path.join(bin, 'npm')
+  fs.writeFileSync(shim, [
+    '#!/bin/sh',
+    'case " $* " in',
+    '  *" --dry-run "*)',
+    '    echo "npm warn Unknown project config \\"always-auth\\". This will stop working in the next major version of npm."',
+    '    exit 0 ;;',
+    'esac',
+    `exec ${realNpm} "$@"`,
+    '',
+  ].join('\n'))
+  fs.chmodSync(shim, 0o755)
+  const r = spawnSync('node', [script, '--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe], {
+    cwd: root, encoding: 'utf8', timeout: 300000,
+    env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
+  })
+  const out = `${r.stdout}\n${r.stderr}`
+  assert.ok(out.includes('PASS served set == npm pack of this tree'), `the empty --json probe broke the pack ladder:\n${out}`)
+  assert.ok(!out.includes('npm pack --dry-run --json failed'), 'an empty --json probe must not be read as a pack failure')
+  fs.rmSync(work, { recursive: true, force: true })
+})
