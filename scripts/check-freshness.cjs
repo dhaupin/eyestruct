@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 /**
- * scripts/check-trifecta.cjs - the README / AGENTS / deploy-lane / CHANGELOG
+ * scripts/check-freshness.cjs - the README / AGENTS / deploy-lane / CHANGELOG
  * freshness leg (the round-2 audit, made cheap and repeatable).
  *
  *   1. README's usage fence shows only verbs the real dispatch owns and
  *      only flags `usage()` offers (the round-1 catches: phantom `--route`).
  *   2. Every .yml lane README/AGENTS cite exists in .github/workflows/.
  *   3. Every `npm run <script>` README/AGENTS cite exists in package.json.
- *   4. AGENTS receipt inventory matches the tree LIVE (reason codes, pack
- *      verdicts, crashtest findings, pack count), whitespace-normalized -
- *      prose line breaks are cosmetic, claims are not.
+ *   4. AGENTS receipt inventory vs the tree LIVE. Narrowed (eyestruct#5):
+ *      the reason-code, pack-verdict and pack-count counts retired in favor
+ *      of poststruct's shared `eyestruct-shapes` pack (check:eyes-shapes,
+ *      eyes/reason-table-drift + eyes/verdict-count-drift) - one audit runs
+ *      on the family, not a private copy per repo. The hostile-leg count
+ *      stays here: the pack never reads labs/crashledger.json.
  *   5. README docs deep links resolve on disk; Creadev.org named.
  *   6. CHANGELOG Unreleased block: every backticked path claim exists on
  *      disk and every backticked commit hash exists in history (hash check
@@ -18,10 +21,10 @@
  *      docs/verbs.md was real at 0.9.0, folded into cli.md later) - but
  *      the block must still carry a dated Added heading.
  *
- * Run: node scripts/check-trifecta.cjs [--json] [--root <dir>]
+ * Run: node scripts/check-freshness.cjs [--json] [--root <dir>]
  * Exit 0 green, 1 stale (named STALE lines; never a stack trace).
- * Behavior lives in runTri(); the CLI is a thin shell so tests can drive
- * the same checks against temp fixtures (behavior-only, temp dirs).
+ * Behavior lives in runFreshness(); the CLI is a thin shell so tests can
+ * drive the same checks against temp fixtures (behavior-only, temp dirs).
  */
 'use strict'
 const fs = require('fs')
@@ -83,7 +86,7 @@ function unreleasedSlice(text) {
   return next === -1 ? body : body.slice(0, next)
 }
 
-function runTri({ root }) {
+function runFreshness({ root }) {
   const rootPath = path.resolve(root)
   const lines = []
   const stale = []
@@ -167,10 +170,11 @@ function runTri({ root }) {
     if (!missing) pass(`npm scripts: ${cited.size} cited script(s) exist`)
   }
 
-  // 4. AGENTS receipt inventory vs the tree
+  // 4. AGENTS receipt inventory vs the tree (the hostile leg only; the
+  // reason/verdict/pack counts are the shared pack's to audit now).
   if (agents != null) {
     const claims = norm(agents)
-    okReceipts(claims, rootPath, stale, () => pass('receipt inventory: AGENTS counts match the tree'))
+    okReceipts(claims, rootPath, stale, () => pass('receipt inventory: the hostile-leg count matches the tree'))
   }
 
   // 5. README docs deep links + Creadev.org
@@ -248,24 +252,13 @@ function runTri({ root }) {
   return { ok: stale.length === 0, lines, stale }
 }
 
-/** AGENTS counts vs the tree; each mismatch is one named STALE row */
+/** AGENTS counts vs the tree; each mismatch is one named STALE row.
+ *  Narrowed (eyestruct#5): only the hostile-leg count remains - the
+ *  reason-code, pack-verdict and pack-count claims are the shared
+ *  `eyestruct-shapes` pack's to audit (and the census leg covers the same
+ *  prose claims on AGENTS/README, so no count loses its guard). */
 function okReceipts(claims, rootPath, stale, onOk) {
   let ok = true
-  try {
-    const mod = require(path.join(rootPath, 'lib', 'reasons.js'))
-    const rc = Object.keys(mod.CODES || mod.reasons || {}).length
-    if (!new RegExp(`${rc} reason-codes`).test(claims)) {
-      stale.push(`STALE (RECEIPT_DRIFT) AGENTS claims a different reason-code count than lib/reasons.js exports (${rc})`)
-      ok = false
-    }
-  } catch { /* the reasons module is the 0-1-2 contract's own; its absence fails elsewhere */ }
-  try {
-    const rows = JSON.parse(fs.readFileSync(path.join(rootPath, 'packs', 'eye-ledger.json'), 'utf8')).rows.length
-    if (!new RegExp(`${rows} pack verdicts`).test(claims)) {
-      stale.push(`STALE (RECEIPT_DRIFT) AGENTS claims a different pack-verdict count than packs/eye-ledger.json holds (${rows})`)
-      ok = false
-    }
-  } catch { /* the pack lane refuses loudly elsewhere */ }
   try {
     const f = JSON.parse(fs.readFileSync(path.join(rootPath, 'labs', 'crashledger.json'), 'utf8')).findings.length
     if (!new RegExp(`${f}/${f} hostile`).test(claims)) {
@@ -273,14 +266,6 @@ function okReceipts(claims, rootPath, stale, onOk) {
       ok = false
     }
   } catch { /* the crashtest leg owns that ledger's refusal */ }
-  try {
-    const pc = fs.readdirSync(path.join(rootPath, 'packs', 'public'), { withFileTypes: true })
-      .filter((d) => d.isDirectory() && fs.existsSync(path.join(rootPath, 'packs', 'public', d.name, 'pack.json'))).length
-    if (!new RegExp(`${pc} adversarial packs`).test(claims)) {
-      stale.push(`STALE (RECEIPT_DRIFT) AGENTS claims a different pack count than packs/public holds (${pc})`)
-      ok = false
-    }
-  } catch { /* packs/public missing: the pack lane owns that refusal */ }
   if (ok) onOk()
 }
 
@@ -288,14 +273,14 @@ if (require.main === module) {
   const argv = process.argv.slice(2)
   const rootIdx = argv.indexOf('--root')
   const root = rootIdx !== -1 ? argv[rootIdx + 1] : path.resolve(__dirname, '..')
-  const { ok, lines, stale } = runTri({ root })
+  const { ok, lines, stale } = runFreshness({ root })
   if (argv.includes('--json')) {
     process.stdout.write(JSON.stringify({ ok, lines, stale }, null, 2) + '\n')
   } else {
     for (const l of [...lines, ...stale]) process.stdout.write(l + '\n')
-    process.stdout.write((ok ? 'TRIFECTA: PASS' : 'TRIFECTA: FAIL') + '\n')
+    process.stdout.write((ok ? 'FRESHNESS: PASS' : 'FRESHNESS: FAIL') + '\n')
   }
   process.exit(ok ? 0 : 1)
 }
 
-module.exports = { runTri, dispatchVerbs, usageFlags, unreleasedSlice }
+module.exports = { runFreshness, dispatchVerbs, usageFlags, unreleasedSlice }

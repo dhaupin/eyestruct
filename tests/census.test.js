@@ -14,7 +14,7 @@
 //   CLI verbs     -> the COMMANDS table in bin/eyestruct.js
 //
 // Behavior-only, temp-free, no network: it reads repo files like the
-// check:trifecta leg does. A count written as a word ("nine tools") is
+// check:freshness leg does. A count written as a word ("nine tools") is
 // censused the same as a digit; the word branch is the WORD map's own
 // vocabulary, not a bare letter run - non-count words before a noun
 // ("the CLI verbs", "named reason-codes", "backed tools") are prose,
@@ -63,6 +63,11 @@ function crashFindings() {
   return require('../labs/crashledger.json').findings.length
 }
 
+function packCount() {
+  return fs.readdirSync(path.join(REPO, 'packs', 'public'), { withFileTypes: true })
+    .filter((d) => d.isDirectory() && fs.existsSync(path.join(REPO, 'packs', 'public', d.name, 'pack.json'))).length
+}
+
 function mcpTools() {
   const src = fs.readFileSync(path.join(REPO, 'lib/mcp.js'), 'utf8')
   const registry = src.match(/const TOOLS = \[[\s\S]*?\n\]/)
@@ -86,6 +91,7 @@ function cliVerbs() {
 const TRUTHS = {
   'reason-codes': libReasonCodes(),
   'pack cases': eyeLedgerRows(),
+  'pack count': packCount(),
   'hostile findings': crashFindings(),
   'mcp tools': mcpTools(),
   'cli verbs': cliVerbs(),
@@ -100,6 +106,12 @@ const SURFACES = [
   'docs/packs.md',
   'docs/mcp.md',
   'docs/cli.md',
+  // AGENTS.md + README.md joined with the eyestruct#5 narrowing: step 4 of
+  // the freshness leg retired its reason/verdict/pack-count claims to the
+  // shared eyestruct-shapes pack, so the same prose counts are held here -
+  // no audited count loses its guard when the in-tree copy retires.
+  'AGENTS.md',
+  'README.md',
   // The web pages joined after the nitpick round caught the stale count
   // twice on unaudited surfaces (Home + Packs carried "34 pack cases" while
   // the committed eye-ledger reads 35 - the page copy drifted, CI never
@@ -124,6 +136,14 @@ const CLAIMS = [
   {
     kind: 'pack cases',
     re: new RegExp(`\\b(${TOKEN}) (?:adversarial )?pack (?:cases|verdicts)\\b`, 'g'),
+    claim: (m) => num(m[1]),
+  },
+  {
+    // The pack-count claim ("5 adversarial packs", "five packs"): the
+    // exported pack dirs in packs/public. Joined with the eyestruct#5
+    // narrowing - step 4's pack-count check retired to the shared pack.
+    kind: 'pack count',
+    re: new RegExp(`\\b(${TOKEN}) (?:adversarial )?packs\\b`, 'g'),
     claim: (m) => num(m[1]),
   },
   {

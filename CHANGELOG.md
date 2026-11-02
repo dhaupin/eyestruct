@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-11-01, the family-shared canon audit replaces the in-tree leg)
+
+- The `check` chain gains `check:eyes-shapes`, driving poststruct's
+  family-shared `eyestruct-shapes` pack over this repo's canon tree
+  through the `eyestructTree` contract (poststruct#19). The pack is loaded
+  from the EXACT poststruct devDependency pin
+  (`node_modules/poststruct/packs/public/eyestruct-shapes`), never a
+  private copy - one audit runs on the family, not one re-implementation
+  per repo. It covers manifest pin drift, ledger schema, dangling canon
+  pointers, receipt provenance, verdict-count drift, reason-table drift and
+  note unsafety; an absent install refuses `EYES-SHAPES` exit 2, never a
+  fake pass (eyestruct#5).
+- The in-tree freshness leg is renamed from `check:trifecta` to
+  `check:freshness` (its script is `scripts/check-freshness.cjs`, the
+  renamed successor of the round-2 walk) and its step 4 narrows to the
+  hostile-leg count: the reason-code, pack-verdict and pack-count claims
+  now retire to the shared pack, which audits the same truths
+  family-wide. No count loses its guard - AGENTS.md and README.md joined
+  the count census (tests/census.test.js), so the same prose claims stay
+  held from the other side.
+
 ### Fixed (2026-11-01, the 404 home canonical stops drifting)
 
 - the pinned prestruct moves from the `github:dhaupin/prestruct#498ab5f`
