@@ -134,6 +134,19 @@ jobs:
           else
             gh release create "$TAG" --title "eyestruct $BLOCK_VERSION" --notes-file "$RUNNER_TEMP/notes.md"
           fi
+      - name: attach the served tarball to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+          BLOCK_TAG: ${{ needs.publish.outputs.tag }}
+        run: |
+          set -e
+          # The EXACT tarball the registry serves for this version - the
+          # artifact npm received, not a re-pack of the checkout, so the
+          # release asset and the npm artifact can never drift. The verify
+          # job's --asset leg then asserts their sha512s are equal.
+          npm pack "eyestruct@$BLOCK_VERSION" --pack-destination "$RUNNER_TEMP" > /dev/null
+          gh release upload "$BLOCK_TAG" "$RUNNER_TEMP/eyestruct-$BLOCK_VERSION.tgz" --clobber
 
   # No `needs` on release here by design under the if: the verify leg runs
   # after release on a real cut, but ALSO stands alone in verify-only mode
@@ -163,4 +176,4 @@ jobs:
           EXPECTED_EXPORTS="$(node -p "Object.keys(require('./package.json').exports).join(',')")"
           EYE_PROBE="const p=require('eyestruct');if(p.ADAPTER_CONTRACT!=='eyestruct-adapter@1')process.exit(1);if(!Array.isArray(p.reasonCodes)||!p.reasonCodes.length)process.exit(1)"
           node scripts/verify-release.cjs --npm --version "$V" --exports "$EXPECTED_EXPORTS" --probe "$EYE_PROBE"
-          node scripts/verify-release.cjs --gh --tag "v$V"
+          node scripts/verify-release.cjs --gh --tag "v$V" --asset "eyestruct-$V.tgz"
