@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- **Authenticated capture: `--headers FILE` / `--cookie V` on look/spot/diff/walk
+  (eyestruct#54).** The instance lane can now send the request headers a
+  signed-in browser would, so a dashboard behind a server-side session cookie
+  (`bsess_`-style) is captured as the human sees it, not as the signed-out gate
+  page. `--headers` takes a file of literal `Name: value` lines (blank lines and
+  `#` comments skipped), so a session secret stays off the command line and out
+  of shell history; `--cookie "name=value"` is the friendly single-cookie case.
+  It does not make eyestruct an auth client - no flows, no scheme knowledge, just
+  headers - and it is instance-lane only (never canon), so a committed baseline
+  can never carry a secret. A malformed header file refuses by name
+  (`BAD_FLAG_VALUE`/`UNSAFE_TEXT`/`MISSING_INPUT`) BEFORE the pinned browser is
+  demanded, and only the header COUNT travels outward - never a value.
+
 ### Fixed
 
 - **The element-id overlay draws each label on a filled chip, never bare
