@@ -59,7 +59,7 @@ error instead of killing the whole runner.
 | `BAD_FLAG_VALUE` | the stated flag value is not one this verb takes - the detail names the shape it wants (an empty value, a non-enum format, a webp-only quality, an uncomposeable pair) |
 | `BAD_VIEWPORT` | viewport must be WxH within the sane range |
 | `BAD_THEME` | theme must be dark or light |
-| `CAPTURE_BLOCKED` | the pinned browser could not complete the capture |
+| `CAPTURE_BLOCKED` | the pinned browser could not complete the capture - the detail names the binary, the browser's own message, and (when the frame detached) the chrome-headless-shell hint, with a tail of the browser's stderr (eyestruct #53) |
 | `CAPTURE_TOO_SKELETAL` | the capture is implausibly small (a blank frame is not a look) |
 | `CROP_TARGET_MISSING` | the `--region` selector matched nothing on the page |
 | `CROP_TOO_BIG` | the `--region` selector is over the cheap-layer size cap |
@@ -77,7 +77,7 @@ error instead of killing the whole runner.
 | `DANGLING_ROW` | the row explains a file git no longer has | restore the file or rewrite history through the ledger, never past it |
 | `LEDGER_CORRUPT` / `MANIFEST_CORRUPT` | truncation or a bad merge | fix the file from git; the reader never guesses past a bad row |
 | `UNSAFE_PATH` | a hand-edited or hostile ledger row aims gate/diff outside the eyes home | rewrite the artifact path eyes-relative; the reader refuses, it never resolves escapes |
-| `MISSING_PINNED_BROWSER` | machine has no pinned chrome | install the manifest's `pin.browser-image` version |
+| `MISSING_PINNED_BROWSER` | machine has no pinned chrome | install the manifest's `pin.browser-image` version; full chrome (`puppeteer browsers install chrome`) is the reliable choice for `spot`/`look` - chrome-headless-shell is driven with old headless and can frame-detach (eyestruct #53) |
 | `PACKSTRUCT_MISSING` | packstruct devDep missing | `npm i -D packstruct@<exact>` |
 
 This page mirrors `lib/reasons.js` - the CODES + REASONS tables it emits

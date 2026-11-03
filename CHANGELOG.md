@@ -23,6 +23,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- **The capture engine drives `chrome-headless-shell` with the right headless
+  mode, retries once, and surfaces the browser's own error (eyestruct#53).** A
+  machine that pinned `chrome-headless-shell` (the old-headless binary) had
+  every `spot`/`look` die with `Navigating frame was detached`: the engine
+  passed `headless: true` (new headless) to a binary that speaks old headless.
+  The mode is now chosen from the binary name (`'shell'` for
+  `chrome-headless-shell`, `true` for full chrome), a frame-detach failure
+  retries ONCE with the other mode, and the `CAPTURE_BLOCKED` detail now names
+  the binary, carries the browser's own message, adds the chrome-headless-shell
+  hint on a detach, and appends a tail of the browser's stderr - so a missing
+  font/lib or a segfault is diagnosable from the CLI instead of only by poking
+  chrome directly. Full chrome remains the reliable choice for `spot`/`look`
+  (docs: [cli](cli), [reasons](reasons), [pin bumps](playbooks/pin-bump)).
+
 - **The element-id overlay draws each label on a filled chip, never bare
   page-colored text (eyestruct#52).** A mapped element the size of the
   viewport (a `#root` shell) put a plain pink `#root` in the page's top-left
