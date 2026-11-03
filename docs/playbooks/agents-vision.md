@@ -43,6 +43,13 @@ returns to the top, then shoots. A settled look that still finds unloaded
 images prints a NOTICE, so a blank plate is never mistaken for evidence
 (issue #27).
 
+By default the frame carries the element map as an overlay: a thin box per
+mapped `[id]` element with its id on a filled chip (a solid badge, never
+bare page-colored text - eyestruct#52). Read it as the tool's own
+annotation, not page content. When you want the page exactly as a visitor
+sees it, add `--no-overlay`: the map still computes and returns, but the
+pixels are annotation-free (creadev #18).
+
 ## The receipts behind the page
 
 The loop is not aspirational; the following were machine-run receipts from
