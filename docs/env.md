@@ -27,7 +27,10 @@ not here is dead code by definition.
 - **Browser exec:** `--browser-exec` > `EYESTRUCT_BROWSER` > `pin.browser-exec` > the
   puppeteer cache probe. A missing exec at any chosen layer refuses
   `MISSING_PINNED_BROWSER` naming the path it tried - never a silent
-  fallback to another layer.
+  fallback to another layer. Prefer a full `chrome` build here - the engine
+  drives `chrome-headless-shell` with old headless and a frame detach retries
+  once, but full chrome is the reliable choice for `spot`/`look` (eyestruct
+  #53).
 - **Bundle cache:** `EYESTRUCT_BUNDLE_CACHE` > `~/.cache/eyestruct/bundles`.
 - **Identity:** `EYESTRUCT_AGENT` / `EYESTRUCT_COMMIT` > the neutral
   defaults. Absent values degrade rather than refuse, so tests and
