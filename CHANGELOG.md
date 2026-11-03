@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- **The element-id overlay draws each label on a filled chip, never bare
+  page-colored text (eyestruct#52).** A mapped element the size of the
+  viewport (a `#root` shell) put a plain pink `#root` in the page's top-left
+  corner that a vision reader mistook for rendered content. The label now
+  rides a solid `#ff2f6d` badge with white text, so it reads unambiguously as
+  the tool's own annotation. The element map and the `--no-overlay` clean
+  frame are unchanged; a new browser-gated smoke check pins one chip per
+  label.
+
 - **The release ladder no longer parses `npm pack --dry-run --json`.** The
   phone's npm answers that probe with empty stdout (a config warning, no JSON)
   even under `--loglevel=error`, so the ladder's `JSON.parse` failed and read as

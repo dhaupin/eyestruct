@@ -631,6 +631,17 @@ maybeBrowser('noOverlay gives the clean frame: same map, zero overlay labels, pi
   assert.strictEqual(cleanRegion.map.length, 1)
 })
 
+maybeBrowser('every overlay label rides a filled chip, never bare body-colored text (eyestruct#52)', async () => {
+  const cap = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600' })
+  assert.ok(cap.map.length > 0, 'the fixture maps at least one [id] element')
+  // One chip per drawn label: the id text is never a bare stamp on the page.
+  assert.strictEqual(cap.overlayChips, cap.overlayCount, 'each overlay label must ride a chip')
+  assert.strictEqual(cap.overlayChips, cap.map.length)
+  // A clean frame draws neither chip nor label.
+  const clean = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', noOverlay: true })
+  assert.strictEqual(clean.overlayChips, 0)
+})
+
 maybeBrowser('webp output: RIFF magic, quality honored, identical map (creadev #20)', async () => {
   const pngCap = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600' })
   const webpCap = await engine.capture({ url: FIXTURE, argv: [], pin: {}, viewport: '800x600', format: 'webp', quality: 82 })
