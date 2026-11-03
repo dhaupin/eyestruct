@@ -121,6 +121,31 @@ test('--no-overlay is a known clean-capture flag (creadev #18): accepted at the 
   assert.ok(!/UNKNOWN_FLAG/.test(s.stderr), `the clean-capture flag refused at the lid on spot:\n${s.stderr}`)
 })
 
+test('--headers/--cookie are known auth flags (eyestruct #54): accepted at the lid, refused before any browser demand', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // A missing header file refuses MISSING_INPUT (exit 2) - and it does so
+  // BEFORE the browser is demanded, so a bad file never needs a pinned
+  // browser to say its name (the jail-before-exec order).
+  const missing = run(['look', 'file:///nonexistent.html', '--headers', path.join(dir, 'no-hdrs'), '--browser-exec', path.join(dir, 'no-chrome')], dir)
+  assert.strictEqual(missing.code, 2)
+  assert.match(missing.stderr, /eyestruct\[MISSING_INPUT\]/)
+  assert.ok(!/UNKNOWN_FLAG/.test(missing.stderr), `the auth flag refused at the lid:\n${missing.stderr}`)
+  assert.ok(!/MISSING_PINNED_BROWSER/.test(missing.stderr), 'the auth jail must sit before the browser demand')
+  // A malformed header line refuses by name, still before the browser.
+  const hdrs = path.join(dir, 'hdrs')
+  fs.writeFileSync(hdrs, 'not a header\n')
+  const bad = run(['look', 'file:///nonexistent.html', '--headers', hdrs, '--browser-exec', path.join(dir, 'no-chrome')], dir)
+  assert.strictEqual(bad.code, 1)
+  assert.match(bad.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.ok(!/MISSING_PINNED_BROWSER/.test(bad.stderr), 'a malformed header file must refuse before the browser demand')
+  // --cookie alone rides the lid and reaches the engine (which then fails on
+  // the missing browser), proving the flag is on the look/spot allowlists.
+  const ck = run(['spot', 'file:///nonexistent.html', '--cookie', 'sess=abc', '--browser-exec', path.join(dir, 'no-chrome')], dir)
+  assert.match(ck.stderr, /eyestruct\[MISSING_PINNED_BROWSER\]/)
+  assert.ok(!/UNKNOWN_FLAG/.test(ck.stderr), `--cookie refused at the lid:\n${ck.stderr}`)
+})
+
 test('capture output options refuse by name before any browser demand (creadev #19/#20, the shared jail)', () => {
   const dir = tmpdir()
   run(['init'], dir)

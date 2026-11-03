@@ -12,6 +12,7 @@ eyestruct adopt <slot>/current.png [--wave] --note "why"  # proposal (canon is C
 eyestruct gate                                       # CI: exit 1 on unexplained labs/.eyes/ drift
 eyestruct serve <dir> [--port N]                     # the instance primitive: serve a baked tree, host-shaped headers
 eyestruct spot <url> [--viewport WxH] [--theme T]    # one capture to READ WITH YOUR OWN VISION (agent eyes)
+eyestruct spot <url> --headers labs/.eyes/hdrs       # authenticated capture: send the headers a signed-in browser would
 eyestruct mcp                                        # stdio MCP surface, same calls as tools
 ```
 
