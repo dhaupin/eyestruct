@@ -18,9 +18,7 @@ eyestruct gate
 git commit -m "nav rebuild + baseline proposal"
 ```
 
-The rule that makes this safe: a diff that ships without a ledger row
-explaining it fails the pass. Agents automate the capture; the ledger row
-is where the human-readable receipt lives.
+The rule that makes this safe: a diff that ships without a ledger row explaining it fails the pass. Agents automate the capture; the ledger row is where the human-readable receipt lives.
 
 <div class="crosslinks">
 <p><strong>More in these docs:</strong>

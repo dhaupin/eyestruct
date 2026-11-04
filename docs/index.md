@@ -9,20 +9,13 @@ nav_order: 1
 
 # eyestruct
 
-eyestruct is eyes for production agents: deterministic capture (`look`),
-pixel-level change comparison (`diff`), and committed visual memory
-(`labs/.eyes/`) that CI can gate - the crashtest ledger pattern aimed at
-appearance instead of attackability. Process-per-look: every command is
-one short invocation; the only state that survives between looks is git
-state.
+eyestruct is eyes for production agents: deterministic capture (`look`), pixel-level change comparison (`diff`), and committed visual memory (`labs/.eyes/`) that CI can gate - the crashtest ledger pattern aimed at appearance instead of attackability. Process-per-look: every command is one short invocation; the only state that survives between looks is git state.
 
 ## Where to go next
 
 - **[Getting started](/eyestruct/start/)** - init, your first look-to-gate cycle, and the instance lane.
 - **[Adapter API](/eyestruct/adapters/)** - the programmatic surface for platforms integrating eyestruct.
-- **[The PRD](https://github.com/dhaupin/eyestruct/blob/main/labs/prd-eyes.md)** - what
-  eyestruct is, the receipts it grew from, and the design rulings (lives in
-  labs/, the agent-voice surface).
+- **[The PRD](https://github.com/dhaupin/eyestruct/blob/main/labs/prd-eyes.md)** - what eyestruct is, the receipts it grew from, and the design rulings (lives in labs/, the agent-voice surface).
 - **[Discussions](/eyestruct/discussions/)** - release notes as they cut.
 
 ## Key facts at a glance

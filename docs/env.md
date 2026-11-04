@@ -7,11 +7,7 @@ description: The env-var surface of eyestruct - the keys the CLI and the adapter
 
 # Environment reference
 
-The env-var keys are a frozen surface: a new key lands as a minor bump
-with this page updated in the same commit, and the battery's env leg
-derives the live inventory from the source so a key cannot appear in
-code unannounced. No other `EYESTRUCT_*` names are read - a name that is
-not here is dead code by definition.
+The env-var keys are a frozen surface: a new key lands as a minor bump with this page updated in the same commit, and the battery's env leg derives the live inventory from the source so a key cannot appear in code unannounced. No other `EYESTRUCT_*` names are read - a name that is not here is dead code by definition.
 
 ## The keys
 
@@ -24,22 +20,10 @@ not here is dead code by definition.
 
 ## Precedence, stated once
 
-- **Browser exec:** `--browser-exec` > `EYESTRUCT_BROWSER` > `pin.browser-exec` > the
-  puppeteer cache probe. A missing exec at any chosen layer refuses
-  `MISSING_PINNED_BROWSER` naming the path it tried - never a silent
-  fallback to another layer. Prefer a full `chrome` build here - the engine
-  drives `chrome-headless-shell` with old headless and a frame detach retries
-  once, but full chrome is the reliable choice for `spot`/`look` (eyestruct
-  #53).
+- **Browser exec:** `--browser-exec` > `EYESTRUCT_BROWSER` > `pin.browser-exec` > the puppeteer cache probe. A missing exec at any chosen layer refuses `MISSING_PINNED_BROWSER` naming the path it tried - never a silent fallback to another layer. Prefer a full `chrome` build here - the engine drives `chrome-headless-shell` with old headless and a frame detach retries once, but full chrome is the reliable choice for `spot`/`look` (eyestruct #53).
 - **Bundle cache:** `EYESTRUCT_BUNDLE_CACHE` > `~/.cache/eyestruct/bundles`.
-- **Identity:** `EYESTRUCT_AGENT` / `EYESTRUCT_COMMIT` > the neutral
-  defaults. Absent values degrade rather than refuse, so tests and
-  one-off runs stay deterministic.
+- **Identity:** `EYESTRUCT_AGENT` / `EYESTRUCT_COMMIT` > the neutral defaults. Absent values degrade rather than refuse, so tests and one-off runs stay deterministic.
 
 ## The stability law for this table
 
-Additive-first within 1.x: a new key is a minor bump with a row here
-and the env-leg inventory updated in the same commit; a removal or a
-semantic change rides 2.0. The battery derives the live inventory from
-the source (`tests/contract.test.js`), so the stale-name drift class
-cannot re-form here either.
+Additive-first within 1.x: a new key is a minor bump with a row here and the env-leg inventory updated in the same commit; a removal or a semantic change rides 2.0. The battery derives the live inventory from the source (`tests/contract.test.js`), so the stale-name drift class cannot re-form here either.

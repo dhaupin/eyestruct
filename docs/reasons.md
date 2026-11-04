@@ -7,8 +7,7 @@ description: Every named refusal eyestruct can emit - the 0-1-2 exit contract, t
 
 # Reason codes
 
-Failures never improvise: every nonzero exit prints a NAME and a one-line
-explanation, in prose and in `--json`. The shape is always the same:
+Failures never improvise: every nonzero exit prints a NAME and a one-line explanation, in prose and in `--json`. The shape is always the same:
 
 ```text
 eyestruct[CODE]: one-line explanation - extra context when the CLI has it
@@ -22,10 +21,7 @@ The exit contract has three levels:
 | `1` | drift or refusal with a reason-code |
 | `2` | setup or capability trouble (missing manifest, missing pinned browser) |
 
-Inside the library, `fail()` throws; only the CLI boundary owns the
-process and converts the error into the exit contract. That is why an
-in-process caller (the MCP server, the test battery) dies with a named
-error instead of killing the whole runner.
+Inside the library, `fail()` throws; only the CLI boundary owns the process and converts the error into the exit contract. That is why an in-process caller (the MCP server, the test battery) dies with a named error instead of killing the whole runner.
 
 ## Capability and setup (exit 2)
 
@@ -80,16 +76,8 @@ error instead of killing the whole runner.
 | `MISSING_PINNED_BROWSER` | machine has no pinned chrome | install the manifest's `pin.browser-image` version; full chrome (`puppeteer browsers install chrome`) is the reliable choice for `spot`/`look` - chrome-headless-shell is driven with old headless and can frame-detach (eyestruct #53) |
 | `PACKSTRUCT_MISSING` | packstruct devDep missing | `npm i -D packstruct@<exact>` |
 
-This page mirrors `lib/reasons.js` - the CODES + REASONS tables it emits
-from. Disagreement means the page is stale and the lib wins.
+This page mirrors `lib/reasons.js` - the CODES + REASONS tables it emits from. Disagreement means the page is stale and the lib wins.
 
 ## The stability law for this table
 
-The 30 codes freeze at 1.0.0 under the same rule the CLI verbs and the
-MCP tools carry: additive-first within 1.x (a new code is a minor bump
-plus a row here in the same commit), never a removal or a re-spelled
-semantic inside 1.x - those ride 2.0. The exit contract (0 green and
-explained / 1 drift and refusal / 2 setup and capability) is frozen for
-the life of 1.x. The count census in the battery compares any hand-copy
-code count against `Object.keys(CODES).length`, so the stale drift class
-cannot re-form here either.
+The 30 codes freeze at 1.0.0 under the same rule the CLI verbs and the MCP tools carry: additive-first within 1.x (a new code is a minor bump plus a row here in the same commit), never a removal or a re-spelled semantic inside 1.x - those ride 2.0. The exit contract (0 green and explained / 1 drift and refusal / 2 setup and capability) is frozen for the life of 1.x. The count census in the battery compares any hand-copy code count against `Object.keys(CODES).length`, so the stale drift class cannot re-form here either.

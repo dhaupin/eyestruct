@@ -7,8 +7,7 @@ description: Triage for a failed npm run packs - NEW row, REGRESSION, RETIRED ro
 
 # Triaging a red pack campaign
 
-The pack lane fails on push for three named row-drift classes (the runner
-prints the class and the case key on every line, `pack:id`):
+The pack lane fails on push for three named row-drift classes (the runner prints the class and the case key on every line, `pack:id`):
 
 | the runner says | what it means | the move |
 |-------------------|-----------------|------------|
@@ -18,9 +17,7 @@ prints the class and the case key on every line, `pack:id`):
 
 ## The adopt dance (run-packs.cjs's actual rule)
 
-`npm run packs -- --adopt` rewrites `packs/eye-ledger.json` to the current
-verdicts wholesale - that is its contract. It is not a "pass" verb; it is a
-re-baseline verb, and the review that makes it honest is the ledger diff:
+`npm run packs -- --adopt` rewrites `packs/eye-ledger.json` to the current verdicts wholesale - that is its contract. It is not a "pass" verb; it is a re-baseline verb, and the review that makes it honest is the ledger diff:
 
 ```text
 npm run packs                      # read the drift lines first
@@ -28,23 +25,11 @@ npm run packs -- --adopt           # rebaseline: every row carries the current v
 git diff packs/eye-ledger.json     # THE review artifact
 ```
 
-Commit only when every changed and added row in that diff is expected and
-explainable in the commit message. A `--adopt` commit is receipt-bearing:
-the diff must not carry a verdict change nobody can name. A REGRESSION the
-diff reveals after the fact gets handled like any campaign red: the
-responsibility for reading before committing is yours, the ledger just
-makes skipping visible in review.
+Commit only when every changed and added row in that diff is expected and explainable in the commit message. A `--adopt` commit is receipt-bearing: the diff must not carry a verdict change nobody can name. A REGRESSION the diff reveals after the fact gets handled like any campaign red: the responsibility for reading before committing is yours, the ledger just makes skipping visible in review.
 
 ## Why the lane is red-on-write
 
-The runner is zero-dependency and subprocess-only (the real
-`bin/eyestruct.js`, disposable fixture dirs), so a verdict belongs to the
-pack's case, not to the machine that ran it. That is why the ledger row is
-pinned to a case id (`pack:id`) and an adopted row cannot silently change
-verdict later - the same discipline the eye ledger enforces on the visual
-memory, pointed at the CLI's own refusals. Grammar violations of a pack
-itself are refused at load by the packstruct rules before any case runs
-(see [packs](/eyestruct/packs) for the authoring surface).
+The runner is zero-dependency and subprocess-only (the real `bin/eyestruct.js`, disposable fixture dirs), so a verdict belongs to the pack's case, not to the machine that ran it. That is why the ledger row is pinned to a case id (`pack:id`) and an adopted row cannot silently change verdict later - the same discipline the eye ledger enforces on the visual memory, pointed at the CLI's own refusals. Grammar violations of a pack itself are refused at load by the packstruct rules before any case runs (see [packs](/eyestruct/packs) for the authoring surface).
 
 <div class="crosslinks">
 <p><strong>More in these docs:</strong>

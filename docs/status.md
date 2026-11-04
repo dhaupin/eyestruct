@@ -7,30 +7,17 @@ description: The family status contract - one schema served at /status.json on e
 
 # Family status dialect
 
-The members of the struct family - eyestruct, crashtest, poststruct,
-packstruct, govstruct, monoforge - each carry adversarial legs whose
-verdicts live in **committed ledger files**, reconciled by CI on every
-push (the what and the why are in the [CI guide](/eyestruct/ci)). This
-page is the contract that makes those ledger files readable *across* the
-family, without a server, without a dashboard product, without any trust
-beyond "the committing repo's own CI ran its own battery":
+The members of the struct family - eyestruct, crashtest, poststruct, packstruct, govstruct, monoforge - each carry adversarial legs whose verdicts live in **committed ledger files**, reconciled by CI on every push (the what and the why are in the [CI guide](/eyestruct/ci)). This page is the contract that makes those ledger files readable *across* the family, without a server, without a dashboard product, without any trust beyond "the committing repo's own CI ran its own battery":
 
-1. every member serves a machine-readable status file at the fixed path
-   `/status.json` on its site;
-2. that file is **generated, never hand-edited**, by the member's own
-   web build, straight from the committed ledgers;
-3. every member's status page reads the others' files and renders their
-   numbers (or their absence) honestly.
+1. every member serves a machine-readable status file at the fixed path `/status.json` on its site;
+2. that file is **generated, never hand-edited**, by the member's own web build, straight from the committed ledgers;
+3. every member's status page reads the others' files and renders their numbers (or their absence) honestly.
 
-Humans read `/status` (each member's `status.json` names its own page);
-agents and machines read `/status.json`. Both get the same numbers,
-because both read the same generated file.
+Humans read `/status` (each member's `status.json` names its own page); agents and machines read `/status.json`. Both get the same numbers, because both read the same generated file.
 
 ## The dialect: `family-status@1`
 
-One JSON object per repo. Schema is 1, contract is the string
-`family-status@1` - a reader that sees either field missing or renamed
-refuses and shows "not serving the dialect", never a guessed row.
+One JSON object per repo. Schema is 1, contract is the string `family-status@1` - a reader that sees either field missing or renamed refuses and shows "not serving the dialect", never a guessed row.
 
 | field | shape | meaning |
 |--------|---------|-------------|
@@ -62,77 +49,28 @@ A pack row:
 | `manifest` | path | the pack's `pack.json`, repo-relative |
 | `cases` | integer | this pack's ledger row count |
 
-That last table is the "understand each other's packs" clause: because
-every family pack lives at `packs/public/<name>/pack.json` under the
-packstruct@1 grammar with ids namespaced by pack slug, a member's
-`packs` array is directly readable by any other member with no bespoke
-understanding - the same normalization packstruct itself enforces.
+That last table is the "understand each other's packs" clause: because every family pack lives at `packs/public/<name>/pack.json` under the packstruct@1 grammar with ids namespaced by pack slug, a member's `packs` array is directly readable by any other member with no bespoke understanding - the same normalization packstruct itself enforces.
 
 ## The refusal rules (what a reader may assume)
 
-- The file carries no prose, no marketing, no history - only the ledger
-  rows the repo's CI reconciles against on every push.
-- `asOf` is a truth: `worktree` means no git context existed at
-  generation; a sha means the generator read that commit's ledgers.
-- A missing sibling row means "not serving the dialect yet" - a reader
-  renders the absence, never invents a PASS.
-- **The CORS clause:** the member serves `/status.json` with
-  `Access-Control-Allow-Origin: *` - on the miss path included, so a
-  not-yet member reads as an honest HTTP 404 at the reader instead of an
-  opaque network failure (eyestruct's `_headers` entry is the worked
-  example). A reader that still gets an opaque cross-origin error names
-  it and the family fixes the serving side; the reader never works around
-  it with a proxy.
-- **The reader clause (the other half):** a member's PAGE must also allow
-  connecting to every other member, because CSP `connect-src` governs
-  `fetch()` *before* any CORS header is consulted - a missing sibling in
-  `connect-src` is a "Failed to fetch" at the page, with the sibling's
-  `Access-Control-Allow-Origin: *` never reached (eyestruct#25: every
-  server was correct and every foreign row stayed dark). So the reader's
-  `_headers` `connect-src` lists the other members' origins, kept equal
-  to the page's own sibling table. ACAO and `connect-src` are the two
-  halves of the same read: a member is not serving the dialect to the
-  family until BOTH are in place, and a new member lands both from day
-  one (add your origin to each existing member's `connect-src` in the
-  same round that adds your row).
-- Numbers are only as fresh as the member's last web deploy, which is
-  bounded by their docs lane running `web build` on every push to main.
-  The receipt-grade freshness always lives in the git ledger files
-  themselves - the dialect tells you where to look, the ledgers are
-  the truth.
+- The file carries no prose, no marketing, no history - only the ledger rows the repo's CI reconciles against on every push.
+- `asOf` is a truth: `worktree` means no git context existed at generation; a sha means the generator read that commit's ledgers.
+- A missing sibling row means "not serving the dialect yet" - a reader renders the absence, never invents a PASS.
+- **The CORS clause:** the member serves `/status.json` with `Access-Control-Allow-Origin: *` - on the miss path included, so a not-yet member reads as an honest HTTP 404 at the reader instead of an opaque network failure (eyestruct's `_headers` entry is the worked example). A reader that still gets an opaque cross-origin error names it and the family fixes the serving side; the reader never works around it with a proxy.
+- **The reader clause (the other half):** a member's PAGE must also allow connecting to every other member, because CSP `connect-src` governs `fetch()` *before* any CORS header is consulted - a missing sibling in `connect-src` is a "Failed to fetch" at the page, with the sibling's `Access-Control-Allow-Origin: *` never reached (eyestruct#25: every server was correct and every foreign row stayed dark). So the reader's `_headers` `connect-src` lists the other members' origins, kept equal to the page's own sibling table. ACAO and `connect-src` are the two halves of the same read: a member is not serving the dialect to the family until BOTH are in place, and a new member lands both from day one (add your origin to each existing member's `connect-src` in the same round that adds your row).
+- Numbers are only as fresh as the member's last web deploy, which is bounded by their docs lane running `web build` on every push to main. The receipt-grade freshness always lives in the git ledger files themselves - the dialect tells you where to look, the ledgers are the truth.
 
 ## How a member serves it (worked example: this repo)
 
-- the generator: `web/scripts/build-status.mjs` (zero deps) reads
-  `packs/eye-ledger.json` + `labs/crashledger.json` + every
-  `packs/public/*/pack.json`, refuses the intersection cases loudly
-  (a manifest with zero ledger rows, a ledger row for an unknown pack),
-  and writes `web/public/status.json`;
-- the wiring: `web build` runs the generator first (before prerender and
-  the 404 repair); the generated file is gitignored - committing it
-  would recreate the stale-copy drift class this whole family exists to
-  prevent;
-- the page: the [live status](https://eyestruct.creadev.org/status)
-  page renders its own gate from the committed ledgers and the family
-  rows from the four served files;
-- the battery: `tests/status.test.js` pins the emitter's behavior with
-  temp-dir fixtures (verdict derivation, refusal cases) and re-checks
-  the real tree's emitted counts against the live ledgers, so the
-  dialect itself is under CI the same way every count here is.
+- the generator: `web/scripts/build-status.mjs` (zero deps) reads `packs/eye-ledger.json` + `labs/crashledger.json` + every `packs/public/*/pack.json`, refuses the intersection cases loudly (a manifest with zero ledger rows, a ledger row for an unknown pack), and writes `web/public/status.json`;
+- the wiring: `web build` runs the generator first (before prerender and the 404 repair); the generated file is gitignored - committing it would recreate the stale-copy drift class this whole family exists to prevent;
+- the page: the [live status](https://eyestruct.creadev.org/status) page renders its own gate from the committed ledgers and the family rows from the four served files;
+- the battery: `tests/status.test.js` pins the emitter's behavior with temp-dir fixtures (verdict derivation, refusal cases) and re-checks the real tree's emitted counts against the live ledgers, so the dialect itself is under CI the same way every count here is.
 
 ## Adding a member
 
-Quiet mechanics, no ceremony: pick the two fixed paths, write a
-generator that reads your committed ledgers, emit the dialect fields
-above, gitignore the output, render it (yourselves and each other via
-the same fetch), and tell the family in a cross-file issue with your
-commit receipt. Schema moves: additive-first; a removal rides a major
-bump of the `contract` string, exactly like every other family surface.
+Quiet mechanics, no ceremony: pick the two fixed paths, write a generator that reads your committed ledgers, emit the dialect fields above, gitignore the output, render it (yourselves and each other via the same fetch), and tell the family in a cross-file issue with your commit receipt. Schema moves: additive-first; a removal rides a major bump of the `contract` string, exactly like every other family surface.
 
 ## Where this comes from
 
-This page mirrors `web/scripts/build-status.mjs` and
-`web/src/components/FamilyStatusIsland.jsx`. When the generator and this
-page disagree, the generator wins and this page gets a fix on the next
-edit - the same rule the [CLI reference](/eyestruct/cli) and
-[MCP reference](/eyestruct/mcp) pages carry.
+This page mirrors `web/scripts/build-status.mjs` and `web/src/components/FamilyStatusIsland.jsx`. When the generator and this page disagree, the generator wins and this page gets a fix on the next edit - the same rule the [CLI reference](/eyestruct/cli) and [MCP reference](/eyestruct/mcp) pages carry.

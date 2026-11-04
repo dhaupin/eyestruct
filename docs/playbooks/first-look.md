@@ -16,10 +16,7 @@ eyestruct adopt home/desktop-1280-dark/current.png --note "first committed basel
 eyestruct gate
 ```
 
-What you get: a manifest that pins the environment, a candidate PNG in
-`labs/.eyes-candidates/`, an adopted (unratified) row in the ledger, and a
-green gate. The baselines under `labs/.eyes/home/...` are still
-proposals until CI cuts them.
+What you get: a manifest that pins the environment, a candidate PNG in `labs/.eyes-candidates/`, an adopted (unratified) row in the ledger, and a green gate. The baselines under `labs/.eyes/home/...` are still proposals until CI cuts them.
 
 <div class="crosslinks">
 <p><strong>More in these docs:</strong>

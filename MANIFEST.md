@@ -1,9 +1,6 @@
 # eyestruct MANIFEST - the receipts
 
-Every file here is either extracted from the flowforge rig (see the rig's
-MANIFEST for its own extraction receipts), copied from the magpie staging
-stone, or written new for this repo. Row-per-file provenance, so rig bumps
-are deliberate reviews.
+Every file here is either extracted from the flowforge rig (see the rig's MANIFEST for its own extraction receipts), copied from the magpie staging stone, or written new for this repo. Row-per-file provenance, so rig bumps are deliberate reviews.
 
 ## From the flowforge rig (dhaupin/flowforge @ 91e52e0)
 

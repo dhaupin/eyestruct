@@ -8,8 +8,7 @@ nav_order: 9
 
 # What eyestruct is
 
-eyestruct is a zero-runtime-dependency CLI. Every command is one short
-invocation; the only state that survives between looks is git state.
+eyestruct is a zero-runtime-dependency CLI. Every command is one short invocation; the only state that survives between looks is git state.
 
 ## The verbs
 
@@ -29,8 +28,7 @@ eyestruct diff <url> [--against PATH]
 eyestruct gate
 ```
 
-Plus the agent lane: `serve` (bake and serve a tree), `spot` (one capture for
-your own vision), and `mcp` (the same calls as stdio tools).
+Plus the agent lane: `serve` (bake and serve a tree), `spot` (one capture for your own vision), and `mcp` (the same calls as stdio tools).
 
 ## The spine
 
@@ -43,10 +41,7 @@ your own vision), and `mcp` (the same calls as stdio tools).
 
 ## Two lanes, one eye
 
-The CI lane is the canon: baselines are CI-cut, and a local `adopt` is an
-unratified proposal. The instance lane is sight: a coding agent serves the
-baked tree, spots it, reads the pixels with its own vision, and re-spots.
-Candidate-only - the canon stays CI-cut even here.
+The CI lane is the canon: baselines are CI-cut, and a local `adopt` is an unratified proposal. The instance lane is sight: a coding agent serves the baked tree, spots it, reads the pixels with its own vision, and re-spots. Candidate-only - the canon stays CI-cut even here.
 
 <div class="crosslinks">
 <p><strong>Next:</strong>

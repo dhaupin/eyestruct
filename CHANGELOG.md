@@ -8,186 +8,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **Authenticated capture: `--headers FILE` / `--cookie V` on look/spot/diff/walk
-  (eyestruct#54).** The instance lane can now send the request headers a
-  signed-in browser would, so a dashboard behind a server-side session cookie
-  (`bsess_`-style) is captured as the human sees it, not as the signed-out gate
-  page. `--headers` takes a file of literal `Name: value` lines (blank lines and
-  `#` comments skipped), so a session secret stays off the command line and out
-  of shell history; `--cookie "name=value"` is the friendly single-cookie case.
-  It does not make eyestruct an auth client - no flows, no scheme knowledge, just
-  headers - and it is instance-lane only (never canon), so a committed baseline
-  can never carry a secret. A malformed header file refuses by name
-  (`BAD_FLAG_VALUE`/`UNSAFE_TEXT`/`MISSING_INPUT`) BEFORE the pinned browser is
-  demanded, and only the header COUNT travels outward - never a value.
+- **Authenticated capture: `--headers FILE` / `--cookie V` on look/spot/diff/walk (eyestruct#54).** The instance lane can now send the request headers a signed-in browser would, so a dashboard behind a server-side session cookie (`bsess_`-style) is captured as the human sees it, not as the signed-out gate page. `--headers` takes a file of literal `Name: value` lines (blank lines and `#` comments skipped), so a session secret stays off the command line and out of shell history; `--cookie "name=value"` is the friendly single-cookie case. It does not make eyestruct an auth client - no flows, no scheme knowledge, just headers - and it is instance-lane only (never canon), so a committed baseline can never carry a secret. A malformed header file refuses by name (`BAD_FLAG_VALUE`/`UNSAFE_TEXT`/`MISSING_INPUT`) BEFORE the pinned browser is demanded, and only the header COUNT travels outward - never a value.
 
 ### Fixed
 
-- **The capture engine drives `chrome-headless-shell` with the right headless
-  mode, retries once, and surfaces the browser's own error (eyestruct#53).** A
-  machine that pinned `chrome-headless-shell` (the old-headless binary) had
-  every `spot`/`look` die with `Navigating frame was detached`: the engine
-  passed `headless: true` (new headless) to a binary that speaks old headless.
-  The mode is now chosen from the binary name (`'shell'` for
-  `chrome-headless-shell`, `true` for full chrome), a frame-detach failure
-  retries ONCE with the other mode, and the `CAPTURE_BLOCKED` detail now names
-  the binary, carries the browser's own message, adds the chrome-headless-shell
-  hint on a detach, and appends a tail of the browser's stderr - so a missing
-  font/lib or a segfault is diagnosable from the CLI instead of only by poking
-  chrome directly. Full chrome remains the reliable choice for `spot`/`look`
-  (docs: [cli](cli), [reasons](reasons), [pin bumps](playbooks/pin-bump)).
+- **The capture engine drives `chrome-headless-shell` with the right headless mode, retries once, and surfaces the browser's own error (eyestruct#53).** A machine that pinned `chrome-headless-shell` (the old-headless binary) had every `spot`/`look` die with `Navigating frame was detached`: the engine passed `headless: true` (new headless) to a binary that speaks old headless. The mode is now chosen from the binary name (`'shell'` for `chrome-headless-shell`, `true` for full chrome), a frame-detach failure retries ONCE with the other mode, and the `CAPTURE_BLOCKED` detail now names the binary, carries the browser's own message, adds the chrome-headless-shell hint on a detach, and appends a tail of the browser's stderr - so a missing font/lib or a segfault is diagnosable from the CLI instead of only by poking chrome directly. Full chrome remains the reliable choice for `spot`/`look` (docs: [cli](cli), [reasons](reasons), [pin bumps](playbooks/pin-bump)).
 
-- **The element-id overlay draws each label on a filled chip, never bare
-  page-colored text (eyestruct#52).** A mapped element the size of the
-  viewport (a `#root` shell) put a plain pink `#root` in the page's top-left
-  corner that a vision reader mistook for rendered content. The label now
-  rides a solid `#ff2f6d` badge with white text, so it reads unambiguously as
-  the tool's own annotation. The element map and the `--no-overlay` clean
-  frame are unchanged; a new browser-gated smoke check pins one chip per
-  label.
+- **The element-id overlay draws each label on a filled chip, never bare page-colored text (eyestruct#52).** A mapped element the size of the viewport (a `#root` shell) put a plain pink `#root` in the page's top-left corner that a vision reader mistook for rendered content. The label now rides a solid `#ff2f6d` badge with white text, so it reads unambiguously as the tool's own annotation. The element map and the `--no-overlay` clean frame are unchanged; a new browser-gated smoke check pins one chip per label.
 
-- **The release ladder no longer parses `npm pack --dry-run --json`.** The
-  phone's npm answers that probe with empty stdout (a config warning, no JSON)
-  even under `--loglevel=error`, so the ladder's `JSON.parse` failed and read as
-  a capability failure - exit 2 - on a clean tree. The ladder now derives the
-  expected set from a REAL `npm pack` of the checkout, listed by the same
-  `tarList` the served tarball already goes through.
+- **The release ladder no longer parses `npm pack --dry-run --json`.** The phone's npm answers that probe with empty stdout (a config warning, no JSON) even under `--loglevel=error`, so the ladder's `JSON.parse` failed and read as a capability failure - exit 2 - on a clean tree. The ladder now derives the expected set from a REAL `npm pack` of the checkout, listed by the same `tarList` the served tarball already goes through.
 
-- **The staged publish `.npmrc` no longer writes the deprecated `always-auth`
-  line.** npm >=9 warns `Unknown project config "always-auth"` on it, and that
-  warning reaches the child processes the `prepublishOnly` gate spawns. The
-  staged file is now exactly one line (the `${NPM_TOKEN}` expansion).
+- **The staged publish `.npmrc` no longer writes the deprecated `always-auth` line.** npm >=9 warns `Unknown project config "always-auth"` on it, and that warning reaches the child processes the `prepublishOnly` gate spawns. The staged file is now exactly one line (the `${NPM_TOKEN}` expansion).
 
 ### Changed
 
-- **Changelog + release-notes standardized to the family shape.** `CHANGELOG.md`
-  is now Keep-a-Changelog end to end (a `## [Unreleased]` block over
-  `## [version] - date` sections) and `scripts/release-notes.cjs` is the
-  family's single superset extractor: it reads the KAC heading, still reads the
-  older bare (`## 1.2.0`) and v-prefixed (`## v1.2.0`) forms, closes the
-  version token so `## [1.2.0]` never matches a `## [1.2.0-rc.1]`, and refuses
-  a version with no section by name. One extractor across the family means one
-  release-body shape everywhere.
+- **Changelog + release-notes standardized to the family shape.** `CHANGELOG.md` is now Keep-a-Changelog end to end (a `## [Unreleased]` block over `## [version] - date` sections) and `scripts/release-notes.cjs` is the family's single superset extractor: it reads the KAC heading, still reads the older bare (`## 1.2.0`) and v-prefixed (`## v1.2.0`) forms, closes the version token so `## [1.2.0]` never matches a `## [1.2.0-rc.1]`, and refuses a version with no section by name. One extractor across the family means one release-body shape everywhere.
 
 ### Fixed
 
-- **The release ladder no longer races registry propagation, nor false-flags a
-  branch-name `target_commitish`** - both surfaced by the crashtest 1.2.0 live
-  cut. `scripts/verify-release.cjs` polls `dist-tags.latest` **and** the version
-  entry through npm's post-publish propagation window instead of reading once
-  (the first read saw the old `latest`), and the `release` job retries
-  `npm pack <pkg>@<ver>` the same way (it read `ETARGET: no matching version`
-  seconds after publish). The release check now accepts GitHub's
-  `target_commitish` default-branch name and treats only a 40-hex SHA as a
-  commit claim (a branch name is not drift; the tag is the identity). Two pins
-  in the release-verify leg hold both fixes.
+- **The release ladder no longer races registry propagation, nor false-flags a branch-name `target_commitish`** - both surfaced by the crashtest 1.2.0 live cut. `scripts/verify-release.cjs` polls `dist-tags.latest` **and** the version entry through npm's post-publish propagation window instead of reading once (the first read saw the old `latest`), and the `release` job retries `npm pack <pkg>@<ver>` the same way (it read `ETARGET: no matching version` seconds after publish). The release check now accepts GitHub's `target_commitish` default-branch name and treats only a 40-hex SHA as a commit claim (a branch name is not drift; the tag is the identity). Two pins in the release-verify leg hold both fixes.
 
 ### Changed (2026-11-02, the release asset becomes the served tarball)
 
-- The `release` job attaches the **served** tarball (`npm pack
-  eyestruct@<version>`) to the GH release, and the `verify` job asserts its
-  sha512 equals the registry integrity metadata (`scripts/verify-release.cjs
-  --gh --asset`). The GH release and the npm artifact are now the SAME bytes,
-  so a consumer downloads one artifact either way - the drift the old
-  notes-only release left open. `scripts/verify-release.cjs` moves to the
-  family copy that carries the `--asset` leg.
+- The `release` job attaches the **served** tarball (`npm pack eyestruct@<version>`) to the GH release, and the `verify` job asserts its sha512 equals the registry integrity metadata (`scripts/verify-release.cjs --gh --asset`). The GH release and the npm artifact are now the SAME bytes, so a consumer downloads one artifact either way - the drift the old notes-only release left open. `scripts/verify-release.cjs` moves to the family copy that carries the `--asset` leg.
 
 ### Added (2026-11-01, the family-shared canon audit replaces the in-tree leg)
 
-- The `check` chain gains `check:eyes-shapes`, driving poststruct's
-  family-shared `eyestruct-shapes` pack over this repo's canon tree
-  through the `eyestructTree` contract (poststruct#19). The pack is loaded
-  from the EXACT poststruct devDependency pin
-  (`node_modules/poststruct/packs/public/eyestruct-shapes`), never a
-  private copy - one audit runs on the family, not one re-implementation
-  per repo. It covers manifest pin drift, ledger schema, dangling canon
-  pointers, receipt provenance, verdict-count drift, reason-table drift and
-  note unsafety; an absent install refuses `EYES-SHAPES` exit 2, never a
-  fake pass (eyestruct#5).
-- The in-tree freshness leg is renamed from `check:trifecta` to
-  `check:freshness` (its script is `scripts/check-freshness.cjs`, the
-  renamed successor of the round-2 walk) and its step 4 narrows to the
-  hostile-leg count: the reason-code, pack-verdict and pack-count claims
-  now retire to the shared pack, which audits the same truths
-  family-wide. No count loses its guard - AGENTS.md and README.md joined
-  the count census (tests/census.test.js), so the same prose claims stay
-  held from the other side.
+- The `check` chain gains `check:eyes-shapes`, driving poststruct's family-shared `eyestruct-shapes` pack over this repo's canon tree through the `eyestructTree` contract (poststruct#19). The pack is loaded from the EXACT poststruct devDependency pin (`node_modules/poststruct/packs/public/eyestruct-shapes`), never a private copy - one audit runs on the family, not one re-implementation per repo. It covers manifest pin drift, ledger schema, dangling canon pointers, receipt provenance, verdict-count drift, reason-table drift and note unsafety; an absent install refuses `EYES-SHAPES` exit 2, never a fake pass (eyestruct#5).
+- The in-tree freshness leg is renamed from `check:trifecta` to `check:freshness` (its script is `scripts/check-freshness.cjs`, the renamed successor of the round-2 walk) and its step 4 narrows to the hostile-leg count: the reason-code, pack-verdict and pack-count claims now retire to the shared pack, which audits the same truths family-wide. No count loses its guard - AGENTS.md and README.md joined the count census (tests/census.test.js), so the same prose claims stay held from the other side.
 
 ### Fixed (2026-11-01, the 404 home canonical stops drifting)
 
-- the pinned prestruct moves from the `github:dhaupin/prestruct#498ab5f`
-  git sha to the released `^1.2.0` range, which carries the prestruct#76
-  fix: the 404 was the lone surface emitting a trailing-slash
-  home canonical (`https://eyestruct.creadev.org/`) while index, its
-  og:url, and the sitemap home `<loc>` all carried the bare origin - one
-  home, two URLs, so the deployed 404 declared a different canonical than
-  every other surface. The bump also arms prestruct's SEO audit, which
-  surfaced a second defect the git pin never ran: the shell's own HTML
-  comment spelled `<title>` with angle brackets, and the audit's
-  duplicate-title scan counts it - the comment now names the tags bare,
-  matching the upstream scaffold (eyestruct#41).
+- the pinned prestruct moves from the `github:dhaupin/prestruct#498ab5f` git sha to the released `^1.2.0` range, which carries the prestruct#76 fix: the 404 was the lone surface emitting a trailing-slash home canonical (`https://eyestruct.creadev.org/`) while index, its og:url, and the sitemap home `<loc>` all carried the bare origin - one home, two URLs, so the deployed 404 declared a different canonical than every other surface. The bump also arms prestruct's SEO audit, which surfaced a second defect the git pin never ran: the shell's own HTML comment spelled `<title>` with angle brackets, and the audit's duplicate-title scan counts it - the comment now names the tags bare, matching the upstream scaffold (eyestruct#41).
 
 ### Added (2026-11-01, the bundle attack class joins the hostile vocabulary)
 
-- The crashtest leg grows the browser-bundle attack class (crashtest#43):
-  `labs/scenarios/eye-cli-contract.js` gains `bundle-archive-contract`, 8
-  hostile shapes against the vendored checksummed lane (`init
-  --browser-bundle`). Every one must refuse BY NAME, never crash, never
-  print a stack frame, and never let an archive member escape the cache:
-  a symlink-named chrome, a chrome-less archive, a non-gzip file, a
-  truncated gzip, a missing tarball, hand-built path-traversal member names
-  (the tar binary strips leading `../` at compose time, so the fixture is a
-  hand-assembled USTAR), a forged `pin.browser-bundle` (`MANIFEST_CORRUPT`),
-  and a well-formed recording no cache matches (`MISSING_PINNED_BROWSER`) -
-  proving the integrity marker is re-checked on every resolution, never
-  trusted by existence. The leg is 53/53 REFUSED, 0 exploited; the count
-  census and every live claimant (AGENTS, web Home + Packs, `web/ssr.config.js`,
-  the og card) re-rippled in the same commit.
+- The crashtest leg grows the browser-bundle attack class (crashtest#43): `labs/scenarios/eye-cli-contract.js` gains `bundle-archive-contract`, 8 hostile shapes against the vendored checksummed lane (`init --browser-bundle`). Every one must refuse BY NAME, never crash, never print a stack frame, and never let an archive member escape the cache: a symlink-named chrome, a chrome-less archive, a non-gzip file, a truncated gzip, a missing tarball, hand-built path-traversal member names (the tar binary strips leading `../` at compose time, so the fixture is a hand-assembled USTAR), a forged `pin.browser-bundle` (`MANIFEST_CORRUPT`), and a well-formed recording no cache matches (`MISSING_PINNED_BROWSER`) - proving the integrity marker is re-checked on every resolution, never trusted by existence. The leg is 53/53 REFUSED, 0 exploited; the count census and every live claimant (AGENTS, web Home + Packs, `web/ssr.config.js`, the og card) re-rippled in the same commit.
 
 ### Added (2026-10-30, the legal pages crosslink the family)
 
-- the Terms + Privacy pages carry a footer crosslink naming the sibling sites
-  that ship the same plain-language legal form (crashtest, monoforge,
-  poststruct, packstruct), so the family parity is visible to a reader who
-  arrives from any member (crashtest#45, the family tracking issue).
+- the Terms + Privacy pages carry a footer crosslink naming the sibling sites that ship the same plain-language legal form (crashtest, monoforge, poststruct, packstruct), so the family parity is visible to a reader who arrives from any member (crashtest#45, the family tracking issue).
 
 ### Added (2026-10-30, the release ladder gains --allowed)
 
-- `scripts/verify-release.cjs` gains an `--allowed p1/,p2/` flag (alias
-  `--allow`, the spelling the two forked copies shipped): prefixes
-  de-asserted from the forbidden scan for this invocation. A repo whose
-  runtime tarball legitimately carries a default-forbidden tree dir - vant
-  ships `web/` as product - can now state that as a flag instead of forking
-  the family-identical script (eyestruct#33). The exemption is
-  prefix-scoped: a repo that never passes the flag sees zero behavior
-  change, and a name under an allowed prefix skips the scan entirely (the
-  forked copies' semantics, adopted upstream so the file converges). The
-  same change folds in the forked copies' named SKIP when a package
-  declares no `main`/`exports`/`bin` (a factory/shell shape with no root
-  module to load), so the ladder is once again one identical file across
-  the family. Teeth: two new cases in `tests/release-verify.test.js`
-  (`--allowed` de-asserts a default prefix and is prefix-scoped; the
-  no-entry shape SKIPs by name).
-
+- `scripts/verify-release.cjs` gains an `--allowed p1/,p2/` flag (alias `--allow`, the spelling the two forked copies shipped): prefixes de-asserted from the forbidden scan for this invocation. A repo whose runtime tarball legitimately carries a default-forbidden tree dir - vant ships `web/` as product - can now state that as a flag instead of forking the family-identical script (eyestruct#33). The exemption is prefix-scoped: a repo that never passes the flag sees zero behavior change, and a name under an allowed prefix skips the scan entirely (the forked copies' semantics, adopted upstream so the file converges). The same change folds in the forked copies' named SKIP when a package declares no `main`/`exports`/`bin` (a factory/shell shape with no root module to load), so the ladder is once again one identical file across the family. Teeth: two new cases in `tests/release-verify.test.js` (`--allowed` de-asserts a default prefix and is prefix-scoped; the no-entry shape SKIPs by name).
 
 ### Added (2026-10-29, the why / what / about pages, both surfaces)
 
-- The landing gains three routes (`/why`, `/what`, `/about`) in the nav
-  vocabulary and `web/ssr.config.js`, each a real page in the family voice: the
-  pixels-move-silently problem and the CI-cut canon thesis; the CLI verbs, the
-  spine, and the two lanes; who builds it and the MIT provenance. The docs tree
-  grows the matching `docs/why.md`, `docs/what.md`, `docs/about.md`, reachable
-  from the docs nav, and the docs layout gains the shared `.crosslinks` block
-  style. This closes the family-wide gap where no member carried a supporting
-  trio.
+- The landing gains three routes (`/why`, `/what`, `/about`) in the nav vocabulary and `web/ssr.config.js`, each a real page in the family voice: the pixels-move-silently problem and the CI-cut canon thesis; the CLI verbs, the spine, and the two lanes; who builds it and the MIT provenance. The docs tree grows the matching `docs/why.md`, `docs/what.md`, `docs/about.md`, reachable from the docs nav, and the docs layout gains the shared `.crosslinks` block style. This closes the family-wide gap where no member carried a supporting trio.
 
 ### Added (2026-10-29, the docs legal crosslinks)
 
-- The docs footer now links this project's own terms + privacy surfaces
-  (`https://eyestruct.creadev.org/terms`, `/privacy`), matching the packstruct
-  docs rig. The landing's terms/privacy were filled in already; the docs side
-  had no pointer to them, so a reader in the docs could not reach the legal
-  pages the site serves. Docs-lint clean (24 pages).
+- The docs footer now links this project's own terms + privacy surfaces (`https://eyestruct.creadev.org/terms`, `/privacy`), matching the packstruct docs rig. The landing's terms/privacy were filled in already; the docs side had no pointer to them, so a reader in the docs could not reach the legal pages the site serves. Docs-lint clean (24 pages).
 
 ### Fixed (2026-10-29, the docs head-seam leg)
 
@@ -207,12 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `--settle` (issue #27): the instance-lane fix for a capture that comes back blank because the page was never given a chance to load what sits below the fold. `engine.capture` sets one viewport, waits a fixed 900ms, and screenshots - so a `loading="lazy"` image that never enters the viewport is never fetched, and its pixels are absent at ANY frame extent (`--full-page` grew the frame but the image inside was still unloaded). `--settle` walks the document to the bottom (triggering IntersectionObserver + lazy fetches), waits for the images to decode with a bounded ceiling, then returns to the top so region rects and the full-page frame are measured from the same scroll origin. It rides `look`/`spot` (CLI) and `spot` (MCP `settle`) - the instance loop where "look around on demand" is the point - and never the canon lane (`walk`/`ratify` refuse it `UNKNOWN_FLAG`: captures there are viewport-only by design). The capture result carries `lazyPending`, and the verbs name it: a settled look that still finds unloaded images prints a NOTICE (and the `--json` view carries `settled` + `lazyPending`), so a blank plate is never mistaken for evidence. `tests/smoke.test.js` pins all of it against real Chromium: a below-fold lazy image is blank without `--settle` and loaded with it (mean-luminance proof), a settled region clip still measures from the top, an unfetchable image is NAMED not silently blank, and the flag is accepted at the lid on look/spot while `walk` refuses it by name. No counted surface moved (no verb, no tool count, no reason code): the 10 TOOLS and 31 codes stand; the MCP `spot` schema gains one optional boolean property.
 
 ### Added (the /api/health canary)
-- **`web/functions/api/health.js` - the fleet CF canary.** `GET /api/health`
-  returns honest JSON (`{ ok, name, service, ts }`), the same schema
-  poststruct / monoforge / packstruct serve. The landing deploys from the
-  `web/` root directory, so `functions/` resolves there and the canary serves
-  at the site origin; a root-level `functions/` would fall outside the Pages
-  project and 404.
+- **`web/functions/api/health.js` - the fleet CF canary.** `GET /api/health` returns honest JSON (`{ ok, name, service, ts }`), the same schema poststruct / monoforge / packstruct serve. The landing deploys from the `web/` root directory, so `functions/` resolves there and the canary serves at the site origin; a root-level `functions/` would fall outside the Pages project and 404.
 
 ### Added (2026-10-29, the unknown-tag leg)
 

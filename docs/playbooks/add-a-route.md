@@ -14,10 +14,7 @@ edit labs/.eyes/manifest.yml -> routes: add a row (path / view / theme / viewpor
 eyestruct walk http://localhost:4173/
 ```
 
-`walk` captures every route x viewport x theme in one pass and drops all
-the candidates. Route naming follows the manifest's slot
-`<route>/<view>/current.png` convention; adopt the slots that deserve
-baselines, gate, dispatch when canon should cut them.
+`walk` captures every route x viewport x theme in one pass and drops all the candidates. Route naming follows the manifest's slot `<route>/<view>/current.png` convention; adopt the slots that deserve baselines, gate, dispatch when canon should cut them.
 
 <div class="crosslinks">
 <p><strong>More in these docs:</strong>

@@ -1,5 +1,7 @@
 # eyestruct - agent knowledge
 
+- **Prose flow (#49).** Living prose never hard-wraps at commit time: paragraphs flow, and `scripts/unwrap-prose.cjs` joins hard-wrapped prose without touching frontmatter, fences, indented code, tables, headings, thematic breaks, or HTML blocks. Dated history keeps its era wording.
+
 Working policies (seed; the brain grows these by working):
 
 - Receipts rule every claim: what broke, what the rule is now. No receipt, no ledger row changes.

@@ -7,16 +7,11 @@ description: The stdio MCP surface - ten tools decoding the CLI verbs, newline-d
 
 # MCP reference
 
-`eyestruct mcp` speaks newline-delimited JSON-RPC 2.0 over stdio - the MCP
-stdio transport shape - with zero dependencies. The principle printed in
-the server source: the CLI is the contract, the MCP server is a decoding
-of it. Same verbs, same named reason-codes, same exit-contract semantics
-mapped to tool errors, and never a process exit inside a server.
+`eyestruct mcp` speaks newline-delimited JSON-RPC 2.0 over stdio - the MCP stdio transport shape - with zero dependencies. The principle printed in the server source: the CLI is the contract, the MCP server is a decoding of it. Same verbs, same named reason-codes, same exit-contract semantics mapped to tool errors, and never a process exit inside a server.
 
 ## The session shape
 
-A client sends one JSON object per line; the server answers one per line.
-The methods it handles:
+A client sends one JSON object per line; the server answers one per line. The methods it handles:
 
 | method | server behavior |
 |--------|-----------------|
@@ -27,21 +22,13 @@ The methods it handles:
 | `tools/call` | runs the named tool, returns `content` blocks; errors return `isError: true` with the named reason as text |
 | anything else | the named method is refused with a structured `unknown method` error |
 
-The transport stays honest: verbs that normally print to stdout print
-JSON-RPC *framing* every line, so inside the stream tool output is
-captured by the server and returned as tool result text - a stray console
-line in a stdio channel would read as a parse error on the client side.
+The transport stays honest: verbs that normally print to stdout print JSON-RPC *framing* every line, so inside the stream tool output is captured by the server and returned as tool result text - a stray console line in a stdio channel would read as a parse error on the client side.
 
-Malformed input gets a JSON-RPC parse error answering to `id: null`,
-never a crash and never a guess: unknown tool names, unknown methods, and
-unsupported fields refuse loudly at the boundary.
+Malformed input gets a JSON-RPC parse error answering to `id: null`, never a crash and never a guess: unknown tool names, unknown methods, and unsupported fields refuse loudly at the boundary.
 
 ## The tools
 
-Ten tools decode the CLI verbs (the count and shape live in
-`lib/mcp.js`'s `TOOLS` registry). Every refusal that a CLI verb would give
-the shell arrives as a tool error carrying the same
-`eyestruct[CODE]: explanation` text.
+Ten tools decode the CLI verbs (the count and shape live in `lib/mcp.js`'s `TOOLS` registry). Every refusal that a CLI verb would give the shell arrives as a tool error carrying the same `eyestruct[CODE]: explanation` text.
 
 | tool | arguments | notes |
 |------|-----------|-------|
@@ -58,14 +45,9 @@ the shell arrives as a tool error carrying the same
 
 ## The core law at the tool surface
 
-`look` returns the element map and meta by DEFAULT - the pixels ride as
-image content only when the client sets `include_image`. An
-image-capable model burns the pixels when it needs them; a metric-only
-query never pays for them. That is the perception QoS ordering from the
-PRD, wired at the tool boundary rather than left to caller discipline.
+`look` returns the element map and meta by DEFAULT - the pixels ride as image content only when the client sets `include_image`. An image-capable model burns the pixels when it needs them; a metric-only query never pays for them. That is the perception QoS ordering from the PRD, wired at the tool boundary rather than left to caller discipline.
 
-The same law shapes `diff`: it compares against the manifest's first
-route unless `against` names an eyes-relative artifact path.
+The same law shapes `diff`: it compares against the manifest's first route unless `against` names an eyes-relative artifact path.
 
 ## Error mapping
 
@@ -76,43 +58,20 @@ route unless `against` names an eyes-relative artifact path.
 | unknown tool / unknown method | the structured `unknown ...` error, no process exit |
 | non-JSON request line | JSON-RPC parse error answering `id: null` |
 
-The named-codes contract is identical to the CLI's - the full list lives
-at [reason codes](/eyestruct/reasons).
+The named-codes contract is identical to the CLI's - the full list lives at [reason codes](/eyestruct/reasons).
 
 ## What the tools touch
 
-Same files the CLI touches, nothing more: `labs/.eyes/` (manifest,
-baselines, ledger - read or appended by `adopt`/`ratify`), the
-gitignored `labs/.eyes-candidates/` for probe artifacts, and the pinned
-browser the manifest names. One writer of truth per store: the tools are
-the library modules the CLI itself calls, never a subprocess detour, so
-the ledger's atomic append and corruption refusals cannot be bypassed
-from the tool side.
+Same files the CLI touches, nothing more: `labs/.eyes/` (manifest, baselines, ledger - read or appended by `adopt`/`ratify`), the gitignored `labs/.eyes-candidates/` for probe artifacts, and the pinned browser the manifest names. One writer of truth per store: the tools are the library modules the CLI itself calls, never a subprocess detour, so the ledger's atomic append and corruption refusals cannot be bypassed from the tool side.
 
 ## Host wiring
 
-Add the server with whatever mechanism the host uses for stdio servers;
-the command is `eyestruct mcp` (or `npx eyestruct mcp`). Nothing listens
-on a port, nothing reads environment beyond the CLI's usual flags - the
-same `EYESTRUCT_BROWSER` / `--browser-exec` / manifest pin / cache
-discovery order applies to browser-backed tools.
+Add the server with whatever mechanism the host uses for stdio servers; the command is `eyestruct mcp` (or `npx eyestruct mcp`). Nothing listens on a port, nothing reads environment beyond the CLI's usual flags - the same `EYESTRUCT_BROWSER` / `--browser-exec` / manifest pin / cache discovery order applies to browser-backed tools.
 
 ## Where this comes from
 
-This page mirrors `lib/mcp.js` (the `TOOLS` registry feeds `tools/list`
-verbatim). When a tool name, argument, or behavior and this page
-disagree, the source wins and this page gets a fix on the next edit -
-same rule the [CLI reference](/eyestruct/cli) carries.
+This page mirrors `lib/mcp.js` (the `TOOLS` registry feeds `tools/list` verbatim). When a tool name, argument, or behavior and this page disagree, the source wins and this page gets a fix on the next edit - same rule the [CLI reference](/eyestruct/cli) carries.
 
 ## The 1.0.0 stability contract
 
-The ten-tool stdio surface freezes at 1.0.0 until 2.x. Within 1.x the
-`TOOLS` registry in `lib/mcp.js` holds the same semver law the CLI holds:
-no tool name, argument, or schema semantic is removed or changed -
-removals and semantic changes ride a major bump only, additions land as
-minors with this page updated in the same commit (spot joined that way,
-2026-10-28, with the agents-vision loop). The `initialize` protocol shape
-and the error-mapping table above are part of the same frozen surface.
-The count census in the battery keeps any prose tool claim equal to
-`TOOLS.length`, so an eleventh tool can never arrive with a "ten tools"
-sentence still standing.
+The ten-tool stdio surface freezes at 1.0.0 until 2.x. Within 1.x the `TOOLS` registry in `lib/mcp.js` holds the same semver law the CLI holds: no tool name, argument, or schema semantic is removed or changed - removals and semantic changes ride a major bump only, additions land as minors with this page updated in the same commit (spot joined that way, 2026-10-28, with the agents-vision loop). The `initialize` protocol shape and the error-mapping table above are part of the same frozen surface. The count census in the battery keeps any prose tool claim equal to `TOOLS.length`, so an eleventh tool can never arrive with a "ten tools" sentence still standing.

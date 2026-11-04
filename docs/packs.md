@@ -9,16 +9,9 @@ nav_order: 3
 
 # Packs
 
-This page documents eyestruct's own pack lane: what the packs shipped under
-`packs/public/` attack, how the runner judges them, and how to write or adopt a
-pack. For the manifest grammar itself, see the family spec at
-[dhaupin/packstruct](https://github.com/dhaupin/packstruct), and for verbatim
-command behavior the [CLI reference](/eyestruct/cli).
+This page documents eyestruct's own pack lane: what the packs shipped under `packs/public/` attack, how the runner judges them, and how to write or adopt a pack. For the manifest grammar itself, see the family spec at [dhaupin/packstruct](https://github.com/dhaupin/packstruct), and for verbatim command behavior the [CLI reference](/eyestruct/cli).
 
-A pack is a self-contained bundle that loads into the shell's runner, uses the
-host's real CLI as its vocabulary, and hosts hostile scenarios against it.
-Nothing inside a pack imports the target. A collection of packs is a packdir -
-the unit CI audits.
+A pack is a self-contained bundle that loads into the shell's runner, uses the host's real CLI as its vocabulary, and hosts hostile scenarios against it. Nothing inside a pack imports the target. A collection of packs is a packdir - the unit CI audits.
 
 ## What ships today
 
@@ -32,8 +25,7 @@ eyestruct ships five packs plus a committed verdict ledger:
 | `eye-bundle` | The vendored checksummed browser lane: a missing tarball and a chrome-less archive are named capability refusals, a happy install records `bundle@<sha16>` in the pin, a bundle-only re-seed is idempotent (the route matrix survives), and installs are checksum-isolated. The decompression-bomb class is a documented accepted-risk bound. |
 | `eye-adapter` | The adapter surface's schema carrier (the bridge/carrier ruling): adapters and connectors are strictly bridges - they never define, author, or evolve schema. Carries `eyestruct-adapter@1`: the bridge-only dispatch list, the shared refusal grammar, the never-exits law, and the proposal-only canon rule (no `ratify` through a bridge; an adapter-side adopt is always unratified). A bridge that ships schema without riding this pack is refused by name. |
 
-The verdict ledger is `packs/eye-ledger.json` - one row per recorded scenario,
-pinned to its nonce so an adopted row cannot silently change verdict later.
+The verdict ledger is `packs/eye-ledger.json` - one row per recorded scenario, pinned to its nonce so an adopted row cannot silently change verdict later.
 
 ## Running the lane
 
@@ -44,9 +36,7 @@ npm run lint:packs          # manifest + entry + id-census grammar (packstruct)
 npm run conform:packs       # conformance audit against the family runner shape
 ```
 
-The runner (`scripts/run-packs.cjs`) is zero-dependency: it drives the real
-`bin/eyestruct.js` as a subprocess inside disposable fixture dirs, then checks
-the result. The exit contract is `0` on green, `1` on findings.
+The runner (`scripts/run-packs.cjs`) is zero-dependency: it drives the real `bin/eyestruct.js` as a subprocess inside disposable fixture dirs, then checks the result. The exit contract is `0` on green, `1` on findings.
 
 ## The verdict taxonomy
 
@@ -59,20 +49,11 @@ Every scenario lands in exactly one of four buckets:
 | `PASSED` | The safe path works end to end - captures, merges, gates, roundtrips. |
 | `EXPLOITED` | The attack landed. A new EXPLOITED or a regression of any previously recorded row fails CI. |
 
-Adoption is explicit: a new verdict only enters the ledger through
-`npm run packs -- --adopt` in a reviewed commit. Nothing rebuilds the ledger
-silently.
+Adoption is explicit: a new verdict only enters the ledger through `npm run packs -- --adopt` in a reviewed commit. Nothing rebuilds the ledger silently.
 
 ## Writing a pack
 
-A pack is a directory under `packs/public/<name>/` with a `pack.json` manifest
-(schemaVersion 1: kebab-case `name` matching the directory, `schemaVersion`,
-dotted semver `version` of the PACK's own release cadence, `description`, a
-relative `entry` path, optional `armedByKey` plus host-owned keys). The entry
-is an ES module loaded by the runner regardless of where it lives - `packs/public/`
-is tracked and shipped, `packs/local/` is gitignored with identical loading
-semantics. The manifest grammar is validated once, at load, by the same rules
-`packstruct lint --deep` reports, so a pack that fails lint cannot quietly run.
+A pack is a directory under `packs/public/<name>/` with a `pack.json` manifest (schemaVersion 1: kebab-case `name` matching the directory, `schemaVersion`, dotted semver `version` of the PACK's own release cadence, `description`, a relative `entry` path, optional `armedByKey` plus host-owned keys). The entry is an ES module loaded by the runner regardless of where it lives - `packs/public/` is tracked and shipped, `packs/local/` is gitignored with identical loading semantics. The manifest grammar is validated once, at load, by the same rules `packstruct lint --deep` reports, so a pack that fails lint cannot quietly run.
 
 The rest is scenario authorship against the moduleCtx vocabulary:
 
@@ -86,24 +67,14 @@ The rest is scenario authorship against the moduleCtx vocabulary:
 
 Rules that keep packs load-bearing:
 
-- Each pack drives the CLI as a subprocess, never in-process mocks of its
-  internals - phony capture surfaces need the real exit codes.
-- Every scenario gets a structured nonce in the packledger; method text lives
-  beside the verdict row, not in a module-side channel.
-- Browser-class expectations without a pinned headless image are docketed
-  bounds, not skips.
+- Each pack drives the CLI as a subprocess, never in-process mocks of its internals - phony capture surfaces need the real exit codes.
+- Every scenario gets a structured nonce in the packledger; method text lives beside the verdict row, not in a module-side channel.
+- Browser-class expectations without a pinned headless image are docketed bounds, not skips.
 
 ## What the lane is for
 
-The pack lane is the adversarial half of eyestruct's CI battery, the same
-position crashtest holds in gistory and poststruct holds its checker packs
-under. It exists so the git-hostile surface of the daemon - ledger writes,
-manifest parsing, baseline gating - is attacked on every push, not audited
-annually.
+The pack lane is the adversarial half of eyestruct's CI battery, the same position crashtest holds in gistory and poststruct holds its checker packs under. It exists so the git-hostile surface of the daemon - ledger writes, manifest parsing, baseline gating - is attacked on every push, not audited annually.
 
 ## Roadmap
 
-`packs/public/` is intentionally small. Queued, not yet shipped: a capture
-correctness pack that uses the pinned headless browser in CI, and any host-side
-pack that appears when a real adopter needs it. A pack lands when a failure
-class does.
+`packs/public/` is intentionally small. Queued, not yet shipped: a capture correctness pack that uses the pinned headless browser in CI, and any host-side pack that appears when a real adopter needs it. A pack lands when a failure class does.
