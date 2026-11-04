@@ -1,4 +1,4 @@
-# Jekyll config for YOUR docs - the flowforge rig shape (sibling of the
+# Jekyll config for YOUR docs - the coreforge rig shape (sibling of the
 # deployed struct-family docs). Replace the identity values, keep the engine
 # settings: kramdown + rouge (the code-block highlighter the shared token CSS
 # colors), permalink style, and the pagefind exclude list.
