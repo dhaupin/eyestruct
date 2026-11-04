@@ -6,13 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### The link check comes back on (2026-11-04)
+### The link check comes back on - and catches a real 404 (2026-11-04)
 
-`docs/freestruct.config.yml` carried `linkCheck: false` - a workaround parked under freestruct 1.1.0, whose strict link checker had no `basePath` awareness and so false-failed every baseurl'd site on its own nav (dhaupin/freestruct#32). The comment said exactly when to lift it: "when #32 ships in a pinned release." The family now pins freestruct **1.2.0**, which carries the basePath-aware strip, so the workaround is retired and the default strict link gate is back on - broken internal links fail the build again.
+`docs/freestruct.config.yml` carried `linkCheck: false` - a workaround parked under freestruct 1.1.0, whose strict link checker had no `basePath` awareness and so false-failed every baseurl'd site on its own nav (dhaupin/freestruct#32). The comment said exactly when to lift it: "when #32 ships in a pinned release." The family now pins freestruct **1.2.0**, which carries the basePath-aware strip, so the workaround is retired and the default strict link gate is back on - and it immediately caught a link the workaround had been hiding.
 
 - **`docs/freestruct.config.yml`** - `linkCheck: false` -> `linkCheck: true`, with the suspension note replaced by the re-enable rationale.
-- **Receipts:** `npm run check` green (docs-links, docs-style, pins all PASS).
-- **No version bump**; a config toggle, not a released surface.
+- **`docs/cli.md`** - `[ci](ci)` -> `[ci](/eyestruct/ci)`. A bare page-relative link: once `cli.md` builds as `cli/index.html`, `ci` resolves to `/eyestruct/cli/ci` - a genuine 404. The `linkCheck: false` window had masked it; the strict gate named it on the first re-run.
+- **`tests/docs-links.test.js`** - a new law (with a planted bare-relative fixture proving it bites): every docs internal link must be root-absolute (`/eyestruct/...`) or explicitly same-directory (`./...`), never a bare relative target.
+- **Receipts:** `npm run check` green; a local Jekyll build + the real `checkLinks` engine confirm 0 broken links.
+- **No version bump**; a config toggle + one link fix, not a released surface.
 
 ### The docs-lane consolidation (2026-11-04)
 
