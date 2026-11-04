@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Security
+
+- **Pins, never floats (packstruct#69).** Every GitHub Action `uses:` in `.github/workflows/` names a 40-hex commit SHA (tag kept in the trailing comment), never a floating `@v4`/`@v1`. A new guard, `scripts/check-action-pins.cjs`, refuses any floating ref, a branch, or a `docker://` image; it runs as `npm run lint:pins` inside `npm run check` (the `prepublishOnly` gate) and CI, and its own battery (`tests/check-action-pins.test.js`) proves it bites both ways.
+
 ### Added
 
 - **Authenticated capture: `--headers FILE` / `--cookie V` on look/spot/diff/walk (eyestruct#54).** The instance lane can now send the request headers a signed-in browser would, so a dashboard behind a server-side session cookie (`bsess_`-style) is captured as the human sees it, not as the signed-out gate page. `--headers` takes a file of literal `Name: value` lines (blank lines and `#` comments skipped), so a session secret stays off the command line and out of shell history; `--cookie "name=value"` is the friendly single-cookie case. It does not make eyestruct an auth client - no flows, no scheme knowledge, just headers - and it is instance-lane only (never canon), so a committed baseline can never carry a secret. A malformed header file refuses by name (`BAD_FLAG_VALUE`/`UNSAFE_TEXT`/`MISSING_INPUT`) BEFORE the pinned browser is demanded, and only the header COUNT travels outward - never a value.
