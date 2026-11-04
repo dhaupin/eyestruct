@@ -211,3 +211,6 @@ The family carried four docs topologies - freestruct's `docs-lane.yml`, coreforg
 
 
 - **The pin guard now scans `action.yml` (2026-11-04 sweep).** The family pin guard (`scripts/check-action-pins.cjs`) scanned only `.github/workflows/`, so a floating `uses:` in a repo-root composite Action manifest went unseen. crashtest's `action.yml` (the gate other repos add) carried `actions/setup-node@v6` and `actions/upload-artifact@v6` plus a duplicated `default:` key; both are now pinned and the key is gone. The guard scans the manifest alongside the workflows, and its battery proves the new leg bites. Sweep finding; no version bump.
+
+
+- **The link check comes back on (2026-11-04 sweep).** `docs/freestruct.config.yml` carried `linkCheck: false` - a workaround parked under freestruct 1.1.0, whose strict link checker had no `basePath` awareness and false-failed every baseurl'd site on its own nav (freestruct#32). The parked comment named the lift condition: "when #32 ships in a pinned release." The family now pins freestruct 1.2.0 (the basePath-aware strip), so the toggle returns to `linkCheck: true` and the default strict link gate is back on. Receipts: `npm run check` green.

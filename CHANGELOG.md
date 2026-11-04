@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### The link check comes back on (2026-11-04)
+
+`docs/freestruct.config.yml` carried `linkCheck: false` - a workaround parked under freestruct 1.1.0, whose strict link checker had no `basePath` awareness and so false-failed every baseurl'd site on its own nav (dhaupin/freestruct#32). The comment said exactly when to lift it: "when #32 ships in a pinned release." The family now pins freestruct **1.2.0**, which carries the basePath-aware strip, so the workaround is retired and the default strict link gate is back on - broken internal links fail the build again.
+
+- **`docs/freestruct.config.yml`** - `linkCheck: false` -> `linkCheck: true`, with the suspension note replaced by the re-enable rationale.
+- **Receipts:** `npm run check` green (docs-links, docs-style, pins all PASS).
+- **No version bump**; a config toggle, not a released surface.
+
 ### The docs-lane consolidation (2026-11-04)
 
 The family built docs from four topologies; the two reusable lanes had drifted (ruby 3.2 vs 3.4, pagefind `latest` scrape vs npm pin). The docs lane is now ONE canonical reusable workflow in `dhaupin/freestruct`, and this repo is a thin caller of it.
