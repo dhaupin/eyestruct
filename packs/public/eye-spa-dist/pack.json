@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "name": "eye-spa-dist",
+  "description": "Capture-correctness for a built React/Vite (SPA) dist - the browserless half of the capture lane, and the React/Vite analogue of poststruct's prestruct-shapes. Checks the built output is capturable and honestly routable before any pixel is compared: exactly one app mount (#root) that the built bundle script actually targets, no un-replaced build placeholders (%VITE_*% / __VITE_*__ / the shell's placeholder title/host), one build stamp across the tree (the hashed entry bundle is the Vite analogue of prestruct's deploy-id - a partial bake leaves stale pages referencing a different bundle), and the SPA fallback shape agrees with the bake (a prerendered tree shipping /* /index.html 200 is the documented infinite-redirect loop). Zero network, zero HTML execution - attribute reads and file existence only; pixels are the pinned-browser lane's job, not this pack's.",
+  "version": "0.1.0",
+  "entry": "index.js",
+  "env": {
+    "fs": {
+      "targets": ["dist/index.html", "dist/assets/**/*.js", "dist/_redirects"]
+    }
+  }
+}

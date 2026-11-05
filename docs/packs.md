@@ -15,7 +15,7 @@ A pack is a self-contained bundle that loads into the shell's runner, uses the h
 
 ## What ships today
 
-eyestruct ships five packs plus a committed verdict ledger:
+eyestruct ships six packs plus a committed verdict ledger:
 
 | Pack | What it attacks |
 |---|---|
@@ -24,6 +24,7 @@ eyestruct ships five packs plus a committed verdict ledger:
 | `eye-text-leg` | The poststruct integration. Text is the cheaper diff so it gates first: control characters are refused at the ledger write surface, clean notes round-trip through the CLI's own reader, and the manifest stays strict-family schema. |
 | `eye-bundle` | The vendored checksummed browser lane: a missing tarball and a chrome-less archive are named capability refusals, a happy install records `bundle@<sha16>` in the pin, a bundle-only re-seed is idempotent (the route matrix survives), and installs are checksum-isolated. The decompression-bomb class is a documented accepted-risk bound. |
 | `eye-adapter` | The adapter surface's schema carrier (the bridge/carrier ruling): adapters and connectors are strictly bridges - they never define, author, or evolve schema. Carries `eyestruct-adapter@1`: the bridge-only dispatch list, the shared refusal grammar, the never-exits law, and the proposal-only canon rule (no `ratify` through a bridge; an adapter-side adopt is always unratified). A bridge that ships schema without riding this pack is refused by name. |
+| `eye-spa-dist` | Capture-correctness for a built React/Vite (SPA) dist - the browserless half of the capture lane, and the React/Vite analogue of poststruct's `prestruct-shapes`. Before any pixel is compared: exactly one `#root` app mount that the built bundle actually targets, no un-replaced build placeholders (`%VITE_*%` / `__VITE_*__` / the shell's placeholder title), one build stamp across the tree (the hashed entry bundle, the Vite analogue of prestruct's deploy-id), and the SPA fallback shape that agrees with the bake (a prerendered tree shipping `/* /index.html 200` is the documented redirect loop). Pixels stay the pinned-browser lane's job. |
 
 The verdict ledger is `packs/eye-ledger.json` - one row per recorded scenario, pinned to its nonce so an adopted row cannot silently change verdict later.
 
@@ -77,4 +78,4 @@ The pack lane is the adversarial half of eyestruct's CI battery, the same positi
 
 ## Roadmap
 
-`packs/public/` is intentionally small. Queued, not yet shipped: a capture correctness pack that uses the pinned headless browser in CI, and any host-side pack that appears when a real adopter needs it. A pack lands when a failure class does.
+`packs/public/` is intentionally small. Queued, not yet shipped: the pixel-level capture correctness pack that uses the pinned headless browser in CI (the browserless half - `eye-spa-dist` - now ships), and any host-side pack that appears when a real adopter needs it. A pack lands when a failure class does.

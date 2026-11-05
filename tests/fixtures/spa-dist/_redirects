@@ -1,0 +1,3 @@
+# Fixture redirect contract: a prerendered tree with NO SPA fallback (the
+# correct shape - the /* /index.html 200 rule is the documented redirect
+# loop on a prerendered bake).

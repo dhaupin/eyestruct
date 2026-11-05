@@ -174,26 +174,6 @@
     },
     {
       "pack": "eye-shapes",
-      "id": "self-gate-passes",
-      "verdict": "PASSED"
-    },
-    {
-      "pack": "eye-shapes",
-      "id": "self-ledger-list-parses",
-      "verdict": "PASSED"
-    },
-    {
-      "pack": "eye-shapes",
-      "id": "capture-skeletal-blank-frame",
-      "verdict": "BOUNDED"
-    },
-    {
-      "pack": "eye-shapes",
-      "id": "crop-target-missing",
-      "verdict": "BOUNDED"
-    },
-    {
-      "pack": "eye-shapes",
       "id": "tolerance-unknown-token",
       "verdict": "REFUSED",
       "reason": "MANIFEST_CORRUPT"
@@ -215,6 +195,51 @@
       "id": "tolerance-strict-parses-through",
       "verdict": "REFUSED",
       "reason": "UNRECORDED"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "self-gate-passes",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "self-ledger-list-parses",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "capture-skeletal-blank-frame",
+      "verdict": "BOUNDED"
+    },
+    {
+      "pack": "eye-shapes",
+      "id": "crop-target-missing",
+      "verdict": "BOUNDED"
+    },
+    {
+      "pack": "eye-spa-dist",
+      "id": "spa/app-mount-missing",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-spa-dist",
+      "id": "spa/bundle-not-referenced",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-spa-dist",
+      "id": "spa/placeholder-leaked",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-spa-dist",
+      "id": "spa/build-stamp-drift",
+      "verdict": "PASSED"
+    },
+    {
+      "pack": "eye-spa-dist",
+      "id": "spa/fallback-vs-prerender",
+      "verdict": "PASSED"
     },
     {
       "pack": "eye-text-leg",
