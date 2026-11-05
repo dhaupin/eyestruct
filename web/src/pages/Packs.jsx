@@ -14,7 +14,7 @@ export default function Packs() {
     path: '/packs',
     title: 'Packs | eyestruct',
     description:
-      'The adversarial surface: 42 pack cases over the real CLI, a 53/53 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
+      'The adversarial surface: 47 pack cases over the real CLI, a 53/53 hostile-attack leg, and a committed verdict ledger a regression fails loudly.',
   })
   return (
     <>
@@ -42,7 +42,7 @@ export default function Packs() {
         <div className="wrap">
           <h2>The attack surface, live</h2>
           <p className="sub">
-            42 adversarial pack cases over the real CLI, a second leg of 53
+            47 adversarial pack cases over the real CLI, a second leg of 53
             hostile attacks (seeded, deterministic), and a committed verdict
             ledger: a NEW exploited case or any verdict regression fails CI.
           </p>

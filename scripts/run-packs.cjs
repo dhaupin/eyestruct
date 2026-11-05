@@ -95,6 +95,37 @@ function discoverPacks(packsDir) {
   return packs
 }
 
+// A dist-rooted fsapi for the capture-correctness leg (the same jailed-read
+// shape poststruct arms as its site trees). A null root is passed through:
+// the pack dockets its BOUNDED row rather than a fabricated verdict.
+function makeTreeArm(root) {
+  const safe = (rel) => (typeof rel === 'string' && !rel.startsWith('/') && !rel.split(/[\\/]/).includes('..') ? rel : null)
+  return {
+    root,
+    exists(rel) { const r = safe(rel); return r != null && fs.existsSync(path.join(root, r)) },
+    text(rel) { const r = safe(rel); try { return r == null ? null : fs.readFileSync(path.join(root, r), 'utf8') } catch { return null } },
+    readdir(rel) { const r = safe(rel); try { return r == null ? [] : fs.readdirSync(path.join(root, r)) } catch { return [] } },
+  }
+}
+
+function resolveTreeRoot(envName, ...candidates) {
+  if (process.env[envName]) {
+    const p = path.resolve(process.env[envName])
+    return fs.existsSync(p) ? p : null
+  }
+  for (const c of candidates) {
+    const p = path.join(ROOT, c)
+    if (fs.existsSync(p)) return p
+  }
+  return null
+}
+
+// The capture-correctness leg's target. The committed fixture dist keeps the
+// campaign deterministic on CI (where the web lane is never built); the host
+// decision knob SPA_DIST points it at a real built SPA (vant's web/dashboard,
+// this repo's own web/dist) - a build that fails a check fails the campaign.
+const spaDistRoot = resolveTreeRoot('SPA_DIST', 'tests/fixtures/spa-dist')
+
 function armModuleCtx() {
   return {
     run(argv, opts) {
@@ -125,6 +156,12 @@ function armModuleCtx() {
     api() {
       return require(path.join(ROOT, 'lib', 'index.js'))
     },
+    // The capture-correctness leg (eye-spa-dist, the React/Vite SPA dist):
+    // a dist-rooted fsapi. The host decision knob SPA_DIST outranks the
+    // conventional ./web/dist; a null root makes the pack docket BOUNDED
+    // (an unbuilt web lane must never read as a pass). Same shape as
+    // poststruct's makeSiteArm tree contract.
+    spaDist: makeTreeArm(spaDistRoot),
     bounds: {
       // Documented, docketed accepted risks. An absent bound would be a
       // finding, so every bound here carries owner + reason.

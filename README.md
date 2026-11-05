@@ -34,7 +34,7 @@ The capture verbs (`look`, `diff`, `walk`, `ratify`) need a pinned chrome (`--br
 | `labs/.eyes/<route-slug>/<view>/current.png` | committed baseline (canon is CI-cut) |
 | `labs/.eyes/ledger.json` | append-only rows (adopt proposals + ratify canon + wave rows); unexplained drift fails the pass |
 | `eyestruct gate` | the CI job: read-only crashledger semantics over `labs/.eyes/` |
-| packs | 5 adversarial packs under `packs/public/` + the committed verdict ledger (`eye-adapter` is the adapter surface's schema carrier) |
+| packs | 6 adversarial packs under `packs/public/` + the committed verdict ledger (`eye-adapter` is the adapter surface's schema carrier) |
 
 ## Two lanes, one eye
 

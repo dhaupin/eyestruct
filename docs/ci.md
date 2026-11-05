@@ -61,7 +61,7 @@ The `floors-node18` job re-runs the v18 row on every push, so the 18 line stays 
 | `check:freshness` | README/AGENTS/deploy-lane/CHANGELOG freshness: dispatch census, workflow + npm-script citations, the hostile-leg count, Unreleased path/commit claims | fix the doc |
 | `check:eyes-shapes` | poststruct's family-shared `eyestruct-shapes` pack over the canon tree (manifest pin drift, ledger schema, dangling canon, receipt provenance, verdict-count drift, reason-table drift, note unsafety) - one audit on the family, not a private copy per repo (eyestruct#5) | fix the canon tree |
 | `lint:docs` | 5 gates: frontmatter, links, style (hyphen-only voice), fiction signatures, jekyll filters | fix the page |
-| `npm run packs` | the eye pack campaign - 42 adversarial cases over the real CLI (five packs incl. eye-adapter, the adapter surface's schema carrier) | `npm run packs -- --adopt` re-baselines new refusals |
+| `npm run packs` | the eye pack campaign - 47 adversarial cases over the real CLI (six packs incl. eye-adapter, the adapter surface's schema carrier) | `npm run packs -- --adopt` re-baselines new refusals |
 | `npm run lint:packs` | packstruct `--deep` grammar over `packs/` | fix the pack |
 | `npm run conform:packs` | packstruct audit-conformance with the loader | loader stays the ground truth |
 
