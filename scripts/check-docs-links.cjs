@@ -73,9 +73,11 @@ for (const f of files) {
           }
           continue;
         }
-        const p = path.resolve(path.dirname(f), u.replace(/\.md$/, ''));
-        if (fs.existsSync(p + '.md') || fs.existsSync(path.join(p, 'index.md')) || fs.existsSync(p)) continue;
-        console.log('BROKEN (rel) in', rel, '->', m[1]);
+        // A page-relative link resolves against the SERVED page URL, not the
+        // source tree: on a no-trailing-slash permalink page the browser reads
+        // /eyestruct/foo as a file, so '../x'/'./x' lands one level off and
+        // 404s. Internal links are root-absolute (/eyestruct/...).
+        console.log('BROKEN (relative - use a root-absolute /eyestruct link) in', rel, '->', m[1]);
         broken++;
       }
     }
