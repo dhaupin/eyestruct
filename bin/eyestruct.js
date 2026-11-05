@@ -52,7 +52,7 @@ Commands (each is one short process; the only surviving state is labs/.eyes/):
   gate                               CI job: exit 1 on unexplained labs/.eyes/ drift
   lint-packs [--deep] [--json] [--against <lib>] [dir]  packstruct passthrough over the repo's own install
   raster [file...]                   strict parse + render + byte-size sanity
-  walk <base-url> [--headers FILE] [--cookie V]  every route x viewport x theme, one pass
+  walk <base-url> [--concurrency N] [--headers FILE] [--cookie V]  every route x viewport x theme, one pass (N captures race; default 1 = serial)
   serve [dir] [--port N] [--headers FILE]  serve a baked tree with host-shaped _headers (the instance primitive)
   spot <url> [--viewport WxH] [--theme T] [--region SEL] [--browser-exec P] [--no-overlay] [--full-page] [--settle] [--format png|webp] [--quality N] [--headers FILE] [--cookie V]  one capture saved to read with your own vision (labs/.eyes-candidates/spot-*.png)
   ratify <base-url>                  canon cut: re-capture every manifest route in the pinned env; byte-identical slots ride append-only ratify rows
@@ -152,7 +152,7 @@ async function main() {
     look: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--settle', '--format', '--quality', '--headers', '--cookie'],
     diff: ['--viewport', '--theme', '--region', '--browser-exec', '--against', '--headers', '--cookie'],
     spot: ['--viewport', '--theme', '--region', '--browser-exec', '--no-overlay', '--full-page', '--settle', '--format', '--quality', '--headers', '--cookie'],
-    walk: ['--viewport', '--theme', '--region', '--browser-exec', '--headers', '--cookie'],
+    walk: ['--viewport', '--theme', '--region', '--browser-exec', '--concurrency', '--headers', '--cookie'],
     ratify: ['--viewport', '--theme', '--region', '--browser-exec'],
     adopt: ['--note', '--wave'],
     ledger: [],
@@ -189,7 +189,7 @@ async function main() {
   // never a "use the default": the falsy-empty fallback would silently
   // point the verb at the tree home instead of the stated one (the
   // crashtest leg's receipt - `--ledger=` used to exit 0 reading nothing).
-  const VALUE_FLAGS = ['--manifest', '--ledger', '--browser-image', '--renderer', '--browser-bundle', '--format', '--quality', '--headers', '--cookie']
+  const VALUE_FLAGS = ['--manifest', '--ledger', '--browser-image', '--renderer', '--browser-bundle', '--format', '--quality', '--headers', '--cookie', '--concurrency']
   for (const flag of VALUE_FLAGS) {
     // Both spellings: the separated form (--ledger PATH) and the joined
     // form (--ledger=PATH) - the crashtest flood used the joined form and
