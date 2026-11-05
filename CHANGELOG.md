@@ -13,7 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **`docs/freestruct.config.yml`** - `linkCheck: false` -> `linkCheck: true`, with the suspension note replaced by the re-enable rationale.
 - **`docs/cli.md`** - `[ci](ci)` -> `[ci](/eyestruct/ci)`. A bare page-relative link: once `cli.md` builds as `cli/index.html`, `ci` resolves to `/eyestruct/cli/ci` - a genuine 404. The `linkCheck: false` window had masked it; the strict gate named it on the first re-run.
 - **`tests/docs-links.test.js`** - a new law (with a planted bare-relative fixture proving it bites): every docs internal link must be root-absolute (`/eyestruct/...`) or explicitly same-directory (`./...`), never a bare relative target.
-- **Receipts:** `npm run check` green; a local Jekyll build + the real `checkLinks` engine confirm 0 broken links.
+- **`devDependencies.freestruct`** - `^1.1.0` -> `^1.2.0`. The local `docs-seo.test.js` runs the REAL pinned freestruct engine, but the lockfile still resolved 1.1.0, so the local gate exercised the pre-#32 engine while CI ran the lane's 1.2.0. Aligned so local and CI run the same engine.
+- **Receipts:** `npm run check` green; a local Jekyll build + the real `checkLinks` engine confirm 0 broken links; `node --test tests/*.test.js` 204/204.
 - **No version bump**; a config toggle + one link fix, not a released surface.
 
 ### The docs-lane consolidation (2026-11-04)

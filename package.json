@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "crashtest": "^1.1.0",
-    "freestruct": "^1.1.0",
+    "freestruct": "^1.2.0",
     "packstruct": "1.0.0",
     "poststruct": "github:dhaupin/poststruct#cf25a917796f651d85ea5c29dc9a2b490423338a"
   },
