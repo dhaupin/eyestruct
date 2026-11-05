@@ -3,13 +3,13 @@
 // The docs internal-link convention (the bug the strict link check surfaced).
 //
 // Every docs page is served under /eyestruct (site.baseurl), so an internal
-// link must be either ROOT-ABSOLUTE (`/eyestruct/cli`) or explicitly
-// SAME-DIRECTORY (`./announcing-v0.9.0`, from discussions/index.md). A bare
-// page-relative link is the trap: `[ci](ci)` from `docs/cli.md` resolves, once
-// the page builds as `cli/index.html`, to `/eyestruct/cli/ci` - a real 404
-// that shipped green for as long as the link check was off (the basePath
-// false-positives masked it). This leg holds the convention without Ruby: it
-// reads the markdown and refuses a bare relative target.
+// link must be ROOT-ABSOLUTE (`/eyestruct/cli`). A page-relative link is the
+// trap: `[ci](ci)` from `docs/cli.md` resolves, once the page builds as
+// `cli/index.html`, to `/eyestruct/cli/ci` - a real 404 that shipped green for
+// as long as the link check was off (the basePath false-positives masked it).
+// Even an explicit `./x` resolves against the SERVED page URL, so it lands one
+// level off on a no-trailing-slash permalink page; the gate refuses every
+// relative target, so this leg holds the same line without Ruby.
 
 const test = require('node:test')
 const assert = require('node:assert/strict')
@@ -47,23 +47,22 @@ function internalTargets(src) {
   return out
 }
 
-test('every docs internal link is root-absolute or same-directory (never a bare relative target)', () => {
+test('every docs internal link is root-absolute (never page-relative)', () => {
   const offenders = []
   for (const file of markdownFiles(DOCS)) {
     for (const target of internalTargets(fs.readFileSync(file, 'utf8'))) {
-      const ok = target.startsWith('/') || target.startsWith('./') || target.startsWith('../')
-      if (!ok) offenders.push(`${path.relative(REPO, file)} -> (${target}) is a bare relative link; use /eyestruct/... or ./...`)
+      if (!target.startsWith('/')) offenders.push(`${path.relative(REPO, file)} -> (${target}) is a page-relative link; use /eyestruct/...`)
     }
   }
-  assert.deepEqual(offenders, [], `docs internal links must be root-absolute or explicit:\n${offenders.join('\n')}`)
+  assert.deepEqual(offenders, [], `docs internal links must be root-absolute:\n${offenders.join('\n')}`)
 })
 
-test('the link convention bites: a bare page-relative target is refused', () => {
+test('the link convention bites: a page-relative target is refused', () => {
   // The exact pre-fix shape: [ci](ci) from docs/cli.md, which resolved to
   // /eyestruct/cli/ci once the page built as cli/index.html.
-  const offenders = (src) => internalTargets(src).filter((t) => !(t.startsWith('/') || t.startsWith('./') || t.startsWith('../')))
+  const offenders = (src) => internalTargets(src).filter((t) => !t.startsWith('/'))
   assert.deepEqual(offenders('see [ci](ci)'), ['ci'], 'a bare relative target must be flagged')
+  assert.deepEqual(offenders('see [a](./announcing-v0.9.0)'), ['./announcing-v0.9.0'], 'an explicit same-directory target is still page-relative')
   assert.deepEqual(offenders('see [ci](/eyestruct/ci)'), [], 'a root-absolute target is fine')
-  assert.deepEqual(offenders('see [a](./announcing-v0.9.0)'), [], 'an explicit same-directory target is fine')
   assert.deepEqual(offenders('see [a](https://example.com/x)'), [], 'an external target is out of scope')
 })
