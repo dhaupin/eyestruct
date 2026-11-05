@@ -707,6 +707,52 @@ maybeBrowser('look verb writes a candidate and leaves the ledger untouched', asy
   assert.deepStrictEqual(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8').trim(), '[]')
 })
 
+// -- The walk concurrency lane (crashtest#83's isolated-row lever, ported).
+// Hermetic half: the pool's order/limit contract and the named refusal, no
+// browser. Browser half (below): a real multi-route walk raced N-wide writes
+// the same candidates the serial walk would, in the same order.
+
+test('runPool: results land at the ORIGINAL index however completion interleaves (order is never completion order)', async () => {
+  const { runPool } = require('../lib/pool')
+  // Reverse-order completion: item 0 finishes LAST. The result array must
+  // still read [a, b, c] - the determinism law a walk's rows/candidates need.
+  const delays = [30, 15, 1]
+  const rows = await runPool(['a', 'b', 'c'], 3, (x, i) => new Promise((r) => setTimeout(() => r(`${x}:${i}`), delays[i])))
+  assert.deepStrictEqual(rows, ['a:0', 'b:1', 'c:2'])
+  // The limit is honored: with width 1, never more than one in flight.
+  let inFlight = 0
+  let peak = 0
+  await runPool([1, 2, 3, 4, 5], 2, async () => {
+    inFlight++
+    peak = Math.max(peak, inFlight)
+    await new Promise((r) => setTimeout(r, 5))
+    inFlight--
+  })
+  assert.ok(peak <= 2, `pool exceeded its limit (peak ${peak})`)
+  assert.ok(peak >= 2, 'the pool must actually run concurrent work at width 2')
+})
+
+test('runPool: a non-integer or sub-1 concurrency refuses BAD_FLAG_VALUE, never improvises', async () => {
+  const { runPool } = require('../lib/pool')
+  for (const bad of [0, -1, 2.5, NaN]) {
+    await assert.rejects(() => runPool([1], bad, () => 1), /BAD_FLAG_VALUE/, `concurrency ${bad} must refuse`)
+  }
+})
+
+test('walk: --concurrency is a walk-only flag, screened by name (canon stays viewport-only)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // A verb that does not know --concurrency refuses it BY NAME - the
+  // interface-honesty gate, so an accepted spelling never does nothing.
+  const onGate = run(['gate', '--concurrency', '4'], dir)
+  assert.strictEqual(onGate.code, 1)
+  assert.match(onGate.stderr, /eyestruct\[UNKNOWN_FLAG\]/)
+  // A stated-empty value is a bad flag value, not "use the default".
+  const empty = run(['walk', 'http://localhost:1', '--concurrency='], dir)
+  assert.strictEqual(empty.code, 1)
+  assert.match(empty.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+})
+
 // -- The lazy-load settle pass (issue #27). Instance-lane only: a page that
 // never scrolls never fetches its below-fold lazy images, so a capture comes
 // back blank at any extent. --settle walks the document, waits, returns to top.
@@ -1110,4 +1156,75 @@ maybeBrowser('ratify: byte-identical slots ride append-only rows; drift is named
   assert.ok([0, 1].includes(r.code))
   const ledger = JSON.parse(fs.readFileSync(path.join(dir, 'labs/.eyes', 'ledger.json'), 'utf8'))
   assert.ok(!ledger.some((row) => row.type === 'ratify'), 'ratify must not forge proof rows for drifted canon')
+})
+
+// The walk concurrency lane's browser half: a real multi-route walk raced
+// N-wide must land the SAME candidates, in the SAME order, as the serial
+// walk - process-per-look holds (each capture its own browser), and the
+// pool only schedules WHO runs next, never HOW a capture runs.
+//
+// The fixture is served from a SEPARATE process: run() is execFileSync, so
+// an in-process server would be starved by the blocked event loop and every
+// capture would time out. A spawned static server keeps answering.
+function spawnStaticServer(root) {
+  const { spawn } = require('node:child_process')
+  return new Promise((resolve, reject) => {
+    const srv = spawn(process.execPath, ['-e', [
+      "const http=require('http'),fs=require('fs'),path=require('path')",
+      "const root=process.argv[1]",
+      "const s=http.createServer((req,res)=>{const f=path.join(root,req.url==='/'?'index.html':req.url);fs.readFile(f,(e,d)=>{if(e){res.writeHead(404);return res.end()}res.writeHead(200,{'content-type':'text/html'});res.end(d)})})",
+      "s.listen(0,'127.0.0.1',()=>process.stdout.write(String(s.address().port)))",
+    ].join(';'), root], { stdio: ['ignore', 'pipe', 'inherit'] })
+    let buf = ''
+    srv.stdout.on('data', (d) => {
+      buf += d
+      const n = Number(buf.trim())
+      if (Number.isInteger(n) && n > 0) resolve({ port: n, close: () => srv.kill() })
+    })
+    srv.on('error', reject)
+  })
+}
+
+maybeBrowser('walk: --concurrency races the captures but the rows stay original-order and byte-stable', async () => {
+  const served = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-walk-'))
+  fs.copyFileSync(path.join(__dirname, 'fixtures', 'look-fixture.html'), path.join(served, 'index.html'))
+  const server = await spawnStaticServer(served)
+  try {
+    const dir = tmpdir()
+    run(['init'], dir)
+    // Seed a small manifest with three routes against the served fixture.
+    // Two themes on the same path exercise the x-theme axis too.
+    const base = `http://127.0.0.1:${server.port}`
+    const m = path.join(dir, 'labs/.eyes', 'manifest.yml')
+    const text = fs.readFileSync(m, 'utf8').replace(/routes:\n[\s\S]*$/, [
+      'routes:',
+      '  - path: /  view: desktop-1280  theme: dark  viewport: 800x600',
+      '  - path: /  view: desktop-1280  theme: light viewport: 800x600',
+      '  - path: /  view: mobile-390   theme: dark  viewport: 800x600',
+    ].join('\n') + '\n')
+    fs.writeFileSync(m, text)
+
+    const serial = run(['walk', base, '--concurrency', '1', '--json'], dir)
+    assert.strictEqual(serial.code, 0, 'serial walk should succeed: ' + serial.stderr)
+    const serialRows = JSON.parse(serial.stdout).rows
+    assert.strictEqual(serialRows.length, 3, 'three seeded routes must be walked')
+    const serialBytes = serialRows.map((r) => fs.readFileSync(path.join(dir, r.file)))
+
+    // Wipe the candidates and re-walk raced 3-wide.
+    fs.rmSync(path.join(dir, 'labs/.eyes-candidates'), { recursive: true, force: true })
+    const raced = run(['walk', base, '--concurrency', '3', '--json'], dir)
+    assert.strictEqual(raced.code, 0, 'raced walk should succeed: ' + raced.stderr)
+    const racedRows = JSON.parse(raced.stdout).rows
+
+    // Same rows, same order - the pool writes results back at the original index.
+    assert.deepStrictEqual(racedRows.map((r) => r.file), serialRows.map((r) => r.file), 'raced walk reordered the candidates')
+    // Same pixels: process-per-look means each capture is independent, so
+    // racing must not change a single byte of any candidate.
+    racedRows.forEach((r, i) => {
+      assert.ok(fs.readFileSync(path.join(dir, r.file)).equals(serialBytes[i]), `candidate ${r.file} differs between serial and raced`)
+    })
+  } finally {
+    server.close()
+    fs.rmSync(served, { recursive: true, force: true })
+  }
 })
