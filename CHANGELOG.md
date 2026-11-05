@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- **An ambiguous route matrix no longer clobbers one candidate file.** A walk candidate name keys on path-slug + view + theme, so two route rows that differ ONLY by viewport (`/` at `1280x800` and `1920x1080`, same view/theme) - a common responsive matrix - name ONE file (`walk__root_desktop-1280_dark.png`). The walk wrote both captures to it and receipted two rows for one frame: a silent clobber plus a receipt that explained a capture the file did not hold. The slug normalization collides the same way (`/a/b` and `/a-b` -> `a-b`). The naming is a compatibility contract (the `root` default is pinned for existing run roots), so the fix is a refusal, never a rename: `walk.assertUniqueCandidates` refuses the ambiguous matrix `MANIFEST_CORRUPT` (exit 2) BEFORE the engine loads (a browserless box owes the same refusal), naming both rows and the file they collide on. Shared by the CLI walk and the MCP `walk` tool, so the class dies in both lanes. Battery leg: the collision premise (viewport is not in the name), both refusal shapes, the no-false-refusal case (a distinct view/theme disambiguates), and the end-to-end CLI refusal with no candidate dir written.
+
 ## [1.1.0] - 2026-10-28
 
 ### Added (2026-11-05, the walk-concurrency round)
