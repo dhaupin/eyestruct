@@ -753,6 +753,46 @@ test('walk: --concurrency is a walk-only flag, screened by name (canon stays vie
   assert.match(empty.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
 })
 
+// The walk candidate-collision guard (the clobber round, 2026-11-05): a
+// candidate name keys on path-slug + view + theme, so a route row that
+// differs from another ONLY by viewport names the same file. The walk used
+// to write both captures to it and receipt two rows for one frame - a silent
+// clobber. The guard refuses the ambiguous matrix BEFORE any capture (so a
+// browserless box owes the same refusal), naming both rows and the file.
+test('walk: an ambiguous candidate name refuses MANIFEST_CORRUPT before any capture', () => {
+  const { candidateName, assertUniqueCandidates } = require('../lib/walk.js')
+  const { FailError } = require('../lib/reasons.js')
+  // Two rows, one view/theme, differing only by viewport - a common responsive
+  // matrix. Same candidate name by construction (viewport is not in the key).
+  const a = { path: '/', view: 'desktop-1280', theme: 'dark', viewport: '1280x800' }
+  const b = { path: '/', view: 'desktop-1280', theme: 'dark', viewport: '1920x1080' }
+  assert.equal(candidateName(a), candidateName(b), 'the collision premise: viewport is not in the name')
+  assert.throws(() => assertUniqueCandidates([a, b]), (e) => e instanceof FailError && e.code === 'MANIFEST_CORRUPT')
+  // The slug-normalization collision too: /a/b and /a-b normalize to one slug.
+  const c = { path: '/a/b', view: 'v', theme: 'dark' }
+  const d = { path: '/a-b', view: 'v', theme: 'dark' }
+  assert.throws(() => assertUniqueCandidates([c, d]), (e) => e instanceof FailError && e.code === 'MANIFEST_CORRUPT')
+  // Distinct view or theme is enough to disambiguate - no false refusal.
+  assert.doesNotThrow(() => assertUniqueCandidates([a, { ...a, view: 'mobile-390' }, { ...a, theme: 'light' }]))
+
+  // End to end through the CLI: the refusal lands before the engine loads
+  // (browserless box), names the colliding file, and writes no candidate.
+  const dir = tmpdir()
+  run(['init'], dir)
+  const m = path.join(dir, 'labs/.eyes', 'manifest.yml')
+  const text = fs.readFileSync(m, 'utf8').replace(/routes:\n[\s\S]*$/, [
+    'routes:',
+    '  - path: /  view: desktop-1280  theme: dark  viewport: 1280x800',
+    '  - path: /  view: desktop-1280  theme: dark  viewport: 1920x1080',
+  ].join('\n') + '\n')
+  fs.writeFileSync(m, text)
+  const r = run(['walk', 'http://localhost:1', '--json'], dir)
+  assert.strictEqual(r.code, 2, 'a corrupt matrix is a setup-class refusal: ' + r.stderr)
+  assert.match(r.stderr, /eyestruct\[MANIFEST_CORRUPT\]/)
+  assert.match(r.stderr, /walk__root_desktop-1280_dark\.png/)
+  assert.ok(!fs.existsSync(path.join(dir, 'labs/.eyes-candidates')), 'no candidate dir is even created on refusal')
+})
+
 // -- The lazy-load settle pass (issue #27). Instance-lane only: a page that
 // never scrolls never fetches its below-fold lazy images, so a capture comes
 // back blank at any extent. --settle walks the document, waits, returns to top.
