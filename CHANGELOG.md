@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-28
+
 ### Added (2026-11-05, the walk-concurrency round)
 
 - **`walk --concurrency N` (the crashtest#83 isolated-row lever, ported).** A wide manifest (routes x views x themes) used to walk strictly serially, and each capture is a fresh process-per-look (measured ~2.8s per route here), so a six-route matrix is ~17s of independent work with no overlap. `walk` now races up to N captures at once through ONE bounded pool (`lib/pool.js`, the family shape poststruct's external probe pool already carries). Process-per-look is preserved: the pool schedules WHO runs next, never HOW a capture runs - each capture still spawns its own pinned browser and exits. Results are written back AT THE ORIGINAL INDEX, so completion order never reorders the candidates or the printed output - the walk stays deterministic per commit, exactly the byte-stability the serial loop held. The default is `1` (the old serial loop byte-for-byte); a non-integer or sub-1 value refuses `BAD_FLAG_VALUE` by name. `--concurrency` is a walk-only verb flag (the interface-honesty gate refuses it on any other verb), and a stated-empty value is a bad flag value, never a silent default.
@@ -118,8 +120,6 @@ The family built docs from four topologies; the two reusable lanes had drifted (
 ### Added (2026-10-29, the unknown-tag leg)
 
 - `scripts/check-jekyll-filters.cjs` refuses a second class of source-level Liquid that only fails at Jekyll BUILD time (eyestruct#24): an UNKNOWN tag. The `{% seo %}` trap that killed poststruct's docs deploy - a literal tag in prose, in backticks, which are markdown, not Liquid escaping - is now named in `lint:docs` with a file:line instead of in Jekyll's stack trace. A `KNOWN_TAGS` set of the Jekyll 4.x core + Liquid tags is the allowlist; `{% raw %}...{% endraw %}` regions are exempt (the body is blanked while line count is preserved, so `file:line` stays honest). The pass grew the two-arg-filter rule's own class, one line of the same contract. `tests/jekyll-filters.test.js` pins all of it: the repo's own docs pass, an unknown tag refuses by name, a raw-wrapped literal is exempt, the two-arg filter rule still refuses, and a known tag is not over-refused.
-
-## [1.1.0] - 2026-10-28
 
 ### Added (2026-10-29, the pixel-tolerance lane)
 
