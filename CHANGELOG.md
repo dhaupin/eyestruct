@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- **Family devDependency pins advance to the current cuts, and the `poststruct` pin leaves the raw GitHub SHA for the published npm release.** `crashtest` `^1.1.0 -> ^1.3.0`, `freestruct` `^1.2.0 -> ^1.3.0`, `packstruct` `1.0.0 -> 1.1.0`, and `poststruct` `github:dhaupin/poststruct#cf25a917... -> 1.1.0` (the published release, now that it exists). Lockfile re-resolved to match.
+
 ## [1.1.0] - 2026-10-28
 
 ### Security
