@@ -30,6 +30,8 @@ Per the walk-exit rule, everything the post-cut walks caught is now permanent in
 - **All refusal lists print JSON-safe** - the listInterpolation trap (`['']` collapsing to nothing) is closed across every ladder message.
 - **Mixed-name pack runs no longer cross-adopt** - `packs --fresh` on a mixed-name run stays mixed (with live candidates exempt), so a name-typo pack can no longer be adopted silently.
 - **The forbidden scan's dead clause is out** (with the real invariant stated in the comment, not buried in code the step could never take), plus a silent notes-overwrite class moved to `$RUNNER_TEMP` and a dead import dropped.
+- **The route-row name jail covers `view:` and `theme:`.** Both fields ride every row and were interpolated unvalidated into a candidate file name and a canon slot dir, so a row `view: ../../evil` wrote outside the candidate directory. The shared manifest parser now refuses a non-`[word chars and dashes]` `view:`/`theme:` (`MANIFEST_CORRUPT`, exit 2) before any writer acts.
+- **An ambiguous route matrix no longer clobbers one candidate file.** Two rows that differ only by viewport name ONE file, so the walk wrote both captures to it and receipted two rows for one frame. The naming is a pinned compatibility contract, so the fix is a refusal, never a rename: `walk.assertUniqueCandidates` refuses the ambiguous matrix before the engine loads, in both the CLI and the MCP `walk` tool.
 
 ## Battery and surfaces unchanged by the fold
 
