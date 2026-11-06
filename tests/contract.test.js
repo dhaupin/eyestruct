@@ -194,6 +194,18 @@ test('manifest jail: a pin row / route row that breaks the subset refuses MANIFE
   assert.strictEqual(slash.code, 2)
   assert.match(slash.stderr, /slot must be a page name/)
 
+  // The same jail for view: / theme: (the walk-name traversal round): both
+  // ride into the candidate FILE name and the canon slot DIR, so a traversal
+  // shape refuses through the real parse path before any writer runs.
+  fs.writeFileSync(mfile, original.replace('view: desktop-1280', 'view: ../../evil'))
+  const vescape = run(['gate'], dir)
+  assert.strictEqual(vescape.code, 2)
+  assert.match(vescape.stderr, /view must be a page name/)
+  fs.writeFileSync(mfile, original.replace('theme: dark', 'theme: dark/../x'))
+  const tescape = run(['gate'], dir)
+  assert.strictEqual(tescape.code, 2)
+  assert.match(tescape.stderr, /theme must be a page name/)
+
   fs.rmSync(dir, { recursive: true, force: true })
 })
 
