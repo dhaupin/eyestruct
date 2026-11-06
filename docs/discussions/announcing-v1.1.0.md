@@ -17,6 +17,7 @@ The 1.0.0 cut proved a publish step can go green while nothing asserts the publi
 - **Publish** rides the OIDC trusted lane with the 0.x and tag==version gates and `prepublishOnly = npm test && npm run check` in the lane itself - the gate rode the publish run, so the advocacy and the package are the same tree.
 - **Release** mints the GH release object from the pushed tag with notes extracted from the changelog - the tag's title and body, with the discussion post linked and the badge provenance row appended automatically.
 - **Verify** refuses to trust acts over outcomes: the ladder extracts the digests, pulls the tarballs from the registry and from the release, cross-checks the package.json version against the tag, and unpacks both to prove the content. A mismatch rejects the cut before anything downstream can bind to it.
+- **Verify waits for `release`.** `verify` now declares `needs: [publish, release]` (was a bare `needs: publish`), so it no longer runs CONCURRENTLY with the release mint: on a fresh cut the registry read replicas had not settled and the tarball was not yet attached, so a publish that in fact succeeded failed red and needed a manual re-run (first seen on the packstruct 1.1.0 cut). The release-attach poll widened 120s -> 300s and the registry poll 120s -> 360s; the `verify-only` dispatch path is unchanged, and the release-lane test pins the dependency so a regression fails by name.
 
 ## One verifier, the whole family
 
