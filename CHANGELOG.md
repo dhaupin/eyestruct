@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **The family prestruct floor moves to `^1.3.0`.** `scripts/check-prestruct-pins.cjs` now refuses any declaration below 1.3.0 (the SSRF-guard security round), so every `prestruct` declaration and web lockfile moved with it; the guard's own battery gains the inverse case - the old `^1.2.0` floor now fails.
 - **Family devDependency pins advance to the current cuts, and the `poststruct` pin leaves the raw GitHub SHA for the published npm release.** `crashtest` `^1.1.0 -> ^1.3.0`, `freestruct` `^1.2.0 -> ^1.3.0`, `packstruct` `1.0.0 -> 1.1.0`, and `poststruct` `github:dhaupin/poststruct#cf25a917... -> 1.1.0` (the published release, now that it exists). Lockfile re-resolved to match.
 
+### Fixed
+
+- **The `.gitignore` docs block carries the in-tree Jekyll + pagefind products (2026-11-10 sweep, coreforge#48).** Propagated from the coreforge adopter sweep (dhaupin/coreforge#52): a local `bundle exec jekyll build` + pagefind run drops its products beside the source (the Jekyll cache + metadata and the pagefind outputs), and the belt-and-suspenders block named only some of them. All four lines now ride the block, so a local build leaves no untracked noise. No version bump.
+
 ## [1.1.0] - 2026-10-28
 
 ### Security
