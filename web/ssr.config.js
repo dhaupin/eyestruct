@@ -7,6 +7,7 @@
 export default {
   siteUrl:  'https://eyestruct.creadev.org',
   siteName: 'eyestruct',
+  breadcrumb: true,
   author:   'dhaupin',
   tagline:  'Eyes for production agents: deterministic look, committed visual memory, CI gates on drift.',
   ogImage:  'https://eyestruct.creadev.org/og-image.png',
