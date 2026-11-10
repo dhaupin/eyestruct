@@ -242,3 +242,13 @@ Google Search Console showed the family's properties under a breadcrumbs enhance
 - `docs/freestruct.config.yml` + `web/ssr.config.js` - `breadcrumb: true`.
 - Receipts: docs config validates against the pinned engine; docs sync:check PASS where generated; prestruct's own `example/` build proves emission (BreadcrumbList on a sub-route, none on `/`).
 - No version bump; a discovery-surface opt-in.
+
+---
+
+### 2026-11-10 - light mode by default (web + docs)
+
+Owner directive: the family defaults to light. eyestruct's surfaces already shipped light-first (the reference precedent the flip follows), so this pass is nearly a no-op - only the PWA manifest still carried the dark chrome color.
+
+- `web/public/site.webmanifest` - `theme_color`/`background_color` `#121011` -> light (`#f6f1e7`), matching the already-light `<meta theme-color>`.
+- No other change: `web/` (`:root` light tokens, `dark` opt-in) and `docs/` (`color-scheme: light dark`, `data-theme="dark"` opt-in) were already light-default.
+- Receipts: `npm test` 219/219 (22 skips).

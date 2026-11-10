@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### 2026-11-10 - light mode by default (web + docs)
+
+Owner directive: the family defaults to light. eyestruct's surfaces already shipped light-first (the reference precedent the flip follows), so this pass is nearly a no-op - only the PWA manifest still carried the dark chrome color.
+
+- `web/public/site.webmanifest` - `theme_color`/`background_color` `#121011` -> light (`#f6f1e7`), matching the already-light `<meta theme-color>`.
+- No other change: `web/` (`:root` light tokens, `dark` opt-in) and `docs/` (`color-scheme: light dark`, `data-theme="dark"` opt-in) were already light-default.
+- Receipts: `npm test` 219/219 (22 skips).
+
+
 ### 2026-11-03 - breadcrumbs on (engine + this site)
 
 Google Search Console showed the family's properties under a breadcrumbs enhancement with 0 results. Recon split the fleet: the docs sites run freestruct (auto BreadcrumbList since 1.1.0); the product sites run prestruct, whose `buildJsonLd()` is site-wide by contract and could never emit a per-route trail. prestruct gained engine-level `breadcrumb: true` (injectMeta owns the route path), and this repo turned the discovery surface on in its configs.

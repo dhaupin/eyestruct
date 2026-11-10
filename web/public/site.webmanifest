@@ -4,8 +4,8 @@
   "description": "Eyes for production agents: deterministic look, committed visual memory, CI gates on drift.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#121011",
-  "theme_color": "#121011",
+  "background_color": "#f6f1e7",
+  "theme_color": "#f6f1e7",
   "lang": "en",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
