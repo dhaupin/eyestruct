@@ -302,3 +302,16 @@ The family release-readiness pass (owner-driven). This repo's cut:
 - **Changelog.** `## [Unreleased]` cut to `## [1.1.1] - 2026-11-12`; entries stay verbatim.
 - **Announcement.** `docs/discussions/announcing-v1.1.1.md` + the index row.
 - **Release.** Branch -> PR -> `staging` -> PR -> `main`, then the `v1.1.1` tag drives the OIDC ladder.
+
+---
+
+### 2026-11-13 (cont.) - session: the serve SIGINT race, fixed at the source (eyestruct#102)
+
+Owner directive: "seems like we should fix the source side there too, like do it once and correctly."
+
+- **The receipt.** The `floors-node18` leg flaked on `serve verb: ... SIGINT shuts down cleanly (exit 0)` - the same tree `9bf0e55` passed it on the push run (`43404309081`) and failed it on the pull_request run (`43404736620`), and it blocked the first `v1.3.1` publish attempt. Filed as eyestruct#102.
+- **The reproduction.** A local harness signalling on the banner byte: pre-fix, **59/60** runs where the banner WAS seen still died by SIGINT (`code=null signal=SIGINT`), only 1/60 exited 0. The window is between the banner `write` completing (which the parent observes) and `process.on('SIGINT')` being armed - both are in the same synchronous block, but the `write` syscall makes the banner visible to the parent before the subsequent `on` calls execute, so the signal lands on the OS default disposition.
+- **The fix (source, one place).** `lib/serve.js` arms `SIGINT`/`SIGTERM` BEFORE the banner write, so the banner is never observable without a live handler. Re-measured: **60/60** exit 0. A SIGINT before the server is up (no banner yet) still terminates by signal - correct, since a caller cannot yet know the port and killing a process that never announced itself is the OS default, not a regression.
+- **The test that bites (house law).** New case in `tests/smoke.test.js`: signals the instant the first stdout byte arrives, five rounds, asserting `code===0 && signal===null`. Proven to bite - reverted `lib/serve.js` to the pre-fix ordering, ran it 3x, **3/3 red** (`round 1: a banner-triggered SIGINT must exit 0, got code=null signal=SIGINT`), restored the fix, green. Full suite: **248 tests / 225 pass / 0 fail / 23 skipped**.
+- **Patch cut (owner gate).** `1.3.1 -> 1.3.2` (package.json + `web/package.json` + `web/package-lock.json` + the README status line, all in one commit so the census version-truth leg holds them together; `## [Unreleased]` cut to `## [1.3.2] - 2026-11-13`, entries verbatim). A patch is the only way the fixed handler reaches npm - `1.3.1` is already on the registry. No announcement post: the convention lapsed after v1.1.1 (1.2.0/1.3.0/1.3.1 shipped without one), so this cut follows the recent practice rather than inventing a post the family stopped writing.
+- **Release.** Branch -> PR -> `staging` -> PR -> `main`, then the `v1.3.2` tag drives the OIDC ladder (publish, release, verify).
