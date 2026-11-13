@@ -197,5 +197,5 @@ jobs:
           V="$(node -p "require('./package.json').version")"
           EXPECTED_EXPORTS="$(node -p "Object.keys(require('./package.json').exports).join(',')")"
           EYE_PROBE="const p=require('eyestruct');if(p.ADAPTER_CONTRACT!=='eyestruct-adapter@1')process.exit(1);if(!Array.isArray(p.reasonCodes)||!p.reasonCodes.length)process.exit(1)"
-          node scripts/verify-release.cjs --npm --version "$V" --exports "$EXPECTED_EXPORTS" --probe "$EYE_PROBE"
+          node scripts/verify-release.cjs --npm --version "$V" --exports "$EXPECTED_EXPORTS" --probe "$EYE_PROBE" --allowed "packs/"
           node scripts/verify-release.cjs --gh --tag "v$V" --asset "eyestruct-$V.tgz"
