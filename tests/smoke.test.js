@@ -600,9 +600,73 @@ test('--version is a leading global: package.json stays the single version truth
   assert.match(bogus.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
 })
 
+// -- The self-serve capture surface (ratify/walk --serve). Browserless
+// legs: the refusal grammar and the resolution promise, which is what a
+// consumer CI binds to before a single pixel is shot.
+
+test('--serve is a known flag on ratify/walk (the lid), and the surface choice refuses by name', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  // Both a <base-url> and --serve DIR is two surfaces for one run: refused
+  // BAD_FLAG_VALUE before any browser is demanded.
+  const both = run(['ratify', 'http://localhost:9/', '--serve', 'dist'], dir)
+  assert.strictEqual(both.code, 1)
+  assert.match(both.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(both.stderr, /either a <base-url> or --serve DIR, not both/)
+  assert.ok(!/UNKNOWN_FLAG/.test(both.stderr), `--serve refused at the lid:\n${both.stderr}`)
+  // Neither surface: the named shape refusal, not a silent no-op.
+  const neither = run(['ratify'], dir)
+  assert.strictEqual(neither.code, 1)
+  assert.match(neither.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
+  assert.match(neither.stderr, /needs a <base-url> serving the pinned surface \(or --serve DIR/)
+  // walk carries the same grammar.
+  const walkNeither = run(['walk'], dir)
+  assert.strictEqual(walkNeither.code, 1)
+  assert.match(walkNeither.stderr, /eyestruct\[UNKNOWN_COMMAND\]/)
+  assert.ok(!/UNKNOWN_FLAG/.test(walkNeither.stderr), `--serve refused at the lid on walk:\n${walkNeither.stderr}`)
+})
+
+test('--serve DIR resolves the baked tree and refuses a missing one by name (MISSING_INPUT, before any browser)', () => {
+  const dir = tmpdir()
+  run(['init'], dir)
+  const missing = run(['ratify', '--serve', path.join(dir, 'no-such-tree')], dir)
+  assert.strictEqual(missing.code, 2)
+  assert.match(missing.stderr, /eyestruct\[MISSING_INPUT\]/)
+  assert.ok(!/MISSING_PINNED_BROWSER/.test(missing.stderr), 'the dir jail must sit before the browser demand')
+  // An empty --serve value refuses BAD_FLAG_VALUE at the lid (the shared
+  // value-flag guard), never a silent default to web/dist.
+  const empty = run(['walk', '--serve='], dir)
+  assert.strictEqual(empty.code, 1)
+  assert.match(empty.stderr, /eyestruct\[BAD_FLAG_VALUE\]/)
+  assert.match(empty.stderr, /--serve carries an empty value/)
+})
+
+test('serve verb: the banner carries the REAL port and SIGINT shuts down cleanly (exit 0)', async () => {
+  // The pre-1.1.2 shape read `.port`/`.close` off createServer's PENDING
+  // promise: the banner said `http://127.0.0.1:undefined` and Ctrl-C threw
+  // `start.close is not a function`. Both are pinned here against a real
+  // served tree (a baked dist with one file).
+  const dir = tmpdir()
+  const dist = path.join(dir, 'dist')
+  fs.mkdirSync(dist, { recursive: true })
+  fs.writeFileSync(path.join(dist, 'index.html'), '<h1>home</h1>')
+  const { spawn } = require('node:child_process')
+  const child = spawn(process.execPath, [BIN, 'serve', 'dist', '--json'], { cwd: dir, stdio: ['ignore', 'pipe', 'pipe'] })
+  let buf = ''
+  child.stdout.on('data', (c) => (buf += c))
+  await new Promise((res) => child.stdout.on('data', res))
+  const view = JSON.parse(buf.slice(0, buf.lastIndexOf('}') + 1))
+  assert.match(view.serving, /^http:\/\/127\.0\.0\.1:\d+$/, `the banner must carry a real port, got ${view.serving}`)
+  assert.ok(!/undefined/.test(view.serving), 'the pending-promise bug would print port:undefined')
+  // SIGINT is a clean shutdown: exit 0, no `start.close is not a function`.
+  const exited = new Promise((res) => child.on('exit', (code) => res(code)))
+  child.kill('SIGINT')
+  const code = await exited
+  assert.strictEqual(code, 0, 'SIGINT must exit 0 (the shutdown crash exited 1)')
+})
+
 // -- Wired engine seam (the pinned browser landed). These use the exec the
 // machine already has cached; if it is absent the tests skip honestly.
-
 const engine = require('../lib/engine')
 
 function browserAvailable() {
@@ -1224,6 +1288,36 @@ function spawnStaticServer(root) {
     srv.on('error', reject)
   })
 }
+
+maybeBrowser('walk --serve: the verb stands up the baked tree itself and captures every route (no external server, no sleep)', async () => {
+  // The consumer receipt (creadev's eyes-ratify): the CI hand-rolled
+  // `http-server dist & sleep 3`, and a cold npx install raced the sleep.
+  // --serve removes the shape entirely: the verb owns the tree, waits on
+  // the readiness promise, and captures against the real loopback URL.
+  const served = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-serve-'))
+  fs.copyFileSync(path.join(__dirname, 'fixtures', 'look-fixture.html'), path.join(served, 'index.html'))
+  try {
+    const dir = tmpdir()
+    run(['init'], dir)
+    const m = path.join(dir, 'labs/.eyes', 'manifest.yml')
+    const text = fs.readFileSync(m, 'utf8').replace(/routes:\n[\s\S]*$/, [
+      'routes:',
+      '  - path: /  view: desktop-1280  theme: dark  viewport: 800x600',
+      '  - path: /  view: mobile-390   theme: dark  viewport: 800x600',
+    ].join('\n') + '\n')
+    fs.writeFileSync(m, text)
+    // The served tree is the fixture dir; --serve resolves it and listens.
+    const r = run(['walk', '--serve', served, '--json'], dir)
+    assert.strictEqual(r.code, 0, 'walk --serve should succeed: ' + r.stderr)
+    const rows = JSON.parse(r.stdout).rows
+    assert.strictEqual(rows.length, 2, 'both routes must be captured')
+    for (const row of rows) {
+      assert.ok(fs.readFileSync(path.join(dir, row.file)).length > 0, `${row.file} must hold real bytes`)
+    }
+  } finally {
+    fs.rmSync(served, { recursive: true, force: true })
+  }
+})
 
 maybeBrowser('walk: --concurrency races the captures but the rows stay original-order and byte-stable', async () => {
   const served = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-walk-'))
