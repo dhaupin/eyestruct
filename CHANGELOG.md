@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-11-13
+
+### Fixed (2026-11-13)
+
+- **The packs now ride the published tarball (poststruct#79).** `package.json` `files` excluded `packs/`, so `npm pack` shipped zero pack bytes and `npm i eyestruct` (and a `github:` dependency, which honours `files` too) installed `{bin, lib, LICENSE, README.md, CHANGELOG.md, package.json}` with no `node_modules/eyestruct/packs/`. The family arms every verdict by an EXACT npm pin, so the six eye packs were committed and green yet undeliverable - the eye-spa-dist capture lane (the React/Vite analogue of poststruct's prestruct-shapes), the eye-adapter schema carrier, the eye-ci-gate spine, the eye-shapes adversarial pack, the eye-bundle lane, and the eye-text-leg poststruct integration.
+  - `packs/` joins the whitelist (all six pack dirs present in the tarball), so a consumer arms `node_modules/eyestruct/packs/public/<pack>` from the pin. `tests/distribution.test.js` pins the contract: `files` carries `packs` and every committed pack dir is delivered.
+  - The publish lane's verify job passes `--allowed "packs/"` (the family default forbids `packs/` in the served-tarball scan, so without the flag the ladder would refuse the new bytes by prefix); `tests/release-verify.test.js` invokes the same ladder with `--allow packs/`, the flag the publish lane passes. Per-pack scoped packages (`@eyestruct/<name>`) remain the M2 destination the PRD names.
+
 ## [1.3.0] - 2026-11-13
 
 ### Changed (2026-11-13)

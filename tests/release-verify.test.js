@@ -12,6 +12,12 @@
 // Case 2 (negative, fully offline): a doctored tarball carrying a file
 //   under a forbidden prefix (labs/) is refused BY NAME, before any
 //   install - a smuggled file can never ship as a mystery.
+//
+// Eyestruct specifics: the tarball SHIPS packs/ (package.json files carries
+// `packs/`; the packs ride the published tarball by design, poststruct#79),
+// so the ladder is invoked with `--allow packs/` - the same flag the publish
+// lane's verify job passes. The default forbidden scan would otherwise refuse
+// every pack file by prefix, which is exactly the drift the flag de-asserts.
 
 'use strict'
 
@@ -196,7 +202,7 @@ test('a package with no main/exports/bin SKIPs the load probe by name, never sil
 test('the pack ladder verifies real npm pack output (contents + identity + consumer install)', () => {
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'release-verify-'))
   const tgz = packTree(work)
-  const r = run(['--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe])
+  const r = run(['--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe, '--allow', 'packs/'])
   const out = `${r.stdout}\n${r.stderr}`
   assert.equal(r.status, 0, `pack ladder failed (${r.status}):\n${out}`)
   assert.ok(out.includes('PASS forbidden scan'), 'forbidden scan never ran')
@@ -314,7 +320,7 @@ test('the pack ladder survives a phone npm whose --dry-run --json probe is empty
     '',
   ].join('\n'))
   fs.chmodSync(shim, 0o755)
-  const r = spawnSync('node', [script, '--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe], {
+  const r = spawnSync('node', [script, '--pack', tgz, '--version', pkg.version, '--exports', exportsKeys, '--probe', eyeProbe, '--allow', 'packs/'], {
     cwd: root, encoding: 'utf8', timeout: 300000,
     env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
   })
