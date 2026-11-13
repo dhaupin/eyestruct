@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.3.2
+permalink: discussions/announcing-v1.3.2/
 layout: default
 title: Announcing v1.3.2
 description: v1.3.2 fixes a shutdown race in serve, so a SIGINT that lands as the banner appears now exits 0, with a regression test proven to bite.

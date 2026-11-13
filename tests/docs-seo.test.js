@@ -102,3 +102,52 @@ test('docs seo: the Jekyll layout hands og/canonical to the engine (no hand-writ
   // <title> rides the ' | ' pipe so extractTitle does not double it into og:title.
   assert.match(layout, /<title>\{\{ page\.title \| default: site\.title \}\} \| \{\{ site\.title \}\}<\/title>/)
 })
+
+// The release-post permalink law (the SEO gap fixed 2026-11-13). A dotted
+// permalink WITHOUT a trailing slash makes Jekyll emit an EXTENSIONLESS file:
+// Ruby reads the ".2" in "v1.3.2" as a file extension, so Jekyll skips
+// appending ".html". freestruct's page scanner matches only `.html`/`.htm`,
+// so such a page is invisible to the whole SEO pipeline - no sitemap <loc>,
+// no og/canonical tags - even though it serves 200. The trailing-slash form
+// emits `<slug>/index.html` and is seen. The four posts that shipped before
+// this fix (v0.9.0 through v1.1.1) carried the slashless shape and never made
+// the sitemap. The source scan pins the law; the engine test below pins the
+// mechanism, so a future post that drops the slash turns red.
+test('docs seo: every release post permalink ends with "/" (a dotted, slashless slug is invisible to the sitemap)', () => {
+  const dir = path.join(REPO, 'docs', 'discussions')
+  const posts = fs.readdirSync(dir).filter((f) => /^announcing-v.+\.md$/.test(f))
+  assert.ok(posts.length >= 3, 'expected the release posts to be present')
+  for (const f of posts) {
+    const text = fs.readFileSync(path.join(dir, f), 'utf8')
+    const m = text.match(/^permalink:\s*(\S+)\s*$/m)
+    assert.ok(m, f + ': no permalink')
+    assert.match(
+      m[1],
+      /\/$/,
+      f + ': permalink "' + m[1] + '" must end with "/" so Jekyll emits index.html (a dotted, slashless slug is extensionless on disk and freestruct never sees it)'
+    )
+  }
+})
+
+test('docs seo: the engine lists a trailing-slash post but not a dotted extensionless one (the mechanism)', { skip: !haveEngine }, () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'eyestruct-postperm-'))
+  fs.mkdirSync(path.join(root, 'docs', '_freestruct'), { recursive: true })
+  fs.mkdirSync(path.join(root, 'docs', '_site', 'discussions', 'announcing-v1.3.2'), { recursive: true })
+  fs.copyFileSync(
+    path.join(REPO, 'docs', 'freestruct.config.yml'),
+    path.join(root, 'docs', 'freestruct.config.yml')
+  )
+  fs.copyFileSync(
+    path.join(REPO, 'docs', '_freestruct', 'inject-brand.html'),
+    path.join(root, 'docs', '_freestruct', 'inject-brand.html')
+  )
+  // The OK shape: <slug>/index.html (what a trailing-slash permalink emits).
+  fs.writeFileSync(path.join(root, 'docs', '_site', 'discussions', 'announcing-v1.3.2', 'index.html'), PAGE)
+  // The BAD shape: an extensionless file (what Jekyll emits for a slashless
+  // dotted permalink - the post is served, but the scanner never sees it).
+  fs.writeFileSync(path.join(root, 'docs', '_site', 'discussions', 'announcing-v9.9.9'), PAGE)
+  execFileSync('node', [FREESTRUCT_BIN, 'docs/_site'], { cwd: root, stdio: 'pipe' })
+  const sm = fs.readFileSync(path.join(root, 'docs', '_site', 'sitemap.xml'), 'utf8')
+  assert.match(sm, /announcing-v1\.3\.2\/?</, 'the trailing-slash post is in the sitemap')
+  assert.equal(/announcing-v9\.9\.9/.test(sm), false, 'the extensionless (dotted, slashless) post is invisible to the sitemap')
+})

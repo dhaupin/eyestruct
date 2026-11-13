@@ -327,3 +327,15 @@ Owner directive: fill in the missing announcement posts, "helps with seo," no re
 - **1.2.0 gets no post (the honesty call).** 1.2.0 was never tagged or published - commit `2eaf8d1` bumped the version, but there is no `v1.2.0` tag, release, or npm entry. A post for it would be fiction by promotion (the docs timing rule). Its content is documented where it actually shipped: the 1.3.0 post, because the 1.2.0 commit is an ancestor of the 1.3.0 tag and its capture surface (`ratify --serve` / `walk --serve`) plus the serve-await fix ride the 1.3.0 tarball. Verified by extracting `lib/serve.js` from the published 1.3.0 tarball.
 - **Stale markers retired.** The index rows for 1.1.0 and 1.1.1 said `staged pending npm` though both are published; the marker comes off in the commit that first serves the version, so it came off here.
 - **No version bump** - docs-only. Gates: `npm test` 248 (225 pass / 0 fail / 23 skipped) + `npm run check` (frontmatter/links/style/fiction all PASS, 31 pages).
+
+---
+
+### 2026-11-13 (cont.) - session: the release posts were invisible to the sitemap (the permalink-shape bug)
+
+Found while verifying the backfill's SEO payoff (the owner's stated reason: "helps with seo").
+
+- **The symptom.** The three new posts served 200 and rendered with correct titles, but none appeared in `sitemap.xml`; the live sitemap carried only the `discussions/` index. Then the tell: no og/canonical tags were injected on a post either - the engine skips the ENTIRE SEO pipeline for them, not just the sitemap.
+- **The cause (older than the backfill).** Every `announcing-vX.Y.Z.md` carried a dotted, slashless permalink (`permalink: discussions/announcing-v1.3.2`). Jekyll reads the `.2` as a file extension, so it emits the page extensionless on disk; freestruct's scanner (`getHtmlFiles`) matches only `.html`/`.htm`, so the page is invisible to the post-build layer. Receipts: on the live site `discussions/announcing-v1.3.2` -> 200, but `announcing-v1.3.2.html` -> 404 and `announcing-v1.3.2/index.html` -> 404 (it is neither shape). The four posts that shipped before the backfill (v0.9.0-v1.1.1) were never in the sitemap either - they all carried the slashless shape.
+- **The fix.** The trailing-slash form (`permalink: discussions/announcing-v1.3.2/`) emits `<slug>/index.html` and IS seen - the same shape `docs/discussions/index.md` already uses (`permalink: discussions/`), and the same shape the sibling `prestruct` posts carry (its sitemap lists all seven). All seven eyestruct posts now carry the slash.
+- **The test that bites.** Two legs in `tests/docs-seo.test.js`: a source scan that reds on any post permalink missing the trailing slash, and an engine test over a synthetic `_site` that proves the trailing-slash page is listed in the sitemap while the extensionless (dotted, slashless) one is not. Bite proven: reverting `announcing-v1.3.2.md` to the slashless shape turns the source scan red; restored.
+- **Gates.** `npm test` 250 (227 pass / 0 fail / 23 skipped) + `npm run check` green.

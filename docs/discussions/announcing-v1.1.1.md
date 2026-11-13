@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.1.1
+permalink: discussions/announcing-v1.1.1/
 layout: default
 title: Announcing v1.1.1
 description: v1.1.1 is a patch on the 1.1.0 line - the CLI surface is unchanged; the family floors move, the docs gain the breadcrumb trail, and the site follows the family shell.
