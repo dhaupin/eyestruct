@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-13
+
+### Added (2026-11-13)
+
+The self-serve capture surface: `ratify --serve DIR` and `walk --serve DIR` stand up the baked tree themselves instead of demanding an external server. A consumer CI that hand-rolled `http-server dist & sleep 3` re-invented the readiness race this repo already solved, and the cold-start flake is exactly what creadev's `eyes-ratify` lane hit (attempt 1 failed on `static server did not come up` while npx finished installing; attempt 2 passed with a warm cache). `--serve DIR` removes the shape: the verb resolves the directory with the same defaults `serve` uses, waits on the server's own readiness promise (`createServer` in `lib/serve-dist.js` resolves on `listening` - there is no sleep to tune), and captures against the loopback URL. The two capture verbs now share one resolution (`lib/serve.js` exports `resolveServe`/`openServe`/`captureSurface`), so `ratify` and `walk` can never disagree about what "serving the baked tree" means. A stated `<base-url>` and `--serve DIR` together refuse `BAD_FLAG_VALUE` (one capture surface per run); a missing directory refuses `MISSING_INPUT` before any browser is demanded; an empty `--serve=` refuses `BAD_FLAG_VALUE` at the flag lid. The flag rides the usage text (`bin/eyestruct.js`) and the mirrored docs page (`docs/cli.md`) in the same change; the verb/tool/reason census is untouched (an added usage flag on existing verbs, not a new verb or code), so the minor bump the 1.0.0 stability law prescribes.
+
+### Fixed (2026-11-13)
+
+`eyestruct serve` read `.port` and `.close` off `createServer`'s PENDING promise, so the banner printed `http://127.0.0.1:undefined` and the first Ctrl-C threw `TypeError: start.close is not a function` (exit 1 on the shutdown path that is supposed to exit 0). The verb now awaits the readiness promise before it reads the port or holds close, and the shutdown path exits 0 as its header always claimed. Both are pinned by a battery leg that spawns a real served tree, asserts the banner carries a real port, and asserts SIGINT exits 0.
+
 ## [1.1.1] - 2026-11-12
 
 ### 2026-11-12 - the Dependabot flow lands (railyard#31)
