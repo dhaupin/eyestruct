@@ -665,6 +665,33 @@ test('serve verb: the banner carries the REAL port and SIGINT shuts down cleanly
   assert.strictEqual(code, 0, 'SIGINT must exit 0 (the shutdown crash exited 1)')
 })
 
+test('serve verb: a SIGINT the instant the banner lands still exits 0 (the handler is armed before the banner)', async () => {
+  // The banner is the ONLY way a caller learns the port, so a caller that
+  // signals on reading it must find the handler ALREADY in place. Arming
+  // the handler AFTER the write leaves a window where the signal lands on
+  // the OS default disposition and the process dies with a non-zero code
+  // (measured: 59/60 banner-triggered SIGINTs killed the process pre-fix).
+  // The node18 CI floor lost that race often enough to flake the
+  // prepublishOnly gate and block a real publish (eyestruct#102). Signalling
+  // in the same tick the first stdout byte arrives is the tightest window a
+  // consumer can hit; it must exit 0, every time. A handful of rounds keeps
+  // the guard from being a one-shot coin-flip without slowing the suite.
+  const { spawn } = require('node:child_process')
+  for (let round = 0; round < 5; round++) {
+    const dir = tmpdir()
+    const dist = path.join(dir, 'dist')
+    fs.mkdirSync(dist, { recursive: true })
+    fs.writeFileSync(path.join(dist, 'index.html'), '<h1>home</h1>')
+    const child = spawn(process.execPath, [BIN, 'serve', 'dist', '--json'], { cwd: dir, stdio: ['ignore', 'pipe', 'pipe'] })
+    const result = await new Promise((res) => {
+      child.stdout.once('data', () => child.kill('SIGINT'))
+      child.on('exit', (code, signal) => res({ code, signal }))
+    })
+    assert.strictEqual(result.code, 0, `round ${round}: a banner-triggered SIGINT must exit 0, got code=${result.code} signal=${result.signal}`)
+    assert.strictEqual(result.signal, null, `round ${round}: the handler must swallow the signal, not the OS default (signal=${result.signal})`)
+  }
+})
+
 // -- Wired engine seam (the pinned browser landed). These use the exec the
 // machine already has cached; if it is absent the tests skip honestly.
 const engine = require('../lib/engine')

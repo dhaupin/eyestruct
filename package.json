@@ -1,6 +1,6 @@
 {
   "name": "eyestruct",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Eyes for production agents: deterministic look / look-diff with a committed visual memory (labs/.eyes/) that CI can gate. Process-per-look; the only surviving state is git state.",
   "license": "MIT",
   "type": "commonjs",

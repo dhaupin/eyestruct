@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-11-13
+
+### Fixed (2026-11-13)
+
+- **A SIGINT that lands as the `serve` banner appears now exits 0 (eyestruct#102).** The verb armed its `SIGINT`/`SIGTERM` handlers only AFTER writing the banner - the one line a caller reads to learn the port. A consumer that signals on reading it could therefore beat the handler, so the signal fell through to the OS default disposition and the process died with a non-zero code. Measured: 59/60 banner-triggered SIGINTs killed the process. The node18 CI floor lost that race often enough to flake the `floors-node18` leg inside the `prepublishOnly` gate and block the `v1.3.1` publish (the re-run went green). The handlers are now armed BEFORE the banner write, so the banner is never observable without a live shutdown handler. New regression test in `tests/smoke.test.js` signals in the same tick the first stdout byte arrives, five rounds, and was proven to bite (3/3 red under the pre-fix ordering, green after).
+
 ## [1.3.1] - 2026-11-13
 
 ### Fixed (2026-11-13)
