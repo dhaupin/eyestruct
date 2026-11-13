@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added (2026-11-13)
+
+- **The release-post backfill: one announcement per shipped version (1.3.0, 1.3.1, 1.3.2).** The `docs/discussions/` release-post system lapsed after v1.1.1 - 1.2.0, 1.3.0, 1.3.1, and 1.3.2 all shipped with no `announcing-vX.Y.Z.md`, so the SEO surface (one indexed, docs-linted page per release) went dark. Three posts land here, each shaped like `announcing-v1.1.1.md` and written against the SHIPPED artifact (the timing rule: a post describing a version that is not on npm yet is fiction by promotion). 1.2.0 gets no post - it was never tagged or published (commit `2eaf8d1` bumped the version, but no `v1.2.0` tag, release, or npm entry exists), so its content is documented where it actually shipped: the 1.3.0 post, since the 1.2.0 commit is an ancestor of the 1.3.0 tag and its capture surface rides the 1.3.0 tarball. The index also drops the stale `staged pending npm` marker on 1.1.0 and 1.1.1 - both are published, so the marker comes off in the commit that first serves them (this one).
+
 ## [1.3.2] - 2026-11-13
 
 ### Fixed (2026-11-13)
