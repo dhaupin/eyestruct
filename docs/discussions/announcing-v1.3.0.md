@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.3.0
+permalink: discussions/announcing-v1.3.0/
 layout: default
 title: Announcing v1.3.0
 description: v1.3.0 moves the landing site onto the current family matrix, React 19 and Vite 8 on the prestruct 1.5.0 engine, with no change to the published tarball.

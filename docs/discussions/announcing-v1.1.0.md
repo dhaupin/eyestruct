@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.1.0
+permalink: discussions/announcing-v1.1.0/
 layout: default
 title: Announcing v1.1.0
 description: v1.1.0 is the release-trust fold - the tag now drives the whole publish ladder, the verifier is one family-generic file, and every finding from the post-cut walks is commissioned in-tree.
