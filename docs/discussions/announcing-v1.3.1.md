@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.3.1
+permalink: discussions/announcing-v1.3.1/
 layout: default
 title: Announcing v1.3.1
 description: v1.3.1 is a packaging fix that makes the committed packs ride the published tarball, so a pinned install delivers the six eye packs the family arms its verdicts from.

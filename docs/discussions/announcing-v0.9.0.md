@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v0.9.0
+permalink: discussions/announcing-v0.9.0/
 layout: default
 title: Announcing v0.9.0
 description: v0.9.0 ships the eye spine - named refusals across the 0-1-2 exit contract, the adversarial pack campaign and crashtest leg, CI-cut canon, and the npm consumer path.

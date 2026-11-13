@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.0.0
+permalink: discussions/announcing-v1.0.0/
 layout: default
 title: Announcing v1.0.0
 description: v1.0.0 freezes every interface a consumer can bind to - verbs, reason codes, MCP tools, schemas, the exports map, the env names, and the machine-output shapes - held by legs, not prose.
