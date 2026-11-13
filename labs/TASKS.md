@@ -315,3 +315,15 @@ Owner directive: "seems like we should fix the source side there too, like do it
 - **The test that bites (house law).** New case in `tests/smoke.test.js`: signals the instant the first stdout byte arrives, five rounds, asserting `code===0 && signal===null`. Proven to bite - reverted `lib/serve.js` to the pre-fix ordering, ran it 3x, **3/3 red** (`round 1: a banner-triggered SIGINT must exit 0, got code=null signal=SIGINT`), restored the fix, green. Full suite: **248 tests / 225 pass / 0 fail / 23 skipped**.
 - **Patch cut (owner gate).** `1.3.1 -> 1.3.2` (package.json + `web/package.json` + `web/package-lock.json` + the README status line, all in one commit so the census version-truth leg holds them together; `## [Unreleased]` cut to `## [1.3.2] - 2026-11-13`, entries verbatim). A patch is the only way the fixed handler reaches npm - `1.3.1` is already on the registry. No announcement post: the convention lapsed after v1.1.1 (1.2.0/1.3.0/1.3.1 shipped without one), so this cut follows the recent practice rather than inventing a post the family stopped writing.
 - **Release.** Branch -> PR -> `staging` -> PR -> `main`, then the `v1.3.2` tag drives the OIDC ladder (publish, release, verify).
+
+---
+
+### 2026-11-13 (cont.) - session: the release-post backfill (docs-only, SEO)
+
+Owner directive: fill in the missing announcement posts, "helps with seo," no release cut.
+
+- **The gap.** `docs/discussions/` had posts through v1.1.1 and nothing after; 1.2.0, 1.3.0, 1.3.1, 1.3.2 all shipped with no `announcing-vX.Y.Z.md`, so the one-indexed-page-per-release SEO surface went dark.
+- **What shipped.** Three posts written against the SHIPPED artifact, shaped like `announcing-v1.1.1.md`: `announcing-v1.3.0.md` (the family-matrix site move + the first published capture surface), `announcing-v1.3.1.md` (the packs-ride-the-tarball packaging fix), `announcing-v1.3.2.md` (the serve SIGINT race, with the bite proof). The index gains three rows.
+- **1.2.0 gets no post (the honesty call).** 1.2.0 was never tagged or published - commit `2eaf8d1` bumped the version, but there is no `v1.2.0` tag, release, or npm entry. A post for it would be fiction by promotion (the docs timing rule). Its content is documented where it actually shipped: the 1.3.0 post, because the 1.2.0 commit is an ancestor of the 1.3.0 tag and its capture surface (`ratify --serve` / `walk --serve`) plus the serve-await fix ride the 1.3.0 tarball. Verified by extracting `lib/serve.js` from the published 1.3.0 tarball.
+- **Stale markers retired.** The index rows for 1.1.0 and 1.1.1 said `staged pending npm` though both are published; the marker comes off in the commit that first serves the version, so it came off here.
+- **No version bump** - docs-only. Gates: `npm test` 248 (225 pass / 0 fail / 23 skipped) + `npm run check` (frontmatter/links/style/fiction all PASS, 31 pages).
