@@ -273,3 +273,30 @@ Owner directive: "make sure all the fam has a ff-sync workflow, including the co
 - **The fix (`.github/workflows/staging-ff-sync.yml`).** On every push to `main` (and on `workflow_dispatch`), the job runs `git push origin origin/main:refs/heads/staging` - a fast-forward-only refspec. `git push` refuses a non-fast-forward update, so a divergence fails the job loudly instead of rewriting history; never a merge, never a force-push.
 - **The canon.** Byte-identical to coreforge's copy (`staging-ff-sync.yml`, the monoforge#20 shape), so the family's plumbing is one file. The coreforge site template already ships it (`templates/site/.github/workflows/staging-ff-sync.yml`), so a stamped repo inherits it from birth.
 - **No version bump** - CI plumbing, no product surface.
+
+### 2026-11-12 - session: the island sees the whole family (interop)
+
+The family release-readiness pass (owner-driven) swept all eight island sites. One interop defect: the `/status` island hand-types its sibling set, and this site's set had drifted - this site listed six members (through `monoforge`), missing `gamestruct` and `memstruct`. Both members already serve the family-status@1 dialect, so this page simply could not render them.
+
+- **The fix.** `web/src/components/FamilyStatusIsland.jsx` now lists every other family member, and `web/public/_headers` `connect-src` gains `https://gamestruct.creadev.org` and `https://memstruct.creadev.org` (the reader half - CSP governs `fetch()` before any CORS header). The reader-clause guard stays green.
+- **The sibling census (receipts).** Eight sites carry the island: eyestruct, crashtest, poststruct, packstruct, govstruct, monoforge, gamestruct, memstruct. Only `memstruct` listed all eight; the rest were missing the two newest members. All eight are now aligned (self handled per each site's own convention - crashtest/govstruct/monoforge exclude self, the rest include it).
+- **Battery.** `npm test` green after the change.
+- **The parent receipt.** The full pass (CSP sweep = no live bug remains; `npm audit --omit=dev` = 0 vulnerabilities across all eleven packages; `npm pack --dry-run` clean; two railyard ledger drifts fixed) lives in `dhaupin/railyard` (`CHANGELOG.md` + `labs/TASKS.md`).
+- **No version bump.**
+
+
+### 2026-11-12 - session: the Dependabot flow lands (railyard#31)
+
+- **Change.** Added `.github/dependabot.yml` (weekly Monday, grouped minor/patch, majors alone, plus the `github-actions` ecosystem). npm directories `/`, `/web`.
+- **Shape (receipt).** `dhaupin/creadev` PR #38 (`fca49c6`); the family-wide rollout is tracked on `dhaupin/railyard#31`.
+- **Guard.** railyard's `scripts/check-dependabot.cjs` (the shape) + `scripts/check-dependabot.test.cjs` (it bites), wired into railyard CI.
+- **No version bump.**
+
+### 2026-11-12 - session: the v1.1.1 cut
+
+The family release-readiness pass (owner-driven). This repo's cut:
+
+- **Version.** `1.1.0 -> 1.1.1` (package.json + `web/package.json` riding the root + the README status line). A patch: no CLI/reason-code/MCP/schema change; the `[Unreleased]` block carries the family floor moves, the breadcrumb opt-in, and the site-shell catch-up.
+- **Changelog.** `## [Unreleased]` cut to `## [1.1.1] - 2026-11-12`; entries stay verbatim.
+- **Announcement.** `docs/discussions/announcing-v1.1.1.md` + the index row.
+- **Release.** Branch -> PR -> `staging` -> PR -> `main`, then the `v1.1.1` tag drives the OIDC ladder.
