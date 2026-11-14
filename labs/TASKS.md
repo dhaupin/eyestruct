@@ -339,3 +339,12 @@ Found while verifying the backfill's SEO payoff (the owner's stated reason: "hel
 - **The fix.** The trailing-slash form (`permalink: discussions/announcing-v1.3.2/`) emits `<slug>/index.html` and IS seen - the same shape `docs/discussions/index.md` already uses (`permalink: discussions/`), and the same shape the sibling `prestruct` posts carry (its sitemap lists all seven). All seven eyestruct posts now carry the slash.
 - **The test that bites.** Two legs in `tests/docs-seo.test.js`: a source scan that reds on any post permalink missing the trailing slash, and an engine test over a synthetic `_site` that proves the trailing-slash page is listed in the sitemap while the extensionless (dotted, slashless) one is not. Bite proven: reverting `announcing-v1.3.2.md` to the slashless shape turns the source scan red; restored.
 - **Gates.** `npm test` 250 (227 pass / 0 fail / 23 skipped) + `npm run check` green.
+
+### 2026-11-13 (cont.) - session: the discussions index becomes a release-announcements index
+
+Owner steer: "the index for the /docs/discussions pages doesn't have to be so literal either, it can be kinda an index for the releases announcements."
+
+- **What changed.** `## The index` (a bare-filename census: `| [announcing-v0.9.0] | 0.9.0 | yes |`) becomes `## The announcements`: one row per published release, newest first, each row linking the announcement by its title (`[Announcing v1.3.2]`), with the npm publish date and a one-line "what it carried". Page title, frontmatter title, and the nav label are "Release announcements"; the `docs/index.md` blurb follows. The `## The claim inventory` table is untouched - its counts are the census's.
+- **Dates are receipts.** Every date in the table comes from `npm view eyestruct time` (0.9.0 + 1.0.0 = 2026-10-28; 1.1.0 = 2026-11-06; 1.1.1/1.3.0/1.3.1/1.3.2 = 2026-11-13), not from memory.
+- **The test that bites.** A new leg in `tests/docs-seo.test.js`: the index must list exactly the post files, one row each, every row linking the trailing-slash form. Bite proven by dropping the v1.3.1 row (reds), restored.
+- **Gates.** `npm test` 251 (228 pass / 0 fail / 23 skipped) + `npm run check` green.

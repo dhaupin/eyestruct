@@ -151,3 +151,17 @@ test('docs seo: the engine lists a trailing-slash post but not a dotted extensio
   assert.match(sm, /announcing-v1\.3\.2\/?</, 'the trailing-slash post is in the sitemap')
   assert.equal(/announcing-v9\.9\.9/.test(sm), false, 'the extensionless (dotted, slashless) post is invisible to the sitemap')
 })
+
+// The announcements index must stay the trail of the tree: one row per post
+// file, one post file per row, and every row links to the slash form the
+// engine can see. A new post that forgets the index row (or an index row
+// left behind by a renamed post) turns this red.
+test('docs seo: the announcements index lists exactly the post files, by their slash permalinks', () => {
+  const dir = path.join(REPO, 'docs', 'discussions')
+  const posts = fs.readdirSync(dir).filter((f) => /^announcing-v.+\.md$/.test(f)).sort()
+  const index = fs.readFileSync(path.join(dir, 'index.md'), 'utf8')
+  const linked = [...index.matchAll(/\]\(\/eyestruct\/discussions\/(announcing-v[0-9.]+)\/\)/g)]
+    .map((m) => m[1] + '.md')
+    .sort()
+  assert.deepEqual(linked, posts, 'every post file needs exactly one index row, and every row a post file (and each row must link the trailing-slash form)')
+})
