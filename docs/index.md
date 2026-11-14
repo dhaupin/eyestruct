@@ -16,7 +16,7 @@ eyestruct is eyes for production agents: deterministic capture (`look`), pixel-l
 - **[Getting started](/eyestruct/start/)** - init, your first look-to-gate cycle, and the instance lane.
 - **[Adapter API](/eyestruct/adapters/)** - the programmatic surface for platforms integrating eyestruct.
 - **[The PRD](https://github.com/dhaupin/eyestruct/blob/main/labs/prd-eyes.md)** - what eyestruct is, the receipts it grew from, and the design rulings (lives in labs/, the agent-voice surface).
-- **[Discussions](/eyestruct/discussions/)** - release notes as they cut.
+- **[Release announcements](/eyestruct/discussions/)** - the release trail: what shipped, and when.
 
 ## Key facts at a glance
 
