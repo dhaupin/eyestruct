@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### 2026-11-14 - the npm package link joins every surface (parity pass)
+
+eyestruct already linked npm on the docs footer, docs nav, and landing nav. This adds `tests/npm-parity.test.js` to hold that state: it proves every surface links the published `package.json` name, so a rename or a dropped surface reds instead of shipping a package nobody can find. No version bump.
+
 ### Changed (2026-11-13)
 
 - **The discussions index is now a release-announcements index, not a file census.** It read `## The index` over bare filenames (`| [announcing-v0.9.0] | 0.9.0 | yes |`) - a directory listing. It now reads `## The announcements`: one row per published release, newest first, each linking the announcement by its title with the npm publish date and a one-line "what it carried". The page, its title, and its nav label are "Release announcements" now. The `docs/index.md` blurb follows ("the release trail: what shipped, and when"). The claim-inventory table below is untouched - its counts stay the census's. A new biting test keeps the index and the tree in lockstep: one row per `announcing-*.md`, one file per row, each row linking the trailing-slash form (drop a row or add a post without one, and it reds).

@@ -348,3 +348,14 @@ Owner steer: "the index for the /docs/discussions pages doesn't have to be so li
 - **Dates are receipts.** Every date in the table comes from `npm view eyestruct time` (0.9.0 + 1.0.0 = 2026-10-28; 1.1.0 = 2026-11-06; 1.1.1/1.3.0/1.3.1/1.3.2 = 2026-11-13), not from memory.
 - **The test that bites.** A new leg in `tests/docs-seo.test.js`: the index must list exactly the post files, one row each, every row linking the trailing-slash form. Bite proven by dropping the v1.3.1 row (reds), restored.
 - **Gates.** `npm test` 251 (228 pass / 0 fail / 23 skipped) + `npm run check` green.
+
+---
+
+### 2026-11-14 - session: the npm link parity pass
+
+Every family project publishes to npm; the project's own surfaces did not always say so. This session closes that gap and holds it with a test.
+
+- **Surfaces.** The docs footer, the docs nav, and the landing nav each link the npm package where they did not before.
+- **Proof.** A new npm-parity test proves each shipped surface links the published `package.json` name, so a rename or a dropped surface reds instead of shipping a package nobody can find.
+- **Battery + lint:docs green.**
+- **No version bump.**
